@@ -1,5 +1,5 @@
-const mix = require('laravel-mix');
-var path = require('path');
+const mix = require("laravel-mix");
+var path = require("path");
 
 /*
  |--------------------------------------------------------------------------
@@ -12,10 +12,11 @@ var path = require('path');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js("resources/js/app.js", "public/js")
     .vue()
     .alias({
-        '@': path.join(__dirname, "resources/js")
+        "@": path.join(__dirname, "resources/js"),
     })
+    .options({ processCssUrls: false })
     .disableNotifications()
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass("resources/sass/app.scss", "public/css");
