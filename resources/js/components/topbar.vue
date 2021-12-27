@@ -545,7 +545,7 @@ export default {
           <template v-slot:button-content>
             <img
               class="rounded-circle header-profile-user"
-              :src="require('@/assets/images/users/avatar-2.jpg').default"
+              :src="getImgUrl('/users/avatar-2.jpg')"
               alt="Header Avatar"
             />
             <span class="d-none d-xl-inline-block ml-1">{{ $t('navbar.dropdown.kevin.text')}}</span>
