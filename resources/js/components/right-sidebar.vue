@@ -157,7 +157,7 @@ export default {
               target="_blank"
             >
               <img
-                src="@/assets/images/layouts/layout-4.jpg"
+                src="getImgUrl('/layouts/layout-4.jpg"
                 class="img-fluid img-thumbnail"
                 alt
               />
@@ -170,7 +170,7 @@ export default {
               target="_blank"
             >
               <img
-                src="@/assets/images/layouts/layout-5.jpg"
+                src="getImgUrl('/layouts/layout-5.jpg"
                 class="img-fluid img-thumbnail"
                 alt
               />
@@ -183,7 +183,7 @@ export default {
               target="_blank"
             >
               <img
-                src="@/assets/images/layouts/layout-6.jpg"
+                src="getImgUrl('/layouts/layout-6.jpg"
                 class="img-fluid img-thumbnail"
                 alt
               />

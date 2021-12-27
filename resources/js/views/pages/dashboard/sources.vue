@@ -152,7 +152,7 @@ export default {
                 <td style="width: 60px;">
                   <div class="avatar-xs">
                     <div class="avatar-title rounded-circle bg-light">
-                      <img src="@/assets/images/companies/cimg-1.png" alt height="20" />
+                      <img src="getImgUrl('/companies/cimg-1.png')" alt height="20" />
                     </div>
                   </div>
                 </td>
@@ -179,7 +179,7 @@ export default {
                 <td>
                   <div class="avatar-xs">
                     <div class="avatar-title rounded-circle bg-light">
-                      <img src="@/assets/images/companies/cimg-2.png" alt height="20" />
+                      <img src="getImgUrl('/companies/cimg-2.png')" alt height="20" />
                     </div>
                   </div>
                 </td>
@@ -206,7 +206,7 @@ export default {
                 <td>
                   <div class="avatar-xs">
                     <div class="avatar-title rounded-circle bg-light">
-                      <img src="@/assets/images/companies/cimg-3.png" alt height="20" />
+                      <img src="getImgUrl('/companies/cimg-3.png')" alt height="20" />
                     </div>
                   </div>
                 </td>

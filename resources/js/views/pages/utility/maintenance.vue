@@ -20,7 +20,7 @@ export default {
             <div class="text-center">
               <div class="mb-5">
                 <a href="/">
-                  <img src="@/assets/images/logo-dark.png" alt="logo" height="20" />
+                  <img src="getImgUrl('/logo-dark.png')" alt="logo" height="20" />
                 </a>
               </div>
 
@@ -28,7 +28,7 @@ export default {
                 <div class="col-sm-4">
                   <div class="maintenance-img">
                     <img
-                      src="@/assets/images/maintenance-bg.png"
+                      src="getImgUrl('/maintenance-bg.png"
                       alt
                       class="img-fluid mx-auto d-block"
                     />

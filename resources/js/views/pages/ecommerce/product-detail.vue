@@ -63,7 +63,7 @@ export default {
                           role="tab"
                         >
                           <img
-                            src="@/assets/images/product/img-1.png"
+                            src="getImgUrl('/product/img-1.png"
                             alt
                             class="img-fluid mx-auto d-block tab-img rounded"
                           />
@@ -76,7 +76,7 @@ export default {
                           role="tab"
                         >
                           <img
-                            src="@/assets/images/product/img-5.png"
+                            src="getImgUrl('/product/img-5.png"
                             alt
                             class="img-fluid mx-auto d-block tab-img rounded"
                           />
@@ -89,7 +89,7 @@ export default {
                           role="tab"
                         >
                           <img
-                            src="@/assets/images/product/img-3.png"
+                            src="getImgUrl('/product/img-3.png"
                             alt
                             class="img-fluid mx-auto d-block tab-img rounded"
                           />
@@ -102,7 +102,7 @@ export default {
                           role="tab"
                         >
                           <img
-                            src="@/assets/images/product/img-4.png"
+                            src="getImgUrl('/product/img-4.png"
                             alt
                             class="img-fluid mx-auto d-block tab-img rounded"
                           />
@@ -115,7 +115,7 @@ export default {
                           <div class="product-img">
                             <img
                               id="expandedImg"
-                              src="@/assets/images/product/img-1.png"
+                              src="getImgUrl('/product/img-1.png"
                               alt
                               class="img-fluid mx-auto d-block"
                             />
@@ -228,19 +228,19 @@ export default {
                         <h5 class="font-size-14">Color :</h5>
                         <a href="#" class="active">
                           <div class="product-color-item">
-                            <img src="@/assets/images/product/img-1.png" alt class="avatar-md" />
+                            <img src="getImgUrl('/product/img-1.png')" alt class="avatar-md" />
                           </div>
                           <p>Blue</p>
                         </a>
                         <a href="#">
                           <div class="product-color-item">
-                            <img src="@/assets/images/product/img-5.png" alt class="avatar-md" />
+                            <img src="getImgUrl('/product/img-5.png')" alt class="avatar-md" />
                           </div>
                           <p>Cyan</p>
                         </a>
                         <a href="#">
                           <div class="product-color-item">
-                            <img src="@/assets/images/product/img-3.png" alt class="avatar-md" />
+                            <img src="getImgUrl('/product/img-3.png')" alt class="avatar-md" />
                           </div>
                           <p>Green</p>
                         </a>

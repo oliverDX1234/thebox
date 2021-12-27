@@ -74,7 +74,7 @@ export default {
                 <div>
                   <h5 class="mt-0 font-size-14">Fits (Horz/Vert)</h5>
                   <a class="image-popup-vertical-fit" @click="showSingle">
-                    <img class="img-fluid" alt src="@/assets/images/small/img-2.jpg" width="145" />
+                    <img class="img-fluid" alt src="getImgUrl('/small/img-2.jpg" width="145" />
                   </a>
                   <vue-easy-lightbox :visible="visible" :imgs="imgs" @hide="handleHide"></vue-easy-lightbox>
                 </div>

@@ -35,7 +35,7 @@ export default {
     <l-marker :lat-lng="circle.center"></l-marker>
     <l-marker :lat-lng="[47.41322, -1.189482]">
       <l-icon :icon-anchor="staticAnchor">
-        <img src="@/assets/images/logo-sm-light.png" />
+        <img src="getImgUrl('/logo-sm-light.png" />
       </l-icon>
     </l-marker>
   </l-map>

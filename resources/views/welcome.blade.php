@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        {{-- <link href="https://cdn.jsdelivr.net/npm/remixicon@v2.4.0/fonts/remixicon.css" rel="stylesheet"> --}}
+
         <title>Laravel</title>
 
         <!-- Fonts -->

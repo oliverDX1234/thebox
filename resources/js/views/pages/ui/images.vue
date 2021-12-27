@@ -50,7 +50,7 @@ export default {
                   class="rounded mr-2"
                   alt="200x200"
                   width="200"
-                  src="@/assets/images/small/img-4.jpg"
+                  src="getImgUrl('/small/img-4.jpg"
                   data-holder-rendered="true"
                 />
               </div>
@@ -59,7 +59,7 @@ export default {
                   <img
                     class="rounded-circle avatar-xl"
                     alt="200x200"
-                    src="@/assets/images/users/avatar-4.jpg"
+                    src="getImgUrl('/users/avatar-4.jpg"
                     data-holder-rendered="true"
                   />
                 </div>
@@ -84,7 +84,7 @@ export default {
                   class="img-thumbnail"
                   alt="200x200"
                   width="200"
-                  src="@/assets/images/small/img-3.jpg"
+                  src="getImgUrl('/small/img-3.jpg"
                   data-holder-rendered="true"
                 />
               </div>
@@ -93,7 +93,7 @@ export default {
                   <img
                     class="img-thumbnail rounded-circle avatar-xl"
                     alt="200x200"
-                    src="@/assets/images/users/avatar-3.jpg"
+                    src="getImgUrl('/users/avatar-3.jpg"
                     data-holder-rendered="true"
                   />
                 </div>
@@ -117,7 +117,7 @@ export default {
             </p>
 
             <div class>
-              <img src="@/assets/images/small/img-2.jpg" class="img-fluid" alt="Responsive image" />
+              <img src="getImgUrl('/small/img-2.jpg" class="img-fluid" alt="Responsive image" />
             </div>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default {
                 <div class="row">
                   <div class="col-lg-4">
                     <div>
-                      <img src="@/assets/images/users/avatar-3.jpg" alt class="rounded avatar-sm" />
+                      <img src="getImgUrl('/users/avatar-3.jpg')" alt class="rounded avatar-sm" />
                       <p class="mt-2 mb-lg-0">
                         <code>.avatar-sm</code>
                       </p>
@@ -143,7 +143,7 @@ export default {
                   </div>
                   <div class="col-lg-4">
                     <div>
-                      <img src="@/assets/images/users/avatar-4.jpg" alt class="rounded avatar-md" />
+                      <img src="getImgUrl('/users/avatar-4.jpg')" alt class="rounded avatar-md" />
                       <p class="mt-2 mb-lg-0">
                         <code>.avatar-md</code>
                       </p>
@@ -151,7 +151,7 @@ export default {
                   </div>
                   <div class="col-lg-4">
                     <div>
-                      <img src="@/assets/images/users/avatar-5.jpg" alt class="rounded avatar-lg" />
+                      <img src="getImgUrl('/users/avatar-5.jpg')" alt class="rounded avatar-lg" />
                       <p class="mt-2 mb-lg-0">
                         <code>.avatar-lg</code>
                       </p>
@@ -164,7 +164,7 @@ export default {
                   <div class="col-lg-4">
                     <div>
                       <img
-                        src="@/assets/images/users/avatar-3.jpg"
+                        src="getImgUrl('/users/avatar-3.jpg"
                         alt
                         class="rounded-circle avatar-sm"
                       />
@@ -176,7 +176,7 @@ export default {
                   <div class="col-lg-4">
                     <div>
                       <img
-                        src="@/assets/images/users/avatar-4.jpg"
+                        src="getImgUrl('/users/avatar-4.jpg"
                         alt
                         class="rounded-circle avatar-md"
                       />
@@ -188,7 +188,7 @@ export default {
                   <div class="col-lg-4">
                     <div>
                       <img
-                        src="@/assets/images/users/avatar-5.jpg"
+                        src="getImgUrl('/users/avatar-5.jpg"
                         alt
                         class="rounded-circle avatar-lg"
                       />
@@ -217,21 +217,21 @@ export default {
             </p>
 
             <div class="media mb-4">
-              <img class="avatar-sm mr-3 rounded-circle" src="@/assets/images/users/avatar-6.jpg" alt />
+              <img class="avatar-sm mr-3 rounded-circle" src="getImgUrl('/users/avatar-6.jpg')" alt />
               <div class="media-body">
                 <h5 class="mt-0 font-size-14">Media heading</h5>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
               </div>
             </div>
 
             <div class="media mb-4">
-              <img class="avatar-sm mr-3 rounded-circle" src="@/assets/images/users/avatar-2.jpg" alt />
+              <img class="avatar-sm mr-3 rounded-circle" src="getImgUrl('/users/avatar-2.jpg')" alt />
               <div class="media-body">
                 <h5 class="mt-0 font-size-14">Media heading</h5>
 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                 <div class="media mt-3">
                   <a class="pr-3" href="#">
                     <img
-                      src="@/assets/images/users/avatar-3.jpg"
+                      src="getImgUrl('/users/avatar-3.jpg"
                       alt
                       class="avatar-sm rounded-circle"
                     />
@@ -247,7 +247,7 @@ Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante so
               <div class="media-body">
                 <h5 class="mt-0 mb-1 font-size-14">Media object</h5>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
               </div>
-              <img class="avatar-sm ml-3 rounded-circle" src="@/assets/images/users/avatar-4.jpg" alt />
+              <img class="avatar-sm ml-3 rounded-circle" src="getImgUrl('/users/avatar-4.jpg')" alt />
             </div>
           </div>
         </div>
@@ -267,7 +267,7 @@ Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante so
             <div class="media mb-4">
               <img
                 class="avatar-sm align-self-start rounded mr-3"
-                src="@/assets/images/users/avatar-3.jpg"
+                src="getImgUrl('/users/avatar-3.jpg"
                 alt
               />
               <div class="media-body">
@@ -282,7 +282,7 @@ Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante so
             <div class="media mb-4">
               <img
                 class="avatar-sm align-self-center rounded mr-3"
-                src="@/assets/images/users/avatar-5.jpg"
+                src="getImgUrl('/users/avatar-5.jpg"
                 alt
               />
               <div class="media-body">
@@ -297,7 +297,7 @@ Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante so
             <div class="media">
               <img
                 class="avatar-sm align-self-end rounded mr-3"
-                src="@/assets/images/users/avatar-1.jpg"
+                src="getImgUrl('/users/avatar-1.jpg"
                 alt
               />
               <div class="media-body">

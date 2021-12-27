@@ -12,7 +12,7 @@ export default {};
               5
               <span class="error-text">
                 0
-                <img src="@/assets/images/error-img.png" alt class="error-img" />
+                <img src="getImgUrl('/error-img.png')" alt class="error-img" />
               </span> 0
             </h1>
             <h3 class="text-uppercase">Internal Server Error</h3>

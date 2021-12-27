@@ -21,7 +21,7 @@ export default {};
                       <div class="text-center">
                         <div>
                           <a href="/" class="logo">
-                            <img src="@/assets/images/logo-dark.png" height="20" alt="logo" />
+                            <img src="getImgUrl('/logo-dark.png" height="20" alt="logo" />
                           </a>
                         </div>
 
@@ -33,7 +33,7 @@ export default {};
                         <form class="form-horizontal">
                           <div class="user-thumb text-center mb-5">
                             <img
-                              src="@/assets/images/users/avatar-2.jpg"
+                              src="getImgUrl('/users/avatar-2.jpg"
                               class="rounded-circle img-thumbnail avatar-md"
                               alt="thumbnail"
                             />
