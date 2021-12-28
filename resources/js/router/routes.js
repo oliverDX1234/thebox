@@ -3,8 +3,7 @@ export default [
         path: '/login',
         name: 'login',
         component: () => import('../views/pages/account/login'),
-        //TODO uncomment and review why middleware doenst work properly
-        // meta: {guest: true},
+        meta: {guest: true},
     },
     // {
     //     path: '/register',
@@ -426,5 +425,13 @@ export default [
         name: 'Leaflet Maps',
         meta: {authRequired: true},
         component: () => import('../views/pages/maps/leaflet/index')
+    },
+    {
+        path: '*',
+        name: 'NotFound',
+        component: {
+            //TODO implement 404 redirect (with Laravel unauth header?)
+            template: `<div>Not Found 404</div>`
+        }
     },
 ]

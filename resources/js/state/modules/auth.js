@@ -5,18 +5,18 @@ export const state = window.Laravel.user ?
     {loggedIn: false};
 
 export const actions = {
-    login({commit}, {email, password}) {
-        return AuthService.login(email, password).then(
-            user => {
-                commit('loginSuccess', user);
-            }
-        );
+    async login({commit}, {email, password}) {
+        let user = await AuthService.login(email, password)
+        commit('loginSuccess', user)
     },
-    logout({commit}) {
-        AuthService.logout().then(
-            () => commit('logout'),
-            () => commit('logout')
-        );
+    async logout({commit}) {
+        try {
+            await AuthService.logout()
+        } catch (e) {
+        //    TODO handle logout error
+        } finally {
+            commit('logout')
+        }
     },
 }
 export const mutations = {
