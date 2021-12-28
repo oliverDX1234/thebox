@@ -14,6 +14,8 @@ import router from './router'
 import store from './state/store'
 import i18n from './i18n'
 
+import imagePlugin from "./plugins/imagePlugin"
+
 import "./assets/scss/app.scss";
 
 /*
@@ -30,6 +32,7 @@ Vue.use(Vuelidate)
 Vue.use(VueSweetalert2);
 Vue.use(VueMask)
 Vue.use(require('vue-chartist'))
+Vue.use(imagePlugin)
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyAbvyBxmMbFhrzP9Z8moyYr6dCr-pzjhBE',
