@@ -20,7 +20,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Invalid email or password entered.'], 401);
         }
 
-        return response()->json(['message' => 'Sucessfully logged in']);
+        return response()->json(['message' => 'Sucessfully logged in', 'user' => auth()->user()]);
     }
 
 

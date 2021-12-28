@@ -1,6 +1,6 @@
 <script>
 import {email, required} from "vuelidate/lib/validators";
-import {authMethods, notificationMethods} from "../../../state/helpers";
+import {authMethods, notificationMethods} from "@/state/helpers";
 
 export default {
     data() {

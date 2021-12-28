@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '../state/store'
+import {authGetters} from "@/state/helpers";
 
 const AuthService = {
 
@@ -16,7 +17,7 @@ const AuthService = {
     },
 
     auth() {
-        console.log("user auth is ", store.getters['auth/loggedIn']);
+        console.log("Auth service says user auth is : " + store.getters['auth/loggedIn'])
         return store.getters['auth/loggedIn'];
     },
 

@@ -44,11 +44,6 @@ export default {
         };
     },
     mounted() {
-        //TODO remove, only for testing auth
-        console.log(window.Laravel)
-        window.axios.get('/api/user')
-            .then(res => console.log(res.data));
-        console.log('Hi')
     }
 };
 </script>

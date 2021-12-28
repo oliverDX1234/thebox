@@ -3,7 +3,8 @@ export default [
         path: '/login',
         name: 'login',
         component: () => import('../views/pages/account/login'),
-        meta: {guest: true},
+        //TODO uncomment and review why middleware doenst work properly
+        // meta: {guest: true},
     },
     // {
     //     path: '/register',

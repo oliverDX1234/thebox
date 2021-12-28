@@ -1,8 +1,9 @@
 import authService from "../services/authService";
 
 const authenticated = next => {
-    //TODO replace with auth service wrapper
+    // console.log("Checking if user is authenticated")
     if (!authService.auth()) {
+        // console.log("User is not authenticated!")
         next('/login');
         return
     }
@@ -10,7 +11,9 @@ const authenticated = next => {
 }
 
 const guest = next => {
+    // console.log("Checking if user is a guest")
     if (authService.auth()) {
+        // console.log("User is not a guest!")
         next('/');
         return
     }

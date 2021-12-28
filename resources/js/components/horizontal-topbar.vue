@@ -2,6 +2,7 @@
 import simplebar from "simplebar-vue";
 import i18n from "../i18n";
 import {layoutComputed} from "@/state/helpers";
+import {authMethods} from "../state/helpers";
 
 export default {
     props: {
@@ -51,8 +52,10 @@ export default {
         };
     },
     methods: {
-        logout() {
-            this.$store.dispatch('auth/logout')
+        ...authMethods,
+        attemptLogout() {
+            this.logout()
+                .then(() => this.$router.push({name: 'login'}))
         },
         initFullScreen() {
             document.body.classList.toggle("fullscreen-enable");
@@ -712,7 +715,7 @@ export default {
                     </a>
                     <div class="dropdown-divider"></div>
                     <!--            TODO replace with service impl, remove duplicate in topbar -->
-                    <a class="dropdown-item text-danger" href="#" @click="logout">
+                    <a class="dropdown-item text-danger" href="#" @click="attemptLogout">
                         <i class="ri-shut-down-line align-middle mr-1 text-danger"></i>
                         {{ $t("navbar.dropdown.kevin.list.logout") }}
                     </a>
