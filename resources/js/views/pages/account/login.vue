@@ -1,6 +1,7 @@
 <script>
 import {email, required} from "vuelidate/lib/validators";
 import {authMethods, notificationMethods} from "@/state/helpers";
+import {mapActions} from "vuex";
 
 export default {
     data() {
@@ -23,9 +24,10 @@ export default {
         password: {required}
     },
     methods: {
+        ...mapActions({ login: 'auth/login'}),
         ...authMethods,
         ...notificationMethods,
-        attemptLogin() {
+        async attemptLogin() {
             this.submitted = true;
             this.$v.$touch();
             if (!this.$v.$invalid) {

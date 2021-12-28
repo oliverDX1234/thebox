@@ -3,6 +3,7 @@ import simplebar from "simplebar-vue";
 import i18n from "../i18n";
 import {layoutComputed} from "@/state/helpers";
 import {authMethods} from "../state/helpers";
+import {mapGetters} from "vuex";
 
 export default {
     props: {
@@ -17,6 +18,7 @@ export default {
     },
     computed: {
         ...layoutComputed,
+        ...mapGetters({user: 'auth/user'})
     },
     components: {simplebar},
     data() {
@@ -691,7 +693,7 @@ export default {
                             alt="Header Avatar"
                         />
                         <span class="d-none d-xl-inline-block ml-1">{{
-                                $t("navbar.dropdown.kevin.text")
+                                user.name
                             }}</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </template>

@@ -2,6 +2,7 @@
 import simplebar from "simplebar-vue";
 import i18n from "../i18n";
 import {authMethods} from "../state/helpers";
+import {mapGetters} from "vuex";
 
 export default {
     data() {
@@ -36,12 +37,15 @@ export default {
             current_language: "en"
         };
     },
+    computed: {
+        ...mapGetters({user: 'auth/user'})
+    },
     components: {simplebar},
     methods: {
         ...authMethods,
-        attemptLogout() {
-            this.logout()
-                .then(() => this.$router.push({name: 'login'}))
+        async attemptLogout() {
+            await this.logout()
+            await this.$router.push({name: 'login'})
         },
         toggleMenu() {
             this.$parent.toggleMenu();
@@ -558,7 +562,7 @@ export default {
                             :src="getImgUrl('/users/avatar-2.jpg')"
                             alt="Header Avatar"
                         />
-                        <span class="d-none d-xl-inline-block ml-1">{{ $t('navbar.dropdown.kevin.text') }}</span>
+                        <span class="d-none d-xl-inline-block ml-1">{{ user.name }}</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </template>
                     <!-- item-->
