@@ -10,8 +10,21 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     </head>
     <body class="antialiased">
+    @if (Auth::check())
+        <script>
+            window.Laravel = {!!json_encode([
+            'isLoggedin' => true,
+            'user' => Auth::user()
+        ])!!}
+        </script>
+    @else
+        <script>
+            window.Laravel = {!!json_encode([
+            'isLoggedin' => false
+        ])!!}
+        </script>
+    @endif
         <div id="app">
-            <example-component></example-component>
         </div>
         <script src="{{ mix("js/app.js") }}" ></script>
     </body>

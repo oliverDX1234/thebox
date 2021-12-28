@@ -16,67 +16,74 @@ import Transaction from './transaction';
  * Dashboard component
  */
 export default {
-  components: {
-    Layout,
-    PageHeader,
-    Stat,
-    RevenueAnalytics,
-    SalesAnalytics,
-    EarningReport,
-    Sources,
-    RecentActivity,
-    RevenueLocation,
-    Chat,
-    Transaction
-  },
-  data() {
-    return {
-      title: "Dashboard",
-      items: [
-        {
-          text: "Nazox"
-        },
-        {
-          text: "Dashboard",
-          active: true
-        }
-      ]
-    };
-  }
+    components: {
+        Layout,
+        PageHeader,
+        Stat,
+        RevenueAnalytics,
+        SalesAnalytics,
+        EarningReport,
+        Sources,
+        RecentActivity,
+        RevenueLocation,
+        Chat,
+        Transaction
+    },
+    data() {
+        return {
+            title: "Dashboard",
+            items: [
+                {
+                    text: "Nazox"
+                },
+                {
+                    text: "Dashboard",
+                    active: true
+                }
+            ]
+        };
+    },
+    mounted() {
+        //TODO remove, only for testing auth
+        console.log(window.Laravel)
+        window.axios.get('/api/user')
+            .then(res => console.log(res.data));
+        console.log('Hi')
+    }
 };
 </script>
 
 <template>
-  <Layout>
-    <PageHeader :title="title" :items="items" />
-    <div class="row">
-      <div class="col-xl-8">
-        <Stat />
-        <RevenueAnalytics />
-      </div>
-      <div class="col-xl-4">
-        <SalesAnalytics />
-        <EarningReport />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4">
-        <Sources />
-      </div>
-      <div class="col-lg-4">
-        <RecentActivity />
-      </div>
-      <div class="col-lg-4">
-        <RevenueLocation />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4">
-        <Chat />
-      </div>
-      <div class="col-lg-8">
-        <Transaction />
-      </div>
-    </div>
-  </Layout>
+    <Layout>
+        <PageHeader :title="title" :items="items"/>
+        <div class="row">
+            <div class="col-xl-8">
+                <Stat/>
+                <RevenueAnalytics/>
+            </div>
+            <div class="col-xl-4">
+                <SalesAnalytics/>
+                <EarningReport/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <Sources/>
+            </div>
+            <div class="col-lg-4">
+                <RecentActivity/>
+            </div>
+            <div class="col-lg-4">
+                <RevenueLocation/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <Chat/>
+            </div>
+            <div class="col-lg-8">
+                <Transaction/>
+            </div>
+        </div>
+    </Layout>
 </template>

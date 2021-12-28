@@ -12,8 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var _state_helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/state/helpers */ "./resources/js/state/helpers.js");
-/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
+/* harmony import */ var _state_helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../state/helpers */ "./resources/js/state/helpers.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -47,50 +46,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_1__.required
     }
   },
-  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, _state_helpers__WEBPACK_IMPORTED_MODULE_0__.authMethods), _state_helpers__WEBPACK_IMPORTED_MODULE_0__.authFackMethods), _state_helpers__WEBPACK_IMPORTED_MODULE_0__.notificationMethods), {}, {
-    // Try to log the user in with the username
-    // and password they provided.
-    tryToLogIn: function tryToLogIn() {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, _state_helpers__WEBPACK_IMPORTED_MODULE_0__.authMethods), _state_helpers__WEBPACK_IMPORTED_MODULE_0__.notificationMethods), {}, {
+    attemptLogin: function attemptLogin() {
       var _this = this;
 
-      this.submitted = true; // stop here if form is invalid
-
+      this.submitted = true;
       this.$v.$touch();
 
-      if (this.$v.$invalid) {
-        return;
-      } else {
-        if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {
-          this.tryingToLogIn = true; // Reset the authError if it existed.
-
-          this.authError = null;
-          return this.logIn({
-            email: this.email,
-            password: this.password
-          }) // eslint-disable-next-line no-unused-vars
-          .then(function (token) {
-            _this.tryingToLogIn = false;
-            _this.isAuthError = false; // Redirect to the originally requested page, or to the home page
-
-            _this.$router.push(_this.$route.query.redirectFrom || {
-              name: "home"
-            });
-          })["catch"](function (error) {
-            _this.tryingToLogIn = false;
-            _this.authError = error ? error : "";
-            _this.isAuthError = true;
-          });
-        } else {
-          var _email = this.email,
-              password = this.password;
-
-          if (_email && password) {
-            this.login({
-              email: _email,
-              password: password
-            });
-          }
-        }
+      if (!this.$v.$invalid) {
+        var _email = this.email,
+            password = this.password;
+        this.login({
+          email: _email,
+          password: password
+        }).then(function () {
+          return _this.$router.push('/');
+        });
       }
     }
   })
@@ -106,11 +77,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "authComputed": () => (/* binding */ authComputed),
 /* harmony export */   "layoutComputed": () => (/* binding */ layoutComputed),
 /* harmony export */   "authMethods": () => (/* binding */ authMethods),
 /* harmony export */   "layoutMethods": () => (/* binding */ layoutMethods),
-/* harmony export */   "authFackMethods": () => (/* binding */ authFackMethods),
 /* harmony export */   "notificationMethods": () => (/* binding */ notificationMethods)
 /* harmony export */ });
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
@@ -121,11 +90,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var authComputed = _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)('auth', {
-  currentUser: function currentUser(state) {
-    return state.currentUser;
-  }
-})), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)('auth', ['loggedIn']));
 var layoutComputed = _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)('layout', {
   layoutType: function layoutType(state) {
     return state.layoutType;
@@ -143,9 +107,8 @@ var layoutComputed = _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapS
     return state.loader;
   }
 }));
-var authMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('auth', ['logIn', 'logOut', 'register', 'resetPassword']);
+var authMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('auth', ['login', 'logout']);
 var layoutMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('layout', ['changeLayoutType', 'changeLayoutWidth', 'changeLeftSidebarType', 'changeTopbar', 'changeLoaderValue']);
-var authFackMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('authfack', ['login', 'registeruser', 'logout']);
 var notificationMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('notification', ['success', 'error', 'clear']);
 
 /***/ }),
@@ -281,7 +244,12 @@ var render = function () {
                                     dismissible: "",
                                   },
                                 },
-                                [_vm._v(_vm._s(_vm.notification.message))]
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.notification.message) +
+                                      "\n                                        "
+                                  ),
+                                ]
                               )
                             : _vm._e(),
                           _vm._v(" "),
@@ -293,7 +261,10 @@ var render = function () {
                                 on: {
                                   submit: function ($event) {
                                     $event.preventDefault()
-                                    return _vm.tryToLogIn.apply(null, arguments)
+                                    return _vm.attemptLogin.apply(
+                                      null,
+                                      arguments
+                                    )
                                   },
                                 },
                               },
@@ -421,7 +392,11 @@ var render = function () {
                                       ? _c(
                                           "div",
                                           { staticClass: "invalid-feedback" },
-                                          [_vm._v("Password is required.")]
+                                          [
+                                            _vm._v(
+                                              "Password is required.\n                                                    "
+                                            ),
+                                          ]
                                         )
                                       : _vm._e(),
                                   ]
@@ -449,7 +424,7 @@ var render = function () {
                                           staticClass: "mdi mdi-lock mr-1",
                                         }),
                                         _vm._v(
-                                          " Forgot your password?\n                          "
+                                          " Forgot your password?\n                                                    "
                                         ),
                                       ]
                                     ),
@@ -465,7 +440,7 @@ var render = function () {
                               "p",
                               [
                                 _vm._v(
-                                  "\n                        Don't have an account ?\n                        "
+                                  "\n                                                Don't have an account ?\n                                                "
                                 ),
                                 _c(
                                   "router-link",
@@ -474,7 +449,11 @@ var render = function () {
                                       "font-weight-medium text-primary",
                                     attrs: { tag: "a", to: "/register" },
                                   },
-                                  [_vm._v("Register")]
+                                  [
+                                    _vm._v(
+                                      "Register\n                                                "
+                                    ),
+                                  ]
                                 ),
                               ],
                               1
@@ -566,7 +545,7 @@ var staticRenderFns = [
           staticClass: "btn btn-primary w-md waves-effect waves-light",
           attrs: { type: "submit" },
         },
-        [_vm._v("Log In")]
+        [_vm._v("Log In\n                                                    ")]
       ),
     ])
   },
@@ -576,10 +555,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("p", [
       _vm._v(
-        "\n                        © 2020 Nazox. Crafted with\n                        "
+        "\n                                                © 2020 Nazox. Crafted with\n                                                "
       ),
       _c("i", { staticClass: "mdi mdi-heart text-danger" }),
-      _vm._v(" by Themesdesign\n                      "),
+      _vm._v(" by Themesdesign\n                                            "),
     ])
   },
   function () {

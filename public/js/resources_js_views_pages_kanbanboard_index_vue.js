@@ -1127,6 +1127,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: {
+    logout: function logout() {
+      this.$store.dispatch('auth/logout');
+    },
     initFullScreen: function initFullScreen() {
       document.body.classList.toggle("fullscreen-enable");
 
@@ -1543,8 +1546,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var simplebar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplebar-vue */ "./node_modules/simplebar-vue/dist/simplebar-vue.esm.js");
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../i18n */ "./resources/js/i18n.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var simplebar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! simplebar-vue */ "./node_modules/simplebar-vue/dist/simplebar-vue.esm.js");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../i18n */ "./resources/js/i18n.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1575,9 +1586,28 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   components: {
-    simplebar: simplebar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    simplebar: simplebar_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
+    logout: function logout() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$store.dispatch('auth/logout');
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
     toggleMenu: function toggleMenu() {
       this.$parent.toggleMenu();
     },
@@ -1609,8 +1639,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$parent.toggleRightSidebar();
     },
     setLanguage: function setLanguage(locale) {
-      _i18n__WEBPACK_IMPORTED_MODULE_1__["default"].locale = locale;
-      this.current_language = _i18n__WEBPACK_IMPORTED_MODULE_1__["default"].locale;
+      _i18n__WEBPACK_IMPORTED_MODULE_2__["default"].locale = locale;
+      this.current_language = _i18n__WEBPACK_IMPORTED_MODULE_2__["default"].locale;
     }
   }
 });
@@ -2573,11 +2603,9 @@ var menuItems = [{
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "authComputed": () => (/* binding */ authComputed),
 /* harmony export */   "layoutComputed": () => (/* binding */ layoutComputed),
 /* harmony export */   "authMethods": () => (/* binding */ authMethods),
 /* harmony export */   "layoutMethods": () => (/* binding */ layoutMethods),
-/* harmony export */   "authFackMethods": () => (/* binding */ authFackMethods),
 /* harmony export */   "notificationMethods": () => (/* binding */ notificationMethods)
 /* harmony export */ });
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
@@ -2588,11 +2616,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var authComputed = _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)('auth', {
-  currentUser: function currentUser(state) {
-    return state.currentUser;
-  }
-})), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)('auth', ['loggedIn']));
 var layoutComputed = _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)('layout', {
   layoutType: function layoutType(state) {
     return state.layoutType;
@@ -2610,9 +2633,8 @@ var layoutComputed = _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapS
     return state.loader;
   }
 }));
-var authMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('auth', ['logIn', 'logOut', 'register', 'resetPassword']);
+var authMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('auth', ['login', 'logout']);
 var layoutMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('layout', ['changeLayoutType', 'changeLayoutWidth', 'changeLeftSidebarType', 'changeTopbar', 'changeLoaderValue']);
-var authFackMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('authfack', ['login', 'registeruser', 'logout']);
 var notificationMethods = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('notification', ['success', 'error', 'clear']);
 
 /***/ }),
@@ -15679,9 +15701,9 @@ var render = function () {
                   fn: function () {
                     return [
                       _vm._v(
-                        "\n          " +
+                        "\n                    " +
                           _vm._s(_vm.$t("navbar.dropdown.megamenu.text")) +
-                          "\n          "
+                          "\n                    "
                       ),
                       _c("i", { staticClass: "mdi mdi-chevron-down" }),
                     ]
@@ -15698,11 +15720,11 @@ var render = function () {
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("h5", { staticClass: "font-size-14 mt-0" }, [
                         _vm._v(
-                          "\n                  " +
+                          "\n                                    " +
                             _vm._s(
                               _vm.$t("navbar.dropdown.megamenu.uicontent.title")
                             ) +
-                            "\n                "
+                            "\n                                "
                         ),
                       ]),
                       _vm._v(" "),
@@ -15796,13 +15818,13 @@ var render = function () {
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("h5", { staticClass: "font-size-14 mt-0" }, [
                         _vm._v(
-                          "\n                  " +
+                          "\n                                    " +
                             _vm._s(
                               _vm.$t(
                                 "navbar.dropdown.megamenu.application.title"
                               )
                             ) +
-                            "\n                "
+                            "\n                                "
                         ),
                       ]),
                       _vm._v(" "),
@@ -15884,13 +15906,13 @@ var render = function () {
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("h5", { staticClass: "font-size-14 mt-0" }, [
                         _vm._v(
-                          "\n                  " +
+                          "\n                                    " +
                             _vm._s(
                               _vm.$t(
                                 "navbar.dropdown.megamenu.extrapages.title"
                               )
                             ) +
-                            "\n                "
+                            "\n                                "
                         ),
                       ]),
                       _vm._v(" "),
@@ -15988,11 +16010,11 @@ var render = function () {
                     _c("div", { staticClass: "col-sm-6" }, [
                       _c("h5", { staticClass: "font-size-14 mt-0" }, [
                         _vm._v(
-                          "\n                  " +
+                          "\n                                    " +
                             _vm._s(
                               _vm.$t("navbar.dropdown.megamenu.uicontent.title")
                             ) +
-                            "\n                "
+                            "\n                                "
                         ),
                       ]),
                       _vm._v(" "),
@@ -16393,9 +16415,9 @@ var render = function () {
                   _c("div", { staticClass: "col" }, [
                     _c("h6", { staticClass: "m-0" }, [
                       _vm._v(
-                        "\n                " +
+                        "\n                                " +
                           _vm._s(_vm.$t("navbar.dropdown.notification.text")) +
-                          "\n              "
+                          "\n                            "
                       ),
                     ]),
                   ]),
@@ -16433,39 +16455,39 @@ var render = function () {
                       _c("div", { staticClass: "media-body" }, [
                         _c("h6", { staticClass: "mt-0 mb-1" }, [
                           _vm._v(
-                            "\n                  " +
+                            "\n                                    " +
                               _vm._s(
                                 _vm.$t(
                                   "navbar.dropdown.notification.order.title"
                                 )
                               ) +
-                              "\n                "
+                              "\n                                "
                           ),
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "font-size-12 text-muted" }, [
                           _c("p", { staticClass: "mb-1" }, [
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.order.text"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.order.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -16493,39 +16515,39 @@ var render = function () {
                       _c("div", { staticClass: "media-body" }, [
                         _c("h6", { staticClass: "mt-0 mb-1" }, [
                           _vm._v(
-                            "\n                  " +
+                            "\n                                    " +
                               _vm._s(
                                 _vm.$t(
                                   "navbar.dropdown.notification.james.title"
                                 )
                               ) +
-                              "\n                "
+                              "\n                                "
                           ),
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "font-size-12 text-muted" }, [
                           _c("p", { staticClass: "mb-1" }, [
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.james.text"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.james.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -16556,39 +16578,39 @@ var render = function () {
                       _c("div", { staticClass: "media-body" }, [
                         _c("h6", { staticClass: "mt-0 mb-1" }, [
                           _vm._v(
-                            "\n                  " +
+                            "\n                                    " +
                               _vm._s(
                                 _vm.$t(
                                   "navbar.dropdown.notification.item.title"
                                 )
                               ) +
-                              "\n                "
+                              "\n                                "
                           ),
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "font-size-12 text-muted" }, [
                           _c("p", { staticClass: "mb-1" }, [
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.item.text"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.item.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -16616,39 +16638,39 @@ var render = function () {
                       _c("div", { staticClass: "media-body" }, [
                         _c("h6", { staticClass: "mt-0 mb-1" }, [
                           _vm._v(
-                            "\n                  " +
+                            "\n                                    " +
                               _vm._s(
                                 _vm.$t(
                                   "navbar.dropdown.notification.salena.title"
                                 )
                               ) +
-                              "\n                "
+                              "\n                                "
                           ),
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "font-size-12 text-muted" }, [
                           _c("p", { staticClass: "mb-1" }, [
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.salena.text"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.salena.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -16669,9 +16691,9 @@ var render = function () {
                   [
                     _c("i", { staticClass: "mdi mdi-arrow-right-circle mr-1" }),
                     _vm._v(
-                      "\n            " +
+                      "\n                        " +
                         _vm._s(_vm.$t("navbar.dropdown.notification.button")) +
-                        "\n          "
+                        "\n                    "
                     ),
                   ]
                 ),
@@ -16723,18 +16745,18 @@ var render = function () {
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("i", { staticClass: "ri-user-line align-middle mr-1" }),
                 _vm._v(
-                  "\n          " +
+                  "\n                    " +
                     _vm._s(_vm.$t("navbar.dropdown.kevin.list.profile")) +
-                    "\n        "
+                    "\n                "
                 ),
               ]),
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("i", { staticClass: "ri-wallet-2-line align-middle mr-1" }),
                 _vm._v(
-                  "\n          " +
+                  "\n                    " +
                     _vm._s(_vm.$t("navbar.dropdown.kevin.list.mywallet")) +
-                    "\n        "
+                    "\n                "
                 ),
               ]),
               _vm._v(" "),
@@ -16752,9 +16774,9 @@ var render = function () {
                     staticClass: "ri-settings-2-line align-middle mr-1",
                   }),
                   _vm._v(
-                    "\n          " +
+                    "\n                    " +
                       _vm._s(_vm.$t("navbar.dropdown.kevin.list.settings")) +
-                      "\n        "
+                      "\n                "
                   ),
                 ]
               ),
@@ -16764,9 +16786,9 @@ var render = function () {
                   staticClass: "ri-lock-unlock-line align-middle mr-1",
                 }),
                 _vm._v(
-                  "\n          " +
+                  "\n                    " +
                     _vm._s(_vm.$t("navbar.dropdown.kevin.list.lockscreen")) +
-                    "\n        "
+                    "\n                "
                 ),
               ]),
               _vm._v(" "),
@@ -16776,7 +16798,8 @@ var render = function () {
                 "a",
                 {
                   staticClass: "dropdown-item text-danger",
-                  attrs: { href: "/logout" },
+                  attrs: { href: "#" },
+                  on: { click: _vm.logout },
                 },
                 [
                   _c("i", {
@@ -16784,9 +16807,9 @@ var render = function () {
                       "ri-shut-down-line align-middle mr-1 text-danger",
                   }),
                   _vm._v(
-                    "\n          " +
+                    "\n                    " +
                       _vm._s(_vm.$t("navbar.dropdown.kevin.list.logout")) +
-                      "\n        "
+                      "\n                "
                   ),
                 ]
               ),
@@ -17717,9 +17740,9 @@ var render = function () {
                   fn: function () {
                     return [
                       _vm._v(
-                        "\n          " +
+                        "\n                    " +
                           _vm._s(_vm.$t("navbar.dropdown.megamenu.text")) +
-                          "\n          "
+                          "\n                    "
                       ),
                       _c("i", { staticClass: "mdi mdi-chevron-down" }),
                     ]
@@ -18477,13 +18500,13 @@ var render = function () {
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.order.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -18531,13 +18554,13 @@ var render = function () {
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.james.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -18586,13 +18609,13 @@ var render = function () {
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.item.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -18642,13 +18665,13 @@ var render = function () {
                           _c("p", { staticClass: "mb-0" }, [
                             _c("i", { staticClass: "mdi mdi-clock-outline" }),
                             _vm._v(
-                              "\n                    " +
+                              "\n                                        " +
                                 _vm._s(
                                   _vm.$t(
                                     "navbar.dropdown.notification.salena.time"
                                   )
                                 ) +
-                                "\n                  "
+                                "\n                                    "
                             ),
                           ]),
                         ]),
@@ -18669,9 +18692,9 @@ var render = function () {
                   [
                     _c("i", { staticClass: "mdi mdi-arrow-right-circle mr-1" }),
                     _vm._v(
-                      "\n            " +
+                      "\n                        " +
                         _vm._s(_vm.$t("navbar.dropdown.notification.button")) +
-                        "\n          "
+                        "\n                    "
                     ),
                   ]
                 ),
@@ -18723,18 +18746,18 @@ var render = function () {
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("i", { staticClass: "ri-user-line align-middle mr-1" }),
                 _vm._v(
-                  "\n          " +
+                  "\n                    " +
                     _vm._s(_vm.$t("navbar.dropdown.kevin.list.profile")) +
-                    "\n        "
+                    "\n                "
                 ),
               ]),
               _vm._v(" "),
               _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
                 _c("i", { staticClass: "ri-wallet-2-line align-middle mr-1" }),
                 _vm._v(
-                  "\n          " +
+                  "\n                    " +
                     _vm._s(_vm.$t("navbar.dropdown.kevin.list.mywallet")) +
-                    "\n        "
+                    "\n                "
                 ),
               ]),
               _vm._v(" "),
@@ -18752,9 +18775,9 @@ var render = function () {
                     staticClass: "ri-settings-2-line align-middle mr-1",
                   }),
                   _vm._v(
-                    "\n          " +
+                    "\n                    " +
                       _vm._s(_vm.$t("navbar.dropdown.kevin.list.settings")) +
-                      "\n        "
+                      "\n                "
                   ),
                 ]
               ),
@@ -18764,9 +18787,9 @@ var render = function () {
                   staticClass: "ri-lock-unlock-line align-middle mr-1",
                 }),
                 _vm._v(
-                  "\n          " +
+                  "\n                    " +
                     _vm._s(_vm.$t("navbar.dropdown.kevin.list.lockscreen")) +
-                    "\n        "
+                    "\n                "
                 ),
               ]),
               _vm._v(" "),
@@ -18776,7 +18799,8 @@ var render = function () {
                 "a",
                 {
                   staticClass: "dropdown-item text-danger",
-                  attrs: { href: "/logout" },
+                  attrs: { href: "#" },
+                  on: { click: _vm.logout },
                 },
                 [
                   _c("i", {
@@ -18784,9 +18808,9 @@ var render = function () {
                       "ri-shut-down-line align-middle mr-1 text-danger",
                   }),
                   _vm._v(
-                    "\n          " +
+                    "\n                    " +
                       _vm._s(_vm.$t("navbar.dropdown.kevin.list.logout")) +
-                      "\n        "
+                      "\n                "
                   ),
                 ]
               ),
