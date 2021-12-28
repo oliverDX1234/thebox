@@ -17,6 +17,5 @@ mix.js("resources/js/app.js", "public/js")
     .alias({
         "@": path.join(__dirname, "resources/js"),
     })
-    .options({ processCssUrls: false })
     .disableNotifications()
-    .sass("resources/sass/app.scss", "public/css");
+    .sass("resources/sass/app.scss", "public/css"); 
