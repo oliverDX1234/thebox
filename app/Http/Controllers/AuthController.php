@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request): JsonResponse
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-
         $credentials = $request->only(['email', 'password']);
 
         if (!auth()->attempt($credentials)) {
@@ -24,7 +20,7 @@ class AuthController extends Controller
     }
 
 
-    public function logout()
+    public function logout(): JsonResponse
     {
 //        TODO review impl
         try {
