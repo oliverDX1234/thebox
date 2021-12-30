@@ -59,7 +59,7 @@ export default {
                                             <div class="text-center">
                                                 <div>
                                                     <a href="/" class="logo">
-                                                        <img src="@/assets/images/logo-dark.png" height="20"
+                                                        <img :src="getImgUrl('/logo-dark.png')" height="20"
                                                              alt="logo"/>
                                                     </a>
                                                 </div>

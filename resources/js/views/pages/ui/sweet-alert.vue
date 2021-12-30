@@ -105,7 +105,7 @@ export default {
       Swal.fire({
         title: "Sweet!",
         text: "Modal with a custom image.",
-        imageUrl: require("@/assets/images/logo-dark.png"),
+        imageUrl: require("@assets/images/logo-dark.png"),
         imageHeight: 20,
         confirmButtonColor: "#556ee6"
       });

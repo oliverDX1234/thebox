@@ -15,7 +15,9 @@ var path = require("path");
 mix.js("resources/js/app.js", "public/js")
     .vue()
     .alias({
-        "@": path.join(__dirname, "resources/js"),
+        "@": path.resolve(__dirname, "resources/js"),
+        '@assets': path.resolve(__dirname, 'resources/assets'),
+        '@sass': path.resolve(__dirname, 'resources/sass')
     })
     .disableNotifications()
     .sass("resources/sass/app.scss", "public/css"); 

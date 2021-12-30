@@ -31,18 +31,18 @@ export default {
       visible: false,
       index: 0, // default: 0
       lightboximgs: [
-        require("@/assets/images/small/img-1.jpg"),
-        require("@/assets/images/small/img-2.jpg"),
-        require("@/assets/images/small/img-3.jpg"),
-        require("@/assets/images/small/img-4.jpg"),
-        require("@/assets/images/small/img-5.jpg"),
-        require("@/assets/images/small/img-6.jpg")
+        require("@assets/images/small/img-1.jpg"),
+        require("@assets/images/small/img-2.jpg"),
+        require("@assets/images/small/img-3.jpg"),
+        require("@assets/images/small/img-4.jpg"),
+        require("@assets/images/small/img-5.jpg"),
+        require("@assets/images/small/img-6.jpg")
       ]
     };
   },
   methods: {
     showSingle() {
-      this.imgs = require("@/assets/images/small/img-2.jpg");
+      this.imgs = require("@assets/images/small/img-2.jpg");
       this.show();
     },
     show() {

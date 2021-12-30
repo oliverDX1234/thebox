@@ -1,7 +1,7 @@
 const chatData = [
     {
         id: 1,
-        image: require('@/assets/images/users/avatar-2.jpg'),
+        image: require('@assets/images/users/avatar-2.jpg'),
         name: 'Frank Vickery',
         message: 'Hey! there I\'m available',
         time: '04    min',
@@ -9,7 +9,7 @@ const chatData = [
     },
     {
         id: 2,
-        image: require('@/assets/images/users/avatar-3.jpg'),
+        image: require('@assets/images/users/avatar-3.jpg'),
         name: 'Robert Winter',
         message: 'I\'ve finished it! See you so',
         time: '09 min',
@@ -24,7 +24,7 @@ const chatData = [
     },
     {
         id: 4,
-        image: require('@/assets/images/users/avatar-4.jpg'),
+        image: require('@assets/images/users/avatar-4.jpg'),
         name: 'Kristen Steele',
         message: 'Nice to meet you',
         time: '1 hr',
@@ -38,7 +38,7 @@ const chatData = [
     },
     {
         id: 6,
-        image: require('@/assets/images/users/avatar-6.jpg'),
+        image: require('@assets/images/users/avatar-6.jpg'),
         name: 'Stephen Hadley',
         message: 'I\'ve finished it! See you so',
         time: '5 hrs',
@@ -46,7 +46,7 @@ const chatData = [
     },
     {
         id: 7,
-        image: require('@/assets/images/users/avatar-2.jpg'),
+        image: require('@assets/images/users/avatar-2.jpg'),
         name: 'Tracy Penley',
         message: 'This theme is awesome!',
         time: '24/03',
@@ -57,7 +57,7 @@ const chatData = [
 const chatMessagesData = [
     {
         name: 'Frank Vickery',
-        image: require('@/assets/images/users/avatar-2.jpg'),
+        image: require('@assets/images/users/avatar-2.jpg'),
         message: 'Hello!',
         time: '10:00'
     },
@@ -69,13 +69,13 @@ const chatMessagesData = [
     },
     {
         name: 'Frank Vickery',
-        image: require('@/assets/images/users/avatar-2.jpg'),
+        image: require('@assets/images/users/avatar-2.jpg'),
         message: 'Yeah everything is fine',
         time: '10:06'
     },
     {
         name: 'Frank Vickery',
-        image: require('@/assets/images/users/avatar-2.jpg'),
+        image: require('@assets/images/users/avatar-2.jpg'),
         message: '& Next meeting tomorrow 10.00AM',
         time: '10:06'
     },

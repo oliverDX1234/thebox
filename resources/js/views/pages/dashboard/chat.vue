@@ -18,7 +18,7 @@ export default {
           id: 1,
           name: "Frank Vickery",
           message: "Hey! I am available",
-          image: require("@/assets/images/users/avatar-2.jpg"),
+          image: require("@assets/images/users/avatar-2.jpg"),
           time: "12:09",
         },
         {
@@ -35,14 +35,14 @@ export default {
           id: 3,
           name: "Frank Vickery",
           message: "Hello!",
-          image: require("@/assets/images/users/avatar-2.jpg"),
+          image: require("@assets/images/users/avatar-2.jpg"),
           time: "10:06",
         },
         {
           id: 4,
           name: "Frank Vickery",
           message: "& Next meeting tomorrow 10.00AM",
-          image: require("@/assets/images/users/avatar-2.jpg"),
+          image: require("@assets/images/users/avatar-2.jpg"),
           time: "10:06",
         },
         {

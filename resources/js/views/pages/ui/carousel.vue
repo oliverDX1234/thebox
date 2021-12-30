@@ -50,9 +50,9 @@ export default {
               to prevent browser default image alignment.
             </p>
             <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000">
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-1.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-2.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-3.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-1.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-2.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-3.jpg')"></b-carousel-slide>
             </b-carousel>
           </div>
         </div>
@@ -63,9 +63,9 @@ export default {
             <h4 class="card-title">With controls</h4>
             <p class="card-title-desc">Adding in the previous and next controls:</p>
             <b-carousel style="text-shadow: 0px 0px 2px #000" controls>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-4.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-5.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-6.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-4.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-5.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-6.jpg')"></b-carousel-slide>
             </b-carousel>
           </div>
         </div>
@@ -82,9 +82,9 @@ export default {
               carousel, alongside the controls, too.
             </p>
             <b-carousel style="text-shadow: 0px 0px 2px #000" controls indicators>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-3.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-2.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-1.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-3.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-2.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-1.jpg')"></b-carousel-slide>
             </b-carousel>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default {
               style="text-shadow: 1px 1px 2px #333;"
             >
               <!-- Text slides with image -->
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-7.jpg')">
+              <b-carousel-slide :img-src="require('@assets/images/small/img-7.jpg')">
                 <div class="text-muted">
                   <h5>First slide label</h5>
                   <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
@@ -116,13 +116,13 @@ export default {
               </b-carousel-slide>
 
               <!-- Slides with custom text -->
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-5.jpg')">
+              <b-carousel-slide :img-src="require('@assets/images/small/img-5.jpg')">
                 <h5 class="text-white">Second slide label</h5>
                 <p class="text-white-50">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
               </b-carousel-slide>
 
               <!-- Slides with image only -->
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-4.jpg')">
+              <b-carousel-slide :img-src="require('@assets/images/small/img-4.jpg')">
                 <h5 class="text-white">Third slide label</h5>
                 <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
               </b-carousel-slide>
@@ -141,9 +141,9 @@ export default {
               <code>.carousel-fade</code> to your carousel to animate slides with a fade transition instead of a slide.
             </p>
             <b-carousel style="text-shadow: 0px 0px 2px #000" controls indicators fade>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-1.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-2.jpg')"></b-carousel-slide>
-              <b-carousel-slide :img-src="require('@/assets/images/small/img-3.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-1.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-2.jpg')"></b-carousel-slide>
+              <b-carousel-slide :img-src="require('@assets/images/small/img-3.jpg')"></b-carousel-slide>
             </b-carousel>
           </div>
         </div>

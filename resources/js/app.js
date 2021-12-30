@@ -16,7 +16,7 @@ import i18n from './i18n'
 
 import imagePlugin from "./plugins/imagePlugin"
 
-import "./assets/scss/app.scss";
+// import "./assets/scss/app.scss";
 
 /*
 * Move to separate file

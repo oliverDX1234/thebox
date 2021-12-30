@@ -24,56 +24,56 @@ export default {
       ],
       shopsData: [
         {
-          image: require("@/assets/images/companies/cimg-1.png"),
+          image: require("@assets/images/companies/cimg-1.png"),
           title: "Nedick's",
           name: "Wayne McClain",
           products: 86,
           balance: "$12,456"
         },
         {
-          image: require("@/assets/images/companies/cimg-2.png"),
+          image: require("@assets/images/companies/cimg-2.png"),
           title: "Brendle's",
           name: "David Marshall",
           products: 72,
           balance: "$10,352"
         },
         {
-          image: require("@/assets/images/companies/cimg-3.png"),
+          image: require("@assets/images/companies/cimg-3.png"),
           title: "Tech Hifi",
           name: "Katia Stapleton",
           products: 75,
           balance: "$9,963"
         },
         {
-          image: require("@/assets/images/companies/cimg-4.png"),
+          image: require("@assets/images/companies/cimg-4.png"),
           title: "Lafayette",
           name: "Andrew Bivens",
           products: 65,
           balance: "$14,568"
         },
         {
-          image: require("@/assets/images/companies/cimg-5.png"),
+          image: require("@assets/images/companies/cimg-5.png"),
           title: "Packer",
           name: "Mae Rankin",
           products: 82,
           balance: "$16,445"
         },
         {
-          image: require("@/assets/images/companies/cimg-6.png"),
+          image: require("@assets/images/companies/cimg-6.png"),
           title: "Micro Design",
           name: " Brian Correa",
           products: 71,
           balance: "$11,523"
         },
         {
-          image: require("@/assets/images/companies/cimg-7.png"),
+          image: require("@assets/images/companies/cimg-7.png"),
           title: "Keeney's",
           name: "Dean Odom",
           products: 66,
           balance: "$13,478"
         },
         {
-          image: require("@/assets/images/companies/cimg-8.png"),
+          image: require("@assets/images/companies/cimg-8.png"),
           title: "Tech Hifi",
           name: "John McLeroy",
           products: 58,

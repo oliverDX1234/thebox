@@ -9,27 +9,27 @@ export default {
         return {
             languages: [
                 {
-                    flag: require("@/assets/images/flags/us.jpg"),
+                    flag: require("@assets/images/flags/us.jpg"),
                     language: "en",
                     title: "English"
                 },
                 {
-                    flag: require("@/assets/images/flags/french.jpg"),
+                    flag: require("@assets/images/flags/french.jpg"),
                     language: "fr",
                     title: "French"
                 },
                 {
-                    flag: require("@/assets/images/flags/spain.jpg"),
+                    flag: require("@assets/images/flags/spain.jpg"),
                     language: "es",
                     title: "spanish"
                 },
                 {
-                    flag: require("@/assets/images/flags/chaina.png"),
+                    flag: require("@assets/images/flags/chaina.png"),
                     language: "zh",
                     title: "Chinese"
                 },
                 {
-                    flag: require("@/assets/images/flags/arabic.png"),
+                    flag: require("@assets/images/flags/arabic.png"),
                     language: "ar",
                     title: "Arabic"
                 }
@@ -96,19 +96,19 @@ export default {
                 <div class="navbar-brand-box">
                     <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-              <img src="@/assets/images/logo-sm-dark.png" alt height="22"/>
+              <img :src="getImgUrl('/logo-sm-dark.png')" alt height="22"/>
             </span>
                         <span class="logo-lg">
-              <img src="@/assets/images/logo-dark.png" alt height="20"/>
+              <img :src="getImgUrl('/logo-dark.png')" alt height="20"/>
             </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-              <img src="@/assets/images/logo-sm-light.png" alt height="22"/>
+              <img :src="getImgUrl('/logo-sm-light.png')" alt height="22"/>
             </span>
                         <span class="logo-lg">
-              <img src="@/assets/images/logo-light.png" alt height="20"/>
+              <img :src="getImgUrl('/logo-light.png')" alt height="20"/>
             </span>
                     </a>
                 </div>
@@ -316,7 +316,7 @@ export default {
                                 <div class="col-sm-5">
                                     <div>
                                         <img
-                                            src="@/assets/images/megamenu-img.png"
+                                            :src="getImgUrl('/megamenu-img.png')"
                                             alt
                                             class="img-fluid mx-auto d-block"
                                         />
@@ -361,7 +361,7 @@ export default {
 
                 <b-dropdown variant="white" right toggle-class="header-item">
                     <template v-slot:button-content>
-                        <img class src="@/assets/images/flags/us.jpg" alt="Header Language" height="16"/>
+                        <img class :src="getImgUrl('/flags/us.jpg')" alt="Header Language" height="16"/>
                     </template>
                     <b-dropdown-item
                         class="notify-item"
@@ -390,19 +390,19 @@ export default {
                         <div class="row no-gutters">
                             <div class="col">
                                 <a class="dropdown-icon-item" href="javascript: void(0);">
-                                    <img src="@/assets/images/brands/github.png" alt="Github"/>
+                                    <img :src="getImgUrl('/brands/github.png')" alt="Github"/>
                                     <span>{{ $t('navbar.dropdown.site.list.github') }}</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="javascript: void(0);">
-                                    <img src="@/assets/images/brands/bitbucket.png" alt="bitbucket"/>
+                                    <img :src="getImgUrl('/brands/bitbucket.png')" alt="bitbucket"/>
                                     <span>{{ $t('navbar.dropdown.site.list.github') }}</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="javascript: void(0);">
-                                    <img src="@/assets/images/brands/dribbble.png" alt="dribbble"/>
+                                    <img :src="getImgUrl('/brands/dribbble.png')" alt="dribbble"/>
                                     <span>{{ $t('navbar.dropdown.site.list.dribbble') }}</span>
                                 </a>
                             </div>
@@ -411,19 +411,19 @@ export default {
                         <div class="row no-gutters">
                             <div class="col">
                                 <a class="dropdown-icon-item" href="javascript: void(0);">
-                                    <img src="@/assets/images/brands/dropbox.png" alt="dropbox"/>
+                                    <img :src="getImgUrl('/brands/dropbox.png')" alt="dropbox"/>
                                     <span>{{ $t('navbar.dropdown.site.list.dropbox') }}</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="javascript: void(0);">
-                                    <img src="@/assets/images/brands/mail_chimp.png" alt="mail_chimp"/>
+                                    <img :src="getImgUrl('/brands/mail_chimp.png')" alt="mail_chimp"/>
                                     <span>{{ $t('navbar.dropdown.site.list.mailchimp') }}</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="javascript: void(0);">
-                                    <img src="@/assets/images/brands/slack.png" alt="slack"/>
+                                    <img :src="getImgUrl('/brands/slack.png')" alt="slack"/>
                                     <span>{{ $t('navbar.dropdown.site.list.slack') }}</span>
                                 </a>
                             </div>
@@ -484,7 +484,7 @@ export default {
                         <a href class="text-reset notification-item">
                             <div class="media">
                                 <img
-                                    src="@/assets/images/users/avatar-3.jpg"
+                                    :src="getImgUrl('/users/avatar-3.jpg')"
                                     class="mr-3 rounded-circle avatar-xs"
                                     alt="user-pic"
                                 />
@@ -522,7 +522,7 @@ export default {
                         <a href class="text-reset notification-item">
                             <div class="media">
                                 <img
-                                    src="@/assets/images/users/avatar-4.jpg"
+                                    :src="getImgUrl('/users/avatar-4.jpg')"
                                     class="mr-3 rounded-circle avatar-xs"
                                     alt="user-pic"
                                 />

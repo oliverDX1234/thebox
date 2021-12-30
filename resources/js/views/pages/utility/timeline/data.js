@@ -14,7 +14,7 @@ const timelineData = [
         date: '15 April',
         title: 'Timeline event Three',
         text: 'The new common language will be more simple and regular than the existing European languages be as simple as occidental',
-        images: [require('@/assets/images/small/img-2.jpg'), require('@/assets/images/small/img-3.jpg'), require('@/assets/images/small/img-4.jpg')]
+        images: [require('@assets/images/small/img-2.jpg'), require('@assets/images/small/img-3.jpg'), require('@assets/images/small/img-4.jpg')]
     },
     {
         align: 'left',

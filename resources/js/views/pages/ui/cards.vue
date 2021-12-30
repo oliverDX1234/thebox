@@ -36,7 +36,7 @@ export default {
     <div class="row">
       <div class="col-lg-6 col-xl-3">
         <!-- Simple card -->
-        <b-card :img-src="require('@/assets/images/small/img-1.jpg')" img-alt="Card image" img-top>
+        <b-card :img-src="require('@assets/images/small/img-1.jpg')" img-alt="Card image" img-top>
           <b-card-title>
             <h5 class="card-title">Card title</h5>
           </b-card-title>
@@ -52,7 +52,7 @@ export default {
       <div class="col-lg-6 col-xl-3">
         <b-card
           no-body
-          :img-src="require('@/assets/images/small/img-2.jpg')"
+          :img-src="require('@assets/images/small/img-2.jpg')"
           img-alt="Card image"
           img-top
         >
@@ -75,7 +75,7 @@ export default {
       <!-- end col -->
 
       <div class="col-lg-6 col-xl-3">
-        <b-card :img-src="require('@/assets/images/small/img-3.jpg')" img-alt="Card image" img-top>
+        <b-card :img-src="require('@assets/images/small/img-3.jpg')" img-alt="Card image" img-top>
           <b-card-text>
             Some quick example text to build on the card title and make
             up the bulk of the card's content.
@@ -224,7 +224,7 @@ export default {
 
     <div class="row">
       <div class="col-md-4">
-        <b-card :img-src="require('@/assets/images/small/img-5.jpg')" img-alt="Card image" img-top>
+        <b-card :img-src="require('@assets/images/small/img-5.jpg')" img-alt="Card image" img-top>
           <b-card-title>
             <h5 class="card-title">Card title</h5>
           </b-card-title>
@@ -238,7 +238,7 @@ export default {
       </div>
       <div class="col-md-4">
         <b-card
-          :img-src="require('@/assets/images/small/img-7.jpg')"
+          :img-src="require('@assets/images/small/img-7.jpg')"
           img-alt="Card image"
           img-bottom
         >
@@ -256,7 +256,7 @@ export default {
       <div class="col-md-4">
         <b-card
           overlay
-          :img-src="require('@/assets/images/small/img-6.jpg')"
+          :img-src="require('@assets/images/small/img-6.jpg')"
           img-alt="Card Image"
           text-variant="white"
         >
@@ -279,7 +279,7 @@ export default {
         <b-card no-body>
           <b-row no-gutters class="align-items-center">
             <b-col md="4">
-              <b-card-img :src="require('@/assets/images/small/img-2.jpg')" class="rounded-0"></b-card-img>
+              <b-card-img :src="require('@assets/images/small/img-2.jpg')" class="rounded-0"></b-card-img>
             </b-col>
             <b-col md="8">
               <b-card-body title="Card title">
@@ -304,7 +304,7 @@ export default {
               </b-card-body>
             </b-col>
             <b-col md="4">
-              <b-card-img :src="require('@/assets/images/small/img-3.jpg')" class="rounded-0"></b-card-img>
+              <b-card-img :src="require('@assets/images/small/img-3.jpg')" class="rounded-0"></b-card-img>
             </b-col>
           </b-row>
         </b-card>
@@ -428,7 +428,7 @@ export default {
         <h4 class="my-3">Decks</h4>
         <b-card-group deck>
           <b-card
-            :img-src="require('@/assets/images/small/img-4.jpg')"
+            :img-src="require('@assets/images/small/img-4.jpg')"
             img-alt="Card image"
             img-top
             class="mb-4"
@@ -445,7 +445,7 @@ export default {
             </p>
           </b-card>
           <b-card
-            :img-src="require('@/assets/images/small/img-5.jpg')"
+            :img-src="require('@assets/images/small/img-5.jpg')"
             img-alt="Card image"
             img-top
             class="mb-4"
@@ -461,7 +461,7 @@ export default {
             </b-card-text>
           </b-card>
           <b-card
-            :img-src="require('@/assets/images/small/img-6.jpg')"
+            :img-src="require('@assets/images/small/img-6.jpg')"
             img-alt="Card image"
             img-top
             class="mb-4"
@@ -485,7 +485,7 @@ export default {
       <div class="col-sm-12">
         <h4 class="my-3">Cards Columns</h4>
         <b-card-group columns>
-          <b-card :img-src="require('@/assets/images/small/img-3.jpg')" img-alt="Image" img-top>
+          <b-card :img-src="require('@assets/images/small/img-3.jpg')" img-alt="Image" img-top>
             <b-card-title>
               <h5 class="card-title">Card title that wraps to a new line</h5>
             </b-card-title>
@@ -504,7 +504,7 @@ export default {
             </blockquote>
           </b-card>
 
-          <b-card :img-src="require('@/assets/images/small/img-5.jpg')" img-alt="Image" img-top>
+          <b-card :img-src="require('@assets/images/small/img-5.jpg')" img-alt="Image" img-top>
             <b-card-title>
               <h5 class="card-title">Card title</h5>
             </b-card-title>
@@ -530,7 +530,7 @@ export default {
             <b-card-text class="small text-muted">Last updated 3 mins ago</b-card-text>
           </b-card>
 
-          <b-card :img-src="require('@/assets/images/small/img-7.jpg')" img-alt="Image" overlay></b-card>
+          <b-card :img-src="require('@assets/images/small/img-7.jpg')" img-alt="Image" overlay></b-card>
           <b-card class="p-3 text-right" no-body>
             <blockquote class="blockquote mb-0">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>

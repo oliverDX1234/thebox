@@ -4,7 +4,7 @@ const todoTasks = [
         title: 'Admin layout design',
         text: 'Sed ut perspiciatis unde',
         date: '17 Apr, 2020',
-        user: [require('@/assets/images/users/avatar-3.jpg'), require('@/assets/images/users/avatar-2.jpg')],
+        user: [require('@assets/images/users/avatar-3.jpg'), require('@assets/images/users/avatar-2.jpg')],
         groupId: 1
     },
     {
@@ -12,7 +12,7 @@ const todoTasks = [
         title: 'Chat app page',
         text: 'Neque porro quisquam est',
         date: '15 Apr, 2019',
-        user: [require('@/assets/images/users/avatar-6.jpg')],
+        user: [require('@assets/images/users/avatar-6.jpg')],
         groupId: 1
     },
     {
@@ -20,7 +20,7 @@ const todoTasks = [
         title: 'Ecommerce App pages',
         date: '12 Apr, 2019',
         text: 'Itaque earum rerum hic',
-        user: [require('@/assets/images/users/avatar-5.jpg')],
+        user: [require('@assets/images/users/avatar-5.jpg')],
         groupId: 1
     },
 ];
@@ -31,7 +31,7 @@ const progressTasks = [
         title: 'Dashboard UI',
         text: 'In enim justo, rhoncus ut',
         date: '05 Apr, 2020',
-        user: [require('@/assets/images/users/avatar-6.jpg')],
+        user: [require('@assets/images/users/avatar-6.jpg')],
         groupId: 2
     },
     {
@@ -39,7 +39,7 @@ const progressTasks = [
         title: 'Authentication pages',
         text: 'Imperdiet Etiam ultricies',
         date: '02 Apr, 2020',
-        user: [require('@/assets/images/users/avatar-8.jpg'), require('@/assets/images/users/avatar-1.jpg')],
+        user: [require('@assets/images/users/avatar-8.jpg'), require('@assets/images/users/avatar-1.jpg')],
         groupId: 2
     },
     {
@@ -47,7 +47,7 @@ const progressTasks = [
         title: 'UI Elements pages',
         text: 'Cras ultricies mi eu turpis',
         date: '28 Mar, 2020',
-        user: [require('@/assets/images/users/avatar-2.jpg')],
+        user: [require('@assets/images/users/avatar-2.jpg')],
         groupId: 2
     },
 ];
@@ -58,7 +58,7 @@ const completedTasks = [
         title: 'Brand logo design',
         text: 'Aenean leo ligula, porttitor eu',
         date: '24 Mar, 2020',
-        user: [require('@/assets/images/users/avatar-4.jpg')],
+        user: [require('@assets/images/users/avatar-4.jpg')],
         groupId: 3
     },
     {
@@ -66,7 +66,7 @@ const completedTasks = [
         title: 'Email pages',
         text: 'It will be as simple as Occidental',
         date: '20 Mar, 2020',
-        user: [require('@/assets/images/users/avatar-6.jpg'), require('@/assets/images/users/avatar-7.jpg')],
+        user: [require('@assets/images/users/avatar-6.jpg'), require('@assets/images/users/avatar-7.jpg')],
         groupId: 3
     },
     {
@@ -74,7 +74,7 @@ const completedTasks = [
         title: 'Forms pages',
         text: 'Donec quam felis, ultricies nec',
         date: '14 Mar, 2019',
-        user: [require('@/assets/images/users/avatar-5.jpg')],
+        user: [require('@assets/images/users/avatar-5.jpg')],
         groupId: 3
     },
 ];
