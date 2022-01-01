@@ -9,13 +9,13 @@ const AuthService = {
     },
 
     async logout() {
-        return axios.post('api/logout');
+        return axios.post('api/admin/logout');
     },
 
 
 
     getUser() {
-        return axios.post('api/me');
+        return axios.post('api/admin/me');
     }
 
 }

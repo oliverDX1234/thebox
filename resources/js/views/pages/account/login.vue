@@ -6,8 +6,8 @@ import {mapActions} from "vuex";
 export default {
     data() {
         return {
-            email: "admin@themesdesign.in",
-            password: "123456",
+            email: "admin@thebox.com",
+            password: "admin1234567",
             submitted: false
         };
     },

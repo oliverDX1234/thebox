@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected function getAdminSettingsAttribute(){
+        return json_decode($this->attributes['admin_settings'], true);
+    }
 }

@@ -8,20 +8,19 @@ export const state = {
 export const actions = {
     async login({ commit }, { email, password }) {
         let user = await AuthService.login(email, password);
-
         commit("loginSuccess", user);
     },
 
-
-
     checkSession({ commit }) {
         if (localStorage.getItem("loggedSession")) {
-            let user = {};
-            AuthService.getUser().then( (response) =>{
-                user = response;
-
+            AuthService.getUser().then((response) => {
+                let user = response;
+                let layout = response.data.admin_settings.layout;
+                
                 commit("checkSession", user);
-            } );
+
+                commit("layout/LOAD_LAYOUT", layout, {root: true});
+            });
         }
     },
 

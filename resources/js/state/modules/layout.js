@@ -18,6 +18,13 @@ export const mutations = {
   CHANGE_LEFT_SIDEBAR_TYPE(state, leftSidebarType) {
     state.leftSidebarType = leftSidebarType;
   },
+  LOAD_LAYOUT(state, layout) {
+    state.layoutType = layout.type;
+    state.layoutWidth = layout.width;
+    state.leftSidebarType = layout.sidebartype;
+    state.topbar = layout.topbar;
+    state.loader = layout.loader;
+  },
   CHANGE_TOPBAR(state, topbar) {
     state.topbar = topbar;
   },

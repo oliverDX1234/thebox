@@ -21,12 +21,6 @@ export const menuItems = [
         link: '/calendar'
     },
     {
-        id: 4,
-        label: 'menuitems.chat.text',
-        icon: 'ri-chat-1-line',
-        link: '/chat'
-    },
-    {
         id: 5,
         label: 'menuitems.ecommerce.text',
         icon: 'ri-store-2-line',
@@ -72,29 +66,6 @@ export const menuItems = [
                 link: '/ecommerce/add-product'
             }
         ]
-    },
-    {
-        id: 14,
-        label: 'menuitems.email.text',
-        icon: 'ri-mail-send-line',
-        subItems: [
-            {
-                id: 15,
-                label: 'menuitems.email.list.inbox',
-                link: '/email/inbox'
-            },
-            {
-                id: 16,
-                label: 'menuitems.email.list.reademail',
-                link: '/email/read'
-            }
-        ]
-    },
-    {
-        id: 17,
-        label: 'menuitems.kanban.text',
-        icon: 'ri-artboard-2-line',
-        link: '/apps/kanban-board'
     },
     {
         id: 18,
