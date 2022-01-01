@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -19,12 +18,17 @@ class AuthController extends Controller
         return response()->json(['message' => 'Sucessfully logged in', 'user' => auth()->user()]);
     }
 
+    public function me()
+    {
+        return auth()->user();
+    }
+
 
     public function logout(): JsonResponse
     {
 //        TODO review impl
         try {
-            Session::flush();
+            auth()->logout();
         } catch (\Exception $e) {
             return response()->json(['error' => 'Problem during logout']);
         }

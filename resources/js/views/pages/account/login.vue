@@ -33,7 +33,9 @@ export default {
             if (!this.$v.$invalid) {
                 const {email, password} = this;
                 this.login({email, password})
-                .then(() => this.$router.push('/'))
+                .then(() => this.$router.push('/')).catch((error) =>{
+                    this.makeToast('danger', error.response.data.error, "Error");
+                })
             }
         }
     }

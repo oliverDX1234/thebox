@@ -1,9 +1,11 @@
 import authService from "../services/authService";
 
+function isLoggedIn(){
+    return localStorage.getItem("loggedSession");
+}
+
 const authenticated = next => {
-    // console.log("Checking if user is authenticated")
-    if (!authService.auth()) {
-        // console.log("User is not authenticated!")
+    if (!isLoggedIn()) {
         next('/login');
         return
     }
@@ -12,7 +14,7 @@ const authenticated = next => {
 
 const guest = next => {
     // console.log("Checking if user is a guest")
-    if (authService.auth()) {
+    if (isLoggedIn()) {
         // console.log("User is not a guest!")
         next('/');
         return

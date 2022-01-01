@@ -4,17 +4,19 @@ import store from '../state/store'
 const AuthService = {
 
     async login(email, password) {
-        let response = await axios.post('login', {email, password});
-        return response.data.user;
+        let response = await axios.post('api/login', {email, password});
+            return response.data.user;
     },
 
     async logout() {
         return axios.post('api/logout');
     },
 
-    auth() {
-        return store.getters['auth/loggedIn'];
-    },
+
+
+    getUser() {
+        return axios.post('api/me');
+    }
 
 }
 
