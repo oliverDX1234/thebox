@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\AdminSettingsController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return response()->json(['user' => $request->user()]);
+Route::group(["middleware" => 'auth:sanctum'], function () {
+
+    Route::group(["prefix" => "admin"], function () {
+        Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+        Route::post('me', [AuthController::class, 'me']);
+        Route::post('changeLayout', [AdminSettingsController::class, 'changeLayout']);
+    });
 });
 
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('login', [AuthController::class, 'login']);

@@ -6,12 +6,6 @@ export default [
         meta: {guest: true},
     },
     // {
-    //     path: '/register',
-    //     name: 'register',
-    //     component: () => import('../views/pages/account/register'),
-    //     meta: {guest: true},
-    // },
-    // {
     //     path: '/forgot-password',
     //     name: 'Forgot-password',
     //     component: () => import('../views/pages/account/forgot-password'),

@@ -1,9 +1,10 @@
 export const state = {
-  layoutType: 'vertical',
-  layoutWidth: 'fluid',
-  leftSidebarType: 'dark',
-  topbar: 'dark',
-  loader: false
+  layoutType: window.Laravel.user ? window.Laravel.user.admin_settings.layout.type : 'vertical',
+  layoutWidth: window.Laravel.user ? window.Laravel.user.admin_settings.layout.width : 'fluid',
+  leftSidebarType: window.Laravel.user ? window.Laravel.user.admin_settings.layout.sidebartype : 'dark',
+  loaded: window.Laravel.user ? window.Laravel.viewIsLoaded : false,
+  topbar: window.Laravel.user ? window.Laravel.user.admin_settings.layout.topbar : 'dark',
+  loader: window.Laravel.user ? window.Laravel.user.admin_settings.layout.loader : false,
 }
 
 export const getters = {}
