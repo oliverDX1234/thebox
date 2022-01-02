@@ -1,7 +1,7 @@
 export default [
     {
-        path: '/login',
-        name: 'login',
+        path: 'admin/login',
+        name: 'admin/login',
         component: () => import('../views/pages/account/login'),
         meta: {guest: true},
     },
@@ -37,160 +37,62 @@ export default [
     //     },
     // },
     {
-        path: '/',
-        name: 'home',
+        path: '/admin',
+        name: 'admin/home',
         meta: {
             authRequired: true,
         },
         component: () => import('../views/pages/dashboard/index')
     },
     {
-        path: '/chat',
-        name: 'Chat',
-        meta: {
-            authRequired: true,
-        },
-        component: () => import('../views/pages/chat/index')
-    },
-    {
-        path: '/calendar',
-        name: 'Calendar',
+        path: 'admin/calendar',
+        name: 'admin/Calendar',
         meta: {
             authRequired: true,
         },
         component: () => import('../views/pages/calendar/index')
     },
     {
-        path: '/ecommerce/products',
-        name: 'products',
+        path: 'admin/ecommerce/products',
+        name: 'admin/products',
         meta: {authRequired: true},
         component: () => import('../views/pages/ecommerce/products')
     },
     {
-        path: '/ecommerce/product-detail',
-        name: 'product detail',
+        path: 'admin/ecommerce/product-detail',
+        name: 'admin/productDetail',
         meta: {authRequired: true},
         component: () => import('../views/pages/ecommerce/product-detail')
     },
     {
-        path: '/ecommerce/orders',
-        name: 'Orders',
+        path: 'admin/ecommerce/orders',
+        name: 'admin/Orders',
         meta: {authRequired: true},
         component: () => import('../views/pages/ecommerce/orders')
     },
     {
-        path: '/ecommerce/customers',
-        name: 'Customers',
+        path: 'admin/ecommerce/customers',
+        name: 'admin/Customers',
         meta: {authRequired: true},
         component: () => import('../views/pages/ecommerce/customers')
     },
     {
-        path: '/ecommerce/cart',
-        name: 'Cart',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/ecommerce/cart')
-    },
-    {
-        path: '/ecommerce/checkout',
-        name: 'Checkout',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/ecommerce/checkout')
-    },
-    {
-        path: '/ecommerce/shops',
-        name: 'Shops',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/ecommerce/shops')
-    },
-    {
-        path: '/ecommerce/add-product',
-        name: 'Add-product',
+        path: 'admin/ecommerce/add-product',
+        name: 'admin/Add-product',
         meta: {authRequired: true},
         component: () => import('../views/pages/ecommerce/add-product')
     },
     {
-        path: '/email/inbox',
-        name: 'Inbox',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/email/inbox')
-    },
-    {
-        path: '/email/read',
-        name: 'Read Email',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/email/reademail')
-    },
-    {
-        path: '/auth/login-1',
-        name: 'login-1',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/sample-auth/login-1')
-    },
-    {
-        path: '/auth/register-1',
-        name: 'register-1',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/sample-auth/register-1')
-    },
-    {
-        path: '/auth/lock-screen-1',
-        name: 'Lock-screen-1',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/sample-auth/lock-screen-1')
-    },
-    {
-        path: '/auth/recoverpwd-1',
-        name: 'Recoverpwd-1',
+        path: 'admin/recoverPassword',
+        name: 'admin/recoverPassword',
         meta: {authRequired: true},
         component: () => import('../views/pages/sample-auth/recoverpwd-1')
     },
     {
-        path: '/apps/kanban-board',
-        name: 'Kanban-board',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/kanbanboard/index')
-    },
-    {
-        path: '/pages/starter',
-        name: 'Starter Page',
+        path: 'admin/pages/starter',
+        name: 'admin/Starter',
         meta: {authRequired: true},
         component: () => import('../views/pages/utility/starter')
-    },
-    {
-        path: '/pages/maintenance',
-        name: 'Maintenance',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/utility/maintenance')
-    },
-    {
-        path: '/pages/coming-soon',
-        name: 'Coming-soon',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/utility/coming-soon')
-    },
-    {
-        path: '/pages/timeline',
-        name: 'Timeline',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/utility/timeline/index')
-    },
-    {
-        path: '/pages/faqs',
-        name: 'Faqs',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/utility/faqs')
-    },
-    {
-        path: '/pages/pricing',
-        name: 'Pricing',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/utility/pricing/index')
-    },
-    {
-        path: '/pages/error-404',
-        name: 'Error-404',
-        meta: {authRequired: true},
-        component: () => import('../views/pages/utility/error-404')
     },
     {
         path: '/pages/error-500',
