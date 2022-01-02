@@ -10,7 +10,6 @@
         <script>
             window.Laravel = {!! json_encode([
     'isLoggedIn' => true,
-    'viewIsLoaded' => true,
     'user' => Auth::user(),
 ]) !!}
         </script>

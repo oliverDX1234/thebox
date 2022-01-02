@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -25,16 +24,19 @@ class AuthController extends Controller
     }
 
 
-    public function logout(): JsonResponse
+    public function logout()
     {
-
-//        TODO review impl
-        try {
-            Session::flush();
-            auth()->logout();
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Problem during logout']);
-        }
+        
+        request()->session()->flush();
+        request()->session()->invalidate();
+        auth()->guard("web")->logout();
+        
+        //Has to redirect like this because otherwise there is bug when logging in
+        //then refreshing the page
+        //then logging out and afterwards refreshing the page
+        //instead of redirected to /admin/login
+        //it redirects to /
+        return redirect('/admin/login');
 
         return response()->json(['message' => 'Successfully logged out']);
     }

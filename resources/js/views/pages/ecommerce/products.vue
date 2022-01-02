@@ -463,7 +463,7 @@ export default {
                         </a>
                       </div>
                       <img
-                        src="getImgUrl('/product/img-1.png"
+                        :src="getImgUrl('/product/img-1.png')"
                         alt
                         class="img-fluid mx-auto d-block"
                       />
@@ -490,7 +490,7 @@ export default {
                         </a>
                       </div>
                       <img
-                        src="getImgUrl('/product/img-2.png"
+                        :src="getImgUrl('/product/img-2.png')"
                         alt
                         class="img-fluid mx-auto d-block"
                       />
@@ -519,7 +519,7 @@ export default {
                         </a>
                       </div>
                       <img
-                        src="getImgUrl('/product/img-3.png"
+                        :src="getImgUrl('/product/img-3.png')"
                         alt
                         class="img-fluid mx-auto d-block"
                       />
@@ -548,7 +548,7 @@ export default {
                         </a>
                       </div>
                       <img
-                        src="getImgUrl('/product/img-4.png"
+                        :src="getImgUrl('/product/img-4.png')"
                         alt
                         class="img-fluid mx-auto d-block"
                       />
@@ -578,7 +578,7 @@ export default {
                         </a>
                       </div>
                       <img
-                        src="getImgUrl('/product/img-5.png"
+                        :src="getImgUrl('/product/img-5.png')"
                         alt
                         class="img-fluid mx-auto d-block"
                       />
@@ -604,7 +604,7 @@ export default {
                         </a>
                       </div>
                       <img
-                        src="getImgUrl('/product/img-6.png"
+                        :src="getImgUrl('/product/img-6.png')"
                         alt
                         class="img-fluid mx-auto d-block"
                       />

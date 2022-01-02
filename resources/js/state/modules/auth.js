@@ -1,10 +1,9 @@
 import AuthService from "../../services/authService";
 
 export const state = {
-    user: window.Laravel.user ? window.Laravel.user : {},
+    user: window.Laravel.user,
     isLoggedIn: window.Laravel.isLoggedIn,
 };
-
 export const actions = {
     async login({ commit }, { email, password }) {
         let user = await AuthService.login(email, password);
@@ -24,6 +23,8 @@ export const actions = {
 export const mutations = {
     logout(state) {
         state.isLoggedIn = false;
+        window.Laravel.user = {};
+        window.Laravel.isLoggedIn = false;
         state.user = {};
     },
 

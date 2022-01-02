@@ -12,13 +12,13 @@ export const menuItems = [
             variant: "success",
             text: "menuitems.dashboard.badge"
         },
-        link: '/'
+        link: '/admin'
     },
     {
         id: 3,
         label: 'menuitems.calendar.text',
         icon: 'ri-calendar-2-line',
-        link: '/calendar'
+        link: '/admin/calendar'
     },
     {
         id: 5,
@@ -28,42 +28,42 @@ export const menuItems = [
             {
                 id: 6,
                 label: 'menuitems.ecommerce.list.products',
-                link: '/ecommerce/products'
+                link: '/admin/ecommerce/products'
             },
             {
                 id: 7,
                 label: 'menuitems.ecommerce.list.productdetail',
-                link: '/ecommerce/product-detail'
+                link: '/admin/ecommerce/product-detail'
             },
             {
                 id: 8,
                 label: 'menuitems.ecommerce.list.orders',
-                link: '/ecommerce/orders'
+                link: '/admin/ecommerce/orders'
             },
             {
                 id: 9,
                 label: 'menuitems.ecommerce.list.customers',
-                link: '/ecommerce/customers'
+                link: '/admin/ecommerce/customers'
             },
             {
                 id: 10,
                 label: 'menuitems.ecommerce.list.cart',
-                link: '/ecommerce/cart'
+                link: '/admin/ecommerce/cart'
             },
             {
                 id: 11,
                 label: 'menuitems.ecommerce.list.checkout',
-                link: '/ecommerce/checkout'
+                link: '/admin/ecommerce/checkout'
             },
             {
                 id: 12,
                 label: 'menuitems.ecommerce.list.shops',
-                link: '/ecommerce/shops'
+                link: '/admin/ecommerce/shops'
             },
             {
                 id: 13,
                 label: 'menuitems.ecommerce.list.addproduct',
-                link: '/ecommerce/add-product'
+                link: '/admin/ecommerce/add-product'
             }
         ]
     },
@@ -84,22 +84,22 @@ export const menuItems = [
             {
                 id: 21,
                 label: 'menuitems.authentication.list.login',
-                link: '/auth/login-1'
+                link: '/admin/auth/login-1'
             },
             {
                 id: 22,
                 label: 'menuitems.authentication.list.register',
-                link: '/auth/register-1'
+                link: '/admin/auth/register-1'
             },
             {
                 id: 23,
                 label: 'menuitems.authentication.list.recoverpwd',
-                link: '/auth/recoverpwd-1'
+                link: '/admin/auth/recoverpwd-1'
             },
             {
                 id: 24,
                 label: 'menuitems.authentication.list.lockscreen',
-                link: '/auth/lock-screen-1'
+                link: '/admin/auth/lock-screen-1'
             }
         ]
     },
@@ -111,42 +111,42 @@ export const menuItems = [
             {
                 id: 26,
                 label: 'menuitems.utility.list.starter',
-                link: '/pages/starter'
+                link: '/admin/pages/starter'
             },
             {
                 id: 27,
                 label: 'menuitems.utility.list.maintenance',
-                link: '/pages/maintenance'
+                link: '/admin/pages/maintenance'
             },
             {
                 id: 28,
                 label: 'menuitems.utility.list.comingsoon',
-                link: '/pages/coming-soon'
+                link: '/admin/pages/coming-soon'
             },
             {
                 id: 29,
                 label: 'menuitems.utility.list.timeline',
-                link: '/pages/timeline'
+                link: '/admin/pages/timeline'
             },
             {
                 id: 30,
                 label: 'menuitems.utility.list.faqs',
-                link: '/pages/faqs'
+                link: '/admin/pages/faqs'
             },
             {
                 id: 31,
                 label: 'menuitems.utility.list.pricing',
-                link: '/pages/pricing'
+                link: '/admin/pages/pricing'
             },
             {
                 id: 32,
                 label: 'menuitems.utility.list.error404',
-                link: '/pages/error-404'
+                link: '/admin/pages/error-404'
             },
             {
                 id: 33,
                 label: 'menuitems.utility.list.error500',
-                link: '/pages/error-500'
+                link: '/admin/pages/error-500'
             },
         ]
     },
@@ -163,87 +163,87 @@ export const menuItems = [
             {
                 id: 38,
                 label: 'menuitems.uielements.list.alerts',
-                link: '/ui/alerts'
+                link: '/admin/ui/alerts'
             },
             {
                 id: 39,
                 label: 'menuitems.uielements.list.buttons',
-                link: '/ui/buttons'
+                link: '/admin/ui/buttons'
             },
             {
                 id: 40,
                 label: 'menuitems.uielements.list.cards',
-                link: '/ui/cards'
+                link: '/admin/ui/cards'
             },
             {
                 id: 41,
                 label: 'menuitems.uielements.list.carousel',
-                link: '/ui/carousel'
+                link: '/admin/ui/carousel'
             },
             {
                 id: 42,
                 label: 'menuitems.uielements.list.dropdowns',
-                link: '/ui/dropdowns'
+                link: '/admin/ui/dropdowns'
             },
             {
                 id: 43,
                 label: 'menuitems.uielements.list.grid',
-                link: '/ui/grid'
+                link: '/admin/ui/grid'
             },
             {
                 id: 44,
                 label: 'menuitems.uielements.list.images',
-                link: '/ui/images'
+                link: '/admin/ui/images'
             },
             {
                 id: 45,
                 label: 'menuitems.uielements.list.lightbox',
-                link: '/ui/lightbox'
+                link: '/admin/ui/lightbox'
             }, {
                 id: 46,
                 label: 'menuitems.uielements.list.modals',
-                link: '/ui/modals'
+                link: '/admin/ui/modals'
             }, {
                 id: 47,
                 label: 'menuitems.uielements.list.rangeslider',
-                link: '/ui/rangeslider'
+                link: '/admin/ui/rangeslider'
             }, {
                 id: 48,
                 label: 'menuitems.uielements.list.sessiontimeout',
-                link: '/ui/session-timeout'
+                link: '/admin/ui/session-timeout'
             },
             {
                 id: 49,
                 label: 'menuitems.uielements.list.progressbar',
-                link: '/ui/progressbar'
+                link: '/admin/ui/progressbar'
             }, {
                 id: 50,
                 label: 'menuitems.uielements.list.sweetalert',
-                link: '/ui/sweet-alert'
+                link: '/admin/ui/sweet-alert'
             }, {
                 id: 51,
                 label: 'menuitems.uielements.list.tabs',
-                link: '/ui/tabs-accordion'
+                link: '/admin/ui/tabs-accordion'
             }, {
                 id: 52,
                 label: 'menuitems.uielements.list.typography',
-                link: '/ui/typography'
+                link: '/admin/ui/typography'
             }, {
                 id: 53,
                 label: 'menuitems.uielements.list.video',
-                link: '/ui/video'
+                link: '/admin/ui/video'
             }, {
                 id: 54,
                 label: 'menuitems.uielements.list.general',
-                link: '/ui/general'
+                link: '/admin/ui/general'
             }, {
                 id: 55,
                 label: 'menuitems.uielements.list.rating',
-                link: '/ui/rating'
+                link: '/admin/ui/rating'
             }, {
                 id: 56,
                 label: 'menuitems.uielements.list.notifications',
-                link: '/ui/notification'
+                link: '/admin/ui/notification'
             }
         ]
     },
@@ -259,37 +259,37 @@ export const menuItems = [
             {
                 id: 58,
                 label: 'menuitems.forms.list.elements',
-                link: '/form/elements'
+                link: '/admin/form/elements'
             },
             {
                 id: 59,
                 label: 'menuitems.forms.list.validation',
-                link: '/form/validation'
+                link: '/admin/form/validation'
             },
             {
                 id: 60,
                 label: 'menuitems.forms.list.advanced',
-                link: '/form/advanced'
+                link: '/admin/form/advanced'
             },
             {
                 id: 61,
                 label: 'menuitems.forms.list.editor',
-                link: '/form/editor'
+                link: '/admin/form/editor'
             },
             {
                 id: 62,
                 label: 'menuitems.forms.list.fileupload',
-                link: '/form/uploads'
+                link: '/admin/form/uploads'
             },
             {
                 id: 63,
                 label: 'menuitems.forms.list.wizard',
-                link: '/form/wizard'
+                link: '/admin/form/wizard'
             },
             {
                 id: 64,
                 label: 'menuitems.forms.list.mask',
-                link: '/form/mask'
+                link: '/admin/form/mask'
             }
         ]
     },
@@ -301,17 +301,17 @@ export const menuItems = [
             {
                 id: 66,
                 label: 'menuitems.tables.list.basic',
-                link: '/tables/basic'
+                link: '/admin/tables/basic'
             },
             {
                 id: 67,
                 label: 'menuitems.tables.list.advanced',
-                link: '/tables/advanced'
+                link: '/admin/tables/advanced'
             },
             // {
             //     id: 68,
             //     label: 'Responsive Table',
-            //     link: ''
+            //     link: '/admin/'
             // },
         ]
     },
@@ -323,22 +323,22 @@ export const menuItems = [
             {
                 id: 70,
                 label: 'menuitems.charts.list.apex',
-                link: '/charts/apex'
+                link: '/admin/charts/apex'
             },
             {
                 id: 71,
                 label: "menuitems.charts.list.chartjs",
-                link: '/charts/chartjs'
+                link: '/admin/charts/chartjs'
             },
             {
                 id: 72,
                 label: "menuitems.charts.list.chartist",
-                link: '/charts/chartist'
+                link: '/admin/charts/chartist'
             },
             {
                 id: 73,
                 label: "menuitems.charts.list.echart",
-                link: '/charts/echart'
+                link: '/admin/charts/echart'
             }
         ]
     },
@@ -350,22 +350,22 @@ export const menuItems = [
             {
                 id: 75,
                 label: 'menuitems.icons.list.remix',
-                link: '/icons/remix'
+                link: '/admin/icons/remix'
             },
             {
                 id: 76,
                 label: "menuitems.icons.list.materialdesign",
-                link: '/icons/material-design'
+                link: '/admin/icons/material-design'
             },
             {
                 id: 77,
                 label: "menuitems.icons.list.dripicons",
-                link: '/icons/dripicons'
+                link: '/admin/icons/dripicons'
             },
             {
                 id: 78,
                 label: "menuitems.icons.list.fontawesome",
-                link: '/icons/font-awesome'
+                link: '/admin/icons/font-awesome'
             }
         ]
     },
@@ -377,12 +377,12 @@ export const menuItems = [
             {
                 id: 80,
                 label: "menuitems.maps.list.googlemap",
-                link: '/maps/google'
+                link: '/admin/maps/google'
             },
             {
                 id: 81,
                 label: 'menuitems.maps.list.leaflet',
-                link: '/maps/leaflet'
+                link: '/admin/maps/leaflet'
             }
         ]
     }

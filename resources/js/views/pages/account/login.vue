@@ -33,7 +33,7 @@ export default {
             if (!this.$v.$invalid) {
                 const {email, password} = this;
                 this.login({email, password})
-                .then(() => this.$router.push('/')).catch((error) =>{
+                .then(() => this.$router.push('/admin')).catch((error) =>{
                     console.log(error);
                     this.makeToast('danger', error.response.data.error);
                 })
@@ -140,7 +140,7 @@ export default {
                                                     </div>
 
                                                     <div class="mt-4 text-center">
-                                                        <router-link tag="a" to="/forgot-password" class="text-muted">
+                                                        <router-link tag="a" to="/admin/forgot-password" class="text-muted">
                                                             <i class="mdi mdi-lock mr-1"></i> Forgot your password?
                                                         </router-link>
                                                     </div>

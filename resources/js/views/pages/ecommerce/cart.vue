@@ -53,7 +53,7 @@ export default {
                   <tr>
                     <td>
                       <img
-                        src="getImgUrl('/product/img-1.png"
+                        :src="getImgUrl('/product/img-1.png')"
                         alt="product-img"
                         title="product-img"
                         class="avatar-md"
@@ -89,7 +89,7 @@ export default {
                   <tr>
                     <td>
                       <img
-                        src="getImgUrl('/product/img-2.png"
+                        :src="getImgUrl('/product/img-2.png')"
                         alt="product-img"
                         title="product-img"
                         class="avatar-md"
@@ -125,7 +125,7 @@ export default {
                   <tr>
                     <td>
                       <img
-                        src="getImgUrl('/product/img-3.png"
+                        :src="getImgUrl('/product/img-3.png')"
                         alt="product-img"
                         title="product-img"
                         class="avatar-md"
@@ -158,7 +158,7 @@ export default {
                   <tr>
                     <td>
                       <img
-                        src="getImgUrl('/product/img-4.png"
+                        :src="getImgUrl('/product/img-4.png')"
                         alt="product-img"
                         title="product-img"
                         class="avatar-md"

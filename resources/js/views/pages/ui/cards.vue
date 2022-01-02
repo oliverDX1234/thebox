@@ -94,7 +94,7 @@ export default {
               <h6 class="card-subtitle text-muted">Support card subtitle</h6>
             </b-card-sub-title>
           </b-card-body>
-          <img src="getImgUrl('/small/img-4.jpg" class="img-fluid" />
+          <img :src="getImgUrl('/small/img-4.jpg')" class="img-fluid" />
           <b-card-body>
             <b-card-text>
               Some quick example text to build on the card title and make

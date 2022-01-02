@@ -21,7 +21,7 @@ export default {};
                       <div class="text-center">
                         <div>
                           <a href="/" class="logo">
-                            <img src="getImgUrl('/logo-dark.png')" height="20" alt="logo" />
+                            <img :src="getImgUrl('/logo-dark.png')" height="20" alt="logo" />
                           </a>
                         </div>
 

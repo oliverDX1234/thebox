@@ -123,7 +123,7 @@ export default {
           <div class="media">
             <div class="align-self-center mr-3">
               <img
-                src="getImgUrl('/users/avatar-2.jpg"
+                :src="getImgUrl('/users/avatar-2.jpg"
                 class="avatar-xs rounded-circle"
                 alt
               />

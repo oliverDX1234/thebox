@@ -130,7 +130,7 @@ export default {
             <a href="javascript: void(0);" class="media">
               <img
                 class="d-flex mr-3 rounded-circle"
-                src="getImgUrl('/users/avatar-2.jpg"
+                :src="getImgUrl('/users/avatar-2.jpg"
                 alt="Generic placeholder image"
                 height="36"
               />
@@ -143,7 +143,7 @@ export default {
             <a href="javascript: void(0);" class="media">
               <img
                 class="d-flex mr-3 rounded-circle"
-                src="getImgUrl('/users/avatar-3.jpg"
+                :src="getImgUrl('/users/avatar-3.jpg"
                 alt="Generic placeholder image"
                 height="36"
               />
@@ -156,7 +156,7 @@ export default {
             <a href="javascript: void(0);" class="media">
               <img
                 class="d-flex mr-3 rounded-circle"
-                src="getImgUrl('/users/avatar-4.jpg"
+                :src="getImgUrl('/users/avatar-4.jpg"
                 alt="Generic placeholder image"
                 height="36"
               />
@@ -169,7 +169,7 @@ export default {
             <a href="javascript: void(0);" class="media">
               <img
                 class="d-flex mr-3 rounded-circle"
-                src="getImgUrl('/users/avatar-6.jpg"
+                :src="getImgUrl('/users/avatar-6.jpg"
                 alt="Generic placeholder image"
                 height="36"
               />

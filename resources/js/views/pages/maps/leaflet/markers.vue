@@ -59,7 +59,7 @@ export default {
       :lat-lng="marker.position"
     >
       <l-icon :icon-anchor="staticAnchor">
-        <img src="getImgUrl('/leaflet/marker-icon.png" />
+        <img :src="getImgUrl('/leaflet/marker-icon.png')" />
       </l-icon>
     </l-marker>
   </l-map>

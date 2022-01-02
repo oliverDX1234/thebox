@@ -43,7 +43,7 @@ export default {
         <div class="media">
           <div class="mr-3">
             <img
-              src="getImgUrl('/logo-sm-light.png"
+              :src="getImgUrl('/logo-sm-light.png"
               alt
               class="avatar-xs"
             />
@@ -65,7 +65,7 @@ export default {
                 title="Aaron Williams"
               >
                 <img
-                  src="getImgUrl('/users/avatar-2.jpg"
+                  :src="getImgUrl('/users/avatar-2.jpg')"
                   class="rounded-circle avatar-xs"
                   alt
                 />
@@ -94,7 +94,7 @@ export default {
                 title="Carole Connolly"
               >
                 <img
-                  src="getImgUrl('/users/avatar-4.jpg"
+                  :src="getImgUrl('/users/avatar-4.jpg')"
                   class="rounded-circle avatar-xs"
                   alt
                 />

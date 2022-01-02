@@ -17,7 +17,7 @@ export default {
         ...authMethods,
         async attemptLogout() {
             await this.logout();
-            await this.$router.push({ name: "login" });
+            await this.$router.push({ name: "admin/login" });
         },
         toggleMenu() {
             this.$parent.toggleMenu();
