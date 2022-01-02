@@ -16,8 +16,10 @@ class DatabaseSeeder extends Seeder
     {
 //         \App\Models\User::factory(10)->create();
          User::factory([
-             'email' => 'admin@themesdesign.in',
-             'password' => bcrypt('123456')
+             'email' => 'admin@thebox.com',
+             'password' => bcrypt("admin1234567"),
+             'roles' => 'admin',
+             'admin_settings' => '{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}',
          ])->create();
     }
 }

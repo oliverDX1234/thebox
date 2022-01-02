@@ -6,8 +6,8 @@ import {mapActions} from "vuex";
 export default {
     data() {
         return {
-            email: "admin@themesdesign.in",
-            password: "123456",
+            email: "admin@thebox.com",
+            password: "admin1234567",
             submitted: false
         };
     },
@@ -33,7 +33,10 @@ export default {
             if (!this.$v.$invalid) {
                 const {email, password} = this;
                 this.login({email, password})
-                .then(() => this.$router.push('/'))
+                .then(() => this.$router.push('/')).catch((error) =>{
+                    console.log(error);
+                    this.makeToast('danger', error.response.data.error);
+                })
             }
         }
     }

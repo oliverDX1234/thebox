@@ -1,37 +1,39 @@
 import AuthService from "../../services/authService";
 
-export const state = window.Laravel.user ?
-    {user: window.Laravel.user, loggedIn: true} :
-    {loggedIn: false};
+export const state = {
+    user: window.Laravel.user ? window.Laravel.user : {},
+    isLoggedIn: window.Laravel.isLoggedIn,
+};
 
 export const actions = {
-    async login({commit}, {email, password}) {
-        let user = await AuthService.login(email, password)
-        commit('loginSuccess', user)
+    async login({ commit }, { email, password }) {
+        let user = await AuthService.login(email, password);
+        commit("loginSuccess", user);
     },
-    async logout({commit}) {
+
+    async logout({ commit }) {
         try {
-            await AuthService.logout()
+            await AuthService.logout();
         } catch (e) {
-        //    TODO handle logout error
+            //    TODO handle logout error
         } finally {
-            commit('logout')
+            commit("logout");
         }
     },
-}
+};
 export const mutations = {
     logout(state) {
-        state.loggedIn = false;
-        state.user = undefined;
+        state.isLoggedIn = false;
+        state.user = {};
     },
+
     loginSuccess(state, user) {
-        state.loggedIn = true;
+        state.isLoggedIn = true;
         state.user = user;
     },
-}
+};
 
 export const getters = {
-    user: state => state.user,
-    loggedIn: state => state.loggedIn
-}
-
+    user: (state) => state.user,
+    isLoggedIn: (state) => state.isLoggedIn,
+};

@@ -15,6 +15,8 @@ import store from './state/store'
 import i18n from './i18n'
 
 import imagePlugin from "./plugins/imagePlugin"
+import notificationPlugin from "./plugins/notificationPlugin"
+
 
 // import "./assets/scss/app.scss";
 
@@ -23,6 +25,7 @@ import imagePlugin from "./plugins/imagePlugin"
 * */
 window.axios = require('axios');
 window.axios.defaults.withCredentials = true
+Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false
 Vue.use(VueYoutube)
@@ -33,6 +36,7 @@ Vue.use(VueSweetalert2);
 Vue.use(VueMask)
 Vue.use(require('vue-chartist'))
 Vue.use(imagePlugin)
+Vue.use(notificationPlugin)
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyAbvyBxmMbFhrzP9Z8moyYr6dCr-pzjhBE',

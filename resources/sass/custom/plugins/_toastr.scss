@@ -36,6 +36,10 @@
 
 // for error
 
+#b-toaster-bottom-right {
+    z-index: 9999;
+}
+
 .toast-error {
     background-color: rgba($danger,0.8);
     border: 2px solid $danger;
