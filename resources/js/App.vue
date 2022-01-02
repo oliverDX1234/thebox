@@ -19,9 +19,6 @@ export default {
   },
   methods:{
     ...mapActions({ checkUsersSession: 'auth/checkSession'}),
-  },
-  created(){
-    this.checkUsersSession();
   }
 };
 </script>

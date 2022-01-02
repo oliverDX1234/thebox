@@ -13,7 +13,6 @@ const AuthService = {
     },
 
 
-
     getUser() {
         return axios.post('api/admin/me');
     }

@@ -1,7 +1,9 @@
-import authService from "../services/authService";
+import state from "@/state/store";
+
+
 
 function isLoggedIn(){
-    return localStorage.getItem("loggedSession");
+    return state.getters["auth/isLoggedIn"];
 }
 
 const authenticated = next => {
@@ -19,6 +21,7 @@ const guest = next => {
         next('/');
         return
     }
+    
     next()
 }
 

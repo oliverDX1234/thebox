@@ -34,7 +34,8 @@ export default {
                 const {email, password} = this;
                 this.login({email, password})
                 .then(() => this.$router.push('/')).catch((error) =>{
-                    this.makeToast('danger', error.response.data.error, "Error");
+                    console.log(error);
+                    this.makeToast('danger', error.response.data.error);
                 })
             }
         }

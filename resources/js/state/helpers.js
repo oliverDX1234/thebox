@@ -5,9 +5,9 @@ export const layoutComputed = {
     layoutType: (state) => state.layoutType,
     leftSidebarType: (state) => state.leftSidebarType,
     layoutWidth: (state) => state.layoutWidth,
+    loaded: (state) => state.loaded,
     topbar: (state) => state.topbar,
-    loader: (state) => state.loader,
-    loaded: (state) => state.loaded
+    loader: (state) => state.loader
   })
 }
 

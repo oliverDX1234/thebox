@@ -1,10 +1,10 @@
 export const state = {
-  layoutType: 'vertical',
-  layoutWidth: 'fluid',
-  leftSidebarType: 'dark',
-  loaded: false,
-  topbar: 'dark',
-  loader: false,
+  layoutType: window.Laravel.user ? window.Laravel.user.admin_settings.layout.type : 'vertical',
+  layoutWidth: window.Laravel.user ? window.Laravel.user.admin_settings.layout.width : 'fluid',
+  leftSidebarType: window.Laravel.user ? window.Laravel.user.admin_settings.layout.sidebartype : 'dark',
+  loaded: window.Laravel.user ? window.Laravel.viewIsLoaded : false,
+  topbar: window.Laravel.user ? window.Laravel.user.admin_settings.layout.topbar : 'dark',
+  loader: window.Laravel.user ? window.Laravel.user.admin_settings.layout.loader : false,
 }
 
 export const getters = {}
@@ -18,14 +18,6 @@ export const mutations = {
   },
   CHANGE_LEFT_SIDEBAR_TYPE(state, leftSidebarType) {
     state.leftSidebarType = leftSidebarType;
-  },
-  LOAD_LAYOUT(state, layout) {
-    state.loaded = layout.loaded;
-    state.layoutType = layout.type;
-    state.layoutWidth = layout.width;
-    state.leftSidebarType = layout.sidebartype;
-    state.topbar = layout.topbar;
-    state.loader = layout.loader;
   },
   CHANGE_TOPBAR(state, topbar) {
     state.topbar = topbar;
