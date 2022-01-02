@@ -392,7 +392,7 @@ export default {
                         {{ $t("navbar.dropdown.kevin.list.settings") }}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" @click="attemptLogout">
+                    <a class="dropdown-item text-danger" href="#" @click="attemptLogout">
                         <i
                             class="ri-shut-down-line align-middle mr-1 text-danger"
                         ></i>
