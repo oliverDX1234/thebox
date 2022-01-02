@@ -96,7 +96,7 @@ export default {
         </div>
         <Footer />
       </div>
-      <Rightsidebar v-if="layoutType"/>
+      <Rightsidebar v-if="loaded"/>
     </div>
   </div>
 </template>

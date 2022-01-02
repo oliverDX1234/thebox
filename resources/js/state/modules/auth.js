@@ -16,9 +16,10 @@ export const actions = {
             AuthService.getUser().then((response) => {
                 let user = response;
                 let layout = response.data.admin_settings.layout;
+                layout.loaded = true;
                 
                 commit("checkSession", user);
-
+                
                 commit("layout/LOAD_LAYOUT", layout, {root: true});
             });
         }

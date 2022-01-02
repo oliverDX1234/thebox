@@ -1,9 +1,10 @@
 export const state = {
-  layoutType: null,
+  layoutType: 'vertical',
   layoutWidth: 'fluid',
   leftSidebarType: 'dark',
+  loaded: false,
   topbar: 'dark',
-  loader: false
+  loader: false,
 }
 
 export const getters = {}
@@ -19,6 +20,7 @@ export const mutations = {
     state.leftSidebarType = leftSidebarType;
   },
   LOAD_LAYOUT(state, layout) {
+    state.loaded = layout.loaded;
     state.layoutType = layout.type;
     state.layoutWidth = layout.width;
     state.leftSidebarType = layout.sidebartype;
