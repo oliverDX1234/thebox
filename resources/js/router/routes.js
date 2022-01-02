@@ -5,10 +5,17 @@ export default [
         component: () => import("../views/pages/account/login"),
         meta: { guest: true },
     },
+
     {
         path: "/admin/forgot-password",
         name: "Forgot-password",
         component: () => import("../views/pages/account/forgot-password"),
+        meta: { guest: true },
+    },
+    {
+        path: "/password/reset",
+        name: "Reset-password",
+        component: () => import("../views/pages/account/reset-password"),
         meta: { guest: true },
     },
     {

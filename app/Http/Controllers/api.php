@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\admin\AdminSettingsController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +14,8 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
 });
 
 
-Route::get("password/reset/{token}", "ResetPasswordController@showResetForm")->name("password.reset"); // --> we'll delete this later
-Route::post("password/reset", [ResetPasswordController::class, "reset"]);
-Route::post("password/email", [ForgotPasswordController::class, "sendResetLinkEmail"])->name("password.email");
+Route::get("password/reset/{token}", "ResetPasswordAPIController@showResetForm")->name("password.reset"); // --> we'll delete this later
+Route::post("password/reset", "ResetPasswordAPIController@reset");
+Route::post("password/email", "ForgotPasswordAPIController@sendResetLinkEmail")->name("password.email");
 
 Route::post('admin/login', [AuthController::class, 'login']);

@@ -34,7 +34,6 @@ export default {
                 const {email, password} = this;
                 this.login({email, password})
                 .then(() => this.$router.push('/admin')).catch((error) =>{
-                    console.log(error);
                     this.makeToast('danger', error.response.data.error);
                 })
             }

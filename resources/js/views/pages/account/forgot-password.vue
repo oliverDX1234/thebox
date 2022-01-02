@@ -35,18 +35,17 @@ export default {
                 this.error = null;
                 try {
                     let response = await this.$http.post(
-                        "/api/reset-password",
+                        "/api/password/email",
                         {
                             email: this.email,
                         }
                     );
 
                     this.tryingToReset = false;
+                    this.makeToast("success", response.data.success);
                     this.isResetError = false;
                 } catch (error) {
-                    this.tryingToReset = false;
-                    this.error = error ? error : "";
-                    this.isResetError = true;
+                    this.makeToast("danger", error.response.data.error);
                 }
             }
         },
