@@ -7,17 +7,12 @@ import { mapGetters } from "vuex";
 export default {
     computed: {
         ...mapGetters({ user: "auth/user" }),
-        fullName() {
-            let user = this.user;
-            return user.first_name + " " + user.last_name;
-        },
     },
     components: { simplebar },
     methods: {
         ...authMethods,
         async attemptLogout() {
             await this.logout();
-            await this.$router.push({ name: "admin/login" });
         },
         toggleMenu() {
             this.$parent.toggleMenu();
@@ -117,8 +112,6 @@ export default {
                         <span class="ri-search-line"></span>
                     </div>
                 </form>
-
-                
             </div>
 
             <div class="d-flex">
@@ -373,7 +366,7 @@ export default {
                             alt="Header Avatar"
                         />
                         <span class="d-none d-xl-inline-block ml-1">{{
-                            fullName
+                            user.first_name
                         }}</span>
                         <i
                             class="mdi mdi-chevron-down d-none d-xl-inline-block"
@@ -392,7 +385,11 @@ export default {
                         {{ $t("navbar.dropdown.kevin.list.settings") }}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="#" @click="attemptLogout">
+                    <a
+                        class="dropdown-item text-danger"
+                        href="#"
+                        @click="attemptLogout"
+                    >
                         <i
                             class="ri-shut-down-line align-middle mr-1 text-danger"
                         ></i>

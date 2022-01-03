@@ -1,4 +1,5 @@
 import AuthService from "../../services/authService";
+import router from "@/router";
 
 export const state = {
     user: window.Laravel.user,
@@ -13,13 +14,16 @@ export const actions = {
     async logout({ commit }) {
         try {
             await AuthService.logout();
-        } catch (e) {
-            //    TODO handle logout error
-        } finally {
+
             commit("logout");
+
+            router.push({ name: "admin/login" });
+
+        } catch (error) {
         }
     },
 };
+
 export const mutations = {
     logout(state) {
         state.isLoggedIn = false;
