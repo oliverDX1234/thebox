@@ -11,7 +11,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
 
-        if (!auth()->attempt($credentials)) {
+        if (!auth()->attempt($credentials, $request->get('rememberMeInput'))) {
             return response()->json(['error' => 'Invalid email or password entered.'], 401);
         }
 
@@ -26,11 +26,8 @@ class AuthController extends Controller
 
     public function logout()
     {
-        
-        request()->session()->flush();
-        request()->session()->invalidate();
         auth()->guard("web")->logout();
-        
+
         //Has to redirect like this because otherwise there is bug when logging in
         //then refreshing the page
         //then logging out and afterwards refreshing the page

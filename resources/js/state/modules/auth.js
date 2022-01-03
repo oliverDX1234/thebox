@@ -5,8 +5,8 @@ export const state = {
     isLoggedIn: window.Laravel.isLoggedIn,
 };
 export const actions = {
-    async login({ commit }, { email, password }) {
-        let user = await AuthService.login(email, password);
+    async login({ commit }, { email, password, rememberMeInput }) {
+        let user = await AuthService.login(email, password, rememberMeInput);
         commit("loginSuccess", user);
     },
 

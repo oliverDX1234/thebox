@@ -6,8 +6,9 @@ import {mapActions} from "vuex";
 export default {
     data() {
         return {
-            email: "admin@thebox.com",
-            password: "admin1234567",
+            email: "",
+            password: "",
+            rememberMeInput: false,
             submitted: false
         };
     },
@@ -31,8 +32,8 @@ export default {
             this.submitted = true;
             this.$v.$touch();
             if (!this.$v.$invalid) {
-                const {email, password} = this;
-                this.login({email, password})
+                const {email, password, rememberMeInput} = this;
+                this.login({email, password, rememberMeInput})
                 .then(() => this.$router.push('/admin')).catch((error) =>{
                     this.makeToast('danger', error.response.data.error);
                 })
@@ -121,6 +122,7 @@ export default {
                                                     <div class="custom-control custom-checkbox">
                                                         <input
                                                             type="checkbox"
+                                                            v-model="rememberMeInput"
                                                             class="custom-control-input"
                                                             id="customControlInline"
                                                         />

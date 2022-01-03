@@ -4,8 +4,8 @@ import store from '../state/store'
 const AuthService = {
 
 
-    async login(email, password) {
-        let response = await axios.post('/api/admin/login', {email, password});
+    async login(email, password, rememberMeInput) {
+        let response = await axios.post('/api/admin/login', {email, password, rememberMeInput});
             return response.data.user;
     },
 
