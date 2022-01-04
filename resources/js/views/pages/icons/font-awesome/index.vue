@@ -11,7 +11,7 @@ export default {
     title: "Font awesome 5",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       icons: icons,
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -125,5 +125,5 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

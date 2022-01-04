@@ -1,8 +1,7 @@
 <script>
 import Swal from "sweetalert2";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 export default {
@@ -10,7 +9,7 @@ export default {
     title: "Session Timeout",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       title: "Session Timeout",
@@ -75,7 +74,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -114,5 +113,5 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

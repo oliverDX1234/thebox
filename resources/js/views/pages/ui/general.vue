@@ -1,6 +1,5 @@
 <script>
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -11,7 +10,7 @@ export default {
     title: "General UI",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       title: "General",
@@ -33,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-12">
@@ -252,5 +251,5 @@ export default {
       </div>
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

@@ -14,12 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//         \App\Models\User::factory(10)->create();
-         User::factory([
-             'email' => 'admin@thebox.com',
-             'password' => bcrypt("admin1234567"),
-             'roles' => 'admin',
-             'admin_settings' => '{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}',
-         ])->create();
+        //         \App\Models\User::factory(10)->create();
+        User::factory([
+            'email' => 'admin@thebox.com',
+            'password' => bcrypt("admin1234567"),
+            'roles' => 'admin',
+            'admin_settings' => '{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}',
+            'phone' => '+38971234567'
+
+        ])->create();
+
+
+        $this->call([
+
+
+            CitiesMkTableSeeder::class,
+        ]);
     }
 }

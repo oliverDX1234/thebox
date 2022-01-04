@@ -1,6 +1,5 @@
 <script>
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 /**
  * Starter page component
@@ -10,7 +9,7 @@ export default {
     title: "Starter page",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       title: "Starter page",
@@ -30,7 +29,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
-  </Layout>
+  </div>
 </template>

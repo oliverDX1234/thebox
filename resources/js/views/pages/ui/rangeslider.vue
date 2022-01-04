@@ -1,8 +1,7 @@
 <script>
 import VueSlideBar from "vue-slide-bar";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -13,7 +12,7 @@ export default {
     title: "Range Slider",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { VueSlideBar, Layout, PageHeader },
+  components: { VueSlideBar, PageHeader },
   data() {
     return {
       title: "Range Slider",
@@ -116,7 +115,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -196,5 +195,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>

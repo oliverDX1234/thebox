@@ -12,7 +12,7 @@ export default {
     title: "Pricing",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       pricingData: pricingData,
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row justify-content-center">
       <div class="col-lg-5">
@@ -90,5 +90,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>

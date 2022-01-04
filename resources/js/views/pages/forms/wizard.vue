@@ -1,8 +1,7 @@
 <script>
 import { FormWizard, TabContent } from "vue-form-wizard";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -13,7 +12,7 @@ export default {
     title: "Form Wizard",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { Layout, PageHeader, FormWizard, TabContent },
+  components: {  PageHeader, FormWizard, TabContent },
   data() {
     return {
       title: "Form Wizard",
@@ -33,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-xl-6">
@@ -267,7 +266,7 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>
 
 

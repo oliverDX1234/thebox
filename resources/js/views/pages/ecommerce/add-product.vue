@@ -4,16 +4,15 @@ import vue2Dropzone from "vue2-dropzone";
 
 import { FormWizard, TabContent } from "vue-form-wizard";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 /**
  * Add Product Component
  */
 export default {
   components: {
-    vueDropzone: vue2Dropzone,
-    Layout,
+    vueDropzone: vue2Dropzone, 
+
     PageHeader,
     FormWizard,
     TabContent,
@@ -52,7 +51,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-12">
@@ -192,5 +191,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>

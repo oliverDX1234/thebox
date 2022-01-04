@@ -1,8 +1,7 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -13,7 +12,7 @@ export default {
     title: "Form File Upload",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { vueDropzone: vue2Dropzone, Layout, PageHeader },
+  components: { vueDropzone: vue2Dropzone, PageHeader },
   data() {
     return {
       title: "Form File Upload",
@@ -39,7 +38,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -72,5 +71,5 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

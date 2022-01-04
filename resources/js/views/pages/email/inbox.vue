@@ -2,8 +2,7 @@
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 import Toolbar from "./toolbar";
 
@@ -17,7 +16,7 @@ export default {
     title: "Inbox",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader, Toolbar, ckeditor: CKEditor.component },
+  components: {  PageHeader, Toolbar, ckeditor: CKEditor.component },
   data() {
     return {
       emailData: emailData,
@@ -75,7 +74,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <!-- Right Sidebar -->
@@ -247,5 +246,5 @@ export default {
         </b-button>
       </template>
     </b-modal>
-  </Layout>
+  </div>
 </template>

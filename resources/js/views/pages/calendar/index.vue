@@ -9,8 +9,7 @@ import listPlugin from "@fullcalendar/list";
 import Swal from "sweetalert2";
 import { required } from "vuelidate/lib/validators";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 import { calendarEvents, categories } from "./data-calendar";
 
@@ -22,7 +21,7 @@ export default {
     title: "Calendar",
     meta: [{ name: "description" }],
   },
-  components: { FullCalendar, Layout, PageHeader },
+  components: { FullCalendar, PageHeader },
   data() {
     return {
       title: "Calendar",
@@ -209,7 +208,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -321,5 +320,5 @@ export default {
         </div>
       </form>
     </b-modal>
-  </Layout>
+  </div>
 </template>

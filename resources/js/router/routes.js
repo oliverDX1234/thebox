@@ -1,39 +1,67 @@
 export default [
+    //Account routes
     {
         path: "/admin/login",
-        name: "admin/login",
+        name: "admin-login",
         component: () => import("../views/pages/account/login"),
         meta: { guest: true },
     },
 
     {
         path: "/admin/forgot-password",
-        name: "Forgot-password",
+        name: "forgot-password",
         component: () => import("../views/pages/account/forgot-password"),
         meta: { guest: true },
     },
     {
         path: "/password/reset",
-        name: "Reset-password",
+        name: "reset-password",
         component: () => import("../views/pages/account/reset-password"),
         meta: { guest: true },
     },
+
+    //Dashboard
     {
         path: "/admin",
-        name: "admin/home",
+        name: "admin-dashboard",
         meta: {
             admin: true,
         },
         component: () => import("../views/pages/dashboard/index"),
     },
+
+    //Calendar
     {
         path: "/admin/calendar",
-        name: "admin/Calendar",
+        name: "admin-calendar",
         meta: {
             admin: true,
         },
         component: () => import("../views/pages/calendar/index"),
     },
+
+    //Users
+    {
+        path: "/admin/users/",
+        name: "admin-show-users",
+        meta: { admin: true },
+        component: () => import("../views/pages/users/users"),
+    },
+
+    {
+        path: "/admin/user/",
+        name: "admin-new-user",
+        meta: { admin: true },
+        component: () => import("../views/pages/users/user"),
+    },
+
+    {
+        path: "/admin/user/:id",
+        name: "admin-edit-user",
+        meta: { admin: true },
+        component: () => import("../views/pages/users/user"),
+    },
+
     {
         path: "/admin/ecommerce/products",
         name: "admin/products",
@@ -63,12 +91,6 @@ export default [
         name: "admin/Add-product",
         meta: { admin: true },
         component: () => import("../views/pages/ecommerce/add-product"),
-    },
-    {
-        path: "/admin/recoverPassword",
-        name: "admin/recoverPassword",
-        meta: { admin: true },
-        component: () => import("../views/pages/sample-auth/recoverpwd-1"),
     },
     {
         path: "/admin/pages/starter",

@@ -19,7 +19,7 @@ export default {};
             <div class="mt-5 text-center">
               <a
                 class="btn btn-primary waves-effect waves-light"
-                @click="$router.go(-1)"
+                @click="$router.push({name: 'admin-dashboard'})"
               >Back to Dashboard</a>
             </div>
           </div>

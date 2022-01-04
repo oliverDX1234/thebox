@@ -17,7 +17,7 @@ export const actions = {
 
             commit("logout");
 
-            router.push({ name: "admin/login" });
+            router.push({ name: "admin-login" });
 
         } catch (error) {
         }

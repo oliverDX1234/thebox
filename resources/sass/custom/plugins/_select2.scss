@@ -61,6 +61,20 @@
   color: $input-placeholder-color;
 }
 
+
+
+
+.mx-input{
+  height: calc(1.5em + 0.94rem + 2px);
+  padding: 0.47rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+
+
+
 .multiselect__input,
 .mx-calendar-icon,
 .mx-datepicker-btn-confirm,

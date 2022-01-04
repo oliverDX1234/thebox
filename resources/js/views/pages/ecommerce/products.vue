@@ -1,8 +1,7 @@
 <script>
 import VueSlideBar from "vue-slide-bar";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -14,8 +13,8 @@ export default {
     meta: [{ name: "description", content: appConfig.description }]
   },
   components: {
-    VueSlideBar,
-    Layout,
+    VueSlideBar, 
+
     PageHeader
   },
   data() {
@@ -33,11 +32,12 @@ export default {
       sliderPrice: 800
     };
   }
+  
 };
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-xl-3 col-lg-4">
@@ -674,5 +674,5 @@ export default {
       </div>
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

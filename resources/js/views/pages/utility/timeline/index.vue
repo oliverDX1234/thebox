@@ -12,7 +12,7 @@ export default {
     title: "Timeline",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       timelineData: timelineData,
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row justify-content-center">
       <div class="col-xl-10">
@@ -82,5 +82,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>

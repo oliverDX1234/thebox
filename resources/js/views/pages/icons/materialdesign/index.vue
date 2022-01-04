@@ -11,7 +11,7 @@ export default {
     title: "MD Icons",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       icons: icons,
@@ -69,7 +69,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
 
     <div class="row icons-demo-content">
@@ -185,5 +185,5 @@ export default {
       </div>
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

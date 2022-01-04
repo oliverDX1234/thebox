@@ -1,8 +1,7 @@
 <script>
 import draggable from "vuedraggable";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import { todoTasks, progressTasks, completedTasks } from "./data";
 
 /**
@@ -13,7 +12,7 @@ export default {
     title: "Kanban Board",
     meta: [{ name: "description" }],
   },
-  components: { draggable, Layout, PageHeader },
+  components: { draggable, PageHeader },
   data() {
     return {
       todoTasks: todoTasks,
@@ -36,7 +35,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row mb-2">
       <div class="col-lg-6">
@@ -422,5 +421,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>

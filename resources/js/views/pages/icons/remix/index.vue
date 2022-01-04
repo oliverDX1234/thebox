@@ -12,7 +12,7 @@ export default {
     title: "Remix Icons",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       icons: icons,
@@ -80,12 +80,12 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12" id="icons"></div>
       <!-- end col-->
     </div>
     <!-- end row-->
-  </Layout>
+  </div>
 </template>

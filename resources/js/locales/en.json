@@ -97,6 +97,11 @@
       "text": "Dashboard",
       "badge": "3"
     },
+    "users": {
+      "users": "Users",
+      "all": "All Users",
+      "new": "New User"
+    },
     "layouts": {
       "text": "Layouts",
       "list": {

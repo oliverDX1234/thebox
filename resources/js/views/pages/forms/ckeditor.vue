@@ -2,8 +2,7 @@
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -14,7 +13,7 @@ export default {
     title: "Form Editor",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { Layout, PageHeader, ckeditor: CKEditor.component },
+  components: {  PageHeader, ckeditor: CKEditor.component },
   data() {
     return {
       title: "CK Editor",
@@ -37,7 +36,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -51,5 +50,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>
