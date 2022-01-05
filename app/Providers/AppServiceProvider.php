@@ -25,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
     {
         if(config('app.env') === 'production') {
             \URL::forceScheme('https');
+//        TODO Review if required for different DB hosting
+            \Schema::defaultStringLength(191);
         }
+
     }
 }
