@@ -73,11 +73,10 @@ export default {
                 loader: this.loader,
             };
 
-            await this.$http.post("/api/admin/changeLayout", {
+            let response = await this.$http.post("/api/admin/changeLayout", {
                 layout: layout
-            }).then((response) => {
-                this.makeToast("success", response.data.success);
-            });
+            })
+            this.makeToast("success", response.data.success);
         },
     },
 };
