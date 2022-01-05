@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->enum("gender", ["male", "female"]);
             $table->integer("city");
             $table->date("dob");
+            $table->string("image");
             $table->timestamps();
         });
     }

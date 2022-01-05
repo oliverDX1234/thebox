@@ -2,11 +2,11 @@
   <div>
     <div
       class="image-input"
-      :style="{ 'background-image': `url(${imageData})` }"
+      :style="{ 'background-image': `url(${imageFullUrl})` }"
       @click="chooseImage"
     >
       <span
-        v-if="!imageData"
+        v-if="!imageFullUrl"
         class="placeholder"
       >
         Choose an Image
@@ -22,11 +22,12 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      imageData: null
+  computed: {
+    imageFullUrl() {
+      return this.imageData ? this.imageData : "https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg";
     }
   },
+  props: ["imageData"],
   methods: {
     chooseImage() {
       this.$refs.fileInput.click()
@@ -38,7 +39,7 @@ export default {
       if (files && files[0]) {
         const reader = new FileReader
         reader.onload = e => {
-          this.imageData = e.target.result
+          this.imageFullUrl = e.target.result
         }
         reader.readAsDataURL(files[0])
         this.$emit('input', files[0])
@@ -52,11 +53,40 @@ export default {
 .image-input {
   display: block;
   margin: auto;
-  width: 300px;
-  height: 300px;
   cursor: pointer;
   background-size: cover;
   background-position: center center;
+}
+
+@media (max-width: 991px) {
+  .image-input {
+    width: 235px;
+    height: 235px;
+  }
+}
+@media (min-width: 992px) {
+  .image-input {
+    width: 200px;
+    height: 200px;
+  }
+}
+@media (min-width: 1200px) {
+  .image-input {
+    width: 250px;
+    height: 250px;
+  }
+}
+@media (min-width: 1500px) {
+  .image-input {
+    width: 300px;
+    height: 300px;
+  }
+}
+@media (min-width: 1900px) {
+  .image-input {
+    width: 400px;
+    height: 400px;
+  }
 }
 .placeholder {
   background: #f0f0f0;
