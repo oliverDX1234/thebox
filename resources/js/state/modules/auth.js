@@ -1,4 +1,4 @@
-import AuthService from "../../services/authService";
+import AuthService from "@/services/authService";
 import router from "@/router";
 
 export const state = {
