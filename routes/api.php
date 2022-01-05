@@ -20,6 +20,7 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
     Route::group([], function () {
 
         //Users
+        Route::resource("user", UserController::class);
     });
 });
 
@@ -30,4 +31,3 @@ Route::post("password/email", [ForgotPasswordController::class, "sendResetLinkEm
 
 Route::post('admin/login', [AuthController::class, 'login']);
 
-Route::resource("user", UserController::class);
