@@ -19,17 +19,23 @@ const admin = (next) => {
     if (!isLoggedIn()) {
         next("/admin/login");
         return;
-    } else if (isLoggedIn() && !isAdmin()) {
+    }
+
+    if (isLoggedIn() && !isAdmin()) {
         next("/404");
         return;
     }
+
     next();
 };
 
 const guest = (next) => {
-    // console.log("Checking if user is a guest")
+    if(isLoggedIn() && isAdmin()) {
+        next('/admin')
+        return
+    }
+
     if (isLoggedIn()) {
-        // console.log("User is not a guest!")
         next("/");
         return;
     }

@@ -1,26 +1,19 @@
-import AuthService from "../../services/authService";
-import router from "@/router";
+import AuthService from "@/services/authService";
 
 export const state = {
     user: window.Laravel.user,
     isLoggedIn: window.Laravel.isLoggedIn,
 };
+
 export const actions = {
-    async login({ commit }, { email, password, rememberMeInput }) {
+    async login({commit}, {email, password, rememberMeInput}) {
         let user = await AuthService.login(email, password, rememberMeInput);
         commit("loginSuccess", user);
     },
 
-    async logout({ commit }) {
-        try {
-            await AuthService.logout();
-
-            commit("logout");
-
-            router.push({ name: "admin-login" });
-
-        } catch (error) {
-        }
+    async logout({commit}) {
+        await AuthService.logout();
+        commit("logout");
     },
 };
 
