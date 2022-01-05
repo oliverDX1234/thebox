@@ -2,7 +2,9 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
+use App\Models\User;
 
 class UserService
 {
@@ -13,27 +15,12 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-
-    public function show($id)
+    public function getUser($id): User
     {
-        $user = $this->userRepository->show($id);
-
-        if ($user == null) {
-            return [
-                "data" => [
-                    'status'  => 'error',
-                    'message' => 'User not found'
-                ],
-                "code" => 404
-            ];
+        try {
+            return $this->userRepository->findById($id);
+        } catch (\Exception $e) {
+            throw new ApiException("User with that id not found", 404, $e);
         }
-
-        return [
-            "data" => [
-                'status'  => 'success',
-                "data" => $user
-            ],
-            "code" => 200
-        ];
     }
 }

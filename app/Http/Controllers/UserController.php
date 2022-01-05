@@ -54,9 +54,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $response = $this->userService->show($id);
+        $user = $this->userService->getUser($id);
 
-        return response()->json($response["data"], $response["code"]);
+        return response()->api(['user' => $user], 200, "User successfully retrieved");
     }
 
     /**

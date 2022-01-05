@@ -8,8 +8,8 @@ use App\Models\User;
 class UserRepository implements UserRepositoryInterface
 {
 
-    public function show($id)
+    public function findById($id): User
     {
-        return User::find($id);
+        return User::findOrFail($id);
     }
 }

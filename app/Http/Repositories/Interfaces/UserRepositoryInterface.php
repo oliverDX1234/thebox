@@ -2,8 +2,10 @@
 
 namespace App\Http\Repositories\Interfaces;
 
+use App\Models\User;
+
 interface UserRepositoryInterface
 {
 
-    public function show($fields);
+    public function findById($fields): User;
 }

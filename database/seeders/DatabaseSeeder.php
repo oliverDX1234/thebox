@@ -21,13 +21,10 @@ class DatabaseSeeder extends Seeder
             'roles' => 'admin',
             'admin_settings' => '{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}',
             'phone' => '+38971234567'
-
         ])->create();
 
 
         $this->call([
-
-
             CitiesMkTableSeeder::class,
         ]);
     }
