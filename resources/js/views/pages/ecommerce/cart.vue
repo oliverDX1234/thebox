@@ -1,16 +1,15 @@
 <script>
 import NumberInputSpinner from "vue-number-input-spinner";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 /**
  * Cart Component
  */
 export default {
   components: {
-    NumberInputSpinner,
-    Layout,
+    NumberInputSpinner, 
+
     PageHeader
   },
   data() {
@@ -31,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-12">
@@ -216,5 +215,5 @@ export default {
       </div>
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

@@ -1,15 +1,13 @@
 <script>
 import { required, email, minLength } from "vuelidate/lib/validators";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 /**
  * Customers Component
  */
 export default {
   components: {
-    Layout,
     PageHeader
   },
   data() {
@@ -183,7 +181,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-12">
@@ -350,5 +348,5 @@ export default {
       </form>
     </b-modal>
     <!-- end modal -->
-  </Layout>
+  </div>
 </template>

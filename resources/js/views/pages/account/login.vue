@@ -25,18 +25,21 @@ export default {
         password: {required}
     },
     methods: {
-        ...mapActions({ login: 'auth/login'}),
+        ...mapActions({login: 'auth/login'}),
         ...authMethods,
         ...notificationMethods,
         async attemptLogin() {
             this.submitted = true;
             this.$v.$touch();
+
             if (!this.$v.$invalid) {
-                const {email, password, rememberMeInput} = this;
-                this.login({email, password, rememberMeInput})
-                .then(() => this.$router.push('/admin')).catch((error) =>{
-                    this.makeToast('danger', error.response.data.error);
-                })
+                try {
+                    const {email, password, rememberMeInput} = this;
+                    await this.login({email, password, rememberMeInput})
+                    await this.$router.push('/admin')
+                } catch (error) {
+                    this.makeToast('danger', error.data.error);
+                }
             }
         }
     }
@@ -141,7 +144,8 @@ export default {
                                                     </div>
 
                                                     <div class="mt-4 text-center">
-                                                        <router-link tag="a" to="/admin/forgot-password" class="text-muted">
+                                                        <router-link tag="a" to="/admin/forgot-password"
+                                                                     class="text-muted">
                                                             <i class="mdi mdi-lock mr-1"></i> Forgot your password?
                                                         </router-link>
                                                     </div>

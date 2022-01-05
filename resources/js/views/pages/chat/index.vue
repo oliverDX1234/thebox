@@ -1,8 +1,7 @@
 <script>
 import simplebar from "simplebar-vue";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 import { chatData, chatMessagesData } from "./data";
 
@@ -16,7 +15,7 @@ export default {
     title: "Chat",
     meta: [{ name: "description" }],
   },
-  components: { Layout, PageHeader, simplebar },
+  components: {  PageHeader, simplebar },
   data() {
     return {
       chatData: chatData,
@@ -115,7 +114,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="d-lg-flex mb-4">
       <div class="chat-leftsidebar">
@@ -554,5 +553,5 @@ export default {
     </div>
 
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

@@ -1,13 +1,11 @@
 <script>
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 /**
  * Shops Component
  */
 export default {
   components: {
-    Layout,
     PageHeader
   },
   data() {
@@ -86,7 +84,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-xl-3 col-sm-6" v-for="(data, index) in shopsData" :key="index">
@@ -130,5 +128,5 @@ export default {
       </div>
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

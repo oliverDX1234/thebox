@@ -55,9 +55,9 @@ export default {
     },
     methods: {
         ...authMethods,
-        attemptLogout() {
-            this.logout()
-                .then(() => this.$router.push({name: 'login'}))
+        async attemptLogout() {
+            await this.logout()
+            await this.$router.push({name: 'admin-login'})
         },
         initFullScreen() {
             document.body.classList.toggle("fullscreen-enable");

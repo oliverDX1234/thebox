@@ -19,7 +19,6 @@ export default {
     meta: [{ name: "description", content: appConfig.description }]
   },
   components: {
-    Layout,
     PageHeader,
     BarChart,
     LineChart,
@@ -47,7 +46,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-6">
@@ -195,5 +194,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>

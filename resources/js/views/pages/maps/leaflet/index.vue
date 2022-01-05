@@ -18,7 +18,6 @@ export default {
     meta: [{ name: "description", content: appConfig.description }]
   },
   components: {
-    Layout,
     PageHeader,
     Boundary,
     Icons,
@@ -45,7 +44,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader />
     <div class="row">
       <div class="col-lg-6">
@@ -93,5 +92,5 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>

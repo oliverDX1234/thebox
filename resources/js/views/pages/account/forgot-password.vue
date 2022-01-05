@@ -1,51 +1,33 @@
 <script>
-import { authMethods } from "@/state/helpers";
-import { required, email } from "vuelidate/lib/validators";
+import {authMethods} from "@/state/helpers";
+import {email, required} from "vuelidate/lib/validators";
+import AuthService from "../../../services/authService";
 
 export default {
     data() {
         return {
             email: "",
             submitted: false,
-            error: null,
-            tryingToReset: false,
-            isResetError: false,
         };
     },
     validations: {
-        email: { required, email },
+        email: {required, email},
     },
     created() {
         document.body.classList.add("auth-body-bg");
     },
     methods: {
         ...authMethods,
-        // Try to register the user in with the email, fullname
-        // and password they provided.
         async tryToReset() {
             this.submitted = true;
-            // stop here if form is invalid
             this.$v.$touch();
 
-            if (this.$v.$invalid) {
-                return;
-            } else {
-                this.tryingToReset = true;
-                // Reset the authError if it existed.
-                this.error = null;
+            if (!this.$v.$invalid) {
                 try {
-                    let response = await this.$http.post(
-                        "/api/password/email",
-                        {
-                            email: this.email,
-                        }
-                    );
-
-                    this.tryingToReset = false;
+                    let response = await AuthService.forgotPassword(this.email);
                     this.makeToast("success", response.data.success);
-                    this.isResetError = false;
                 } catch (error) {
-                    this.makeToast("danger", error.response.data.error);
+                    this.makeToast("danger", error.data.error);
                 }
             }
         },
@@ -96,14 +78,6 @@ export default {
                                             </div>
 
                                             <div class="p-2 mt-5">
-                                                <b-alert
-                                                    v-model="isResetError"
-                                                    class="mb-4"
-                                                    variant="danger"
-                                                    dismissible
-                                                    >{{ error }}</b-alert
-                                                >
-
                                                 <form
                                                     class="form-horizontal"
                                                     @submit.prevent="tryToReset"
@@ -115,7 +89,7 @@ export default {
                                                             class="ri-mail-line auti-custom-input-icon"
                                                         ></i>
                                                         <label for="useremail"
-                                                            >Email</label
+                                                        >Email</label
                                                         >
                                                         <input
                                                             v-model="email"
@@ -126,8 +100,7 @@ export default {
                                                             :class="{
                                                                 'is-invalid':
                                                                     submitted &&
-                                                                    $v.email
-                                                                        .$error,
+                                                                    $v.email.$error,
                                                             }"
                                                         />
                                                         <div
@@ -142,7 +115,7 @@ export default {
                                                                     !$v.email
                                                                         .required
                                                                 "
-                                                                >Email is
+                                                            >Email is
                                                                 required.</span
                                                             >
                                                             <span
@@ -150,7 +123,7 @@ export default {
                                                                     !$v.email
                                                                         .email
                                                                 "
-                                                                >Please enter
+                                                            >Please enter
                                                                 valid
                                                                 email.</span
                                                             >
@@ -177,7 +150,8 @@ export default {
                                                         tag="a"
                                                         to="/admin/login"
                                                         class="font-weight-medium text-primary"
-                                                        >Log in</router-link
+                                                    >Log in
+                                                    </router-link
                                                     >
                                                 </p>
                                             </div>

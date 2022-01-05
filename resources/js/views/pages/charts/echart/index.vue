@@ -35,7 +35,7 @@ export default {
     title: "Echart Chart",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { Layout, PageHeader, "v-chart": ECharts },
+  components: {  PageHeader, "v-chart": ECharts },
   data() {
     return {
       polarChart: polarChart,
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-6">
@@ -138,7 +138,7 @@ export default {
         </div>
       </div>
     </div>
-  </Layout>
+  </div>
 </template>
 
 <style lang="scss" scoped>

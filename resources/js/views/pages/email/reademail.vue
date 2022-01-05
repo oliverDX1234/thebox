@@ -2,8 +2,7 @@
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 import Toolbar from "./toolbar";
 
@@ -16,7 +15,6 @@ export default {
     meta: [{ name: "description" }]
   },
   components: {
-    Layout,
     PageHeader,
     Toolbar,
     ckeditor: CKEditor.component
@@ -43,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
 
     <div class="row">
@@ -237,5 +235,5 @@ export default {
         </b-button>
       </template>
     </b-modal>
-  </Layout>
+  </div>
 </template>

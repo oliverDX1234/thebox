@@ -1,8 +1,7 @@
 <script>
 import StarRating from "vue-star-rating";
 
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -13,7 +12,7 @@ export default {
     title: "Rating",
     meta: [{ name: "description", content: appConfig.description }]
   },
-  components: { StarRating, Layout, PageHeader },
+  components: { StarRating, PageHeader },
   data() {
     return {
       title: "Rating",
@@ -40,7 +39,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -124,5 +123,5 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

@@ -1,6 +1,5 @@
 <script>
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/page-header";
 
 /**
  * Dripicons component
@@ -10,7 +9,7 @@ export default {
     title: "Dripicons",
     meta: [{ name: "description" }]
   },
-  components: { Layout, PageHeader },
+  components: {  PageHeader },
   data() {
     return {
       title: "Dripicons",
@@ -30,7 +29,7 @@ export default {
 </script>
 
 <template>
-  <Layout>
+  <div> 
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -653,5 +652,5 @@ export default {
       <!-- end col -->
     </div>
     <!-- end row -->
-  </Layout>
+  </div>
 </template>

@@ -4,14 +4,23 @@ use App\Http\Controllers\admin\AdminSettingsController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::group(["middleware" => 'auth:sanctum'], function () {
 
     Route::group(['middleware' => ['is-admin'], "prefix" => "admin"], function () {
+
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('me', [AuthController::class, 'me']);
         Route::post('changeLayout', [AdminSettingsController::class, 'changeLayout']);
+    });
+
+    Route::group([], function () {
+
+        //Users
+        Route::resource("user", UserController::class);
     });
 });
 
