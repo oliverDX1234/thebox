@@ -9,15 +9,15 @@
     @if (Auth::check())
         <script>
             window.Laravel = {!! json_encode([
-    'isLoggedIn' => true,
-    'user' => Auth::user(),
-]) !!}
+                'isLoggedIn' => true,
+                'user' => Auth::user(),
+            ]) !!}
         </script>
     @else
         <script>
             window.Laravel = {!! json_encode([
-    'isLoggedIn' => false,
-]) !!}
+                'isLoggedIn' => false,
+            ]) !!}
         </script>
     @endif
 

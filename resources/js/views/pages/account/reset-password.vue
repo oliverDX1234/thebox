@@ -1,17 +1,7 @@
 <script>
-import { authMethods } from "@/state/helpers";
-import {
-    required,
-    email,
-    minLength,
-    sameAs,
-    maxLength,
-    minValue,
-    maxValue,
-    numeric,
-    url,
-    alphaNum,
-} from "vuelidate/lib/validators";
+import {authMethods} from "@/state/helpers";
+import {email, minLength, required, sameAs,} from "vuelidate/lib/validators";
+import AuthService from "../../../services/authService";
 
 export default {
     data() {
@@ -20,54 +10,36 @@ export default {
             password: "",
             confirmPassword: "",
             submitted: false,
-            error: null,
-            tryingToReset: false,
-            isResetError: false,
         };
     },
     validations: {
-        email: { required, email },
-        password: { required, minLength: minLength(7) },
-        confirmPassword: { required, sameAsPassword: sameAs("password") },
+        email: {required, email},
+        password: {required, minLength: minLength(7)},
+        confirmPassword: {required, sameAsPassword: sameAs("password")},
     },
     created() {
         document.body.classList.add("auth-body-bg");
     },
     methods: {
         ...authMethods,
-        // Try to register the user in with the email, fullname
-        // and password they provided.
         async tryToReset() {
             this.submitted = true;
-            // stop here if form is invalid
             this.$v.$touch();
 
-            if (this.$v.$invalid) {
-                return;
-            } else {
-                this.tryingToReset = true;
-                // Reset the authError if it existed.
-                this.error = null;
+            if (!this.$v.$invalid) {
                 try {
-                    let response = await this.$http.post(
-                        "/api/password/reset",
-                        {
-                            email: this.email,
-                            password: this.password,
-                            confirm_password: this.confirmPassword,
-                            token: this.$route.query.token,
-                        }
+                    let response = await AuthService.resetPassword(
+                        this.email,
+                        this.password,
+                        this.confirmPassword,
+                        this.$route.query.token
                     );
 
-                    this.tryingToReset = false;
                     this.makeToast("success", response.data.success);
-                    this.isResetError = false;
-
-                    setTimeout(() => {
-                        this.$router.push({ name: "admin/login" });
-                    }, 3500);
                 } catch (error) {
-                    this.makeToast("danger", error.response.data.error);
+                    //TODO revisit to implement error handling/ unified response from
+                    Object.keys(error.data.errors)
+                        .forEach(errorKey => this.makeToast("danger", error.data.errors[errorKey][0]));
                 }
             }
         },
@@ -152,7 +124,7 @@ export default {
                                                                             .email
                                                                             .required
                                                                     "
-                                                                    >This value
+                                                                >This value
                                                                     is
                                                                     required.</span
                                                                 >
@@ -162,7 +134,7 @@ export default {
                                                                             .email
                                                                             .email
                                                                     "
-                                                                    >This value
+                                                                >This value
                                                                     should be a
                                                                     valid
                                                                     email.</span
@@ -172,7 +144,7 @@ export default {
                                                     </div>
                                                     <div class="form-group">
                                                         <label
-                                                            >New Password</label
+                                                        >New Password</label
                                                         >
                                                         <div>
                                                             <input
@@ -206,7 +178,7 @@ export default {
                                                                             .password
                                                                             .required
                                                                     "
-                                                                    >This value
+                                                                >This value
                                                                     is
                                                                     required.</span
                                                                 >
@@ -216,7 +188,7 @@ export default {
                                                                             .password
                                                                             .minLength
                                                                     "
-                                                                    >Password
+                                                                >Password
                                                                     must be at
                                                                     least 7
                                                                     characters.</span
@@ -227,7 +199,7 @@ export default {
 
                                                     <div class="form-group">
                                                         <label
-                                                            >Confirm
+                                                        >Confirm
                                                             Password</label
                                                         >
                                                         <input
@@ -261,7 +233,7 @@ export default {
                                                                         .confirmPassword
                                                                         .required
                                                                 "
-                                                                >This value is
+                                                            >This value is
                                                                 required.</span
                                                             >
                                                             <span
@@ -270,7 +242,7 @@ export default {
                                                                         .confirmPassword
                                                                         .sameAsPassword
                                                                 "
-                                                                >This value
+                                                            >This value
                                                                 should be the
                                                                 same.</span
                                                             >
@@ -297,7 +269,8 @@ export default {
                                                         tag="a"
                                                         to="/admin/login"
                                                         class="font-weight-medium text-primary"
-                                                        >Log in</router-link
+                                                    >Log in
+                                                    </router-link
                                                     >
                                                 </p>
                                             </div>

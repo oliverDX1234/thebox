@@ -1,18 +1,18 @@
 <script>
 import simplebar from "simplebar-vue";
-import i18n from "../i18n";
-import { authMethods } from "../state/helpers";
-import { mapGetters } from "vuex";
+import {authMethods} from "../state/helpers";
+import {mapGetters} from "vuex";
 
 export default {
     computed: {
-        ...mapGetters({ user: "auth/user" }),
+        ...mapGetters({user: "auth/user"}),
     },
-    components: { simplebar },
+    components: {simplebar},
     methods: {
         ...authMethods,
         async attemptLogout() {
             await this.logout();
+            await this.$router.push({name: 'admin-login'})
         },
         toggleMenu() {
             this.$parent.toggleMenu();
@@ -183,8 +183,8 @@ export default {
                             </div>
                             <div class="col-auto">
                                 <a href="#!" class="small">{{
-                                    $t("navbar.dropdown.notification.subtext")
-                                }}</a>
+                                        $t("navbar.dropdown.notification.subtext")
+                                    }}</a>
                             </div>
                         </div>
                     </div>
@@ -366,8 +366,8 @@ export default {
                             alt="Header Avatar"
                         />
                         <span class="d-none d-xl-inline-block ml-1">{{
-                            user.first_name
-                        }}</span>
+                                user.first_name
+                            }}</span>
                         <i
                             class="mdi mdi-chevron-down d-none d-xl-inline-block"
                         ></i>
@@ -379,7 +379,7 @@ export default {
                     </a>
                     <a class="dropdown-item d-block" href="#">
                         <span class="badge badge-success float-right mt-1"
-                            >11</span
+                        >11</span
                         >
                         <i class="ri-settings-2-line align-middle mr-1"></i>
                         {{ $t("navbar.dropdown.kevin.list.settings") }}
