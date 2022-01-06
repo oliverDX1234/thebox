@@ -18,10 +18,10 @@ class AdminSettingsController extends Controller
 
             $user->save();
         } catch (Exception $e) {
-            throw new ApiException("layout_change_failed", 500, null, $e);
+            throw new ApiException("global.layout_change_failed", 500, null, $e);
         }
 
-        return response()->api(null, "layout_change_success");
+        return response()->api(null, "global.layout_changed_success");
     }
 
     public function changeNewSetting($settings, $name, $settingToChange){

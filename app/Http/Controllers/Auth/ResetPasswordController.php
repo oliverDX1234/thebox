@@ -27,11 +27,11 @@ class ResetPasswordController extends Controller
         $user = User::where("email", $request->email)->first();
 
         if (!$user) {
-            return response()->api(null, "user_email_not_found", 400);
+            return response()->api( "user.not_found", 400);
         }
 
         if (Hash::check($request->password, $user->password)) {
-            return response()->api(null, "password_must_be_different", 400);
+            return response()->api( "auth.password_must_be_different", 400);
         }
 
 
@@ -73,7 +73,7 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse()
     {
-        return response()->api(null, "password_reset_success", 200);
+        return response()->api(null, "auth.password_reset_success", 200);
     }
 
     /**
@@ -83,6 +83,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetFailedResponse()
     {
-        return response()->api(null, "password_reset_failed", 422);
+        return response()->api(null, "auth.password_reset_failed", 422);
     }
 }

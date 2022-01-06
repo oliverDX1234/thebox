@@ -20,7 +20,7 @@ class UserService
         try {
             return $this->userRepository->findById($id);
         } catch (\Exception $e) {
-            throw new ApiException("user_not_found", 404, null, $e);
+            throw new ApiException("user.not_found", 404, null, $e);
         }
     }
 }

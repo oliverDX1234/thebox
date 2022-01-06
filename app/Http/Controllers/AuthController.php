@@ -13,15 +13,15 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if (!auth()->attempt($credentials, $request->get('rememberMeInput'))) {
-            throw new ApiException("credentials_not_valid", 401);
+            throw new ApiException("auth.credentials_not_valid", 401);
         }
 
-        return response()->api(['user' => auth()->user()], "login_successful");
+        return response()->api(['user' => auth()->user()], "auth.successful");
     }
 
     public function me(): Response
     {
-        return response()->api(['user' => auth()->user()], "authenticated_user_retrieved");
+        return response()->api(['user' => auth()->user()], "user.retrieved");
     }
 
     public function logout(): Response
@@ -31,9 +31,9 @@ class AuthController extends Controller
             request()->session()->invalidate();
             auth()->guard("web")->logout();
         } catch (\Exception $e) {
-            throw new ApiException("user_logout_failure", 500, null, $e);
+            throw new ApiException("auth.logout_failure", 500, null, $e);
         }
 
-        return response()->api(null, "user_logout_success");
+        return response()->api(null, "auth.logout_success");
     }
 }
