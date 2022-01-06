@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-12">
                                 <div class="mt-2">
-                                    <FileUpload :imageData="user.image"/>
+                                    <FileUpload @image-uploaded="imageUploaded" v-if="user.image" :imageData="user.image"/>
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-12 mt-lg-0 mt-5">
@@ -117,8 +117,11 @@
                                                     v-model="user.city"
                                                     :class="{ 'is-invalid': submitted && $v.user.city.$error }"
                                                     :options="cities"
+                                                    label="city_name_en"
+                                                    track-by="id"
                                                     class="text-capitalize"
-                                                ></multiselect>
+                                                >
+                                                </multiselect>
                                                 <div
                                                     v-if="submitted && $v.user.city.$error"
                                                     class="invalid-feedback"
@@ -201,8 +204,10 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Change password <em class="font-weight-normal">( you can leave
+                                                <label v-if="$route.params.id">Change password <em
+                                                    class="font-weight-normal">( you can leave
                                                     fields blank )</em></label>
+                                                <label v-else>Password <span class="required">*</span> </label>
                                                 <div>
                                                     <input
                                                         v-model="user.password"
@@ -216,6 +221,9 @@
                                                         v-if="submitted && $v.user.password.$error"
                                                         class="invalid-feedback"
                                                     >
+                                                        <span
+                                                            v-if="!$v.user.password.required">This value is required.</span>
+
                                                         <span v-if="!$v.user.password.minLength">Password must be at least 6 characters.</span>
                                                     </div>
                                                 </div>
@@ -232,6 +240,8 @@
                                                         v-if="submitted && $v.user.confirmPassword.$error"
                                                         class="invalid-feedback"
                                                     >
+                                                        <span v-if="!$v.user.confirmPassword.required">This value is required.</span>
+
                                                         <span v-if="!$v.user.confirmPassword.sameAsPassword">This value should be the same.</span>
                                                     </div>
                                                 </div>
@@ -274,6 +284,7 @@ export default {
     },
     components: {PageHeader, FileUpload, DatePicker, Multiselect},
     data() {
+
         return {
             title: "New User",
             items: [
@@ -287,15 +298,14 @@ export default {
                 }
             ],
             genderOptions: ["Male", "Female"],
-            cities: null,
-
+            cities: [],
+            imageInput: null,
             user: {
                 first_name: null,
                 last_name: null,
                 email: null,
                 city: null,
                 phone: null,
-                role: null,
                 address: null,
                 gender: null,
                 dob: null,
@@ -314,29 +324,54 @@ export default {
             phone: {required},
             email: {required, email},
             address: {required},
-            role: {required},
             gender: {required},
             dob: {required},
-            password: {minLength: minLength(7)},
-            confirmPassword: {sameAsPassword: sameAs("password")},
+            password: {
+                required: function () {
+                    if (this.$route.params.id) {
+                        return true;
+                    } else {
+                        return (this.user.password !== null);
+                    }
+                },
+                minLength: minLength(7)
+            },
+            confirmPassword: {
+                required: function () {
+                    if (this.$route.params.id) {
+                        return true;
+                    } else {
+                        return (this.user.password !== null);
+                    }
+                }, sameAsPassword: sameAs("password")
+            },
         },
     },
     methods: {
-        formSubmit(e) {
+        async formSubmit() {
             this.submitted = true;
             // stop here if form is invalid
             this.$v.$touch();
+            this.user.city = this.user.city.id;
+            let formData = new FormData();
+            Object.keys(this.user).forEach(key => formData.append(key, this.user[key]));
+            formData.append("imageInput", this.imageInput);
+            if (!this.$v.$invalid) {
+                try {
 
-            console.log(this.user);
+                    await this.$http.post("/api/user", formData);
+                } catch (error) {
+                    this.makeToast('danger', error.data.message);
+                }
+            }
         },
-
         async loadUser() {
 
             let id = this.$route.params.id;
 
             try {
                 let response = await this.$http.get(`/api/user/${id}`);
-                this.user = response.data.data;
+                this.user = response.data.payload.user;
             } catch (e) {
             }
 
@@ -345,10 +380,12 @@ export default {
 
             try {
                 let response = await this.$http.get('/api/cities');
-                this.cities = response.data.data;
+                this.cities = response.data.payload.cities;
             } catch (e) {
             }
-
+        },
+        imageUploaded(file) {
+            this.imageInput = file;
         }
 
     },

@@ -49,6 +49,11 @@ class User extends Authenticatable implements CanResetPassword
         return json_decode($this->attributes['admin_settings'], true);
     }
 
+    protected function getCityAttribute()
+    {
+        return City::find($this->attributes['city']);
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));

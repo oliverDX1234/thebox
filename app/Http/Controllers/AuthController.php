@@ -2,33 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request): Response
     {
         $credentials = $request->only(['email', 'password']);
 
         if (!auth()->attempt($credentials, $request->get('rememberMeInput'))) {
-            return response()->json(['error' => 'Invalid email or password entered.'], 401);
+            throw new ApiException("auth.credentials_not_valid", 401);
         }
 
-        return response()->json(['message' => 'Sucessfully logged in', 'user' => auth()->user()]);
+        return response()->api(['user' => auth()->user()], "auth.successful");
     }
 
-    public function me()
+    public function me(): Response
     {
-        return auth()->user();
+        return response()->api(['user' => auth()->user()], "user.retrieved");
     }
 
-    public function logout()
+    public function logout(): Response
     {
-        request()->session()->flush();
-        request()->session()->invalidate();
-        auth()->guard("web")->logout();
+        try {
+            request()->session()->flush();
+            request()->session()->invalidate();
+            auth()->guard("web")->logout();
+        } catch (\Exception $e) {
+            throw new ApiException("auth.logout_failure", 500, null, $e);
+        }
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->api(null, "auth.logout_success");
     }
 }

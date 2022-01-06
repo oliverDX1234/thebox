@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\FillRepository;
+use App\Http\Repositories\Interfaces\FillRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\UserRepository;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(FillRepositoryInterface::class, FillRepository::class);
+
 
     }
 
@@ -24,8 +29,14 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(ResponseFactory $responseFactory)
     {
-        //
+        $responseFactory->macro('api', function ($data = null, $message = "", $statusCode = 200) use ($responseFactory) {
+            $customFormat = [
+                'message' => $message,
+                'payload' => $data,
+            ];
+            return $responseFactory->make($customFormat, $statusCode);
+        });
     }
 }

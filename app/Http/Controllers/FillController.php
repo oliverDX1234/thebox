@@ -6,15 +6,18 @@ use App\Http\Services\FillService;
 
 class FillController extends Controller
 {
-    protected $fileService;
+    protected $fillservice;
 
-    public function __construct(FillService $fileService)
+    public function __construct(FillService $fillservice)
     {
-        $this->fileService = $fileService;
+        $this->fillservice = $fillservice;
     }
 
     public function getCities()
     {
+        $cities = $this->fillservice->getCities();
+
+        return response()->api(['cities' => $cities], "success", 200);
 
     }
 }

@@ -15,7 +15,9 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+//            TODO implement 403 page OR handle unwanted access differently
+//            FIX /403 returns dashboard curently
+            return "/403";
         }
     }
 }
