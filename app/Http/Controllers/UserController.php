@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         $user = $this->userService->getUser($id);
 
-        return response()->api(['user' => $user], 200, "User successfully retrieved");
+        return response()->api(['user' => $user], "user_retrieved", 200);
     }
 
     /**

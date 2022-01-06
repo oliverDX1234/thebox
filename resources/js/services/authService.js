@@ -4,7 +4,7 @@ const AuthService = {
 
     async login(email, password, rememberMeInput) {
         let response = await axios.post('/api/admin/login', {email, password, rememberMeInput});
-        return response.data.user;
+        return response.data.payload.user;
     },
 
     async forgotPassword(email) {

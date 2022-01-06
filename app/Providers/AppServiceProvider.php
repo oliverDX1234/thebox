@@ -28,11 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ResponseFactory $responseFactory)
     {
-        $responseFactory->macro('api', function($data = null, $statusCode = 200, $message = "", $errors = null) use ($responseFactory) {
+        $responseFactory->macro('api', function ($data = null, $message = "", $statusCode = 200) use ($responseFactory) {
             $customFormat = [
                 'message' => $message,
                 'payload' => $data,
-                'errors' => $errors
             ];
             return $responseFactory->make($customFormat, $statusCode);
         });

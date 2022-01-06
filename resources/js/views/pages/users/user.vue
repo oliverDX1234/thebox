@@ -336,7 +336,7 @@ export default {
 
       try {
         let response = await this.$http.get(`/api/user/${id}`);
-        this.user = response.data.data;
+        this.user = response.data.payload.user;
       } catch (e) {
       }
 
