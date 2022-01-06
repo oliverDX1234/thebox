@@ -41,9 +41,10 @@ class UserService
         $user->address = $request->address;
         $user->gender = $request->gender;
         $user->dob = $request->dob;
-
-        $this->imageService->storeImage($request->file("image"));
-        dd($user);
+        $v = $user->addMediaFromRequest("imageInput")
+            ->toMediaCollection();
+//        $this->imageService->storeImage($request->file("image"));
+        dd($v);
 
     }
 }

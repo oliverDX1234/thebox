@@ -387,7 +387,6 @@ export default {
                     <div class="dropdown-divider"></div>
                     <a
                         class="dropdown-item text-danger"
-                        href="#"
                         @click="attemptLogout"
                     >
                         <i
