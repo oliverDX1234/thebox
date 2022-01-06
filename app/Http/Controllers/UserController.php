@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\UserService;
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -48,15 +48,12 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        $response = $this->userService->show($id);
+        $user = $this->userService->getUser($id);
 
-        return response()->json($response["data"], $response["code"]);
+        return response()->api(['user' => $user], "user.retrieved", 200);
     }
 
     /**

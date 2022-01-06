@@ -35,13 +35,12 @@ export default {
                         this.$route.query.token
                     );
 
-                    this.makeToast("success", response.data.success);
+                    this.makeToast("success", response.data.message);
                 } catch (error) {
-                    //TODO revisit to implement error handling/ unified response from
-                    Object.keys(error.data.errors)
-                        .forEach(errorKey => this.makeToast("danger", error.data.errors[errorKey][0]));
+                    this.makeToast("danger", error.data.message)
                 }
             }
+
         },
     },
 };

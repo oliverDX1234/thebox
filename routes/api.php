@@ -30,3 +30,4 @@ Route::post("password/reset", [ResetPasswordController::class, "reset"]);
 Route::post("password/email", [ForgotPasswordController::class, "sendResetLinkEmail"])->name("password.email");
 
 Route::post('admin/login', [AuthController::class, 'login']);
+
