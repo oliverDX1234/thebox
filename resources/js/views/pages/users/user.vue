@@ -10,12 +10,12 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-4 col-md-12">
                 <div class="mt-2">
-                  <FileUpload />
+                  <FileUpload :imageData="user.image"/>
                 </div>
               </div>
-              <div class="col-lg-9">
+              <div class="col-lg-8 col-md-12">
                 <form
                   class="needs-validation"
                   @submit.prevent="formSubmit"
@@ -290,17 +290,18 @@ export default {
         }
       ],
       user: {
-        first_name: "",
-        last_name: "",
-        email: "",
-        city: "",
-        phone: "",
-        role: "",
-        address: "",
-        gender: "",
-        dob: "",
-        password: "",
-        confirmPassword: "",
+        first_name: null,
+        last_name: null,
+        email: null,
+        city: null,
+        phone: null,
+        role: null,
+        address: null,
+        gender: null,
+        dob: null,
+        password: null,
+        confirmPassword: null,
+        image: null
       },
       submitted: false,
     };
@@ -325,6 +326,8 @@ export default {
       this.submitted = true;
       // stop here if form is invalid
       this.$v.$touch();
+
+      console.log(this.user);
     },
 
     async loadUser() {
