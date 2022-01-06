@@ -338,6 +338,7 @@ export default {
         let response = await this.$http.get(`/api/user/${id}`);
         this.user = response.data.payload.user;
       } catch (e) {
+          this.makeToast("danger", error.data.message)
       }
 
     }
