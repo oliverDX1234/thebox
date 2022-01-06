@@ -15,7 +15,7 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function getUser($id): User
+    public function getUser(int $id): User
     {
         try {
             return $this->userRepository->findById($id);
