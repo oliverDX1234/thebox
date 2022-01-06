@@ -44,7 +44,7 @@ class ResetPasswordController extends Controller
 
         return $response == Password::PASSWORD_RESET
             ? $this->sendResetResponse()
-            : $this->sendResetFailedResponse();
+            : $this->sendResetFailedResponse($response);
     }
 
     /**
@@ -81,8 +81,8 @@ class ResetPasswordController extends Controller
      *
      * @return JsonResponse
      */
-    protected function sendResetFailedResponse()
+    protected function sendResetFailedResponse($response)
     {
-        return response()->api(null, "password_reset_failed", 422);
+        return response()->api(null, str_replace('.', '_', $response), 422);
     }
 }
