@@ -7,5 +7,5 @@ use App\Models\User;
 interface UserRepositoryInterface
 {
 
-    public function findById($fields): User;
+    public function findById(int $id): User;
 }

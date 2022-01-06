@@ -19,10 +19,9 @@ class ForgotPasswordController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'max:255'],
         ]);
-
 //        TODO review if we want more specific messages (handling laravel validations)
         if ($validator->fails()) {
-            return response()->api( "auth.account_reset_failed", 422);
+            return response()->api(null, "account_reset_failed", 422);
         }
 
         $response = $this->broker()->sendResetLink(
@@ -31,16 +30,16 @@ class ForgotPasswordController extends Controller
 
         return $response == Password::RESET_LINK_SENT
             ? $this->sendResetLinkResponse()
-            : $this->sendResetLinkFailedResponse();
+            : $this->sendResetLinkFailedResponse($response);
     }
 
     protected function sendResetLinkResponse()
     {
-        return response()->api( "auth.account_reset_email_sent", 200);
+        return response()->api(null, "account_reset_email_sent", 200);
     }
 
-    protected function sendResetLinkFailedResponse()
+    protected function sendResetLinkFailedResponse($response)
     {
-        return response()->api(null, "auth.account_reset_failed", 422);
+        return response()->api(null, str_replace('.', '_', $response), 422);
     }
 }
