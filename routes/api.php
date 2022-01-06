@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminSettingsController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FillController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,8 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
 
         //Users
         Route::resource("user", UserController::class);
+        Route::get("/cities", [FillController::class, 'getCities']);
+
     });
 });
 

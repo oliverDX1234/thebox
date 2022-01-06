@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'password' => bcrypt('password'),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->streetAddress(),
-            'gender' => $this->faker->randomElement(["male", "female"]),
+            'gender' => $this->faker->randomElement(["Male", "Female"]),
             'city' => $this->faker->numberBetween($min = 1, $max = 36),
             "dob" => $this->faker->date()
         ];
