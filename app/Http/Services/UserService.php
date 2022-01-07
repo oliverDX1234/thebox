@@ -13,7 +13,7 @@ class UserService
 
     public function __construct(
         UserRepositoryInterface $userRepository,
-        ImageService  $imageService
+        ImageService            $imageService
     )
     {
         $this->userRepository = $userRepository;
@@ -41,10 +41,17 @@ class UserService
         $user->address = $request->address;
         $user->gender = $request->gender;
         $user->dob = $request->dob;
-        $v = $user->addMediaFromRequest("imageInput")
-            ->toMediaCollection();
-//        $this->imageService->storeImage($request->file("image"));
-        dd($v);
+        $user->password = $request->password ? $request->password : $user->password;
+
+        $user->save();
+
+        if($request->file('imageInput')){
+            $user->addMediaFromRequest("imageInput")
+                ->toMediaCollection();
+            $user->image = $user->getFirstMedia()->getUrl();
+            $user->save();
+        }
+
 
     }
 }
