@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,36 +20,25 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  UserStoreRequest  $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request): Response
     {
         $this->userService->saveUser($request);
 
         return response()->api(null , "user.saved", 200);
-
-
     }
 
     /**
@@ -61,33 +52,25 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UserUpdateRequest $request
+     * @param int $id
+     * @return Response
+     * @throws \App\Exceptions\ApiException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request): Response
     {
-        //
+        $this->userService->updateUser($request);
+
+        return response()->api(null , "user.updated", 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

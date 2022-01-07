@@ -77,6 +77,7 @@
                                                     :class="{ 'is-invalid': submitted && $v.user.email.$error }"
                                                     class="form-control"
                                                     placeholder="Email"
+                                                    :disabled="$route.params.id"
                                                     type="text"
                                                 />
                                                 <div
@@ -350,18 +351,26 @@ export default {
     methods: {
         async formSubmit() {
             this.submitted = true;
+            let id = this.$route.params.id;
             // stop here if form is invalid
             this.$v.$touch();
+            let fullCity = this.user.city;
             this.user.city = this.user.city.id;
             let formData = new FormData();
             Object.keys(this.user).forEach(key => formData.append(key, this.user[key]));
             formData.append("imageInput", this.imageInput);
+            this.user.city = fullCity;
+
             if (!this.$v.$invalid) {
                 try {
+                    if(id){
+                        formData.append( '_method', "patch" );
+                        await this.$http.post(`/api/user/${id}`, formData);
+                    }else{
+                        await this.$http.post("/api/user", formData);
+                    }
 
-                    await this.$http.post("/api/user", formData);
                 } catch (error) {
-                    this.makeToast('danger', error.data.message);
                 }
             }
         },

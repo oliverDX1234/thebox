@@ -46,6 +46,11 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
         'email_verified_at' => 'datetime',
     ];
 
+    public function registerMediaCollections() : void
+    {
+        $this->addMediaCollection("avatar")->singleFile();
+    }
+
     protected function getAdminSettingsAttribute()
     {
         return json_decode($this->attributes['admin_settings'], true);

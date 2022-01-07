@@ -21,7 +21,7 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
     Route::group([], function () {
 
         //Users
-        Route::resource("user", UserController::class);
+        Route::apiResource("user", UserController::class);
         Route::get("/cities", [FillController::class, 'getCities']);
 
     });
