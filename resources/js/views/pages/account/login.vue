@@ -38,7 +38,6 @@ export default {
                     await this.login({email, password, rememberMeInput})
                     await this.$router.push('/admin')
                 } catch (error) {
-                    this.makeToast('danger', error.data.message);
                 }
             }
         }

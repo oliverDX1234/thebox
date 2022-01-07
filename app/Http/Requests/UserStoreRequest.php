@@ -32,7 +32,7 @@ class UserStoreRequest extends FormRequest
             "city" => "required",
             "dob" => "required",
             "gender" => "required",
-            "password" => "required|confirmed|min:7",
+            "password" => "required|same:confirmPassword|min:7",
         ];
     }
 }

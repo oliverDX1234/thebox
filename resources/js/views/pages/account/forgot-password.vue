@@ -25,9 +25,7 @@ export default {
             if (!this.$v.$invalid) {
                 try {
                     let response = await AuthService.forgotPassword(this.email);
-                    this.makeToast("success", response.data.message);
                 } catch (error) {
-                    this.makeToast("danger", error.data.message);
                 }
             }
         },

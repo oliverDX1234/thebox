@@ -12,7 +12,8 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-12">
                                 <div class="mt-2">
-                                    <FileUpload @image-uploaded="imageUploaded" v-if="user.image" :imageData="user.image"/>
+                                    <FileUpload @image-uploaded="imageUploaded" v-if="user.image"
+                                                :imageData="user.image"/>
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-12 mt-lg-0 mt-5">
@@ -182,6 +183,7 @@
                                                     :first-day-of-week="1"
                                                     confirm
                                                     format='YYYY-MM-DD'
+                                                    placeholder="Select Date"
                                                     value-type="format"
                                                 ></date-picker>
 
@@ -273,7 +275,7 @@
 <script>
 import {email, minLength, required, sameAs} from "vuelidate/lib/validators";
 
-import PageHeader from "@/components/page-header";
+import PageHeader from '@/components/page-header';
 import FileUpload from '@/components/file-upload.vue'
 import DatePicker from "vue2-datepicker";
 import Multiselect from "vue-multiselect";
@@ -360,18 +362,19 @@ export default {
             Object.keys(this.user).forEach(key => formData.append(key, this.user[key]));
             formData.append("imageInput", this.imageInput);
             this.user.city = fullCity;
-
             if (!this.$v.$invalid) {
                 try {
-                    if(id){
-                        formData.append( '_method', "patch" );
-
-                       let response = await this.$http.post(`/api/user/${id}`, formData, {
+                    if (id) {
+                        formData.append('_method', "patch");
+                        await this.$http.post(`/api/user/${id}`, formData, {
                             showToast: true
                         });
 
-                    }else{
-                        await this.$http.post("/api/user", formData);
+                    } else {
+                        await this.$http.post("/api/user", formData, {
+                            showToast: true
+                        });
+                        await this.$router.push("/admin/users");
                     }
 
                 } catch (error) {
@@ -409,8 +412,8 @@ export default {
             this.title = "Edit User";
             this.items[1].text = "Edit User";
             this.loadUser();
-        }else{
-            this.user.image = "https://t4.ftcdn.net/jpg/02/07/87/79/360_F_207877921_BtG6ZKAVvtLyc5GWpBNEIlIxsffTtWkv.jpg"
+        } else {
+            this.user.image = "http://127.0.0.1:8000/images/upload.png"
         }
         this.loadCities();
     }

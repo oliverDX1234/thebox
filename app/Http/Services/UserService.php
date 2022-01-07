@@ -50,9 +50,9 @@ class UserService
                 ->toMediaCollection();
             $user->image = $user->getFirstMedia()->getUrl();
             $user->save();
+        }else{
+            $user->image = "http://127.0.0.1:8000/images/upload.png";
         }
-
-
     }
 
     public function updateUser($request)

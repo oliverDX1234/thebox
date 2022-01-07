@@ -25,7 +25,7 @@ export default {
         async tryToReset() {
             this.submitted = true;
             this.$v.$touch();
-
+            let that = this;
             if (!this.$v.$invalid) {
                 try {
                     let response = await AuthService.resetPassword(
@@ -34,10 +34,8 @@ export default {
                         this.confirmPassword,
                         this.$route.query.token
                     );
-
-                    this.makeToast("success", response.data.message);
+                    that.$router.push('/admin/login');
                 } catch (error) {
-                    this.makeToast("danger", error.data.message)
                 }
             }
 

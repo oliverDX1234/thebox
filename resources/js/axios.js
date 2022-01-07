@@ -9,10 +9,10 @@ window.axios.defaults.withCredentials = true;
 // Add a response interceptor
 axios.interceptors.response.use(
     response => {
-        if(response.config.showToast){
+        if (response.config.showToast) {
             const vm = new Vue();
             vm.$bvToast.toast(i18n.t(response.data.message), {
-                title: "Error",
+                title: "Success",
                 variant: "success",
                 toaster: "b-toaster-bottom-right",
                 solid: true,
@@ -27,7 +27,7 @@ axios.interceptors.response.use(
         }
 
         const vm = new Vue();
-        vm.$bvToast.toast(error.response.data.message, {
+        vm.$bvToast.toast(i18n.t(error.response.data.message), {
             title: "Error",
             variant: "danger",
             toaster: "b-toaster-bottom-right",
