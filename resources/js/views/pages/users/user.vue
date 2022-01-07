@@ -365,7 +365,11 @@ export default {
                 try {
                     if(id){
                         formData.append( '_method', "patch" );
-                        await this.$http.post(`/api/user/${id}`, formData);
+
+                       let response = await this.$http.post(`/api/user/${id}`, formData, {
+                            showToast: true
+                        });
+
                     }else{
                         await this.$http.post("/api/user", formData);
                     }
