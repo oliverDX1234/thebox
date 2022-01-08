@@ -33,13 +33,9 @@ export default {
             this.$v.$touch();
 
             if (!this.$v.$invalid) {
-                try {
-                    const {email, password, rememberMeInput} = this;
-                    await this.login({email, password, rememberMeInput})
-                    await this.$router.push('/admin')
-                } catch (error) {
-                    this.makeToast('danger', error.data.message);
-                }
+                const {email, password, rememberMeInput} = this;
+                await this.login({email, password, rememberMeInput})
+                await this.$router.push('/admin')
             }
         }
     }

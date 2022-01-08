@@ -373,10 +373,10 @@ export default {
                         ></i>
                     </template>
                     <!-- item-->
-                    <a class="dropdown-item" href="#">
+                    <router-link class="dropdown-item" :to="`/admin/user/${this.user.id}`">
                         <i class="ri-user-line align-middle mr-1"></i>
                         {{ $t("navbar.dropdown.kevin.list.profile") }}
-                    </a>
+                    </router-link>
                     <a class="dropdown-item d-block" href="#">
                         <span class="badge badge-success float-right mt-1"
                         >11</span
@@ -387,7 +387,6 @@ export default {
                     <div class="dropdown-divider"></div>
                     <a
                         class="dropdown-item text-danger"
-                        href="#"
                         @click="attemptLogout"
                     >
                         <i

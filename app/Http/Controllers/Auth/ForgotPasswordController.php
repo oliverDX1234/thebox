@@ -40,6 +40,6 @@ class ForgotPasswordController extends Controller
 
     protected function sendResetLinkFailedResponse($response)
     {
-        return response()->api(null, str_replace('.', '_', $response), 422);
+        return response()->api(null, $response, 422);
     }
 }

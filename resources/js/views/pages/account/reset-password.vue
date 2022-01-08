@@ -1,7 +1,7 @@
 <script>
 import {authMethods} from "@/state/helpers";
 import {email, minLength, required, sameAs,} from "vuelidate/lib/validators";
-import AuthService from "../../../services/authService";
+import AuthService from "@/services/authService";
 
 export default {
     data() {
@@ -27,18 +27,14 @@ export default {
             this.$v.$touch();
 
             if (!this.$v.$invalid) {
-                try {
-                    let response = await AuthService.resetPassword(
-                        this.email,
-                        this.password,
-                        this.confirmPassword,
-                        this.$route.query.token
-                    );
 
-                    this.makeToast("success", response.data.message);
-                } catch (error) {
-                    this.makeToast("danger", error.data.message)
-                }
+                await AuthService.resetPassword(
+                    this.email,
+                    this.password,
+                    this.confirmPassword,
+                    this.$route.query.token
+                );
+                await this.$router.push('/admin/login');
             }
 
         },

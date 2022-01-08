@@ -221,7 +221,7 @@ export default {
                 <li v-for="(subitem, index) of item.subItems" :key="index">
                   <router-link
                     :to="subitem.link"
-                    v-if="!hasItems(subitem)"
+                    :key="subitem.link"
                     class="side-nav-link-ref"
                     >{{ $t(subitem.label) }}</router-link
                   >

@@ -75,8 +75,9 @@ export default {
 
             let response = await this.$http.post("/api/admin/changeLayout", {
                 layout: layout
+            },{
+                showToast: true
             })
-            this.makeToast("success", response.data.message);
         },
     },
 };

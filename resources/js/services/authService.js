@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 const AuthService = {
 
     async login(email, password, rememberMeInput) {
@@ -8,11 +6,15 @@ const AuthService = {
     },
 
     async forgotPassword(email) {
-        return axios.post('/api/password/email', {email})
+        return axios.post('/api/password/email', {email},{
+            showToast: true
+        })
     },
 
     async resetPassword(email, password, confirm_password, token) {
-        return axios.post('/api/password/reset', {email, password, confirm_password, token})
+        return axios.post('/api/password/reset', {email, password, confirm_password, token},{
+            showToast: true
+        })
     },
 
     async logout() {

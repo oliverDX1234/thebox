@@ -22,13 +22,13 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('password', 100);
             $table->enum('roles', ['admin', 'user']);
-            $table->text("admin_settings");
+            $table->text("admin_settings")->default('{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}');
             $table->string("phone", 20);
             $table->string("address", 100);
             $table->enum("gender", ["male", "female"]);
             $table->integer("city");
             $table->date("dob");
-            $table->string("image");
+            $table->string("image")->nullable();
             $table->timestamps();
         });
     }

@@ -1,10 +1,10 @@
 <template>
     <div id="app">
         <Layout v-if="showLayout">
-            <router-view/>
+            <router-view :key="$route.path"/>
         </Layout>
 
-        <router-view v-else/>
+        <router-view :key="$route.path" v-else/>
 
     </div>
 </template>
