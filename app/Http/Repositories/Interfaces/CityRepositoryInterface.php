@@ -2,7 +2,7 @@
 
 namespace App\Http\Repositories\Interfaces;
 
-interface FillRepositoryInterface
+interface CityRepositoryInterface
 {
     public function getCities();
 }

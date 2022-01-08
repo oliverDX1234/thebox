@@ -23,10 +23,8 @@ export default {
             this.$v.$touch();
 
             if (!this.$v.$invalid) {
-                try {
-                    let response = await AuthService.forgotPassword(this.email);
-                } catch (error) {
-                }
+
+                await AuthService.forgotPassword(this.email);
             }
         },
     },

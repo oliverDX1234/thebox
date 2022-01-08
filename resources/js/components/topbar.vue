@@ -6,9 +6,6 @@ import {mapGetters} from "vuex";
 export default {
     computed: {
         ...mapGetters({user: "auth/user"}),
-        userProfileRedirect(){
-            return '/admin/user/' + this.user.id;
-        }
     },
     components: {simplebar},
     methods: {
@@ -376,7 +373,7 @@ export default {
                         ></i>
                     </template>
                     <!-- item-->
-                    <router-link class="dropdown-item" :to="userProfileRedirect">
+                    <router-link class="dropdown-item" :to="`/admin/user/${this.user.id}`">
                         <i class="ri-user-line align-middle mr-1"></i>
                         {{ $t("navbar.dropdown.kevin.list.profile") }}
                     </router-link>

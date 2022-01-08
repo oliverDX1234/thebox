@@ -56,6 +56,7 @@ export default {
     display: block;
     margin: auto;
     cursor: pointer;
+    border-radius: 50%;
     background-size: cover;
     background-position: center center;
 }

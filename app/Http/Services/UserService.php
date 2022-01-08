@@ -33,11 +33,12 @@ class UserService
     public function saveUser($request)
     {
         $user = User::make($request->all());
+        $user->save();
 
         if ($request->file('imageInput')) {
             $user->addMediaFromRequest("imageInput")
-                ->toMediaCollection();
-            $user->image = $user->getFirstMedia()->getUrl();
+                ->toMediaCollection("avatar");
+            $user->image = $user->getFirstMedia("avatar")->getUrl();
         }
 
         try {

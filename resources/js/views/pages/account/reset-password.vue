@@ -1,7 +1,7 @@
 <script>
 import {authMethods} from "@/state/helpers";
 import {email, minLength, required, sameAs,} from "vuelidate/lib/validators";
-import AuthService from "../../../services/authService";
+import AuthService from "@/services/authService";
 
 export default {
     data() {
@@ -25,18 +25,16 @@ export default {
         async tryToReset() {
             this.submitted = true;
             this.$v.$touch();
-            let that = this;
+
             if (!this.$v.$invalid) {
-                try {
-                    let response = await AuthService.resetPassword(
-                        this.email,
-                        this.password,
-                        this.confirmPassword,
-                        this.$route.query.token
-                    );
-                    that.$router.push('/admin/login');
-                } catch (error) {
-                }
+
+                await AuthService.resetPassword(
+                    this.email,
+                    this.password,
+                    this.confirmPassword,
+                    this.$route.query.token
+                );
+                await this.$router.push('/admin/login');
             }
 
         },

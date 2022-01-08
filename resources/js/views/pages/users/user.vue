@@ -279,6 +279,7 @@ import PageHeader from '@/components/page-header';
 import FileUpload from '@/components/file-upload.vue'
 import DatePicker from "vue2-datepicker";
 import Multiselect from "vue-multiselect";
+import UserService from "@/services/userService";
 
 export default {
     page: {
@@ -352,45 +353,34 @@ export default {
     },
     methods: {
         async formSubmit() {
+
             this.submitted = true;
             let id = this.$route.params.id;
             // stop here if form is invalid
             this.$v.$touch();
+
             let fullCity = this.user.city;
             this.user.city = this.user.city.id;
             let formData = new FormData();
+
             Object.keys(this.user).forEach(key => formData.append(key, this.user[key]));
             formData.append("imageInput", this.imageInput);
             this.user.city = fullCity;
+
             if (!this.$v.$invalid) {
-                try {
-                    if (id) {
-                        formData.append('_method', "patch");
-                        await this.$http.post(`/api/user/${id}`, formData, {
-                            showToast: true
-                        });
 
-                    } else {
-                        await this.$http.post("/api/user", formData, {
-                            showToast: true
-                        });
-                        await this.$router.push("/admin/users");
-                    }
+                if (id) {
+                    formData.append('_method', "patch");
+                    await UserService.updateUser(id, formData);
 
-                } catch (error) {
+                } else {
+                    await UserService.storeUser(formData);
                 }
             }
         },
         async loadUser() {
 
-            let id = this.$route.params.id;
-
-            try {
-                let response = await this.$http.get(`/api/user/${id}`);
-                this.user = response.data.payload.user;
-            } catch (e) {
-            }
-
+            this.user = await UserService.getUser(this.$route.params.id);
         },
         async loadCities() {
 

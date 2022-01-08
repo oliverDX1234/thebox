@@ -2,10 +2,10 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Repositories\Interfaces\FillRepositoryInterface;
+use App\Http\Repositories\Interfaces\CityRepositoryInterface;
 use App\Models\City;
 
-class FillRepository implements FillRepositoryInterface
+class CityRepository implements CityRepositoryInterface
 {
 
     public function getCities()
