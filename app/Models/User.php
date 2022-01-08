@@ -22,9 +22,15 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'phone',
+        'address',
+        'gender',
+        'city',
+        'dob',
     ];
 
     /**
@@ -64,5 +70,10 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
     }
 }
