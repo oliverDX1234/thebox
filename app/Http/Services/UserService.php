@@ -39,6 +39,8 @@ class UserService
             $user->addMediaFromRequest("imageInput")
                 ->toMediaCollection("avatar");
             $user->image = $user->getFirstMedia("avatar")->getUrl();
+        }else{
+            $user->image = env("APP_URL")."/images/upload.png";
         }
 
         try {

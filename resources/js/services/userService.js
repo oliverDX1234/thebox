@@ -11,6 +11,7 @@ const UserService = {
         let response = await axios.post(`/api/user`, formData, {
             showToast: true
         });
+        await router.push("/admin/users");
     },
 
 
@@ -18,7 +19,6 @@ const UserService = {
         let response = await axios.post(`/api/user/${id}`, formData, {
             showToast: true
         });
-        await router.push("/admin/users");
     }
 
 
