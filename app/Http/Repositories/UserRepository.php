@@ -12,4 +12,17 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::findOrFail($id);
     }
+
+
+    public function getUsers()
+    {
+        return User::all();
+    }
+
+    public function deleteUser($id)
+    {
+        return User::findOrFail($id)->delete();
+    }
+
+
 }

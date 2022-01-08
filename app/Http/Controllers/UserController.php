@@ -24,7 +24,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = $this->userService->getUsers();
+
+        return response()->api(['users' => $users] , "users.retrieved", 200);
     }
 
 
@@ -74,6 +76,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->userService->deleteUser($id);
+
+        return response()->api(["user" => $id] , "user.deleted", 200);
     }
 }

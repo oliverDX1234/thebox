@@ -144,7 +144,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-12">

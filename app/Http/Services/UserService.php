@@ -21,6 +21,15 @@ class UserService
         $this->imageService = $imageService;
     }
 
+    public function getUsers()
+    {
+        try {
+            return $this->userRepository->getUsers();
+        } catch (Exception $e) {
+            throw new ApiException("global.error", 404, null, $e);
+        }
+    }
+
     public function getUser(int $id): User
     {
         try {
@@ -70,6 +79,15 @@ class UserService
             $user->save();
         } catch (Exception $e) {
             throw new ApiException("user.update_failed", 500, null, $e);
+        }
+    }
+
+    public function deleteUser($id)
+    {
+        try {
+            $this->userRepository->deleteUser($id);
+        } catch (Exception $e) {
+            throw new ApiException("user.not_found", 404, null, $e);
         }
     }
 

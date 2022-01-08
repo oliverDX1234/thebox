@@ -199,6 +199,29 @@
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="validationCustom04">Role <span
+                                                    class="required">*</span></label>
+
+                                                <multiselect
+                                                    v-model="user.roles"
+                                                    :class="{ 'is-invalid': submitted && $v.user.roles.$error }"
+                                                    :options="rolesOptions"
+                                                    class="text-capitalize"
+                                                ></multiselect>
+                                                <div
+                                                    v-if="submitted && $v.user.roles.$error"
+                                                    class="invalid-feedback"
+                                                >
+                                                    <span v-if="!$v.user.roles.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
                                         <div class="col-12">
                                             <hr>
                                         </div>
@@ -251,7 +274,11 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <a
+                                        class="btn btn-danger mt-2 float-left"
+                                        @click="deleteUser"
+                                    >Delete User
+                                    </a>
                                     <button
                                         class="btn btn-primary mt-2 float-right"
                                         type="submit"
@@ -301,7 +328,8 @@ export default {
                     active: true
                 }
             ],
-            genderOptions: ["Male", "Female"],
+            genderOptions: ["male", "female"],
+            rolesOptions: ["user", "admin"],
             cities: [],
             imageInput: null,
             user: {
@@ -314,6 +342,7 @@ export default {
                 gender: null,
                 dob: null,
                 password: null,
+                roles: null,
                 confirmPassword: null,
                 image: null
             },
@@ -328,6 +357,7 @@ export default {
             phone: {required},
             email: {required, email},
             address: {required},
+            roles: {required},
             gender: {required},
             dob: {required},
             password: {
@@ -382,6 +412,16 @@ export default {
 
             this.user = await UserService.getUser(this.$route.params.id);
         },
+
+
+        async deleteUser() {
+
+            await UserService.deleteUser(this.$route.params.id);
+
+            await this.$router.push('/admin/users');
+
+        },
+
         async loadCities() {
 
             try {

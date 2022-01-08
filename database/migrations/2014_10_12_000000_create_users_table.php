@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->string('password', 100);
-            $table->enum('roles', ['admin', 'user']);
+            $table->enum('roles', ['admin', 'user'])->default("user");
             $table->text("admin_settings")->default('{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}');
             $table->string("phone", 20);
             $table->string("address", 100);

@@ -3,6 +3,7 @@
         "saved": "The user was successfully created",
         "updated": "The user was successfully updated",
         "retrieved": "The user was successfully retrieved",
+        "deleted": "The user was successfully deleted",
         "not_found": "The user was not found in the database"
     },
     "passwords": {
@@ -11,6 +12,7 @@
     },
     "global": {
         "layout_changed_success": "The layout was successfully updated",
+        "error": "There was an error while processing the requests",
         "layout_changed_failed": "There was a problem with the layout update"
     },
     "auth": {

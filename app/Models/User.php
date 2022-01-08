@@ -28,6 +28,7 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
         'password',
         'phone',
         'address',
+        'roles',
         'gender',
         'city',
         'dob',
