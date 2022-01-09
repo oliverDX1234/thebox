@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-12">
                                 <div class="mt-2">
-                                    <FileUpload @image-uploaded="imageUploaded" v-if="user.image"
+                                    <FileUpload @image-uploaded="imageUploaded"
                                                 :imageData="user.image"/>
                                 </div>
                             </div>

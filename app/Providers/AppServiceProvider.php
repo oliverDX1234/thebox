@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Http\Repositories\CityRepository;
 use App\Http\Repositories\Interfaces\CityRepositoryInterface;
+use App\Http\Repositories\Interfaces\SupplierRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
+use App\Http\Repositories\SupplierRepository;
 use App\Http\Repositories\UserRepository;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\ServiceProvider;
@@ -20,8 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
-
-
+        $this->app->bind(SupplierRepositoryInterface::class, SupplierRepository::class);
     }
 
     /**

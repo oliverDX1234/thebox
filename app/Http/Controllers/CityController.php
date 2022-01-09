@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Services\CityService;
 
 class CityController extends Controller
@@ -13,6 +14,9 @@ class CityController extends Controller
         $this->cityService = $cityService;
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getCities()
     {
         $cities = $this->cityService->getCities();

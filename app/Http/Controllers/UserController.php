@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Services\UserService;
@@ -21,8 +22,9 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @return Response
+     * @throws ApiException
      */
-    public function index()
+    public function index(): Response
     {
         $users = $this->userService->getUsers();
 
@@ -33,8 +35,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  UserStoreRequest  $request
+     * @param UserStoreRequest $request
      * @return Response
+     * @throws ApiException
      */
     public function store(UserStoreRequest $request): Response
     {
@@ -57,9 +60,8 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
-     * @param int $id
      * @return Response
-     * @throws \App\Exceptions\ApiException
+     * @throws ApiException
      */
     public function update(Request $request): Response
     {
@@ -71,10 +73,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
+     * @throws ApiException
      */
-    public function destroy($id)
+    public function destroy($id): Response
     {
         $this->userService->deleteUser($id);
 

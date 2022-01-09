@@ -62,6 +62,28 @@ export default [
         component: () => import("../views/pages/users/user"),
     },
 
+    //Suppliers
+    {
+        path: "/admin/suppliers/",
+        name: "admin-show-suppliers",
+        meta: { admin: true },
+        component: () => import("../views/pages/suppliers/suppliers"),
+    },
+
+    {
+        path: "/admin/supplier/",
+        name: "admin-new-user",
+        meta: { admin: true },
+        component: () => import("../views/pages/suppliers/supplier"),
+    },
+
+    {
+        path: "/admin/supplier/:id",
+        name: "admin-edit-user",
+        meta: { admin: true },
+        component: () => import("../views/pages/suppliers/supplier"),
+    },
+
     {
         path: "/admin/ecommerce/products",
         name: "admin/products",

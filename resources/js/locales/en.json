@@ -6,6 +6,13 @@
         "deleted": "The user was successfully deleted",
         "not_found": "The user was not found in the database"
     },
+    "supplier": {
+        "saved": "The supplier was successfully created",
+        "updated": "The supplier was successfully updated",
+        "retrieved": "The supplier was successfully retrieved",
+        "deleted": "The supplier was successfully deleted",
+        "not_found": "The supplier was not found in the database"
+    },
     "passwords": {
         "throttled": "Please wait before next attempt",
         "user": "The user was not found in the database"
@@ -123,7 +130,12 @@
         "users": {
             "users": "Users",
             "all": "All Users",
-            "new": "New User"
+            "new": "Add User"
+        },
+        "suppliers": {
+            "suppliers": "Suppliers",
+            "all": "All Suppliers",
+            "new": "New Supplier"
         },
         "layouts": {
             "text": "Layouts",

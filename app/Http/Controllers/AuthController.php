@@ -8,6 +8,9 @@ use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
+    /**
+     * @throws ApiException
+     */
     public function login(LoginRequest $request): Response
     {
         $credentials = $request->only(['email', 'password']);
@@ -24,6 +27,9 @@ class AuthController extends Controller
         return response()->api(['user' => auth()->user()], "user.retrieved");
     }
 
+    /**
+     * @throws ApiException
+     */
     public function logout(): Response
     {
         try {

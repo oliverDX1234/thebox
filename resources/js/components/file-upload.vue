@@ -21,15 +21,19 @@
     </div>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     props: ["imageData"],
     data() {
         return {
-            localImageData: ""
+            localImageData: this.$store.getters["placeholder"]
         }
     },
-    mounted() {
-        this.localImageData = this.imageData;
+    watch: {
+        imageData(v){
+            this.localImageData = v;
+        }
     },
     methods: {
         chooseImage() {
