@@ -1,7 +1,7 @@
 <script>
 import PageHeader from "@/components/page-header";
 import CustomTable from "@/components/CustomTable";
-import UserService from "@/services/userService";
+import SuppliersService from "@/services/supplierService";
 
 
 /**
@@ -14,15 +14,15 @@ export default {
     },
     data() {
         return {
-            title: "Users",
+            title: "suppliers",
             items: [
                 {
-                    text: "Users",
+                    text: "suppliers",
                     active: true
 
                 }
             ],
-            users: [],
+            suppliers: [],
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "first_name", sortable: true, label: "First Name"},
@@ -42,24 +42,25 @@ export default {
     },
 
     created() {
-        this.getUsers();
+        this.getsuppliers();
     },
     methods: {
-        editUser(id) {
-            this.$router.push('/admin/user/' + id);
+        editsuppliers(id) {
+            this.$router.push('/admin/supplier/' + id);
         },
-        async deleteUser(id) {
-            let response = await UserService.deleteUser(id);
-            let index = this.users.findIndex(user => user.id === parseInt(response))   // find the post index
+        async deletesuppliers(id) {
+            let response = await suppliersService.deletesuppliers(id);
+            let index = this.suppliers.findIndex(supplier => supplier.id === parseInt(response))   // find the post index
             if (~index) // if the post exists in array
-                this.users.splice(index, 1) //delete the post
+                this.suppliers.splice(index, 1) //delete the post
         },
-        async getUsers() {
-            var users = await UserService.getUsers();
-            this.users = users.map(x => {
+        async getsuppliers() {
+            var suppliers = await suppliersService.getsuppliers();
+            this.suppliers = suppliers.map(x => {
                 x.city = x.city.city_name_en;
                 return x;
             })
+            console.log(this.suppliers);
         },
     }
 };
@@ -79,12 +80,12 @@ export default {
                             <a
                                 href="javascript:void(0);"
                                 class="btn btn-success mb-2"
-                                @click="$router.push('/admin/user/')"
+                                @click="$router.push('/admin/supplier/')"
                             >
-                                <i class="mdi mdi-plus mr-2"></i> New User
+                                <i class="mdi mdi-plus mr-2"></i> New supplier
                             </a>
                         </div>
-                        <custom-table @edit-item="editUser" @delete-item="deleteUser" :items="users" :fields="fields"/>
+                        <custom-table @edit-supplier="editsuppliers" @delete-supplier="deletesuppliers" :suppliers="suppliers" :fields="fields"/>
                     </div>
                 </div>
             </div>

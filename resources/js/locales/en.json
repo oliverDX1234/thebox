@@ -123,7 +123,12 @@
         "users": {
             "users": "Users",
             "all": "All Users",
-            "new": "New User"
+            "new": "Add User"
+        },
+        "suppliers": {
+            "suppliers": "Suppliers",
+            "all": "All Suppliers",
+            "new": "New Supplier"
         },
         "layouts": {
             "text": "Layouts",

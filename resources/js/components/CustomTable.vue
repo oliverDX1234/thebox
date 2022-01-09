@@ -31,7 +31,7 @@
         <div class="table-responsive">
             <b-table
                 class="table-centered"
-                :items="users"
+                :items="items"
                 :fields="fields"
                 responsive="sm"
                 :per-page="perPage"
@@ -44,7 +44,7 @@
             >
                 <template v-slot:cell(action)="row">
                     <a
-                        @click="$emit('edit-user', row.item.id)"
+                        @click="$emit('edit-item', row.item.id)"
                         class="mr-3 text-primary"
                         role="button"
                         v-b-tooltip.hover
@@ -57,7 +57,7 @@
                         role="button"
                         v-b-tooltip.hover
 
-                        @click="$emit('delete-user', row.item.id)"
+                        @click="$emit('delete-item', row.item.id)"
 
 
                         title="Delete"
@@ -81,18 +81,15 @@
 </template>
 <script>
 
-import UserService from "@/services/userService";
-
-
 export default {
     name: 'custom-table',
-    props: ["users", "fields"],
+    props: ["items", "fields"],
     computed: {
         /**
          * Total no. of records
          */
         rows() {
-            return this.users.length;
+            return this.items.length;
         }
     },
     data() {
@@ -109,7 +106,7 @@ export default {
     },
     mounted() {
         // Set the initial number of items
-        this.totalRows = this.users.length;
+        this.totalRows = this.items.length;
     },
     methods: {
 

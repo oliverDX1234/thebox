@@ -1,5 +1,6 @@
 const mix = require("laravel-mix");
-var path = require("path");
+var path = require("path")
+require('dotenv').config();
 
 /*
  |--------------------------------------------------------------------------
@@ -20,4 +21,4 @@ mix.js("resources/js/app.js", "public/js")
         '@sass': path.resolve(__dirname, 'resources/sass')
     })
     .disableNotifications()
-    .sass("resources/sass/app.scss", "public/css"); 
+    .sass("resources/sass/app.scss", "public/css");

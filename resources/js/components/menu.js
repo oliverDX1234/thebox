@@ -39,6 +39,24 @@ export const menuItems = [
         ],
     },
     {
+        id: 8,
+        label: "menuitems.suppliers.suppliers",
+        icon: "ri-truck-line",
+        subItems: [
+            {
+                id: 8,
+                icon: "dripicons-user-group",
+                label: "menuitems.suppliers.all",
+                link: "/admin/suppliers/",
+            },
+            {
+                id: 9,
+                label: "menuitems.suppliers.new",
+                link: "/admin/supplier/",
+            },
+        ],
+    },
+    {
         id: 5,
         label: "menuitems.ecommerce.text",
         icon: "ri-store-2-line",
