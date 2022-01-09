@@ -1,4 +1,5 @@
 import router from "@/router"
+import store from "@/state/store"
 
 const UserService = {
 
@@ -22,9 +23,15 @@ const UserService = {
 
 
     async updateUser(id, formData) {
-        await axios.post(`/api/users/${id}`, formData, {
+        let response = await axios.post(`/api/users/${id}`, formData, {
             showToast: true
         });
+
+        //If the logged in user is updating his information
+        if(store.getters["auth/user"].id === response.data.payload.user.id){
+            store.commit("auth/updateUser", response.data.payload.user);
+        }
+
     },
 
 

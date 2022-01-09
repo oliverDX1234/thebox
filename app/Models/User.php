@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Image\Exceptions\InvalidManipulation;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\ResetPasswordNotification;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class User extends Authenticatable implements CanResetPassword, HasMedia
 {
@@ -44,12 +46,16 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
         'remember_token',
     ];
 
+
+    protected $appends = ['avatar'];
+
+
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -59,6 +65,24 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
         $this->addMediaCollection("avatar")->singleFile();
     }
 
+    /**
+     * @throws InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null) : void
+    {
+
+        $this->addMediaConversion('thumb')
+            ->nonQueued()
+            ->height(100);
+    }
+
+
+    public function getAvatarAttribute() {
+        if(auth()->user()->getFirstMedia("avatar")){
+
+            return auth()->user()->getFirstMedia("avatar")->getUrl('thumb');
+        }
+    }
     protected function getAdminSettingsAttribute()
     {
         return json_decode($this->attributes['admin_settings'], true);

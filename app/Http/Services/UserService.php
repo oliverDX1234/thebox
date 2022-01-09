@@ -77,6 +77,7 @@ class UserService
 
         try {
             $user->save();
+            return $user;
         } catch (Exception $e) {
             throw new ApiException("user.update_failed", 500, null, $e);
         }

@@ -29,6 +29,10 @@ export const mutations = {
         state.isLoggedIn = true;
         state.user = user;
     },
+
+    updateUser(state, user) {
+        state.user = user;
+    },
 };
 
 export const getters = {

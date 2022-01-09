@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         $users = $this->userService->getUsers();
 
-        return response()->api(['users' => $users] , "users.retrieved", 200);
+        return response()->api(['users' => $users], "users.retrieved", 200);
     }
 
 
@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         $this->userService->saveUser($request);
 
-        return response()->api(null , "user.saved", 200);
+        return response()->api(null, "user.saved", 200);
     }
 
     /**
@@ -65,9 +65,9 @@ class UserController extends Controller
      */
     public function update(Request $request): Response
     {
-        $this->userService->updateUser($request);
+        $user = $this->userService->updateUser($request);
 
-        return response()->api(null , "user.updated", 200);
+        return response()->api(['user' => $user], "user.updated", 200);
     }
 
     /**
@@ -81,6 +81,6 @@ class UserController extends Controller
     {
         $this->userService->deleteUser($id);
 
-        return response()->api(["user" => $id] , "user.deleted", 200);
+        return response()->api(["user" => $id], "user.deleted", 200);
     }
 }

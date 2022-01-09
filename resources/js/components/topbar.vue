@@ -362,7 +362,7 @@ export default {
                     <template v-slot:button-content>
                         <img
                             class="rounded-circle header-profile-user"
-                            :src="getImgUrl('/users/avatar-2.jpg')"
+                            :src="user.avatar"
                             alt="Header Avatar"
                         />
                         <span class="d-none d-xl-inline-block ml-1">{{
