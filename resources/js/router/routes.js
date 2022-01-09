@@ -71,14 +71,14 @@ export default [
     },
 
     {
-        path: "/admin/user/",
+        path: "/admin/supplier/",
         name: "admin-new-user",
         meta: { admin: true },
         component: () => import("../views/pages/suppliers/supplier"),
     },
 
     {
-        path: "/admin/user/:id",
+        path: "/admin/supplier/:id",
         name: "admin-edit-user",
         meta: { admin: true },
         component: () => import("../views/pages/suppliers/supplier"),

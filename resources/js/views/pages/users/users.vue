@@ -55,7 +55,7 @@ export default {
                 this.users.splice(index, 1) //delete the post
         },
         async getUsers() {
-            var users = await UserService.getUsers();
+            const users = await UserService.getUsers();
             this.users = users.map(x => {
                 x.city = x.city.city_name_en;
                 return x;

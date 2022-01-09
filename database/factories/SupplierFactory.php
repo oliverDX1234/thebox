@@ -16,6 +16,8 @@ class SupplierFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
+            'address' => $this->faker->address,
+            'city' => $this->faker->numberBetween($min = 1, $max = 36),
             'phone' => $this->faker->phoneNumber(),
         ];
     }

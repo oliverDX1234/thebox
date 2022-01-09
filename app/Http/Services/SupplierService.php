@@ -10,17 +10,17 @@ use Exception;
 class SupplierService
 {
     protected $supplierRepository;
-    protected $imageService;
 
     public function __construct(
-        SupplierRepositoryInterface $supplierRepository,
-        ImageService            $imageService
+        SupplierRepositoryInterface $supplierRepository
     )
     {
         $this->supplierRepository = $supplierRepository;
-        $this->imageService = $imageService;
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getSuppliers()
     {
         try {
@@ -30,6 +30,9 @@ class SupplierService
         }
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getSupplier(int $id): Supplier
     {
         try {
@@ -39,6 +42,9 @@ class SupplierService
         }
     }
 
+    /**
+     * @throws ApiException
+     */
     public function saveSupplier($request)
     {
         $supplier = Supplier::make($request->all());
@@ -59,6 +65,9 @@ class SupplierService
         }
     }
 
+    /**
+     * @throws ApiException
+     */
     public function updateSupplier($request)
     {
         try {
@@ -82,6 +91,9 @@ class SupplierService
         }
     }
 
+    /**
+     * @throws ApiException
+     */
     public function deleteSupplier($id)
     {
         try {

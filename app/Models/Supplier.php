@@ -19,4 +19,9 @@ class Supplier extends Model
         'email',
         'phone',
     ];
+
+    protected function getCityAttribute()
+    {
+        return City::find($this->attributes['city']);
+    }
 }

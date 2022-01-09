@@ -29,11 +29,11 @@ const SupplierService = {
 
 
     async deleteSupplier(id) {
-        let response = await axios.delete(`/api/supplier/${id}`, {
+        let response = await axios.delete(`/api/suppliers/${id}`, {
             showToast: true
         });
 
-        return response.data.payload.suppliers;
+        return response.data.payload.supplier;
 
     }
 

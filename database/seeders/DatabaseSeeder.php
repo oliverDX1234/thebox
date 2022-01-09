@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        Supplier::factory([])->create();
+        Supplier::factory(7, [])->create();
 
         $this->call([
             CitiesMkTableSeeder::class,
