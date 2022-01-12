@@ -14,6 +14,13 @@ const CategoryService = {
     },
 
 
+    async saveCategories(categories) {
+        await axios.post(`/api/saveCategories`, { tree : categories}, {
+            showToast: true
+        });
+    },
+
+
     async getCategoriesTree() {
         let response = await axios.get(`/api/categoriesTree`);
         return response.data.payload.categories;

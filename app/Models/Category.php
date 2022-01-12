@@ -9,16 +9,14 @@ class Category extends Model
 {
     use HasFactory;
 
-
-
     protected $table = "categories";
 
-
-//    protected function getParentAttribute()
-//    {
-//        if(!$this->attributes['parent']){
-//            return 0;
-//        }
-//        return Category::select("id", "name")->where("id", $this->attributes['parent'])->first();
-//    }
+    protected $fillable = [
+        'name',
+        'description',
+        'url',
+        'seo_keywords',
+        'parent',
+        'seo_description'
+    ];
 }

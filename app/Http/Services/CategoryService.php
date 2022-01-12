@@ -6,6 +6,7 @@ use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CategoryService
 {
@@ -75,7 +76,6 @@ class CategoryService
             throw new ApiException("category.update_failed", 500, null, $e);
         }
     }
-
     /**
      * @throws ApiException
      */
@@ -84,9 +84,51 @@ class CategoryService
         try {
             $this->categoryRepository->deleteCategory($id);
         } catch (Exception $e) {
-            throw new ApiException("category.not_found", 404, null, $e);
+            dd($e);
+            throw new ApiException($e->getMessage(), $e->getCode(), null, $e);
         }
     }
+
+    /**
+     * @throws ApiException
+     */
+    public function saveCategories($tree)
+    {
+        try {
+            $flattened = $this->flatten($tree);
+
+            foreach ($flattened as $i) {
+                Category::findOrFail($i["id"])->update([
+                    "parent" => ($i["parent"] == "/") ? null : $i["parent"]
+                ]);
+            }
+
+        } catch (Exception $e) {
+            throw new ApiException("global.error", 404, null, $e);
+        }
+    }
+    public function flatten($element, $parent_nodes = 0): array
+    {
+        $flatArray = array();
+        foreach ($element as $key => $node) {
+            if (array_key_exists('children', $node) && count($node['children']) != 0) {
+                $flatArray = array_merge($flatArray, $this->flatten($node['children'], $node["id"]));
+
+                unset($node['children']);
+                $node["parent"] = $parent_nodes;
+                $flatArray[] = $node;
+
+            } else {
+
+                $node["parent"] = $parent_nodes;
+                $flatArray[] = $node;
+            }
+        }
+
+
+        return $flatArray;
+    }
+
 
     public function getCategoriesTree(): array
     {
@@ -110,7 +152,7 @@ class CategoryService
                 // set a trivial key
                 if (!empty($children)) {
                     $d['children'] = $children;
-                }else{
+                } else {
                     $d['children'] = [];
                 }
                 $tree[] = $d;

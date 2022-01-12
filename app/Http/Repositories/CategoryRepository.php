@@ -2,8 +2,10 @@
 
 namespace App\Http\Repositories;
 
+use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
+use Exception;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
@@ -19,9 +21,26 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::all();
     }
 
+
+    /**
+     * @throws Exception
+     */
     public function deleteCategory($id)
     {
-        return Category::findOrFail($id)->delete();
+        if(Category::where("parent", $id)->first() != null){
+            throw new Exception("category.has_more_items", 400);
+        }
+
+        $items = Category::find($id);
+
+        if(!$items){
+            throw new Exception("category.not_found", 404);
+        }
+
+
+        $items = $items->delete();
+
+        return $items;
     }
 
 

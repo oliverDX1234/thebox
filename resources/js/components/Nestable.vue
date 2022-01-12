@@ -7,6 +7,8 @@
             slot-scope="{ item }"
             :item="item">
             <i class="ri-menu-fill position-relative pr-1" style="top: 1.5px;"></i> {{ item.name }}
+            <i class="ri-delete-bin-fill float-right text-danger delete-list-button font-size-15" role="button" @click.once="$emit('delete-item', item.id)"></i>
+            <i class="ri-pencil-fill float-right text-success delete-list-button mr-1 font-size-15" role="button" @click="$emit('edit-item', item.id)"></i>
         </vue-nestable-handle>
     </vue-nestable>
 
@@ -30,11 +32,14 @@ export default {
             nestableItems: []
         }
     },
-
     watch: {
         itemsForNesting(value) {
             this.nestableItems = this.itemsForNesting;
+        },
+        nestableItems(){
+            this.$emit("nestable-updated", this.nestableItems);
         }
+
     }
 }
 </script>

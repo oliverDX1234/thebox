@@ -17,6 +17,20 @@
         "throttled": "Please wait before next attempt",
         "user": "The user was not found in the database"
     },
+
+    "categories": {
+        "updated": "The categories were successfully updated"
+    },
+
+    "category": {
+        "saved": "The category was successfully created",
+        "updated": "The category was successfully updated",
+        "retrieved": "The category was successfully retrieved",
+        "deleted": "The category was successfully deleted",
+        "has_more_items": "The category is not emptied",
+        "not_found": "The category was not found in the database"
+    },
+
     "global": {
         "layout_changed_success": "The layout was successfully updated",
         "error": "There was an error while processing the requests",

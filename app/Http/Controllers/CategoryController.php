@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Services\CategoryService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CategoryController extends Controller
@@ -56,20 +57,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param CategoryStoreRequest $request
-     * @return Response
-     * @throws ApiException
-     */
-    public function update(CategoryStoreRequest $request): Response
-    {
-        $this->categoryService->updateCategory($request);
-
-        return response()->api(null , "category.updated", 200);
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param int $id
@@ -83,6 +70,15 @@ class CategoryController extends Controller
         return response()->api(["category" => $id] , "category.deleted", 200);
     }
 
+    /**
+     * @throws ApiException
+     */
+    public function saveCategories(Request $request)
+    {
+        $this->categoryService->saveCategories($request->tree);
+
+        return response()->api( null , "categories.updated", 200);
+    }
 
     /**
      * @throws ApiException
