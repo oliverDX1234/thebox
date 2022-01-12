@@ -137,6 +137,11 @@
             "all": "All Suppliers",
             "new": "New Supplier"
         },
+        "categories": {
+            "categories": "Categories",
+            "all": "All Categories",
+            "new": "New Category"
+        },
         "layouts": {
             "text": "Layouts",
             "list": {

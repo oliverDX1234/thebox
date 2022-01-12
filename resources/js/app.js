@@ -4,6 +4,7 @@ import BootstrapVue from "bootstrap-vue";
 import VueApexCharts from "vue-apexcharts";
 import Vuelidate from "vuelidate";
 import VueSweetalert2 from "vue-sweetalert2";
+import VueNestable from 'vue-nestable'
 import axios from "@/axios";
 import VueMask from "v-mask";
 import * as VueGoogleMaps from "vue2-google-maps";
@@ -37,6 +38,7 @@ Vue.use(VueMask);
 Vue.use(require("vue-chartist"));
 Vue.use(imagePlugin);
 Vue.use(notificationPlugin);
+Vue.use(VueNestable);
 Vue.use(VueGoogleMaps, {
     load: {
         key: "AIzaSyAbvyBxmMbFhrzP9Z8moyYr6dCr-pzjhBE",

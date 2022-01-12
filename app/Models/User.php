@@ -81,6 +81,8 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
         if(auth()->user()->getFirstMedia("avatar")){
 
             return auth()->user()->getFirstMedia("avatar")->getUrl('thumb');
+        }else{
+            return env("APP_URL")."/images/upload.png";
         }
     }
     protected function getAdminSettingsAttribute()

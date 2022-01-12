@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
 
         Supplier::factory(7, [])->create();
+        Category::factory(7, [])->create();
 
         $this->call([
             CitiesMkTableSeeder::class,

@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->integer("city");
             $table->date("dob");
             $table->string("image")->nullable();
+            $table->boolean("active")->default(true);
             $table->timestamps();
         });
     }

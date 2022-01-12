@@ -72,16 +72,38 @@ export default [
 
     {
         path: "/admin/supplier/",
-        name: "admin-new-user",
+        name: "admin-new-supplier",
         meta: { admin: true },
         component: () => import("../views/pages/suppliers/supplier"),
     },
 
     {
         path: "/admin/supplier/:id",
-        name: "admin-edit-user",
+        name: "admin-edit-supplier",
         meta: { admin: true },
         component: () => import("../views/pages/suppliers/supplier"),
+    },
+
+    //Categories
+    {
+        path: "/admin/categories/",
+        name: "admin-show-categories",
+        meta: { admin: true },
+        component: () => import("../views/pages/categories/categories"),
+    },
+
+    {
+        path: "/admin/category/",
+        name: "admin-new-category",
+        meta: { admin: true },
+        component: () => import("../views/pages/categories/category"),
+    },
+
+    {
+        path: "/admin/category/:id",
+        name: "admin-edit-categories",
+        meta: { admin: true },
+        component: () => import("../views/pages/categories/category"),
     },
 
     {

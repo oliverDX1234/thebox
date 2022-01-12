@@ -39,7 +39,7 @@ export const menuItems = [
         ],
     },
     {
-        id: 8,
+        id: 7,
         label: "menuitems.suppliers.suppliers",
         icon: "ri-truck-line",
         subItems: [
@@ -57,32 +57,50 @@ export const menuItems = [
         ],
     },
     {
-        id: 5,
+        id: 15,
+        label: "menuitems.categories.categories",
+        icon: "dripicons-checklist",
+        subItems: [
+            {
+                id: 11,
+                icon: "dripicons-user-group",
+                label: "menuitems.categories.all",
+                link: "/admin/categories/",
+            },
+            {
+                id: 12,
+                label: "menuitems.categories.new",
+                link: "/admin/category/",
+            },
+        ],
+    },
+    {
+        id: 13,
         label: "menuitems.ecommerce.text",
         icon: "ri-store-2-line",
         subItems: [
             {
-                id: 6,
+                id: 14,
                 label: "menuitems.ecommerce.list.products",
                 link: "/admin/ecommerce/products",
             },
             {
-                id: 7,
+                id: 15,
                 label: "menuitems.ecommerce.list.productdetail",
                 link: "/admin/ecommerce/product-detail",
             },
             {
-                id: 8,
+                id: 16,
                 label: "menuitems.ecommerce.list.orders",
                 link: "/admin/ecommerce/orders",
             },
             {
-                id: 9,
+                id: 17,
                 label: "menuitems.ecommerce.list.customers",
                 link: "/admin/ecommerce/customers",
             },
             {
-                id: 13,
+                id: 18,
                 label: "menuitems.ecommerce.list.addproduct",
                 link: "/admin/ecommerce/add-product",
             },

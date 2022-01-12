@@ -47,16 +47,9 @@ class SupplierService
      */
     public function saveSupplier($request)
     {
+
         $supplier = Supplier::make($request->all());
         $supplier->save();
-
-        if ($request->file('imageInput')) {
-            $supplier->addMediaFromRequest("imageInput")
-                ->toMediaCollection("avatar");
-            $supplier->image = $supplier->getFirstMedia("avatar")->getUrl();
-        }else{
-            $supplier->image = env("APP_URL")."/images/upload.png";
-        }
 
         try {
             $supplier->save();
@@ -74,14 +67,6 @@ class SupplierService
             $supplier = $this->supplierRepository->findById($request->id);
         } catch (Exception $e) {
             throw new ApiException("supplier.not_found", 404, null, $e);
-        }
-
-        $supplier->fill($request->all());
-
-        if ($request->file('imageInput')) {
-            $supplier->addMediaFromRequest("imageInput")
-                ->toMediaCollection("avatar");
-            $supplier->image = $supplier->getFirstMedia("avatar")->getUrl();
         }
 
         try {

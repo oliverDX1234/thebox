@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminSettingsController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -24,6 +25,8 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
         //Users
         Route::apiResource("users", UserController::class);
         Route::apiResource("suppliers", SupplierController::class);
+        Route::apiResource("categories", CategoryController::class);
+        Route::get("categoriesTree", [CategoryController::class, "getCategoriesTree"]);
         Route::get("/cities", [CityController::class, 'getCities']);
 
     });
