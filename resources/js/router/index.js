@@ -30,6 +30,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+
+
     if (to.meta.authRequired) {
         authenticated(next);
     } else if (to.meta.admin) {

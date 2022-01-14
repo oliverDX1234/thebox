@@ -46,6 +46,16 @@ class CategoryController extends Controller
     }
 
     /**
+     * @throws ApiException
+     */
+    public function update(CategoryStoreRequest $request)
+    {
+        $this->categoryService->updateCategory($request);
+
+        return response()->api(null , "category.updated", 200);
+    }
+
+    /**
      * Display the specified resource.
      * @throws ApiException
      */

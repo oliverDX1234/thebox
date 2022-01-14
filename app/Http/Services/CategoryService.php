@@ -48,8 +48,11 @@ class CategoryService
      */
     public function saveCategory($request)
     {
+        $items = $request->all();
+        $items["url"] = slugify($request->name);
 
-        $category = Category::make($request->all());
+        $category = Category::make($items);
+
         $category->save();
 
         try {
@@ -69,6 +72,11 @@ class CategoryService
         } catch (Exception $e) {
             throw new ApiException("category.not_found", 404, null, $e);
         }
+
+        $items = $request->all();
+        $items["url"] = slugify($request->name);
+
+        $category->update($items);
 
         try {
             $category->save();

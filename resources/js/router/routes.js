@@ -93,20 +93,6 @@ export default [
     },
 
     {
-        path: "/admin/category/",
-        name: "admin-new-category",
-        meta: { admin: true },
-        component: () => import("../views/pages/categories/category"),
-    },
-
-    {
-        path: "/admin/category/:id",
-        name: "admin-edit-categories",
-        meta: { admin: true },
-        component: () => import("../views/pages/categories/category"),
-    },
-
-    {
         path: "/admin/ecommerce/products",
         name: "admin/products",
         meta: { admin: true },

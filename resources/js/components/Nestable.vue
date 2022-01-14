@@ -7,7 +7,7 @@
             slot-scope="{ item }"
             :item="item">
             <i class="ri-menu-fill position-relative pr-1" style="top: 1.5px;"></i> {{ item.name }}
-            <i class="ri-delete-bin-fill float-right text-danger delete-list-button font-size-15" role="button" @click.once="$emit('delete-item', item.id)"></i>
+            <i class="ri-delete-bin-fill float-right text-danger delete-list-button font-size-15" role="button" @click="$emit('delete-item', item.id)"></i>
             <i class="ri-pencil-fill float-right text-success delete-list-button mr-1 font-size-15" role="button" @click="$emit('edit-item', item.id)"></i>
         </vue-nestable-handle>
     </vue-nestable>
@@ -81,9 +81,9 @@ export default {
 }
 .nestable-item {
     position: relative;
-    background: #e8f8f5;
-    padding: 10px;
-    border-radius: 10px;
+    background: #dbedfe;
+    font-weight: 600;
+    padding: 15px 10px 15px 10px;
     margin: 0 10px 15px 0;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }

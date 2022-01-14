@@ -68,6 +68,7 @@ class SupplierService
         } catch (Exception $e) {
             throw new ApiException("supplier.not_found", 404, null, $e);
         }
+        $supplier->update($request->all());
 
         try {
             $supplier->save();

@@ -66,12 +66,7 @@ export const menuItems = [
                 icon: "dripicons-user-group",
                 label: "menuitems.categories.all",
                 link: "/admin/categories/",
-            },
-            {
-                id: 12,
-                label: "menuitems.categories.new",
-                link: "/admin/category/",
-            },
+            }
         ],
     },
     {
@@ -85,7 +80,7 @@ export const menuItems = [
                 link: "/admin/ecommerce/products",
             },
             {
-                id: 15,
+                id: 20,
                 label: "menuitems.ecommerce.list.productdetail",
                 link: "/admin/ecommerce/product-detail",
             },
