@@ -60,6 +60,7 @@ class CategoryService
         } catch (Exception $e) {
             throw new ApiException("category.save_failed", 500, null, $e);
         }
+        return $category;
     }
 
     /**
@@ -83,6 +84,8 @@ class CategoryService
         } catch (Exception $e) {
             throw new ApiException("category.update_failed", 500, null, $e);
         }
+
+        return $category;
     }
     /**
      * @throws ApiException

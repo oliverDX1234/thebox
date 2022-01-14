@@ -5,6 +5,7 @@ import Nestable from "@/components/Nestable";
 import CategoryService from "@/services/categoryService";
 import Swal from "sweetalert2";
 import {required} from "vuelidate/lib/validators";
+import Layout from "../../layouts/main";
 
 
 /**
@@ -14,6 +15,7 @@ export default {
     components: {
         CustomTable,
         PageHeader,
+        Layout,
         Nestable
     },
     data() {
@@ -34,7 +36,6 @@ export default {
                 description: null,
                 city: null,
                 seo_keywords: null,
-                address: null
             },
             editableId: null,
             submitted: false,
@@ -59,9 +60,27 @@ export default {
     },
     methods: {
         editCategory(id) {
+            if (window.innerWidth <= 767) {
+                this.$scrollTo('.needs-validation', 1500)
+            }
             this.editableId = id;
             this.input
             this.loadCategory(id)
+        },
+        async updateCategory(value) {
+            await this.updateIndexFunction(this.categories, value)
+            this.index = null;
+        },
+        async storeCategory(value){
+            this.categories.push({
+                id: value.id,
+                name: value.name,
+                description: value.description,
+                seo_keywords: value.seo_keywords,
+                seo_description: value.seo_description,
+            });
+
+            await this.newCategory();
         },
         async deleteCategory(id) {
             let response;
@@ -80,6 +99,7 @@ export default {
 
                     await this.deleteIndexFunction(this.categories, parseInt(response));
                     this.index = null;
+                    await this.newCategory();
                 }
             });
         },
@@ -91,25 +111,28 @@ export default {
 
             if (!this.$v.$invalid) {
 
-                if (this.editableId) {
-                    await CategoryService.updateCategory(this.editableId, this.category);
+                let response = [];
 
+                if (this.editableId) {
+                    response = await CategoryService.updateCategory(this.editableId, this.category);
+                    await this.updateCategory(response);
                 } else {
-                    await CategoryService.storeCategory(this.category);
+                    response = await CategoryService.storeCategory(this.category);
+                    await this.storeCategory(response);
                 }
+
+
             }
         },
 
 
         newCategory() {
-
             this.editableId = false;
-
             const keys = Object.keys(this.category);
-
             keys.forEach((key, index) => {
                 this.category[key] = null;
             });
+            this.$v.$reset()
         },
 
         async loadCategory(id) {
@@ -135,6 +158,30 @@ export default {
                 }
             }
         },
+        updateIndexFunction(category, value, previous = null) {
+            if (!!this.index) {
+                return;
+            }
+            for (var i = 0; i < category.length; i++) {
+                if (category[i].id === value.id) {
+                    this.index = value.id;
+                    if (this.categories === category) {
+                        this.categories[i].name = value.name;
+                        this.categories[i].description = value.description;
+                        this.categories[i].seo_keywords = value.seo_keywords;
+                        this.categories[i].seo_description = value.seo_description;
+                    } else {
+                        previous.children = [];
+                    }
+                    return;
+                } else {
+                    if (category[i].children.length !== 0) {
+                        this.updateIndexFunction(category[i].children, value, category[i]);
+                    }
+                }
+            }
+        },
+
         updateItems(items) {
             this.categories = items;
         },
@@ -153,7 +200,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <Layout>
         <PageHeader
             :title="title"
             :items="items"
@@ -181,12 +228,18 @@ export default {
                                         <div class="col-12">
                                             <a
                                                 href="javascript:void(0);"
-                                                class="btn btn-primary mb-2"
+                                                class="btn btn-primary mb-2 mt-2"
                                                 v-if="categories.length !== 0"
                                                 @click="saveChanges"
                                             >
                                                 Save changes
                                             </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3 mb-3 d-md-none">
+                                        <div class="col-12">
+                                            <hr>
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +251,7 @@ export default {
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12 mt-1">
                                             <div class="card-box-shadow">
                                                 <div class="card-body">
                                                     <div class="row">
@@ -259,8 +312,9 @@ export default {
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
-                                                                            <label for="validationCustom03">SEO keywords <span
-                                                                                class="required">*</span></label>
+                                                                            <label for="validationCustom03">SEO keywords
+                                                                                <span
+                                                                                    class="required">*</span></label>
                                                                             <input
                                                                                 id="validationCustom03"
                                                                                 v-model="category.seo_keywords"
@@ -305,11 +359,6 @@ export default {
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <hr>
-                                                                    </div>
-                                                                </div>
                                                                 <a
                                                                     class="btn btn-success mt-2 float-left"
                                                                     @click="newCategory"
@@ -343,7 +392,7 @@ export default {
 
             </div>
         </div>
-    </div>
+    </Layout>
 </template>
 
 

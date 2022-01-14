@@ -40,19 +40,18 @@ class CategoryController extends Controller
      */
     public function store(CategoryStoreRequest $request): Response
     {
-        $this->categoryService->saveCategory($request);
+        $category = $this->categoryService->saveCategory($request);
 
-        return response()->api(null , "category.saved", 200);
+        return response()->api(['category' => $category] , "category.saved", 200);
     }
-
     /**
      * @throws ApiException
      */
     public function update(CategoryStoreRequest $request)
     {
-        $this->categoryService->updateCategory($request);
+        $category = $this->categoryService->updateCategory($request);
 
-        return response()->api(null , "category.updated", 200);
+        return response()->api(['category' => $category] , "category.updated", 200);
     }
 
     /**

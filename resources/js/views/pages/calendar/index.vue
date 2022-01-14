@@ -4,6 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import bootstrapPlugin from "@fullcalendar/bootstrap";
+import Layout from "../../layouts/main";
 import listPlugin from "@fullcalendar/list";
 
 import Swal from "sweetalert2";
@@ -21,7 +22,7 @@ export default {
     title: "Calendar",
     meta: [{ name: "description" }],
   },
-  components: { FullCalendar, PageHeader },
+  components: { FullCalendar, PageHeader, Layout },
   data() {
     return {
       title: "Calendar",
@@ -208,7 +209,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <Layout>
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">
@@ -320,5 +321,5 @@ export default {
         </div>
       </form>
     </b-modal>
-  </div>
+  </Layout>
 </template>

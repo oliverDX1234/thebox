@@ -60,14 +60,7 @@ export const menuItems = [
         id: 15,
         label: "menuitems.categories.categories",
         icon: "dripicons-checklist",
-        subItems: [
-            {
-                id: 11,
-                icon: "dripicons-user-group",
-                label: "menuitems.categories.all",
-                link: "/admin/categories/",
-            }
-        ],
+        link: "/admin/categories/",
     },
     {
         id: 13,
@@ -91,11 +84,6 @@ export const menuItems = [
             },
             {
                 id: 17,
-                label: "menuitems.ecommerce.list.customers",
-                link: "/admin/ecommerce/customers",
-            },
-            {
-                id: 18,
                 label: "menuitems.ecommerce.list.addproduct",
                 link: "/admin/ecommerce/add-product",
             },

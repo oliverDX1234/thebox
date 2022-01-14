@@ -18,7 +18,7 @@ import i18n from "./i18n";
 
 import imagePlugin from "./plugins/imagePlugin";
 import notificationPlugin from "./plugins/notificationPlugin";
-
+const VueScrollTo = require('vue-scrollto')
 // import "./assets/scss/app.scss";
 
 /*
@@ -32,6 +32,7 @@ Vue.config.productionTip = false;
 Vue.use(VueYoutube);
 Vue.use(BootstrapVue);
 Vue.use(vco);
+Vue.use(VueScrollTo)
 Vue.use(Vuelidate);
 Vue.use(VueSweetalert2);
 Vue.use(VueMask);

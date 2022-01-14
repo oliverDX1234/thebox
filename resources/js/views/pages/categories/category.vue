@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <Layout>
 
         <PageHeader
             :items="items"
@@ -161,7 +161,7 @@
         </div>
         <!-- end row -->
 
-    </div>
+    </Layout>
 </template>
 
 <script>
@@ -170,13 +170,14 @@ import {email, required} from "vuelidate/lib/validators";
 import PageHeader from '@/components/page-header';
 import Multiselect from "vue-multiselect";
 import CategoryService from "@/services/categoryService";
+import Layout from "../../layouts/main";
 
 export default {
     page: {
         title: "Category",
         meta: [{name: "New/Edit Category", content: "Create or edit a category"}],
     },
-    components: {PageHeader,  Multiselect},
+    components: {PageHeader,  Multiselect, Layout},
     data() {
 
         return {

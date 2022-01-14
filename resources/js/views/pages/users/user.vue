@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <Layout>
 
         <PageHeader
             :items="items"
@@ -296,7 +296,7 @@
         </div>
         <!-- end row -->
 
-    </div>
+    </Layout>
 </template>
 
 <script>
@@ -306,6 +306,7 @@ import PageHeader from '@/components/page-header';
 import FileUpload from '@/components/file-upload.vue'
 import DatePicker from "vue2-datepicker";
 import Multiselect from "vue-multiselect";
+import Layout from "../../layouts/main";
 import UserService from "@/services/userService";
 
 export default {
@@ -313,7 +314,7 @@ export default {
         title: "User",
         meta: [{name: "New/Edit User", content: "Create or edit a user"}],
     },
-    components: {PageHeader, FileUpload, DatePicker, Multiselect},
+    components: {PageHeader, FileUpload, DatePicker, Multiselect, Layout},
     data() {
 
         return {

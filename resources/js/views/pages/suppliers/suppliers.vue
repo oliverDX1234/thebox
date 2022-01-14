@@ -2,6 +2,7 @@
 import PageHeader from "@/components/page-header";
 import CustomTable from "@/components/CustomTable";
 import SupplierService from "@/services/supplierService";
+import Layout from "../../layouts/main";
 
 
 /**
@@ -10,6 +11,7 @@ import SupplierService from "@/services/supplierService";
 export default {
     components: {
         CustomTable,
+        Layout,
         PageHeader
     },
     data() {
@@ -61,7 +63,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <Layout>
         <PageHeader
             :title="title"
             :items="items"
@@ -84,5 +86,5 @@ export default {
                 </div>
             </div>
         </div>
-    </div>
+    </Layout>
 </template>

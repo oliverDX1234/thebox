@@ -17,18 +17,19 @@ const CategoryService = {
         return response.data.payload.categories;
     },
 
-
     async storeCategory(formData) {
-        await axios.post(`/api/categories`, formData, {
+        let response  = await axios.post(`/api/categories`, formData, {
             showToast: true
         });
+        return response.data.payload.category;
     },
 
 
     async updateCategory(id, formData) {
-        await axios.patch(`/api/categories/${id}`, formData, {
+        let response = await axios.patch(`/api/categories/${id}`, formData, {
             showToast: true
         });
+        return response.data.payload.category;
     },
 
 

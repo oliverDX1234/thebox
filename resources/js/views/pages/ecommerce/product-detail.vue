@@ -1,12 +1,15 @@
 <script>
  import PageHeader from "@/components/page-header";
+ import Layout from "../../layouts/main";
 
-/**
+
+ /**
  * Product Detail Component
  */
 export default {
   components: {
-    PageHeader
+    PageHeader,
+      Layout
   },
   data() {
     return {
@@ -36,7 +39,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <Layout>
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-12">
@@ -477,5 +480,5 @@ export default {
       </div>
     </div>
     <!-- end row -->
-  </div>
+  </Layout>
 </template>

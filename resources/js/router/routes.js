@@ -111,12 +111,6 @@ export default [
         component: () => import("../views/pages/ecommerce/orders"),
     },
     {
-        path: "/admin/ecommerce/customers",
-        name: "admin/Customers",
-        meta: { admin: true },
-        component: () => import("../views/pages/ecommerce/customers"),
-    },
-    {
         path: "/admin/ecommerce/add-product",
         name: "admin/Add-product",
         meta: { admin: true },
