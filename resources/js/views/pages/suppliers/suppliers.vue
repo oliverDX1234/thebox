@@ -32,6 +32,7 @@ export default {
                 {key: "phone", sortable: true, label: "Phone"},
                 {key: "city", sortable: true, label: "City"},
                 {key: "address", sortable: true, label: "Address"},
+                {key: "active", sortable: true, label: "Active"},
                 {key: "action"}
             ]
         };

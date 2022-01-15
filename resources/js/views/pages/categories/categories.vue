@@ -36,6 +36,7 @@ export default {
                 description: null,
                 city: null,
                 seo_keywords: null,
+                active: false
             },
             editableId: null,
             submitted: false,
@@ -64,7 +65,6 @@ export default {
                 this.$scrollTo('.needs-validation', 1500)
             }
             this.editableId = id;
-            this.input
             this.loadCategory(id)
         },
         async updateCategory(value) {
@@ -77,6 +77,7 @@ export default {
                 name: value.name,
                 description: value.description,
                 seo_keywords: value.seo_keywords,
+                active: value.active,
                 seo_description: value.seo_description,
             });
 
@@ -169,6 +170,7 @@ export default {
                         this.categories[i].name = value.name;
                         this.categories[i].description = value.description;
                         this.categories[i].seo_keywords = value.seo_keywords;
+                        this.categories[i].active = value.active;
                         this.categories[i].seo_description = value.seo_description;
                     } else {
                         previous.children = [];
@@ -332,8 +334,6 @@ export default {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
-
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
                                                                             <label>SEO description
@@ -356,6 +356,12 @@ export default {
                                                         v-if="!$v.category.seo_description.required">This value is required.</span>
                                                                             </div>
                                                                         </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12">
+                                                                        <b-form-checkbox v-model="category.active" size="lg" switch class="mb-1 mt-2">
+                                                                            <label>Active</label>
+                                                                        </b-form-checkbox>
                                                                     </div>
                                                                 </div>
 

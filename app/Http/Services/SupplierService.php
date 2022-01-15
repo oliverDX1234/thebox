@@ -48,7 +48,9 @@ class SupplierService
     public function saveSupplier($request)
     {
 
-        $supplier = Supplier::make($request->all());
+        $supplier = Supplier::make($request->except('active'));
+        $supplier->active = json_decode($request->active);
+
         $supplier->save();
 
         try {
@@ -68,7 +70,10 @@ class SupplierService
         } catch (Exception $e) {
             throw new ApiException("supplier.not_found", 404, null, $e);
         }
-        $supplier->update($request->all());
+
+        $supplier->update($request->except('active'));
+
+        $supplier->active = json_decode($request->active);
 
         try {
             $supplier->save();

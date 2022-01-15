@@ -41,7 +41,11 @@ class UserService
 
     public function saveUser($request)
     {
-        $user = User::make($request->all());
+
+        $user = User::make($request->except(['image', 'active', '_method']));
+
+        $user->active = json_decode($request->active);
+
         $user->save();
 
         if ($request->file('imageInput')) {
@@ -66,8 +70,9 @@ class UserService
         } catch (Exception $e) {
             throw new ApiException("user.not_found", 404, null, $e);
         }
+        $user->update($request->except(['image', 'active', '_method']));
 
-        $user->fill($request->all());
+        $user->active = json_decode($request->active);
 
         if ($request->file('imageInput')) {
             $user->addMediaFromRequest("imageInput")

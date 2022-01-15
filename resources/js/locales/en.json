@@ -149,7 +149,7 @@
         "suppliers": {
             "suppliers": "Suppliers",
             "all": "All Suppliers",
-            "new": "New Supplier"
+            "new": "Add Supplier"
         },
         "categories": {
             "categories": "Categories",

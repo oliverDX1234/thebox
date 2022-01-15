@@ -131,6 +131,13 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-12">
+                                            <b-form-checkbox v-model="supplier.active" size="lg" switch class="mb-1 mt-2">
+                                                <label>Active</label>
+                                            </b-form-checkbox>
+                                        </div>
+
                                     </div>
 
                                     <div class="row">
@@ -198,6 +205,7 @@ export default {
                 email: null,
                 city: null,
                 phone: null,
+                active: false,
                 address: null
             },
             submitted: false,
@@ -239,7 +247,6 @@ export default {
             }
         },
         async loadSuppliers() {
-
 
             this.supplier = await SupplierService.getSupplier(this.$route.params.id);
         },

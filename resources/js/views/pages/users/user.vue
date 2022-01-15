@@ -273,6 +273,12 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-12">
+                                            <b-form-checkbox v-model="user.active" size="lg" switch class="mb-1 mt-2">
+                                                <label>Active</label>
+                                            </b-form-checkbox>
+                                        </div>
                                     </div>
                                     <a
                                         class="btn btn-danger mt-2 float-left"
@@ -345,6 +351,7 @@ export default {
                 password: null,
                 roles: null,
                 confirmPassword: null,
+                active: false,
                 image: null
             },
             submitted: false,

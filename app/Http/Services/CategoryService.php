@@ -95,7 +95,6 @@ class CategoryService
         try {
             $this->categoryRepository->deleteCategory($id);
         } catch (Exception $e) {
-            dd($e);
             throw new ApiException($e->getMessage(), $e->getCode(), null, $e);
         }
     }

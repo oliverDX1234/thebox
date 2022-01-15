@@ -36,9 +36,8 @@ export default {
                 {key: "gender", sortable: true, label: "Gender"},
                 {key: "dob", sortable: true, label: "Date of birth"},
                 {key: "roles", sortable: true, label: "Roles"},
+                {key: "active", sortable: true, label: "Active"},
                 {key: "action"}
-
-
             ]
         };
     },

@@ -42,6 +42,14 @@
                 :filter-included-fields="filterOn"
                 @filtered="onFiltered"
             >
+                <template v-slot:cell(active)="row">
+                    <div
+                        class="badge font-size-12"
+                        :class="{'badge-soft-danger': `${row.value}` === 'false',
+                            'badge-soft-success': `${row.value}` === 'true',
+                            }"
+                    >{{ row.value === false ? "Inactive" : "Active"}}</div>
+                </template>
                 <template v-slot:cell(action)="row">
                     <a
                         @click="$emit('edit-item', row.item.id)"

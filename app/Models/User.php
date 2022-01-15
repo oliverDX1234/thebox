@@ -32,6 +32,7 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
         'address',
         'roles',
         'gender',
+        'active',
         'city',
         'dob',
     ];
@@ -58,6 +59,7 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'active' => 'boolean'
     ];
 
     public function registerMediaCollections() : void
