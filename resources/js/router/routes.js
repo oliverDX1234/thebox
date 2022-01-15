@@ -92,6 +92,15 @@ export default [
         component: () => import("../views/pages/categories/categories"),
     },
 
+    //filters
+
+    {
+        path: "/admin/filtersAndAttributes",
+        name: "admin/filtersAndAttributes",
+        meta: { admin: true },
+        component: () => import("../views/pages/filters/filtersAndAttributes"),
+    },
+
     {
         path: "/admin/ecommerce/products",
         name: "admin/products",

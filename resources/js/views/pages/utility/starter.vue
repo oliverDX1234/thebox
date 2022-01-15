@@ -1,35 +1,39 @@
 <script>
- import PageHeader from "@/components/page-header";
+import PageHeader from "@/components/page-header";
+
+
+import Layout from "../../layouts/main";
+
 
 /**
  * Starter page component
  */
 export default {
-  page: {
-    title: "Starter page",
-    meta: [{ name: "description" }]
-  },
-  components: {  PageHeader },
-  data() {
-    return {
-      title: "Starter page",
-      items: [
-        {
-          text: "Utility",
-          href: "/"
-        },
-        {
-          text: "Starter page",
-          active: true
-        }
-      ]
-    };
-  }
+    page: {
+        title: "Starter page",
+        meta: [{name: "description"}]
+    },
+    components: {PageHeader, Layout},
+    data() {
+        return {
+            title: "Starter page",
+            items: [
+                {
+                    text: "Utility",
+                    href: "/"
+                },
+                {
+                    text: "Starter page",
+                    active: true
+                }
+            ]
+        };
+    }
 };
 </script>
 
 <template>
-  <div> 
-    <PageHeader :title="title" :items="items" />
-  </div>
+    <Layout>
+        <PageHeader :title="title" :items="items"/>
+    </Layout>
 </template>

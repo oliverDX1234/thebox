@@ -156,6 +156,9 @@
             "all": "All Categories",
             "new": "New Category"
         },
+        "filters": {
+            "filtersAndAttributes": "Filters And Attributes"
+        },
         "layouts": {
             "text": "Layouts",
             "list": {

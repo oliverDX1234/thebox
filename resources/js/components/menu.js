@@ -63,6 +63,12 @@ export const menuItems = [
         link: "/admin/categories/",
     },
     {
+        id: 20,
+        label: "menuitems.filters.filtersAndAttributes",
+        icon: "ri-filter-line",
+        link: "/admin/filtersAndAttributes/",
+    },
+    {
         id: 13,
         label: "menuitems.ecommerce.text",
         icon: "ri-store-2-line",
