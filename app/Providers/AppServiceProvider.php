@@ -2,15 +2,18 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\AttributeRepository;
 use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\CityRepository;
+use App\Http\Repositories\FilterRepository;
+use App\Http\Repositories\Interfaces\AttributeRepositoryInterface;
 use App\Http\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Http\Repositories\Interfaces\CityRepositoryInterface;
+use App\Http\Repositories\Interfaces\FilterRepositoryInterface;
 use App\Http\Repositories\Interfaces\SupplierRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\SupplierRepository;
 use App\Http\Repositories\UserRepository;
-use App\Models\Category;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
         $this->app->bind(SupplierRepositoryInterface::class, SupplierRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
+        $this->app->bind(FilterRepositoryInterface::class, FilterRepository::class);
+        $this->app->bind(AttributeRepositoryInterface::class, AttributeRepository::class);
     }
 
     /**

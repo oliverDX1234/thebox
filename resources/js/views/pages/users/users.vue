@@ -85,7 +85,7 @@ export default {
                                 <i class="mdi mdi-plus mr-2"></i> New User
                             </a>
                         </div>
-                        <custom-table @edit-item="editUser" @delete-item="deleteUser" :items="users" :fields="fields"/>
+                        <custom-table @edit-item="editUser" @delete-item="deleteUser" :search="true" :items="users" :fields="fields"/>
                     </div>
                 </div>
             </div>

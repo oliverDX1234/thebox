@@ -82,7 +82,7 @@ export default {
                                 <i class="mdi mdi-plus mr-2"></i> New supplier
                             </a>
                         </div>
-                        <custom-table @edit-item="editSupplier" @delete-item="deleteSupplier" :items="suppliers" :fields="fields"/>
+                        <custom-table @edit-item="editSupplier" @delete-item="deleteSupplier" :search="true" :items="suppliers" :fields="fields"/>
                     </div>
                 </div>
             </div>

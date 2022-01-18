@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\admin\AdminSettingsController;
+use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +31,8 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
         Route::get("categoriesTree", [CategoryController::class, "getCategoriesTree"]);
         Route::post("saveCategories", [CategoryController::class, "saveCategories"]);
         Route::get("/cities", [CityController::class, 'getCities']);
-
+        Route::apiResource("filters", FilterController::class);
+        Route::apiResource("attributes", AttributeController::class);
     });
 });
 

@@ -15,13 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         Supplier::factory(7, [])->create();
         Category::factory(7, [])->create();
-
         $this->call([
             CitiesMkTableSeeder::class,
-            UsersTableSeeder::class
+            FilterSeeder::class,
+            UsersTableSeeder::class,
+            AttributesSeeder::class
         ]);
     }
 }

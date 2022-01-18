@@ -12,7 +12,7 @@
                 </div>
             </div>
             <!-- Search -->
-            <div class="col-sm-12 col-md-6">
+            <div v-if="search" class="col-sm-12 col-md-6">
                 <div id="tickets-table_filter" class="dataTables_filter text-md-right">
                     <label class="d-inline-flex align-items-center">
                         Search:
@@ -51,6 +51,16 @@
                     >{{ row.value === false ? "Inactive" : "Active"}}</div>
                 </template>
                 <template v-slot:cell(action)="row">
+                    <a
+                        @click="$emit('load-attributes', row.item.id)"
+                        class="mr-3 text-success"
+                        role="button"
+                        v-b-tooltip.hover
+                        title="Attributes"
+                        v-if="attributes"
+                    >
+                        <span class="success font-weight-bold font-size-18">A</span>
+                    </a>
                     <a
                         @click="$emit('edit-item', row.item.id)"
                         class="mr-3 text-primary"
@@ -91,7 +101,7 @@
 
 export default {
     name: 'custom-table',
-    props: ["items", "fields"],
+    props: ["items", "attributes", "search", "fields"],
     computed: {
         /**
          * Total no. of records
