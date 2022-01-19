@@ -136,3 +136,12 @@ export default {
     }
 }
 </script>
+
+
+<style>
+
+.table td:last-child{
+    min-width: 150px;
+}
+
+</style>

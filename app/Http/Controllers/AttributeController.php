@@ -39,9 +39,10 @@ class AttributeController extends Controller
      */
     public function store(AttributeStoreRequest $request): Response
     {
-        $this->attributeService->saveAttribute($request);
 
-        return response()->api(null , "attribute.saved", 200);
+        $attribute = $this->attributeService->saveAttribute($request);
+
+        return response()->api(['attribute' => $attribute] , "attribute.saved", 200);
     }
 
     /**

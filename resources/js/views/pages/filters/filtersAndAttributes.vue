@@ -59,8 +59,22 @@ export default {
             this.filters = await FilterService.getFilters();
         },
         loadAttributes(id) {
+            if (window.innerWidth <= 767) {
+                this.$scrollTo('#scrolling', 1500)
+            }
             this.attributes = this.filters[id - 1].attributes;
             this.loadedFilterLists = id;
+        },
+        addItem(item) {
+            if (item === "filter") {
+                this.modal.showModal = true;
+                this.modal.type = "filter";
+                this.modal.title = "Add Filter";
+            } else {
+                this.modal.showModal = true;
+                this.modal.type = "attribute";
+                this.modal.title = "Add Attribute";
+            }
         },
         editFilter(id) {
 
@@ -94,29 +108,59 @@ export default {
             this.modal.showModal = true;
         },
         async updateItems(modal) {
+
             this.modal.showModal = false;
-            if (modal.type === "filter") {
-                modal[modal.type] = modal.type_value;
-                let response = await FilterService.updateFilter(modal.id, modal);
-
-                this.filters[response.id - 1] = response;
-                let filters = this.filters;
-                this.filters = [];
-                this.$nextTick(() => {
-                    this.filters = filters
-                });
-            } else {
-                this.modal.showModal = false;
-                modal[modal.type] = modal.type_value;
-                let response = await AttributeService.updateAttribute(modal.id, modal);
-
-                this.attributes[response.id - 1] = response;
-                let attributes = this.attributes;
-                this.attributes = [];
-                this.$nextTick(() => {
-                    this.attributes = attributes
-                });
+            if (modal.id) {
+                if (modal.type === "filter") {
+                    this.modal.showModal = false;
+                    modal[modal.type] = modal.type_value;
+                    let response = await FilterService.updateFilter(modal.id, modal);
+                    this.resetModal();
+                    this.filters[response.id - 1] = response;
+                    let filters = this.filters;
+                    this.filters = [];
+                    this.$nextTick(() => {
+                        this.filters = filters
+                    });
+                } else {
+                    this.modal.showModal = false;
+                    modal[modal.type] = modal.type_value;
+                    let response = await AttributeService.updateAttribute(modal.id, modal);
+                    this.resetModal();
+                    this.attributes[response.id - 1] = response;
+                    let attributes = this.attributes;
+                    this.attributes = [];
+                    this.$nextTick(() => {
+                        this.attributes = attributes
+                    });
+                }
+            }else{
+                if (modal.type === "filter") {
+                    this.modal.showModal = false;
+                    modal[modal.type] = modal.type_value;
+                    let response = await FilterService.storeFilter(modal);
+                    this.resetModal();
+                    this.filters.push(response);
+                    let filters = this.filters;
+                    this.filters = [];
+                    this.$nextTick(() => {
+                        this.filters = filters
+                    });
+                } else {
+                    this.modal.showModal = false;
+                    modal[modal.type] = modal.type_value;
+                    modal["filter_id"] = this.loadedFilterLists;
+                    let response = await AttributeService.storeAttribute(modal);
+                    this.resetModal();
+                    this.attributes.push(response);
+                    let attributes = this.attributes;
+                    this.attributes = [];
+                    this.$nextTick(() => {
+                        this.attributes = attributes
+                    });
+                }
             }
+
         },
         async deleteFilter(id) {
 
@@ -178,8 +222,17 @@ export default {
                 }
             });
 
-        }
+        },
 
+        resetModal() {
+            this.modal.showModal = false;
+            this.modal.active = false;
+            this.modal.id = null;
+            this.modal.type_value = null;
+            this.modal.name = null;
+            this.modal.type = null;
+            this.modal.title = null;
+        }
     }
 };
 </script>
@@ -194,10 +247,13 @@ export default {
                     <div class="card-body">
                         <div>
                             <div class="row mt-3">
-                                <div class="col-md-6">
+                                <div class="col-lg-6 mb-sm-5">
                                     <div class="row mb-2">
                                         <div class="col-12">
-                                            <h5>Filters</h5>
+                                            <h5 class="float-left">Filters</h5>
+                                            <b-button class="float-right" @click="addItem('filter')" variant="success">
+                                                Add new
+                                            </b-button>
                                         </div>
                                         <div class="col-12">
                                             <custom-table :attributes="true" @edit-item="editFilter"
@@ -206,13 +262,17 @@ export default {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-6">
                                     <div class="row mb-2">
                                         <div class="col-12">
-                                            <h5>Attributes</h5>
+                                            <h5 class="float-left">Attributes</h5>
+                                            <b-button v-if="attributes.length > 0" class="float-right" @click="addItem('attributes')"
+                                                      variant="success">Add new
+                                            </b-button>
                                         </div>
                                         <div class="col-12">
-                                            <custom-table @edit-item="editAttribute" @delete-item="deleteAttribute"
+                                            <custom-table id="scrolling" @edit-item="editAttribute"
+                                                          @delete-item="deleteAttribute"
                                                           :items="attributes" :fields="fieldsAttributes"/>
                                         </div>
                                     </div>
@@ -225,7 +285,7 @@ export default {
             </div>
         </div>
 
-        <filter-popup-modal :modal="modal" @update-items="updateItems"/>
+        <filter-popup-modal @closed="resetModal" :modal="modal" @update-items="updateItems"/>
 
     </Layout>
 </template>

@@ -11,6 +11,7 @@ class Attribute extends Model
 
     protected $fillable = [
         "attribute",
+        "filter_id",
         'name'
     ];
 

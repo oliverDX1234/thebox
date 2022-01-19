@@ -39,9 +39,10 @@ class FilterController extends Controller
      */
     public function store(FilterStoreRequest $request): Response
     {
-        $this->filterService->saveFilter($request);
 
-        return response()->api(null , "filter.saved", 200);
+        $filter = $this->filterService->saveFilter($request);
+
+        return response()->api(['filter' => $filter] , "filter.saved", 200);
     }
 
     /**

@@ -59,9 +59,7 @@ class AttributeService
      */
     public function saveAttribute($request)
     {
-
         $attribute = Attribute::make($request->except('active'));
-        $attribute->active = json_decode($request->active);
 
         $attribute->save();
 
@@ -70,6 +68,9 @@ class AttributeService
         } catch (Exception $e) {
             throw new ApiException("attribute.save_failed", 500, null, $e);
         }
+
+
+        return $attribute;
     }
 
     /**

@@ -13,11 +13,12 @@ const AttributeService = {
         return response.data.payload.attributes;
     },
 
-    async storeAttribute(formData) {
-        await axios.post(`/api/attributes`, formData, {
+
+    async storeAttribute(attribute) {
+        let response = await axios.post(`/api/attributes`, attribute, {
             showToast: true
         });
-        await router.push("/admin/attributes");
+        return response.data.payload.attribute;
     },
 
     async updateAttribute(id, attribute) {

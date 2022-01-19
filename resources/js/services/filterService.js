@@ -13,11 +13,12 @@ const FilterService = {
         return response.data.payload.filters;
     },
 
-    async storeFilter(formData) {
-        await axios.post(`/api/filters`, formData, {
+    async storeFilter(filter) {
+        let response = await axios.post(`/api/filters`, filter, {
             showToast: true
         });
-        await router.push("/admin/filters");
+
+        return response.data.payload.filter;
     },
 
     async updateFilter(id, filter) {

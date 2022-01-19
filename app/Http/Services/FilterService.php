@@ -53,6 +53,7 @@ class FilterService
         } catch (Exception $e) {
             throw new ApiException("filter.save_failed", 500, null, $e);
         }
+        return $filter;
     }
 
     /**

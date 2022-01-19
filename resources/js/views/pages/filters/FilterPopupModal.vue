@@ -1,10 +1,10 @@
 <template>
-    <b-modal v-model="innerModal.showModal" :title="innerModal.title" centered>
+    <b-modal @hide="closed" v-model="innerModal.showModal" :title="innerModal.title" centered>
         <form>
             <div class="form-group">
 
                 <label class="text-capitalize">{{ innerModal.type }}</label>
-                <input type="text" v-model="innerModal.type_value" class="form-control" :placeholder="innerModal.type_value"/>
+                <input type="text" v-model="innerModal.type_value" class="form-control" :placeholder="innerModal.type"/>
             </div>
 
             <div class="form-group">
@@ -41,6 +41,11 @@ export default {
 
     mounted() {
       this.innerModal = this.modal;
+    },
+    methods:{
+        closed(){
+            this.$emit('closed');
+        }
     }
 }
 </script>
