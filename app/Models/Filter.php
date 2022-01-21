@@ -18,6 +18,11 @@ class Filter extends Model
     ];
 
 
+    public function category()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
     public function attributes()
     {
         return $this->hasMany(Attribute::Class);

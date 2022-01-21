@@ -4,6 +4,8 @@ import CustomTable from "@/components/CustomTable";
 import Nestable from "@/components/Nestable";
 import CategoryService from "@/services/categoryService";
 import {required} from "vuelidate/lib/validators";
+import FilterService from "../../../services/filterService";
+import Multiselect from "vue-multiselect";
 import Layout from "../../layouts/main";
 
 
@@ -15,6 +17,7 @@ export default {
         CustomTable,
         PageHeader,
         Layout,
+        Multiselect,
         Nestable
     },
     data() {
@@ -29,15 +32,16 @@ export default {
                 }
             ],
             categories: [],
-            cities: [],
             category: {
                 name: null,
                 description: null,
                 city: null,
                 seo_keywords: null,
-                active: false
+                active: false,
+                filters: []
             },
             editableId: null,
+            filters: [],
             submitted: false,
         };
     },
@@ -57,6 +61,7 @@ export default {
     },
     created() {
         this.getCategoriesTree();
+        this.getFilters();
     },
     methods: {
         editCategory(id) {
@@ -70,7 +75,7 @@ export default {
             await this.updateIndexFunction(this.categories, value)
             this.index = null;
         },
-        async storeCategory(value){
+        async storeCategory(value) {
             this.categories.push({
                 id: value.id,
                 name: value.name,
@@ -195,6 +200,10 @@ export default {
                 return x;
             })
         },
+
+        async getFilters(){
+            this.filters = await FilterService.getFilters();
+        }
     }
 };
 </script>
@@ -278,8 +287,7 @@ export default {
                                                                                 v-if="submitted && $v.category.name.$error"
                                                                                 class="invalid-feedback"
                                                                             >
-                                                    <span
-                                                        v-if="!$v.category.name.required">This value is required.</span>
+                                                                                <span v-if="!$v.category.name.required">This value is required.</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -302,8 +310,8 @@ export default {
                                                                                 v-if="submitted && $v.category.description.$error"
                                                                                 class="invalid-feedback"
                                                                             >
-                                                    <span
-                                                        v-if="!$v.category.description.required">This value is required.</span>
+                                                                                <span
+                                                                                    v-if="!$v.category.description.required">This value is required.</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -327,8 +335,8 @@ export default {
                                                                                 v-if="submitted && $v.category.seo_keywords.$error"
                                                                                 class="invalid-feedback"
                                                                             >
-                                                    <span
-                                                        v-if="!$v.category.seo_keywords.required">This value is required.</span>
+                                                                                <span
+                                                                                    v-if="!$v.category.seo_keywords.required">This value is required.</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -350,14 +358,29 @@ export default {
                                                                                 v-if="submitted && $v.category.seo_description.$error"
                                                                                 class="invalid-feedback"
                                                                             >
-                                                    <span
-                                                        v-if="!$v.category.seo_description.required">This value is required.</span>
+                                                                                <span
+                                                                                    v-if="!$v.category.seo_description.required">This value is required.</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
                                                                     <div class="col-md-12">
-                                                                        <b-form-checkbox v-model="category.active" size="lg" switch class="mb-1 mt-2">
+                                                                        <div class="form-group">
+                                                                            <label for="validationCustom03">Filters</label>
+                                                                            <multiselect
+                                                                                v-model="category.filters"
+                                                                                :options="filters"
+                                                                                label="name"
+                                                                                multiple=""
+                                                                                track-by="id"
+                                                                                class="text-capitalize"
+                                                                            >
+                                                                            </multiselect>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <b-form-checkbox v-model="category.active"
+                                                                                         size="lg" switch
+                                                                                         class="mb-1 mt-2">
                                                                             <label>Active</label>
                                                                         </b-form-checkbox>
                                                                     </div>

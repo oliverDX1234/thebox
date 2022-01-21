@@ -23,4 +23,10 @@ class Category extends Model
     protected $casts = [
         'active' => 'boolean',
     ];
+
+    public function filters()
+    {
+
+        return $this->belongsToMany(Filter::class);
+    }
 }

@@ -49,10 +49,11 @@ class CategoryService
     public function saveCategory($request)
     {
         $items = $request->all();
+        $filters = isset($items["filters"]) ? collect($items["filters"])->pluck("id")->toArray() : [];
         $items["url"] = slugify($request->name);
 
         $category = Category::make($items);
-
+        $category->filters()->sync($filters);
         $category->save();
 
         try {
@@ -75,8 +76,10 @@ class CategoryService
         }
 
         $items = $request->all();
+        $filters = isset($items["filters"]) ? collect($items["filters"])->pluck("id")->toArray() : [];
         $items["url"] = slugify($request->name);
 
+        $category->filters()->sync($filters);
         $category->update($items);
 
         try {
