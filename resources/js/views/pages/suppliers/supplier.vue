@@ -254,10 +254,21 @@ export default {
 
         async deleteSupplier() {
 
-            await SupplierService.deleteSupplier(this.$route.params.id);
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#34c38f",
+                cancelButtonColor: "#f46a6a",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async result => {
+                if (result.value) {
+                    await SupplierService.deleteSupplier(this.$route.params.id);
 
-            await this.$router.push('/admin/suppliers');
-
+                    await this.$router.push('/admin/suppliers');
+                }
+            });
         },
 
         async loadCities() {

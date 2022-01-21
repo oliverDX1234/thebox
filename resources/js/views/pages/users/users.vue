@@ -50,10 +50,23 @@ export default {
             this.$router.push('/admin/user/' + id);
         },
         async deleteUser(id) {
-            let response = await UserService.deleteUser(id);
-            let index = this.users.findIndex(user => user.id === parseInt(response))   // find the post index
-            if (~index) // if the post exists in array
-                this.users.splice(index, 1) //delete the post
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#34c38f",
+                cancelButtonColor: "#f46a6a",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async result => {
+                if (result.value) {
+                    let response = await UserService.deleteUser(id);
+                    let index = this.users.findIndex(user => user.id === parseInt(response))   // find the post index
+                    if (~index) // if the post exists in array
+                        this.users.splice(index, 1) //delete the post
+                }
+            });
+
         },
         async getUsers() {
             const users = await UserService.getUsers();
@@ -85,7 +98,8 @@ export default {
                                 <i class="mdi mdi-plus mr-2"></i> New User
                             </a>
                         </div>
-                        <custom-table @edit-item="editUser" @delete-item="deleteUser" :search="true" :items="users" :fields="fields"/>
+                        <custom-table @edit-item="editUser" @delete-item="deleteUser" :search="true" :items="users"
+                                      :fields="fields"/>
                     </div>
                 </div>
             </div>

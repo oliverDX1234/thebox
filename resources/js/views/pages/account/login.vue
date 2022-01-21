@@ -148,21 +148,6 @@ export default {
                                                 </form>
                                             </div>
 
-                                            <div class="mt-5 text-center">
-                                                <p>
-                                                    Don't have an account ?
-                                                    <router-link
-                                                        tag="a"
-                                                        to="/register"
-                                                        class="font-weight-medium text-primary"
-                                                    >Register
-                                                    </router-link>
-                                                </p>
-                                                <p>
-                                                    © 2020 Nazox. Crafted with
-                                                    <i class="mdi mdi-heart text-danger"></i> by Themesdesign
-                                                </p>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -106,6 +106,7 @@
                                                     class="invalid-feedback"
                                                 >
                                                     <span v-if="!$v.user.phone.required">This value is required.</span>
+                                                    <span v-if="!$v.user.phone.numbers">This value should be only numbers and prefixes.</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -306,7 +307,7 @@
 </template>
 
 <script>
-import {email, minLength, required, sameAs} from "vuelidate/lib/validators";
+import {email, helpers, minLength, required, sameAs} from "vuelidate/lib/validators";
 
 import PageHeader from '@/components/page-header';
 import FileUpload from '@/components/file-upload.vue'
@@ -314,7 +315,7 @@ import DatePicker from "vue2-datepicker";
 import Multiselect from "vue-multiselect";
 import Layout from "../../layouts/main";
 import UserService from "@/services/userService";
-
+const numbers = helpers.regex('numbers', /^[+\d0-9]*$/i);
 export default {
     page: {
         title: "User",
@@ -362,7 +363,7 @@ export default {
             first_name: {required},
             last_name: {required},
             city: {required},
-            phone: {required},
+            phone: {required, numbers},
             email: {required, email},
             address: {required},
             roles: {required},
@@ -397,15 +398,15 @@ export default {
             // stop here if form is invalid
             this.$v.$touch();
 
-            let fullCity = this.user.city;
-            this.user.city = this.user.city.id;
-            let formData = new FormData();
-
-            Object.keys(this.user).forEach(key => formData.append(key, this.user[key]));
-            formData.append("imageInput", this.imageInput);
-            this.user.city = fullCity;
-
             if (!this.$v.$invalid) {
+
+                let fullCity = this.user.city;
+                this.user.city = this.user.city.id;
+                let formData = new FormData();
+
+                Object.keys(this.user).forEach(key => formData.append(key, this.user[key]));
+                formData.append("imageInput", this.imageInput);
+                this.user.city = fullCity;
 
                 if (id) {
                     formData.append('_method', "patch");
@@ -423,11 +424,20 @@ export default {
 
 
         async deleteUser() {
-
-            await UserService.deleteUser(this.$route.params.id);
-
-            await this.$router.push('/admin/users');
-
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#34c38f",
+                cancelButtonColor: "#f46a6a",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async result => {
+                if (result.value) {
+                    await UserService.deleteUser(this.$route.params.id);
+                    await this.$router.push('/admin/users');
+                }
+            });
         },
 
         async loadCities() {

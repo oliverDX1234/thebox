@@ -3,7 +3,6 @@ import PageHeader from "@/components/page-header";
 import CustomTable from "@/components/CustomTable";
 import Nestable from "@/components/Nestable";
 import CategoryService from "@/services/categoryService";
-import Swal from "sweetalert2";
 import {required} from "vuelidate/lib/validators";
 import Layout from "../../layouts/main";
 
@@ -85,8 +84,7 @@ export default {
         },
         async deleteCategory(id) {
             let response;
-
-            await Swal.fire({
+            await this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
                 icon: "warning",

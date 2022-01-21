@@ -46,11 +46,24 @@ export default {
             this.$router.push('/admin/supplier/' + id);
         },
         async deleteSupplier(id) {
-            let response = await SupplierService.deleteSupplier(id);
-            let index = this.suppliers.findIndex(supplier => supplier.id === parseInt(response))
-            // find the post index
-            if (~index) // if the post exists in array
-                this.suppliers.splice(index, 1) //delete the post
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#34c38f",
+                cancelButtonColor: "#f46a6a",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async result => {
+                if (result.value) {
+                    let response = await SupplierService.deleteSupplier(id);
+                    let index = this.suppliers.findIndex(supplier => supplier.id === parseInt(response))
+                    // find the post index
+                    if (~index) // if the post exists in array
+                        this.suppliers.splice(index, 1) //delete the post
+                }
+            });
+
         },
         async getSuppliers() {
             const suppliers = await SupplierService.getSuppliers();

@@ -4,7 +4,6 @@ import PageHeader from "@/components/page-header";
 
 import CustomTable from "@/components/CustomTable";
 import Layout from "../../layouts/main";
-import Swal from "sweetalert2";
 import FilterService from "@/services/filterService"
 import AttributeService from "@/services/attributeService"
 import FilterPopupModal from "./FilterPopupModal";
@@ -164,7 +163,7 @@ export default {
         },
         async deleteFilter(id) {
 
-            await Swal.fire({
+            await this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
                 icon: "warning",
@@ -194,7 +193,7 @@ export default {
 
         },
         async deleteAttribute(id) {
-            await Swal.fire({
+            await this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
                 icon: "warning",
@@ -272,7 +271,7 @@ export default {
                                         </div>
                                         <div class="col-12">
                                             <custom-table id="scrolling" @edit-item="editAttribute"
-                                                          @delete-item="deleteAttribute"
+                                                          :search="true" @delete-item="deleteAttribute"
                                                           :items="attributes" :fields="fieldsAttributes"/>
                                         </div>
                                     </div>

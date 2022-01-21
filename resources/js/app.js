@@ -19,7 +19,6 @@ import i18n from "./i18n";
 import imagePlugin from "./plugins/imagePlugin";
 import notificationPlugin from "./plugins/notificationPlugin";
 const VueScrollTo = require('vue-scrollto')
-// import "./assets/scss/app.scss";
 
 /*
  * Move to separate file
@@ -47,6 +46,7 @@ Vue.use(VueGoogleMaps, {
     },
     installComponents: true,
 });
+
 Vue.component("apexchart", VueApexCharts);
 
 new Vue({

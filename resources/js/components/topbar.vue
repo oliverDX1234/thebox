@@ -377,13 +377,6 @@ export default {
                         <i class="ri-user-line align-middle mr-1"></i>
                         {{ $t("navbar.dropdown.kevin.list.profile") }}
                     </router-link>
-                    <a class="dropdown-item d-block" href="#">
-                        <span class="badge badge-success float-right mt-1"
-                        >11</span
-                        >
-                        <i class="ri-settings-2-line align-middle mr-1"></i>
-                        {{ $t("navbar.dropdown.kevin.list.settings") }}
-                    </a>
                     <div class="dropdown-divider"></div>
                     <a
                         class="dropdown-item text-danger"
