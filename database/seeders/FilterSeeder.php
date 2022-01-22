@@ -21,5 +21,15 @@ class FilterSeeder extends Seeder
             array('filter' => 'Size', 'name' => 'Golemina', 'active' => 1),
             array('filter' => 'Brand', 'name' => 'Brend', 'active' => 1)
         ));
+        DB::table('category_filter')->insert(array(
+            array('filter_id' => 1, 'category_id' => 1),
+            array('filter_id' => 1, 'category_id' => 2),
+            array('filter_id' => 2, 'category_id' => 2),
+            array('filter_id' => 5, 'category_id' => 2),
+            array('filter_id' => 5, 'category_id' => 3),
+            array('filter_id' => 5, 'category_id' => 1),
+            array('filter_id' => 1, 'category_id' => 5),
+            array('filter_id' => 2, 'category_id' => 5),
+        ));
     }
 }
