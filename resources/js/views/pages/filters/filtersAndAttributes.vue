@@ -58,10 +58,18 @@ export default {
             this.filters = await FilterService.getFilters();
         },
         loadAttributes(id) {
+            let index = this.findItemIndex(id, "filters");
+
             if (window.innerWidth <= 767) {
                 this.$scrollTo('#scrolling', 1500)
             }
-            this.attributes = this.filters[id - 1].attributes;
+
+            if(this.filters[index].attributes){
+                this.attributes = this.filters[index].attributes;
+            }else{
+                this.attributes = [];
+            }
+
             this.loadedFilterLists = id;
         },
         addItem(item) {
@@ -98,6 +106,7 @@ export default {
             let attribute = filter.attributes.find(index => {
                 return index.id === id;
             });
+
             let modal = this.modal.type = "attribute";
             this.modal.id = id;
             this.modal.name = attribute.name;
@@ -115,7 +124,10 @@ export default {
                     modal[modal.type] = modal.type_value;
                     let response = await FilterService.updateFilter(modal.id, modal);
                     this.resetModal();
-                    this.filters[response.id - 1] = response;
+
+                    let index = this.findItemIndex(response.id, "filters");
+
+                    this.filters[index] = response;
                     let filters = this.filters;
                     this.filters = [];
                     this.$nextTick(() => {
@@ -126,7 +138,10 @@ export default {
                     modal[modal.type] = modal.type_value;
                     let response = await AttributeService.updateAttribute(modal.id, modal);
                     this.resetModal();
-                    this.attributes[response.id - 1] = response;
+
+                    let index = this.findItemIndex(response.id, "attributes");
+
+                    this.attributes[index] = response;
                     let attributes = this.attributes;
                     this.attributes = [];
                     this.$nextTick(() => {
@@ -161,6 +176,25 @@ export default {
             }
 
         },
+        findItemIndex(id, isFor){
+            let index;
+            if(isFor === "filters"){
+                index = this.filters.findIndex(x => {
+                    return x.id === id;
+                })
+            }else{
+                index = this.attributes.findIndex(x => {
+                    return x.id === id;
+                })
+            }
+
+
+            if (index === -1) {
+                this.makeToast("danger", "Oops, there was an error");
+            }
+
+            return index;
+        },
         async deleteFilter(id) {
 
             await this.$swal.fire({
@@ -175,13 +209,8 @@ export default {
                 if (result.value) {
                     let response = await FilterService.deleteFilter(id);
 
-                    let index = this.filters.findIndex(i => {
-                        return i.id === response;
-                    })
+                    let index = this.findItemIndex(response, "filters");
 
-                    if (index === -1) {
-                        this.makeToast("danger", "Oops, there was an error");
-                    }
                     this.filters.splice(index, 1);
                     let filters = this.filters;
                     this.filters = [];
@@ -205,13 +234,8 @@ export default {
                 if (result.value) {
                     let response = await AttributeService.deleteAttribute(id);
 
-                    let index = this.attributes.findIndex(i => {
-                        return i.id === response;
-                    })
+                    let index = this.findItemIndex(response, "attributes");
 
-                    if (index === -1) {
-                        this.makeToast("danger", "Oops, there was an error");
-                    }
                     this.attributes.splice(index, 1);
                     let attributes = this.attributes;
                     this.attributes = [];
@@ -265,7 +289,7 @@ export default {
                                     <div class="row mb-2">
                                         <div class="col-12">
                                             <h5 class="float-left">Attributes</h5>
-                                            <b-button v-if="attributes.length > 0" class="float-right" @click="addItem('attributes')"
+                                            <b-button v-if="loadedFilterLists !== null" class="float-right" @click="addItem('attributes')"
                                                       variant="success">Add new
                                             </b-button>
                                         </div>
