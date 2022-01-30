@@ -91,21 +91,19 @@ export default [
         meta: { admin: true },
         component: () => import("../views/pages/categories/categories"),
     },
-
-    //filters
-
+    //Filters
     {
         path: "/admin/filtersAndAttributes",
         name: "admin/filtersAndAttributes",
         meta: { admin: true },
         component: () => import("../views/pages/filters/filtersAndAttributes"),
     },
-
+    //Products
     {
-        path: "/admin/ecommerce/products",
+        path: "/admin/products",
         name: "admin/products",
         meta: { admin: true },
-        component: () => import("../views/pages/ecommerce/products"),
+        component: () => import("../views/pages/products/products"),
     },
     {
         path: "/admin/ecommerce/product-detail",

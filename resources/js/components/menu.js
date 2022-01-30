@@ -76,7 +76,7 @@ export const menuItems = [
             {
                 id: 14,
                 label: "menuitems.ecommerce.list.products",
-                link: "/admin/ecommerce/products",
+                link: "/admin/products",
             },
             {
                 id: 20,

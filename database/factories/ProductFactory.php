@@ -1,0 +1,34 @@
+<?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ProductFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $name = $this->faker->word();
+        return [
+            "name" => $name,
+            "url" => slugify($name),
+            "supplier_id" => $this->faker->numberBetween($min = 1, $max = 7),
+            "short_description" => $this->faker->text(),
+            "description" => $this->faker->randomHtml(),
+            "unit_code" => $this->faker->randomNumber(),
+            "vat" => "18",
+            "weight" => $this->faker->numberBetween($min = 1, $max = 7),
+            "price" => $this->faker->numberBetween($min = 100, $max = 500),
+            "price_supplier" => $this->faker->numberBetween($min = 50, $max = 100),
+            'seo_keywords' => "shopping, perfumes, discount, natural, gifts",
+            'seo_description' => $this->faker->text(),
+            'active' => true
+
+        ];
+    }
+}
