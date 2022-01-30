@@ -39,6 +39,11 @@ class UserService
         }
     }
 
+    /**
+     * @throws ApiException
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
     public function saveUser($request)
     {
 
@@ -63,7 +68,7 @@ class UserService
         }
     }
 
-    public function updateUser($request)
+    public function updateUser($request): User
     {
         try {
             $user = $this->userRepository->findById($request->id);

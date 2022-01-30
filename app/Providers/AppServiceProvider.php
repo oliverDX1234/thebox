@@ -32,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(FilterRepositoryInterface::class, FilterRepository::class);
         $this->app->bind(AttributeRepositoryInterface::class, AttributeRepository::class);
+
+        if ($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
     }
 
     /**
