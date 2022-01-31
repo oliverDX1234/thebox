@@ -42,13 +42,34 @@
                 :filter-included-fields="filterOn"
                 @filtered="onFiltered"
             >
+                <template v-slot:cell(weight)="row">
+                    {{row.value}} kg
+                </template>
+                <template v-slot:cell(vat)="row">
+                    {{row.value}}%
+                </template>
+                <template v-slot:cell(supplier_id)="row">
+                    {{row.value.name}}
+                </template>
+                <template v-slot:cell(dimensions)="row">
+                    <div><strong>Width:</strong> {{ row.value.width }} cm</div>
+                    <div><strong>Height:</strong> {{ row.value.height }} cm</div>
+                    <div><strong>Length:</strong> {{ row.value.length }} cm</div>
+                </template>
+                <template v-slot:cell(price)="row">
+                    {{row.value}} MKD
+                </template>
+                <template v-slot:cell(price_supplier)="row">
+                    {{row.value}} MKD
+                </template>
                 <template v-slot:cell(active)="row">
                     <div
                         class="badge font-size-12"
                         :class="{'badge-soft-danger': `${row.value}` === 'false',
                             'badge-soft-success': `${row.value}` === 'true',
                             }"
-                    >{{ row.value === false ? "Inactive" : "Active"}}</div>
+                    >{{ row.value === false ? "Inactive" : "Active" }}
+                    </div>
                 </template>
                 <template v-slot:cell(action)="row">
                     <a
@@ -140,7 +161,7 @@ export default {
 
 <style>
 
-.table td:last-child{
+.table td:last-child {
     min-width: 150px;
 }
 

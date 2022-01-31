@@ -68,11 +68,7 @@ export default {
 
         },
         async getProducts() {
-            const products = await ProductService.getProducts();
-            this.products = products.map(x => {
-                x.city = x.city.city_name_en;
-                return x;
-            })
+            this.products = await ProductService.getProducts();
         },
     }
 };

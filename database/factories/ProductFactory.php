@@ -20,6 +20,7 @@ class ProductFactory extends Factory
             "supplier_id" => $this->faker->numberBetween($min = 1, $max = 7),
             "short_description" => $this->faker->text(),
             "description" => $this->faker->randomHtml(),
+            "dimensions" => '{"width":300,"height":300,"length":300}',
             "unit_code" => $this->faker->randomNumber(),
             "vat" => "18",
             "weight" => $this->faker->numberBetween($min = 1, $max = 7),

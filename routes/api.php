@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\FilterController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,8 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
         Route::get("/cities", [CityController::class, 'getCities']);
         Route::apiResource("filters", FilterController::class);
         Route::apiResource("attributes", AttributeController::class);
+        Route::apiResource("products", ProductController::class);
+
     });
 });
 

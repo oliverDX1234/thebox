@@ -10,8 +10,10 @@ use App\Http\Repositories\Interfaces\AttributeRepositoryInterface;
 use App\Http\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Http\Repositories\Interfaces\CityRepositoryInterface;
 use App\Http\Repositories\Interfaces\FilterRepositoryInterface;
+use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Http\Repositories\Interfaces\SupplierRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
+use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\SupplierRepository;
 use App\Http\Repositories\UserRepository;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->bind(SupplierRepositoryInterface::class, SupplierRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(FilterRepositoryInterface::class, FilterRepository::class);
