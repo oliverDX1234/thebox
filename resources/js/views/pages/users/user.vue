@@ -417,11 +417,10 @@ export default {
                 }
             }
         },
-        async loadUser() {
 
+        async loadUser() {
             this.user = await UserService.getUser(this.$route.params.id);
         },
-
 
         async deleteUser() {
             this.$swal.fire({

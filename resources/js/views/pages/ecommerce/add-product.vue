@@ -47,6 +47,9 @@ export default {
                 headers: { "My-Awesome-Header": "header value" }
             }
         };
+    },
+    mounted() {
+        this.$refs.formWizard.activateAll();
     }
 };
 </script>
@@ -58,7 +61,7 @@ export default {
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form-wizard color="#5664d2">
+                        <form-wizard ref="formWizard" color="#5664d2">
                             <tab-content title="Basic Info">
                                 <div class="tab-pane" id="basic-info">
                                     <h4 class="card-title">Basic Information</h4>
