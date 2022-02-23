@@ -11,3 +11,11 @@
 .multiselect__element .multiselect__option span{
     text-transform: capitalize;
 }
+
+.vue-form-wizard .wizard-nav-pills>li>a{
+    color: rgba(0,0,0,.5);
+}
+
+.vue-form-wizard .wizard-nav-pills>li>a:hover{
+    color: rgba(0,0,0,1);
+}

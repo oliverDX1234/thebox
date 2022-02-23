@@ -26,6 +26,7 @@ export default {
             products: [],
             fields: [
                 {key: "id", sortable: true, label: "ID"},
+                {key: "thumb", sortable: true, label: "Image"},
                 {key: "name", sortable: true, label: "Name"},
                 {key: "unit_code", sortable: true, label: "Unit Code"},
                 {key: "supplier_id", sortable: true, label: "Supplier"},
