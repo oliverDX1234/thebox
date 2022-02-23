@@ -1,3 +1,4 @@
+
 export default [
     //Account routes
     {
@@ -106,6 +107,12 @@ export default [
         component: () => import("../views/pages/products/products"),
     },
     {
+        path: "/admin/product",
+        name: "admin/new-product",
+        meta: { admin: true },
+        component: () => import("../views/pages/products/add-product"),
+    },
+    {
         path: "/admin/ecommerce/product-detail",
         name: "admin/productDetail",
         meta: { admin: true },
@@ -116,12 +123,6 @@ export default [
         name: "admin/Orders",
         meta: { admin: true },
         component: () => import("../views/pages/ecommerce/orders"),
-    },
-    {
-        path: "/admin/ecommerce/add-product",
-        name: "admin/Add-product",
-        meta: { admin: true },
-        component: () => import("../views/pages/ecommerce/add-product"),
     },
     {
         path: "/admin/pages/starter",

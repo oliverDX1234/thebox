@@ -91,7 +91,7 @@ export const menuItems = [
             {
                 id: 17,
                 label: "menuitems.ecommerce.list.addproduct",
-                link: "/admin/ecommerce/add-product",
+                link: "/admin/product",
             },
         ],
     },
