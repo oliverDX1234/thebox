@@ -31,15 +31,13 @@ export default {
                     active: true
                 }
             ],
+            product:{
+                name: null,
+                supplier_id: null,
+            },
+            suppliers:[],
             value: null,
             value1: null,
-            options: [
-                "Touchscreen",
-                "Call Function",
-                "Notifications",
-                "Fitness",
-                "Outdoor"
-            ],
             dropzoneOptions: {
                 url: "https://httpbin.org/post",
                 thumbnailWidth: 150,
@@ -64,20 +62,28 @@ export default {
                         <form-wizard ref="formWizard" color="#5664d2">
                             <tab-content title="Basic Info">
                                 <div class="tab-pane" id="basic-info">
-                                    <h4 class="card-title">Basic Information</h4>
-                                    <p class="card-title-desc">Fill all information below</p>
+                                    <h4 class="card-title mb-2">Basic Information</h4>
                                     <form>
                                         <div class="form-group">
-                                            <label for="productname">Product Name</label>
-                                            <input id="productname" name="productname" type="text" class="form-control" />
+                                            <label>Product Name <span
+                                                class="required">*</span>   </label>
+                                            <input placeholder="Product Name" type="text" class="form-control" />
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
-                                                    <label for="manufacturername">Manufacturer Name</label>
+                                                    <label>Supplier Name</label>
+                                                    <multiselect
+                                                        v-model="product.supplier_id"
+                                                        :options="suppliers"
+                                                    ></multiselect>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label>Weight</label>
                                                     <input
-                                                        id="manufacturername"
-                                                        name="manufacturername"
+                                                        placeholder="Weight"
                                                         type="text"
                                                         class="form-control"
                                                     />
@@ -85,19 +91,28 @@ export default {
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
-                                                    <label for="manufacturerbrand">Manufacturer Brand</label>
-                                                    <input
-                                                        id="manufacturerbrand"
-                                                        name="manufacturerbrand"
-                                                        type="text"
-                                                        class="form-control"
-                                                    />
+                                                    <label>Unit Code</label>
+                                                    <input placeholder="Unit Code" type="text" class="form-control" />
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="price">Price</label>
-                                                    <input id="price" name="price" type="text" class="form-control" />
+                                                    <label class="control-label">Width</label>
+                                                    <input type="text" placeholder="Enter width in cm" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Height</label>
+                                                    <input type="text" placeholder="Enter height in cm" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Length</label>
+                                                    <input type="text" placeholder="Enter length in cm" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -116,7 +131,7 @@ export default {
                                                     <label class="control-label">Features</label>
                                                     <multiselect
                                                         v-model="value1"
-                                                        :options="options"
+                                                        :options="[]"
                                                         :multiple="true"
                                                         :searchable="true"
                                                     ></multiselect>
