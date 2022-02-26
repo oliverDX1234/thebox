@@ -11,6 +11,14 @@ const CategoryService = {
         });
     },
 
+    async getCategories(){
+
+        let response = await axios.get(`/api/categories`);
+
+        return response.data.payload.categories;
+
+    },
+
 
     async getCategoriesTree() {
         let response = await axios.get(`/api/categoriesTree`);
@@ -40,8 +48,7 @@ const CategoryService = {
 
         return response.data.payload.category;
 
-    }
-
+    },
 
 }
 

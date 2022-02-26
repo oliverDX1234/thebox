@@ -1,8 +1,10 @@
 <script>
 import Multiselect from "vue-multiselect";
 import vue2Dropzone from "vue2-dropzone";
+import SupplierService from "@/services/supplierService";
+import CategoryService from "@/services/categoryService";
 
-import { FormWizard, TabContent } from "vue-form-wizard";
+import {FormWizard, TabContent} from "vue-form-wizard";
 
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
@@ -31,30 +33,48 @@ export default {
                     active: true
                 }
             ],
-            product:{
+            product: {
                 name: null,
                 supplier_id: null,
+                unit_code: null,
+                weight: null,
+                width: null,
+                height: null,
+                length: null,
+                category_id: null
             },
-            suppliers:[],
+            suppliers: [],
+            categories: [],
             value: null,
             value1: null,
             dropzoneOptions: {
                 url: "https://httpbin.org/post",
                 thumbnailWidth: 150,
                 maxFilesize: 0.5,
-                headers: { "My-Awesome-Header": "header value" }
+                headers: {"My-Awesome-Header": "header value"}
             }
         };
     },
+    methods: {
+        async getSupplier() {
+            this.suppliers = await SupplierService.getSuppliers();
+        },
+
+        async getCategories() {
+            this.categories = await CategoryService.getCategories();
+        }
+    },
     mounted() {
         this.$refs.formWizard.activateAll();
+        this.getSupplier();
+        this.getCategories();
     }
 };
 </script>
 
 <template>
     <Layout>
-        <PageHeader :title="title" :items="items" />
+        <PageHeader :title="title" :items="items"/>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -62,18 +82,18 @@ export default {
                         <form-wizard ref="formWizard" color="#5664d2">
                             <tab-content title="Basic Info">
                                 <div class="tab-pane" id="basic-info">
-                                    <h4 class="card-title mb-2">Basic Information</h4>
+                                    <h4 class="card-title mb-3">Basic Information</h4>
                                     <form>
                                         <div class="form-group">
-                                            <label>Product Name <span
-                                                class="required">*</span>   </label>
-                                            <input placeholder="Product Name" type="text" class="form-control" />
+                                            <label>Product Name <span class="required">*</span> </label>
+                                            <input placeholder="Product Name" type="text" class="form-control"/>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
-                                                    <label>Supplier Name</label>
+                                                    <label>Supplier</label>
                                                     <multiselect
+                                                        label="name"
                                                         v-model="product.supplier_id"
                                                         :options="suppliers"
                                                     ></multiselect>
@@ -81,7 +101,7 @@ export default {
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
-                                                    <label>Weight</label>
+                                                    <label>Weight <span class="required">*</span></label>
                                                     <input
                                                         placeholder="Weight"
                                                         type="text"
@@ -91,49 +111,43 @@ export default {
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
-                                                    <label>Unit Code</label>
-                                                    <input placeholder="Unit Code" type="text" class="form-control" />
+                                                    <label>Unit Code <span class="required">*</span></label>
+                                                    <input placeholder="Unit Code" type="text" class="form-control"/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="control-label">Width</label>
-                                                    <input type="text" placeholder="Enter width in cm" class="form-control">
+                                                    <label class="control-label">Width <span
+                                                        class="required">*</span></label>
+                                                    <input type="text" placeholder="Enter width in cm"
+                                                           class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="control-label">Height</label>
-                                                    <input type="text" placeholder="Enter height in cm" class="form-control">
+                                                    <label class="control-label">Height <span class="required">*</span></label>
+                                                    <input type="text" placeholder="Enter height in cm"
+                                                           class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="control-label">Length</label>
-                                                    <input type="text" placeholder="Enter length in cm" class="form-control">
+                                                    <label class="control-label">Length <span class="required">*</span></label>
+                                                    <input type="text" placeholder="Enter length in cm"
+                                                           class="form-control">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Category</label>
+                                                    <label class="control-label">Categories <span
+                                                        class="required">*</span></label>
                                                     <multiselect
                                                         v-model="value"
                                                         :options="['Electronic', 'Fashion', 'Fitness']"
-                                                    ></multiselect>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Features</label>
-                                                    <multiselect
-                                                        v-model="value1"
-                                                        :options="[]"
-                                                        :multiple="true"
-                                                        :searchable="true"
                                                     ></multiselect>
                                                 </div>
                                             </div>
@@ -173,7 +187,8 @@ export default {
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="metatitle">Meta title</label>
-                                                    <input id="metatitle" name="metatitle" type="text" class="form-control" />
+                                                    <input id="metatitle" name="metatitle" type="text"
+                                                           class="form-control"/>
                                                 </div>
                                             </div>
 
@@ -200,7 +215,8 @@ export default {
                                         <button
                                             type="submit"
                                             class="btn btn-primary mr-2 waves-effect waves-light"
-                                        >Save Changes</button>
+                                        >Save Changes
+                                        </button>
                                         <button type="submit" class="btn btn-light waves-effect">Cancel</button>
                                     </div>
                                 </div>
