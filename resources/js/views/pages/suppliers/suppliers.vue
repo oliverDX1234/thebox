@@ -46,6 +46,7 @@ export default {
             this.$router.push('/admin/supplier/' + id);
         },
         async deleteSupplier(id) {
+
             this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",

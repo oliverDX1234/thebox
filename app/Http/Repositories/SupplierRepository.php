@@ -21,6 +21,7 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function deleteSupplier($id)
     {
+
         return Supplier::findOrFail($id)->delete();
     }
 

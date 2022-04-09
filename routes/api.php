@@ -27,14 +27,21 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
 
         //Users
         Route::apiResource("users", UserController::class);
+
         Route::apiResource("suppliers", SupplierController::class);
+
         Route::apiResource("categories", CategoryController::class);
         Route::apiResource("categories", CategoryController::class);
         Route::get("categoriesTree", [CategoryController::class, "getCategoriesTree"]);
         Route::post("saveCategories", [CategoryController::class, "saveCategories"]);
+        Route::post("getFiltersForCategories", [CategoryController::class, "getFiltersForCategories"]);
+
         Route::get("/cities", [CityController::class, 'getCities']);
+
         Route::apiResource("filters", FilterController::class);
+
         Route::apiResource("attributes", AttributeController::class);
+
         Route::apiResource("products", ProductController::class);
 
     });

@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
+use App\Models\Filter;
 use Exception;
 
 class CategoryRepository implements CategoryRepositoryInterface
@@ -43,5 +44,10 @@ class CategoryRepository implements CategoryRepositoryInterface
         return $items;
     }
 
+
+    public function getFiltersForCategories($ids)
+    {
+        return Filter::with("attributes")->join("category_filter", "filters.id", "=", "category_filter.filter_id")->whereIn("category_filter.category_id", $ids)->get();
+    }
 
 }

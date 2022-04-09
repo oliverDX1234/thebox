@@ -50,6 +50,16 @@ const CategoryService = {
 
     },
 
+    async getFiltersForCategories(categories){
+        let response = await axios.post(`/api/getFiltersForCategories`, {
+            "categories": categories
+        }, {
+            showToast: false
+        });
+
+        return response.data.payload.filters;
+    }
+
 }
 
 export default CategoryService

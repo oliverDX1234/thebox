@@ -47,7 +47,7 @@ class Product extends Model implements HasMedia
 
             return $this->getFirstMedia("avatar")->getUrl('thumb');
         }else{
-            return env("APP_URL")."/images/placeholder.jpg";
+            return env("APP_URL")."/images/img-1.png";
         }
     }
 

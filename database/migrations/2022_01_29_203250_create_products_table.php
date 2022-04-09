@@ -31,7 +31,7 @@ class CreateProductsTable extends Migration
             $table->string("seo_description");
             $table->boolean("active")->default(true);
 
-            $table->foreign("supplier_id")->references("id")->on("suppliers");
+            $table->foreign("supplier_id")->references("id")->on("suppliers")->onUpdate("cascade")->onDelete("cascade");
             $table->timestamps();
         });
     }

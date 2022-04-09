@@ -45,7 +45,8 @@ export default {
             },
             suppliers: [],
             categories: [],
-            value: null,
+            filters: [],
+            selectedCategories: null,
             value1: null,
             dropzoneOptions: {
                 url: "https://httpbin.org/post",
@@ -62,6 +63,12 @@ export default {
 
         async getCategories() {
             this.categories = await CategoryService.getCategories();
+        },
+
+        async categoriesChanged(){
+            this.filters = await CategoryService.getFiltersForCategories(this.selectedCategories);
+
+
         }
     },
     mounted() {
@@ -146,8 +153,12 @@ export default {
                                                     <label class="control-label">Categories <span
                                                         class="required">*</span></label>
                                                     <multiselect
-                                                        v-model="value"
-                                                        :options="['Electronic', 'Fashion', 'Fitness']"
+                                                        v-model="selectedCategories"
+                                                        :options="categories"
+                                                        track-by="id"
+                                                        @input="categoriesChanged"
+                                                        multiple
+                                                        label="name"
                                                     ></multiselect>
                                                 </div>
                                             </div>
@@ -158,6 +169,22 @@ export default {
                                             <textarea class="form-control" id="productdesc" rows="5"></textarea>
                                         </div>
                                     </form>
+                                </div>
+                            </tab-content>
+                            <tab-content title="Filters and Attributes">
+                                <div class="tab-pane">
+                                    <h4 class="card-title mb-3">Filters and Attributes</h4>
+
+                                    <div class="row mb-2" v-for="filter in filters">
+                                        <div class="col-12">
+                                            <label class="control-label">{{ filter.name }}</label>
+                                            <multiselect
+                                            :options="filter.attributes"
+                                            label="name">
+
+                                            </multiselect>
+                                        </div>
+                                    </div>
                                 </div>
                             </tab-content>
                             <tab-content title="Product Img">

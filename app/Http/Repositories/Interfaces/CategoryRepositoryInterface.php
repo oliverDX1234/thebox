@@ -13,4 +13,6 @@ interface CategoryRepositoryInterface
 
     public function deleteCategory(int $id);
 
+    public function getFiltersForCategories($ids);
+
 }

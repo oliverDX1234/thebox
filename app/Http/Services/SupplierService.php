@@ -90,6 +90,7 @@ class SupplierService
         try {
             $this->supplierRepository->deleteSupplier($id);
         } catch (Exception $e) {
+            dd($e);
             throw new ApiException("supplier.not_found", 404, null, $e);
         }
     }

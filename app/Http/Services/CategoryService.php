@@ -174,4 +174,16 @@ class CategoryService
     }
 
 
+    public function getFiltersForCategories($request)
+    {
+        try {
+            $categoryIds = collect($request->categories)->pluck("id")->toArray();
+
+            return $this->categoryRepository->getFiltersForCategories($categoryIds);
+        } catch (Exception $e) {
+            throw new ApiException("global.error", 404, null, $e);
+        }
+    }
+
+
 }
