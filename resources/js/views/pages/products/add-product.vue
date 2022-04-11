@@ -44,6 +44,8 @@ export default {
                 category_id: null
             },
             suppliers: [],
+            selectedAttributes:{
+            },
             categories: [],
             filters: [],
             selectedCategories: null,
@@ -66,9 +68,13 @@ export default {
         },
 
         async categoriesChanged(){
-            this.filters = await CategoryService.getFiltersForCategories(this.selectedCategories);
+            let response = await CategoryService.getFiltersForCategories(this.selectedCategories);
 
+            this.filters = response.filtersAndCategories;
 
+            response.filters.forEach( x => {
+                this.selectedAttributes[x] = {}
+            });
         }
     },
     mounted() {
@@ -180,8 +186,9 @@ export default {
                                             <label class="control-label">{{ filter.name }}</label>
                                             <multiselect
                                             :options="filter.attributes"
+                                            v-model="selectedAttributes[filter.name]"
+                                            track_by="id"
                                             label="name">
-
                                             </multiselect>
                                         </div>
                                     </div>

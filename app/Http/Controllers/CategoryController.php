@@ -101,8 +101,8 @@ class CategoryController extends Controller
 
     public function getFiltersForCategories(Request $request)
     {
-        $filters = $this->categoryService->getFiltersForCategories($request);
+        $response = $this->categoryService->getFiltersForCategories($request);
 
-        return response()->api(["filters" => $filters] , "filter.retrieved", 200);
+        return response()->api(["data" => $response] , "filter.retrieved", 200);
     }
 }

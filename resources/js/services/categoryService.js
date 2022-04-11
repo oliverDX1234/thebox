@@ -57,7 +57,7 @@ const CategoryService = {
             showToast: false
         });
 
-        return response.data.payload.filters;
+        return response.data.payload.data;
     }
 
 }

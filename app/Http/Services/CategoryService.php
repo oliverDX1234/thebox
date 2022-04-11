@@ -179,7 +179,17 @@ class CategoryService
         try {
             $categoryIds = collect($request->categories)->pluck("id")->toArray();
 
-            return $this->categoryRepository->getFiltersForCategories($categoryIds);
+            $filtersAndCategories = $this->categoryRepository->getFiltersForCategories($categoryIds);
+            $filters = $filtersAndCategories->pluck("name")->toArray();
+            $attributes = $filtersAndCategories->pluck("attributes");
+
+            $data = [
+                "filtersAndCategories" => $filtersAndCategories,
+                "filters" => $filters,
+                "attributes" => $attributes
+            ];
+
+            return $data;
         } catch (Exception $e) {
             throw new ApiException("global.error", 404, null, $e);
         }
