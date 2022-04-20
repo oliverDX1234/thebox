@@ -1,0 +1,39 @@
+.vs__search{
+    position: relative !important;
+    display: inline-block !important;
+    min-height: 30px !important;
+    line-height: 20px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    background: #fff !important;
+    padding: 0 0 0 5px !important;
+    transition: border .1s ease !important;
+    box-sizing: border-box !important;
+    margin-bottom: 8px !important;
+    vertical-align: top !important;
+}
+
+.vs__selected{
+    background: rgb(86, 100, 210);
+    margin: 10px 5px;
+    color: white;
+}
+
+.vs__search::placeholder{
+    color: lightgrey;
+    padding-left: 7px;
+    font-size: 15px;
+}
+
+input::placeholder{
+    color: lightgrey;
+}
+
+.vs__selected svg{
+    fill: white;
+}
+
+.is-invalid{
+    border: 1px solid #ff3d60 !important;
+    border-radius: 7px;
+}

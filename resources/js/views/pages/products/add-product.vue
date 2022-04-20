@@ -3,11 +3,19 @@ import Multiselect from "vue-multiselect";
 import vue2Dropzone from "vue2-dropzone";
 import SupplierService from "@/services/supplierService";
 import CategoryService from "@/services/categoryService";
-
 import {FormWizard, TabContent} from "vue-form-wizard";
-
 import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
+import productService from "../../../services/productService";
+
+import {
+    required,
+    minLength,
+    helpers,
+    numeric
+} from "vuelidate/lib/validators";
+
+const keywords = helpers.regex('keywords', /^[a-zA-Z\s]+,?[a-zA-Z\s]+$/);
 
 /**
  * Add Product Component
@@ -34,51 +42,134 @@ export default {
                 }
             ],
             product: {
-                name: null,
-                supplier_id: null,
-                unit_code: null,
-                weight: null,
-                width: null,
-                height: null,
-                length: null,
-                category_id: null
-            },
-            suppliers: [],
-            selectedAttributes:{
+                basic_information:{
+                    name: null,
+                    supplier_id: null,
+                    unit_code: null,
+                    weight: null,
+                    width: null,
+                    height: null,
+                    length: null,
+                    category_id: null,
+                    description: null,
+                    selectedCategories: null
+                },
+                suppliers: [],
+                galleryImages: [],
+                selectedAttributes: {},
+                meta: {
+                    title: null,
+                    keywords: [],
+                    description: null
+                }
             },
             categories: [],
             filters: [],
-            selectedCategories: null,
-            value1: null,
             dropzoneOptions: {
-                url: "https://httpbin.org/post",
-                thumbnailWidth: 150,
+                url: "#",
+                thumbnailWidth: 200,
                 maxFilesize: 0.5,
-                headers: {"My-Awesome-Header": "header value"}
-            }
+                addRemoveLinks: true,
+                autoProcessQueue: false
+            },
+            submitted: false
         };
+    },
+    validations: {
+        product: {
+            basic_information:{
+                name: {required},
+                unit_code: {required},
+                weight: {required, numeric},
+                width: {required, numeric},
+                height: {required, numeric},
+                length: {required, numeric},
+                selectedCategories: {required, minLength: minLength(1)},
+            },
+            meta:{
+                title: {required},
+                keywords: {required, keywords},
+                description: {required}
+            }
+        },
+
     },
     methods: {
         async getSupplier() {
-            this.suppliers = await SupplierService.getSuppliers();
+            this.product.suppliers = await SupplierService.getSuppliers();
         },
 
         async getCategories() {
             this.categories = await CategoryService.getCategories();
         },
 
-        async categoriesChanged(){
-            let response = await CategoryService.getFiltersForCategories(this.selectedCategories);
+        async categoriesChanged() {
+            let response = await CategoryService.getFiltersForCategories(this.product.selectedCategories);
 
             this.filters = response.filtersAndCategories;
+        },
 
-            response.filters.forEach( x => {
-                this.selectedAttributes[x] = {}
+        imageAdded(file) {
+            if (!this.product.galleryImages.some(x => x.name === file.name)) {
+                this.product.galleryImages.push(file);
+            }
+        },
+        imageDeleted(file) {
+            let index = this.product.galleryImages.findIndex(x => x.name === file.name)
+
+            if (index !== -1) {
+                this.galleryImages.splice(index, 1);
+            }
+        },
+        validateStep1() {
+            this.submitted = true;
+
+            return new Promise((resolve, reject) => {
+
+                if (this.$v.product.basic_information.$invalid) {
+
+                    reject("Enter all the required fields");
+                    this.makeToast("danger", "Please properly enter all the required fields", "Error");
+                } else {
+
+                    this.submitted = false;
+                    resolve(true);
+                }
             });
+        },
+        validateStep2() {
+            return new Promise((resolve, reject) => {
+                resolve(true);
+            })
+        },
+        validateStep3() {
+            return new Promise((resolve, reject) => {
+                if(this.product.galleryImages.length === 0){
+                    reject("Upload at least one image")
+
+                    this.makeToast("danger", "Please upload at least one image", "Error");
+                }else{
+                    resolve(true);
+                }
+            })
+        },
+        validateStep4() {
+            this.submitted = true;
+
+            return new Promise((resolve, reject) => {
+
+                if(this.$v.product.meta.$invalid){
+                    reject("Enter all the required fields");
+                    this.makeToast("danger", "Please properly enter all the required fields", "Error");
+                }
+                resolve(true);
+            })
+        },
+        async finishSteps(){
+            let response = await productService.storeProduct(this.product)
         }
     },
     mounted() {
-        this.$refs.formWizard.activateAll();
         this.getSupplier();
         this.getCategories();
     }
@@ -92,14 +183,16 @@ export default {
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form-wizard ref="formWizard" color="#5664d2">
-                            <tab-content title="Basic Info">
+                        <form-wizard ref="formWizard" color="#5664d2" @on-complete="finishSteps">
+                            <tab-content title="Basic Info" :before-change="validateStep1">
                                 <div class="tab-pane" id="basic-info">
                                     <h4 class="card-title mb-3">Basic Information</h4>
                                     <form>
                                         <div class="form-group">
                                             <label>Product Name <span class="required">*</span> </label>
-                                            <input placeholder="Product Name" type="text" class="form-control"/>
+                                            <input placeholder="Product Name" v-model="product.basic_information.name" type="text"
+                                                   class="form-control"
+                                                   :class="{ 'is-invalid': this.submitted && $v.product.basic_information.name.$invalid }"/>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4">
@@ -107,8 +200,8 @@ export default {
                                                     <label>Supplier</label>
                                                     <multiselect
                                                         label="name"
-                                                        v-model="product.supplier_id"
-                                                        :options="suppliers"
+                                                        v-model="product.basic_information.supplier_id"
+                                                        :options="product.suppliers"
                                                     ></multiselect>
                                                 </div>
                                             </div>
@@ -118,14 +211,18 @@ export default {
                                                     <input
                                                         placeholder="Weight"
                                                         type="text"
+                                                        v-model="product.basic_information.weight"
                                                         class="form-control"
+                                                        :class="{ 'is-invalid': this.submitted && $v.product.basic_information.weight.$invalid }"
                                                     />
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Unit Code <span class="required">*</span></label>
-                                                    <input placeholder="Unit Code" type="text" class="form-control"/>
+                                                    <input placeholder="Unit Code" v-model="product.basic_information.unit_code"
+                                                           type="text" class="form-control"
+                                                           :class="{ 'is-invalid': this.submitted && $v.product.basic_information.unit_code.$invalid }"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,22 +231,28 @@ export default {
                                                 <div class="form-group">
                                                     <label class="control-label">Width <span
                                                         class="required">*</span></label>
-                                                    <input type="text" placeholder="Enter width in cm"
-                                                           class="form-control">
+                                                    <input type="text" v-model="product.basic_information.width"
+                                                           placeholder="Enter width in cm"
+                                                           class="form-control"
+                                                           :class="{ 'is-invalid': this.submitted && $v.product.basic_information.width.$invalid }">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Height <span class="required">*</span></label>
-                                                    <input type="text" placeholder="Enter height in cm"
-                                                           class="form-control">
+                                                    <input type="text" v-model="product.basic_information.height"
+                                                           placeholder="Enter height in cm"
+                                                           class="form-control"
+                                                           :class="{ 'is-invalid': this.submitted && $v.product.basic_information.height.$invalid }">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Length <span class="required">*</span></label>
-                                                    <input type="text" placeholder="Enter length in cm"
-                                                           class="form-control">
+                                                    <input type="text" v-model="product.basic_information.length"
+                                                           placeholder="Enter length in cm"
+                                                           class="form-control"
+                                                           :class="{ 'is-invalid': this.submitted && $v.product.basic_information.length.$invalid }">
                                                 </div>
                                             </div>
                                         </div>
@@ -159,12 +262,13 @@ export default {
                                                     <label class="control-label">Categories <span
                                                         class="required">*</span></label>
                                                     <multiselect
-                                                        v-model="selectedCategories"
+                                                        v-model="product.basic_information.selectedCategories"
                                                         :options="categories"
                                                         track-by="id"
                                                         @input="categoriesChanged"
                                                         multiple
                                                         label="name"
+                                                        :class="{ 'is-invalid': this.submitted && $v.product.basic_information.selectedCategories.$invalid }"
                                                     ></multiselect>
                                                 </div>
                                             </div>
@@ -172,29 +276,32 @@ export default {
 
                                         <div class="form-group">
                                             <label for="productdesc">Product Description</label>
-                                            <textarea class="form-control" id="productdesc" rows="5"></textarea>
+                                            <textarea class="form-control" v-model="product.description"
+                                                      id="productdesc" rows="5"></textarea>
                                         </div>
                                     </form>
                                 </div>
                             </tab-content>
-                            <tab-content title="Filters and Attributes">
+                            <tab-content title="Filters and Attributes" :before-change="validateStep2">
                                 <div class="tab-pane">
                                     <h4 class="card-title mb-3">Filters and Attributes</h4>
 
-                                    <div class="row mb-2" v-for="filter in filters">
-                                        <div class="col-12">
+                                    <div class="row">
+                                        <div v-for="filter in filters" class="col-6">
                                             <label class="control-label">{{ filter.name }}</label>
-                                            <multiselect
-                                            :options="filter.attributes"
-                                            v-model="selectedAttributes[filter.name]"
-                                            track_by="id"
-                                            label="name">
-                                            </multiselect>
+                                            <v-select
+                                                label="name"
+                                                placeholder="Select option"
+                                                class="mb-3"
+                                                :options="filter.attributes"
+                                                v-model="product.selectedAttributes[filter.name]"
+                                                multiple
+                                            ></v-select>
                                         </div>
                                     </div>
                                 </div>
                             </tab-content>
-                            <tab-content title="Product Img">
+                            <tab-content title="Product Img" :before-change="validateStep3">
                                 <div class="tab-pane" id="product-img">
                                     <h4 class="card-title">Product Images</h4>
                                     <p class="card-title-desc">Upload product image</p>
@@ -203,6 +310,9 @@ export default {
                                         ref="myVueDropzone"
                                         :use-custom-slot="true"
                                         :options="dropzoneOptions"
+                                        :duplicateCheck="true"
+                                        @vdropzone-file-added="imageAdded"
+                                        @vdropzone-removed-file="imageDeleted"
                                     >
                                         <div class="dropzone-custom-content">
                                             <i class="display-4 text-muted bx bxs-cloud-upload"></i>
@@ -211,7 +321,7 @@ export default {
                                     </vue-dropzone>
                                 </div>
                             </tab-content>
-                            <tab-content title="Meta Data">
+                            <tab-content title="Meta Data" :before-change="validateStep4">
                                 <div class="tab-pane" id="metadata">
                                     <h4 class="card-title">Meta Data</h4>
                                     <p class="card-title-desc">Fill all information below</p>
@@ -221,8 +331,10 @@ export default {
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label for="metatitle">Meta title</label>
-                                                    <input id="metatitle" name="metatitle" type="text"
-                                                           class="form-control"/>
+                                                    <input id="metatitle" v-model="product.meta.title" name="metatitle"
+                                                           type="text"
+                                                           class="form-control"
+                                                           :class="{ 'is-invalid': this.submitted && $v.product.meta.title.$invalid }"/>
                                                 </div>
                                             </div>
 
@@ -231,9 +343,12 @@ export default {
                                                     <label for="metakeywords">Meta Keywords</label>
                                                     <input
                                                         id="metakeywords"
+                                                        v-model="product.meta.keywords"
                                                         name="metakeywords"
+                                                        placeholder="exp: big, blue, expensive"
                                                         type="text"
                                                         class="form-control"
+                                                        :class="{ 'is-invalid': this.submitted && $v.product.meta.keywords.$invalid }"
                                                     />
                                                 </div>
                                             </div>
@@ -241,18 +356,11 @@ export default {
 
                                         <div class="form-group">
                                             <label for="metadescription">Meta Description</label>
-                                            <textarea class="form-control" id="metadescription" rows="5"></textarea>
+                                            <textarea class="form-control" v-model="product.meta.description"
+                                                      id="metadescription" rows="5"
+                                                      :class="{ 'is-invalid': this.submitted && $v.product.meta.description.$invalid }"></textarea>
                                         </div>
                                     </form>
-
-                                    <div class="text-center mt-4">
-                                        <button
-                                            type="submit"
-                                            class="btn btn-primary mr-2 waves-effect waves-light"
-                                        >Save Changes
-                                        </button>
-                                        <button type="submit" class="btn btn-light waves-effect">Cancel</button>
-                                    </div>
                                 </div>
                             </tab-content>
                         </form-wizard>

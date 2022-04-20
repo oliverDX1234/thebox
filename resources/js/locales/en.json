@@ -31,6 +31,22 @@
         "not_found": "The category was not found in the database"
     },
 
+    "filters": {
+        "saved": "The filter was successfully created",
+        "updated": "The filter was successfully updated",
+        "retrieved": "The filters were successfully retrieved",
+        "deleted": "The filter was successfully deleted",
+        "not_found": "The filter was not found in the database"
+    },
+
+    "attributes": {
+        "saved": "The attribute was successfully created",
+        "updated": "The attribute was successfully updated",
+        "retrieved": "The attributes were successfully retrieved",
+        "deleted": "The attribute was successfully deleted",
+        "not_found": "The attribute was not found in the database"
+    },
+
     "global": {
         "layout_changed_success": "The layout was successfully updated",
         "error": "There was an error while processing the requests",

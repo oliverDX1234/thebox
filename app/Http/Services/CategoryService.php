@@ -179,7 +179,7 @@ class CategoryService
         try {
             $categoryIds = collect($request->categories)->pluck("id")->toArray();
 
-            $filtersAndCategories = $this->categoryRepository->getFiltersForCategories($categoryIds);
+            $filtersAndCategories = $this->categoryRepository->getFiltersForCategories($categoryIds)->unique();
             $filters = $filtersAndCategories->pluck("name")->toArray();
             $attributes = $filtersAndCategories->pluck("attributes");
 
