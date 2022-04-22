@@ -23,20 +23,22 @@ class ProductStoreRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'product.basic_information.name' => 'required', 'max:255',
-            'product.basic_information.unit_code' => 'required',
-            'product.basic_information.weight' => 'required',
-            'product.basic_information.width' => 'required',
-            'product.basic_information.height' => 'required',
-            'product.basic_information.length' => 'required',
-            'product.basic_information.selectedCategories' => 'required',
-            'product.basic_information' => 'required',
-            'product.basic_information' => 'required',
-            'product.vat' => 'required',
-            'product.basic_information' => 'required',
+            'name' => 'required', 'max:255',
+            'unit_code' => 'required',
+            'weight' => 'required',
+            'width' => 'required',
+            'height' => 'required',
+            'length' => 'required',
+            'categories' => 'required',
+            'main_image' => 'required|max:500|mimes:jpg,png,jpeg',
             'price' => 'required|numeric',
-            'price_supplier' => 'required',
+            'supplier_price' => 'required|numeric',
+            'vat' => 'required|numeric',
+            'meta_title' => 'required',
+            'meta_keywords' => 'required',
+            'meta_description' => 'required',
         ];
     }
 }

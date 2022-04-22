@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        placeholder: `${process.env.MIX_APP_URL}/images/upload.png`,
+        placeholder: `${process.env.APP_URL}/images/placeholder.png`,
     },
     getters:{
         placeholder: (state) => state.placeholder,

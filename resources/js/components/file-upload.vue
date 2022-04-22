@@ -60,8 +60,8 @@ export default {
     display: block;
     margin: auto;
     cursor: pointer;
-    border-radius: 50%;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center center;
 }
 
@@ -90,13 +90,6 @@ export default {
     .image-input {
         width: 300px;
         height: 300px;
-    }
-}
-
-@media (min-width: 1900px) {
-    .image-input {
-        width: 400px;
-        height: 400px;
     }
 }
 

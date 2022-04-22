@@ -1,6 +1,15 @@
 const mix = require("laravel-mix");
 var path = require("path")
-require('dotenv').config();
+
+require('dotenv').config()
+let webpack = require('webpack')
+
+let dotenvplugin = new webpack.DefinePlugin({
+    'process.env': {
+        APP_URL: JSON.stringify(process.env.APP_URL || '/'),
+    }
+})
+
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +21,14 @@ require('dotenv').config();
  | file for the application as well as bundling up all the JS files.
  |
  */
+
+mix.webpackConfig(webpack => {
+    return {
+        plugins: [
+            dotenvplugin,
+        ]
+    };
+});
 
 mix.js("resources/js/app.js", "public/js")
     .vue()

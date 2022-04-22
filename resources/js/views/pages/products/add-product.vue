@@ -1,181 +1,3 @@
-<script>
-import Multiselect from "vue-multiselect";
-import vue2Dropzone from "vue2-dropzone";
-import SupplierService from "@/services/supplierService";
-import CategoryService from "@/services/categoryService";
-import {FormWizard, TabContent} from "vue-form-wizard";
-import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
-import productService from "../../../services/productService";
-
-import {
-    required,
-    minLength,
-    helpers,
-    numeric
-} from "vuelidate/lib/validators";
-
-const keywords = helpers.regex('keywords', /^[a-zA-Z\s]+,?[a-zA-Z\s]+$/);
-
-/**
- * Add Product Component
- */
-export default {
-    components: {
-        vueDropzone: vue2Dropzone,
-        Layout,
-        PageHeader,
-        FormWizard,
-        TabContent,
-        Multiselect
-    },
-    data() {
-        return {
-            title: "Add Product",
-            items: [
-                {
-                    text: "Ecommerce"
-                },
-                {
-                    text: "Add Product",
-                    active: true
-                }
-            ],
-            product: {
-                basic_information:{
-                    name: null,
-                    supplier_id: null,
-                    unit_code: null,
-                    weight: null,
-                    width: null,
-                    height: null,
-                    length: null,
-                    category_id: null,
-                    description: null,
-                    selectedCategories: null
-                },
-                suppliers: [],
-                galleryImages: [],
-                selectedAttributes: {},
-                meta: {
-                    title: null,
-                    keywords: [],
-                    description: null
-                }
-            },
-            categories: [],
-            filters: [],
-            dropzoneOptions: {
-                url: "#",
-                thumbnailWidth: 200,
-                maxFilesize: 0.5,
-                addRemoveLinks: true,
-                autoProcessQueue: false
-            },
-            submitted: false
-        };
-    },
-    validations: {
-        product: {
-            basic_information:{
-                name: {required},
-                unit_code: {required},
-                weight: {required, numeric},
-                width: {required, numeric},
-                height: {required, numeric},
-                length: {required, numeric},
-                selectedCategories: {required, minLength: minLength(1)},
-            },
-            meta:{
-                title: {required},
-                keywords: {required, keywords},
-                description: {required}
-            }
-        },
-
-    },
-    methods: {
-        async getSupplier() {
-            this.product.suppliers = await SupplierService.getSuppliers();
-        },
-
-        async getCategories() {
-            this.categories = await CategoryService.getCategories();
-        },
-
-        async categoriesChanged() {
-            let response = await CategoryService.getFiltersForCategories(this.product.selectedCategories);
-
-            this.filters = response.filtersAndCategories;
-        },
-
-        imageAdded(file) {
-            if (!this.product.galleryImages.some(x => x.name === file.name)) {
-                this.product.galleryImages.push(file);
-            }
-        },
-        imageDeleted(file) {
-            let index = this.product.galleryImages.findIndex(x => x.name === file.name)
-
-            if (index !== -1) {
-                this.galleryImages.splice(index, 1);
-            }
-        },
-        validateStep1() {
-            this.submitted = true;
-
-            return new Promise((resolve, reject) => {
-
-                if (this.$v.product.basic_information.$invalid) {
-
-                    reject("Enter all the required fields");
-                    this.makeToast("danger", "Please properly enter all the required fields", "Error");
-                } else {
-
-                    this.submitted = false;
-                    resolve(true);
-                }
-            });
-        },
-        validateStep2() {
-            return new Promise((resolve, reject) => {
-                resolve(true);
-            })
-        },
-        validateStep3() {
-            return new Promise((resolve, reject) => {
-                if(this.product.galleryImages.length === 0){
-                    reject("Upload at least one image")
-
-                    this.makeToast("danger", "Please upload at least one image", "Error");
-                }else{
-                    resolve(true);
-                }
-            })
-        },
-        validateStep4() {
-            this.submitted = true;
-
-            return new Promise((resolve, reject) => {
-
-                if(this.$v.product.meta.$invalid){
-                    reject("Enter all the required fields");
-                    this.makeToast("danger", "Please properly enter all the required fields", "Error");
-                }
-                resolve(true);
-            })
-        },
-        async finishSteps(){
-            let response = await productService.storeProduct(this.product)
-        }
-    },
-    mounted() {
-        this.getSupplier();
-        this.getCategories();
-    }
-};
-</script>
-
 <template>
     <Layout>
         <PageHeader :title="title" :items="items"/>
@@ -184,13 +6,16 @@ export default {
                 <div class="card">
                     <div class="card-body">
                         <form-wizard ref="formWizard" color="#5664d2" @on-complete="finishSteps">
+
+                            <!-- Step 1 - Basic Information -->
                             <tab-content title="Basic Info" :before-change="validateStep1">
                                 <div class="tab-pane" id="basic-info">
                                     <h4 class="card-title mb-3">Basic Information</h4>
                                     <form>
                                         <div class="form-group">
                                             <label>Product Name <span class="required">*</span> </label>
-                                            <input placeholder="Product Name" v-model="product.basic_information.name" type="text"
+                                            <input placeholder="Product Name" v-model="product.basic_information.name"
+                                                   type="text"
                                                    class="form-control"
                                                    :class="{ 'is-invalid': this.submitted && $v.product.basic_information.name.$invalid }"/>
                                         </div>
@@ -200,8 +25,8 @@ export default {
                                                     <label>Supplier</label>
                                                     <multiselect
                                                         label="name"
-                                                        v-model="product.basic_information.supplier_id"
-                                                        :options="product.suppliers"
+                                                        v-model="product.basic_information.selectedSuppliers"
+                                                        :options="suppliers"
                                                     ></multiselect>
                                                 </div>
                                             </div>
@@ -220,7 +45,8 @@ export default {
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Unit Code <span class="required">*</span></label>
-                                                    <input placeholder="Unit Code" v-model="product.basic_information.unit_code"
+                                                    <input placeholder="Unit Code"
+                                                           v-model="product.basic_information.unit_code"
                                                            type="text" class="form-control"
                                                            :class="{ 'is-invalid': this.submitted && $v.product.basic_information.unit_code.$invalid }"/>
                                                 </div>
@@ -282,7 +108,51 @@ export default {
                                     </form>
                                 </div>
                             </tab-content>
-                            <tab-content title="Filters and Attributes" :before-change="validateStep2">
+
+                            <!-- Step 2 - Product Price -->
+                            <tab-content title="Price" :before-change="validateStep2">
+                                <div class="tab-pane">
+                                    <h4 class="card-title mb-3">Price</h4>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Price <span
+                                                    class="required">*</span></label>
+                                                <input type="text" v-model="product.pricing.price"
+                                                       class="form-control"
+                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.price.$invalid }">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Supplier Price <span
+                                                    class="required">*</span></label>
+                                                <input type="text" v-model="product.pricing.supplier_price"
+                                                       class="form-control"
+                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.supplier_price.$invalid }">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Vat (%)<span
+                                                    class="required">*</span></label>
+                                                <multiselect
+                                                    v-model="product.pricing.vat"
+                                                    placeholder="Enter vat for this product"
+                                                    :options="[5,10,18]"
+                                                    :class="{ 'is-invalid': this.submitted && $v.product.pricing.vat.$invalid }"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab-content>
+
+                            <!-- Step 3 - Filters and Attributes -->
+                            <tab-content title="Filters and Attributes" :before-change="validateStep3">
                                 <div class="tab-pane">
                                     <h4 class="card-title mb-3">Filters and Attributes</h4>
 
@@ -301,29 +171,43 @@ export default {
                                     </div>
                                 </div>
                             </tab-content>
-                            <tab-content title="Product Img" :before-change="validateStep3">
+
+                            <!-- Step 4 - Product Gallery -->
+                            <tab-content title="Product Img" :before-change="validateStep4">
                                 <div class="tab-pane" id="product-img">
                                     <h4 class="card-title">Product Images</h4>
-                                    <p class="card-title-desc">Upload product image</p>
-                                    <vue-dropzone
-                                        id="dropzone"
-                                        ref="myVueDropzone"
-                                        :use-custom-slot="true"
-                                        :options="dropzoneOptions"
-                                        :duplicateCheck="true"
-                                        @vdropzone-file-added="imageAdded"
-                                        @vdropzone-removed-file="imageDeleted"
-                                    >
-                                        <div class="dropzone-custom-content">
-                                            <i class="display-4 text-muted bx bxs-cloud-upload"></i>
-                                            <h4>Drop files here or click to upload.</h4>
+                                    <p class="card-title-desc">Upload product images</p>
+                                    <div class="row mb-5">
+                                        <div class="col-sm-12 col-lg-6 mb-5 mb-lg-0">
+                                            <h5 class="mb-3 text-center">Main Product Image</h5>
+                                            <file-upload @image-uploaded="imageUploaded"
+                                                         :imageData="product.basic_information.image"/>
                                         </div>
-                                    </vue-dropzone>
+                                        <div class="col-sm-12 col-lg-6">
+                                            <h5 class="mb-3 text-center">Gallery Product Images</h5>
+                                            <vue-dropzone
+                                                id="dropzone"
+                                                ref="myVueDropzone"
+                                                :use-custom-slot="true"
+                                                :options="dropzoneOptions"
+                                                :duplicateCheck="true"
+                                                @vdropzone-file-added="imageAdded"
+                                                @vdropzone-removed-file="imageDeleted"
+                                            >
+                                                <div class="dropzone-custom-content">
+                                                    <i class="display-4 text-muted bx bxs-cloud-upload"></i>
+                                                    <h4>Drop files here or click to upload.</h4>
+                                                </div>
+                                            </vue-dropzone>
+                                        </div>
+                                    </div>
                                 </div>
                             </tab-content>
-                            <tab-content title="Meta Data" :before-change="validateStep4">
+
+                            <!-- Step 3 - Meta Information -->
+                            <tab-content title="Meta Information" :before-change="validateStep5">
                                 <div class="tab-pane" id="metadata">
-                                    <h4 class="card-title">Meta Data</h4>
+                                    <h4 class="card-title">Meta Information</h4>
                                     <p class="card-title-desc">Fill all information below</p>
 
                                     <form>
@@ -370,3 +254,240 @@ export default {
         </div>
     </Layout>
 </template>
+<script>
+import Multiselect from "vue-multiselect";
+import vue2Dropzone from "vue2-dropzone";
+import SupplierService from "@/services/supplierService";
+import CategoryService from "@/services/categoryService";
+import {FormWizard, TabContent} from "vue-form-wizard";
+import Layout from "../../layouts/main";
+import PageHeader from "@/components/page-header";
+import productService from "../../../services/productService";
+import fileUpload from "../../../components/file-upload";
+
+import {
+    required,
+    minLength,
+    helpers,
+    decimal
+} from "vuelidate/lib/validators";
+
+const keywords = helpers.regex('keywords', /^[a-zA-Z\s]+,?[a-zA-Z\s]+$/);
+
+/**
+ * Add Product Component
+ */
+export default {
+    components: {
+        vueDropzone: vue2Dropzone,
+        Layout,
+        PageHeader,
+        FormWizard,
+        TabContent,
+        Multiselect,
+        fileUpload
+    },
+    data() {
+        return {
+            title: "Add Product",
+            items: [
+                {
+                    text: "Ecommerce"
+                },
+                {
+                    text: "Add Product",
+                    active: true
+                }
+            ],
+            product: {
+                basic_information: {
+                    name: null,
+                    unit_code: null,
+                    weight: null,
+                    width: null,
+                    height: null,
+                    length: null,
+                    category_id: null,
+                    description: null,
+                    selectedSuppliers: [],
+                    selectedCategories: [],
+                    image: null
+                },
+                pricing: {
+                    price: null,
+                    supplier_price: null,
+                    vat: null
+                },
+                galleryImages: [],
+                selectedAttributes: {},
+                meta: {
+                    title: null,
+                    keywords: [],
+                    description: null
+                }
+            },
+            suppliers: [],
+            categories: [],
+            filters: [],
+            dropzoneOptions: {
+                url: "#",
+                thumbnailWidth: 200,
+                maxFilesize: 0.5,
+                addRemoveLinks: true,
+                autoProcessQueue: false
+            },
+            submitted: false
+        };
+    },
+    validations: {
+        product: {
+            basic_information: {
+                name: {required},
+                unit_code: {required},
+                weight: {required, decimal},
+                width: {required, decimal},
+                height: {required, decimal},
+                length: {required, decimal},
+                selectedCategories: {required, minLength: minLength(1)},
+            },
+            pricing: {
+                price: {required, decimal},
+                supplier_price: {required, decimal},
+                vat: {required}
+            },
+            meta: {
+                title: {required},
+                keywords: {required, keywords},
+                description: {required}
+            }
+        },
+
+    },
+    methods: {
+        async getSupplier() {
+            this.suppliers = await SupplierService.getSuppliers();
+        },
+
+        async getCategories() {
+            this.categories = await CategoryService.getCategories();
+        },
+
+        async categoriesChanged() {
+            let response = await CategoryService.getFiltersForCategories(this.product.basic_information.selectedCategories);
+
+            this.filters = response.filtersAndCategories;
+        },
+
+        imageAdded(file) {
+            if (!this.product.galleryImages.some(x => x.name === file.name)) {
+                this.product.galleryImages.push(file);
+            }
+        },
+        imageDeleted(file) {
+            let index = this.product.galleryImages.findIndex(x => x.name === file.name)
+
+            if (index !== -1) {
+                this.galleryImages.splice(index, 1);
+            }
+        },
+        validateStep1() {
+            this.submitted = true;
+
+            return new Promise((resolve, reject) => {
+
+                if (this.$v.product.basic_information.$invalid) {
+
+                    reject("Enter all the required fields");
+                    this.makeToast("danger", "Please properly enter all the required fields", "Error");
+                } else {
+
+                    this.submitted = false;
+                    resolve(true);
+                }
+            });
+        },
+        validateStep2() {
+            this.submitted = true;
+
+            return new Promise((resolve, reject) => {
+                if (this.$v.product.pricing.$invalid) {
+
+                    reject("Enter all the required fields");
+                    this.makeToast("danger", "Please properly enter all the required fields", "Error");
+                } else {
+
+                    this.submitted = false;
+                    resolve(true);
+                }
+            })
+        },
+        validateStep3() {
+            return new Promise((resolve, reject) => {
+                resolve(true);
+            })
+        },
+        validateStep4() {
+            return new Promise((resolve, reject) => {
+                resolve(true);
+            })
+        },
+        validateStep5() {
+            this.submitted = true;
+
+            return new Promise((resolve, reject) => {
+
+                if (this.$v.product.meta.$invalid) {
+                    reject("Enter all the required fields");
+                    this.makeToast("danger", "Please properly enter all the required fields", "Error");
+                }
+                resolve(true);
+            })
+        },
+        async finishSteps() {
+
+            let formData = new FormData();
+
+            //Basic Information
+            formData.append("name", this.product.basic_information.name);
+            formData.append("supplier", this.product.basic_information.supplier);
+            formData.append("weight", this.product.basic_information.weight);
+            formData.append("height", this.product.basic_information.height);
+            formData.append("width", this.product.basic_information.width);
+            formData.append("length", this.product.basic_information.length);
+            formData.append("unit_code", this.product.basic_information.unit_code);
+            formData.append("description", this.product.basic_information.description);
+            formData.append("categories", JSON.stringify(this.product.basic_information.selectedCategories));
+
+            //Price
+            formData.append("price", this.product.pricing.price);
+            formData.append("supplier_price", this.product.pricing.supplier_price);
+            formData.append("vat", this.product.pricing.vat);
+
+            //Filters and attributes
+            formData.append("attributes", JSON.stringify(this.product.selectedAttributes));
+
+            //Image and gallery
+            formData.append("main_image", this.product.basic_information.image);
+            if(this.product.galleryImages){
+                this.product.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`, x))
+            }
+
+            //SEO Information
+            formData.append("meta_title", this.product.meta.title);
+            formData.append("meta_keywords", this.product.meta.keywords);
+            formData.append("meta_description", this.product.meta.description);
+
+            console.log(formData);
+
+            let response = await productService.storeProduct(formData)
+        },
+        imageUploaded(file) {
+            this.product.basic_information.image = file;
+        }
+    },
+    mounted() {
+        this.getSupplier();
+        this.getCategories();
+    }
+};
+</script>
