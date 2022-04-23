@@ -204,7 +204,7 @@
                                 </div>
                             </tab-content>
 
-                            <!-- Step 3 - Meta Information -->
+                            <!-- Step 5 - Meta Information -->
                             <tab-content title="Meta Information" :before-change="validateStep5">
                                 <div class="tab-pane" id="metadata">
                                     <h4 class="card-title">Meta Information</h4>
@@ -247,6 +247,116 @@
                                     </form>
                                 </div>
                             </tab-content>
+
+                            <tab-content title="Preview">
+                                <div class="tab-pane" id="preview">
+                                    <h4 class="card-title">Preview Information</h4>
+                                    <p class="card-title-desc">Check all information below</p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <h6>Product Name</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.name }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Unit Code</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.unit_code }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Weight</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.weight }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Width</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.width }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Length</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.length }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Height</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.height }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Length</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.length }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Categories</h6>
+                                        <div class="mt-1 mb-3">
+                                            <template
+                                                v-for="(category, index) in product.basic_information.selectedCategories">
+                                                <template
+                                                    v-if="index !== product.basic_information.selectedCategories.length - 1">
+                                                    {{ category.name }},
+                                                </template>
+                                                <template v-else>
+                                                    {{ category.name }}
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div v-if="product.basic_information.selectedSuppliers.length" class="col-4">
+                                        <h6>Supplier</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.selectedSuppliers.name }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+
+                                    <div class="col-4">
+                                        <h6>Price</h6>
+                                        <p class="mt-1 mb-3">{{ product.pricing.price }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Supplier Price</h6>
+                                        <p class="mt-1 mb-3">{{ product.pricing.supplier_price }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Vat</h6>
+                                        <p class="mt-1 mb-3">{{ product.pricing.vat }}</p>
+                                    </div>
+                                </div>
+                                <template v-if="Object.keys(product.selectedAttributes).length">
+                                    <hr>
+                                    <div class="row">
+                                        <div v-for="(filter, index) in product.selectedAttributes" class="col-4">
+                                            <h6>{{ index }}</h6>
+                                            <div class="mt-1 mb-3">
+                                                <span v-for="(attribute, index) in filter">
+                                                    <template v-if="index !== filter.length - 1">
+                                                        {{ attribute.name }},
+                                                    </template>
+                                                    <template v-else>
+                                                       {{ attribute.name }}
+                                                    </template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <h6>Meta Title</h6>
+                                        <p class="mt-1 mb-3">{{ product.meta.title }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Meta Keywords</h6>
+                                        <p class="mt-1 mb-3">{{ product.meta.keywords }}</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Meta Description</h6>
+                                        <p class="mt-1 mb-3">{{ product.meta.description }}</p>
+                                    </div>
+
+                                </div>
+                            </tab-content>
+
                         </form-wizard>
                     </div>
                 </div>
@@ -440,6 +550,7 @@ export default {
                     reject("Enter all the required fields");
                     this.makeToast("danger", "Please properly enter all the required fields", "Error");
                 }
+
                 resolve(true);
             })
         },
@@ -468,7 +579,7 @@ export default {
 
             //Image and gallery
             formData.append("main_image", this.product.basic_information.image);
-            if(this.product.galleryImages){
+            if (this.product.galleryImages) {
                 this.product.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`, x))
             }
 
