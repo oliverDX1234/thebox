@@ -101,8 +101,8 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="productdesc">Product Description</label>
-                                            <textarea class="form-control" v-model="product.description"
+                                            <label for="productdesc">Product Short Description</label>
+                                            <textarea class="form-control" v-model="product.short_description"
                                                       id="productdesc" rows="5"></textarea>
                                         </div>
                                     </form>
@@ -418,7 +418,7 @@ export default {
                     height: null,
                     length: null,
                     category_id: null,
-                    description: null,
+                    short_description: null,
                     selectedSuppliers: [],
                     selectedCategories: [],
                     image: null
@@ -495,9 +495,8 @@ export default {
         },
         imageDeleted(file) {
             let index = this.product.galleryImages.findIndex(x => x.name === file.name)
-
             if (index !== -1) {
-                this.galleryImages.splice(index, 1);
+                this.product.galleryImages.splice(index, 1);
             }
         },
         validateStep1() {
@@ -560,13 +559,13 @@ export default {
 
             //Basic Information
             formData.append("name", this.product.basic_information.name);
-            formData.append("supplier", this.product.basic_information.supplier);
+            formData.append("supplier", JSON.stringify(this.product.basic_information.selectedSuppliers));
             formData.append("weight", this.product.basic_information.weight);
             formData.append("height", this.product.basic_information.height);
             formData.append("width", this.product.basic_information.width);
             formData.append("length", this.product.basic_information.length);
             formData.append("unit_code", this.product.basic_information.unit_code);
-            formData.append("description", this.product.basic_information.description);
+            formData.append("short_description", this.product.basic_information.description);
             formData.append("categories", JSON.stringify(this.product.basic_information.selectedCategories));
 
             //Price
@@ -584,11 +583,9 @@ export default {
             }
 
             //SEO Information
-            formData.append("meta_title", this.product.meta.title);
-            formData.append("meta_keywords", this.product.meta.keywords);
-            formData.append("meta_description", this.product.meta.description);
-
-            console.log(formData);
+            formData.append("seo_title", this.product.meta.title);
+            formData.append("seo_keywords", this.product.meta.keywords);
+            formData.append("seo_description", this.product.meta.description);
 
             let response = await productService.storeProduct(formData)
         },

@@ -47,6 +47,10 @@
         "not_found": "The attribute was not found in the database"
     },
 
+    "products": {
+        "problem_with_image": "There was a problem with uploading the image. Please try again!"
+    },
+
     "global": {
         "layout_changed_success": "The layout was successfully updated",
         "error": "There was an error while processing the requests",

@@ -36,9 +36,9 @@ class ProductStoreRequest extends FormRequest
             'price' => 'required|numeric',
             'supplier_price' => 'required|numeric',
             'vat' => 'required|numeric',
-            'meta_title' => 'required',
-            'meta_keywords' => 'required',
-            'meta_description' => 'required',
+            'seo_title' => 'required',
+            'seo_keywords' => 'required',
+            'seo_description' => 'required',
         ];
     }
 }

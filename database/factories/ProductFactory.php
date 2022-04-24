@@ -25,7 +25,8 @@ class ProductFactory extends Factory
             "vat" => "18",
             "weight" => $this->faker->numberBetween($min = 1, $max = 7),
             "price" => $this->faker->numberBetween($min = 100, $max = 500),
-            "price_supplier" => $this->faker->numberBetween($min = 50, $max = 100),
+            "supplier_price" => $this->faker->numberBetween($min = 50, $max = 100),
+            'seo_title' => $this->faker->word(),
             'seo_keywords' => "shopping, perfumes, discount, natural, gifts",
             'seo_description' => $this->faker->text(),
             'active' => true

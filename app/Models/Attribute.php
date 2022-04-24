@@ -21,4 +21,11 @@ class Attribute extends Model
         $this->belongsTo(Filter::Class);
     }
 
+    public function product()
+    {
+
+        $this->belongsTo(Product::Class);
+    }
+
+
 }

@@ -40,7 +40,6 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request): Response
     {
-        dd($request->all());
         $this->productService->saveProduct($request);
 
         return response()->api(null , "product.saved", 200);

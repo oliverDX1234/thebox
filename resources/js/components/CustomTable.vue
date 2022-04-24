@@ -62,7 +62,7 @@
                 <template v-slot:cell(price)="row">
                     {{row.value}} MKD
                 </template>
-                <template v-slot:cell(price_supplier)="row">
+                <template v-slot:cell(supplier_price)="row">
                     {{row.value}} MKD
                 </template>
                 <template v-slot:cell(active)="row">
