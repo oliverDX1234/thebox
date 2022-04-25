@@ -102,9 +102,22 @@
 
                                         <div class="form-group">
                                             <label for="productdesc">Product Short Description</label>
-                                            <textarea class="form-control" v-model="product.short_description"
+                                            <textarea placeholder="Enter short description for product" class="form-control" v-model="product.basic_information.short_description"
                                                       id="productdesc" rows="5"></textarea>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>Product Description</label>
+                                            <c-k-editor ref="editor"></c-k-editor>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <b-form-checkbox v-model="product.basic_information.active" size="lg" switch class="mb-1">
+                                                <label>Active</label>
+                                            </b-form-checkbox>
+                                        </div>
+
+
                                     </form>
                                 </div>
                             </tab-content>
@@ -187,7 +200,7 @@
                                             <h5 class="mb-3 text-center">Gallery Product Images</h5>
                                             <vue-dropzone
                                                 id="dropzone"
-                                                ref="myVueDropzone"
+                                                ref="galleryImagesDropzone"
                                                 :use-custom-slot="true"
                                                 :options="dropzoneOptions"
                                                 :duplicateCheck="true"
@@ -298,6 +311,12 @@
                                             </template>
                                         </div>
                                     </div>
+
+                                    <div class="col-4">
+                                        <h6>Active</h6>
+                                        <p class="mt-1 mb-3">{{ product.basic_information.active }}</p>
+                                    </div>
+
                                     <div v-if="product.basic_information.selectedSuppliers.length" class="col-4">
                                         <h6>Supplier</h6>
                                         <p class="mt-1 mb-3">{{ product.basic_information.selectedSuppliers.name }}</p>
@@ -374,6 +393,7 @@ import Layout from "../../layouts/main";
 import PageHeader from "@/components/page-header";
 import productService from "../../../services/productService";
 import fileUpload from "../../../components/file-upload";
+import CKEditor from "../../../components/CKEditor";
 
 import {
     required,
@@ -395,7 +415,8 @@ export default {
         FormWizard,
         TabContent,
         Multiselect,
-        fileUpload
+        fileUpload,
+        CKEditor
     },
     data() {
         return {
@@ -417,11 +438,11 @@ export default {
                     width: null,
                     height: null,
                     length: null,
-                    category_id: null,
                     short_description: null,
                     selectedSuppliers: [],
                     selectedCategories: [],
-                    image: null
+                    active: true,
+                    image: null,
                 },
                 pricing: {
                     price: null,
@@ -566,6 +587,8 @@ export default {
             formData.append("length", this.product.basic_information.length);
             formData.append("unit_code", this.product.basic_information.unit_code);
             formData.append("short_description", this.product.basic_information.description);
+            formData.append("description", this.$refs.editor.editorData);
+            formData.append("active", this.product.basic_information.active);
             formData.append("categories", JSON.stringify(this.product.basic_information.selectedCategories));
 
             //Price
@@ -591,11 +614,47 @@ export default {
         },
         imageUploaded(file) {
             this.product.basic_information.image = file;
+        },
+
+        async loadProduct(){
+            let product = await productService.getProduct(this.$route.params.id);
+
+            this.product.basic_information.name = product.name
+            this.product.basic_information.width = product.dimensions.width;
+            this.product.basic_information.height = product.dimensions.height;
+            this.product.basic_information.length = product.dimensions.length;
+            this.product.basic_information.weight = product.weight;
+            this.product.basic_information.unit_code = product.unit_code;
+            this.product.basic_information.short_description = product.short_description;
+            this.$refs.editor.editorData = product.description ?? "";
+            this.product.basic_information.selectedCategories = product.categories;
+            this.product.basic_information.selectedSuppliers = product.supplier_id;
+            this.product.pricing.price = product.price
+            this.product.pricing.supplier_price = product.supplier_price
+            this.product.pricing.vat = product.vat
+            this.product.basic_information.image = product.main_image.md;
+
+            product.gallery.forEach( x => {
+                var file = { size: 500, name: "Gallery Image", type: "image" };
+                this.$refs.galleryImagesDropzone.manuallyAddFile(file, x.md);
+            });
+
+
+            await this.categoriesChanged();
+
+            this.product.selectedAttributes = product.filters;
         }
     },
     mounted() {
         this.getSupplier();
         this.getCategories();
+
+        if(this.$route.params.id){
+
+            this.$refs.formWizard.activateAll();
+
+            this.loadProduct();
+        }
     }
 };
 </script>

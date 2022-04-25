@@ -38,7 +38,19 @@ class ProductService
     public function getProduct(int $id): Product
     {
         try {
-            return $this->productRepository->findById($id);
+            $product = $this->productRepository->findById($id);
+
+            $product->load(["attributes.filter", "categories"]);
+
+            $filters = [];
+
+            foreach($product->attributes as $attribute){
+               $filters[$attribute->filter->name][] = $attribute;
+            }
+
+            $product->filters = $filters;
+
+            return $product;
         } catch (Exception $e) {
             throw new ApiException("product.not_found", 404, null, $e);
         }
@@ -74,7 +86,7 @@ class ProductService
                     break;
                 } else {
                     $product->addMediaFromRequest("gallery_image_" . $i)
-                        ->toMediaCollection("gallery_image_" . $i);
+                        ->toMediaCollection("gallery_images");
                     $i++;
                 }
             }

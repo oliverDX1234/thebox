@@ -43,7 +43,7 @@
                 @filtered="onFiltered"
             >
                 <template v-slot:cell(thumb)="row">
-                    <img width="80px" :src="row.value" alt="product-image-thumbnail">
+                    <img width="80px" :src="row.item.main_image.sm" alt="product-image-thumbnail">
                 </template>
                 <template v-slot:cell(weight)="row">
                     {{row.value}} kg

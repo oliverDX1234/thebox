@@ -12,7 +12,7 @@ class Product extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $appends = ['thumb'];
+    protected $appends = ['main_image', "gallery"];
 
     protected $fillable = [
         "name",
@@ -64,13 +64,40 @@ class Product extends Model implements HasMedia
     }
 
 
-    public function getThumbAttribute()
+    public function getMainImageAttribute()
     {
-        if ($this->getFirstMedia("products")) {
+        if ($this->getFirstMedia("main_image")) {
 
-            return $this->getFirstMedia("avatar")->getUrl('thumb');
+            $image = [];
+
+            $image["sm"] = $this->getFirstMedia("main_image")->getUrl("sm");
+            $image["md"] = $this->getFirstMedia("main_image")->getUrl("md");
+            $image["lg"] = $this->getFirstMedia("main_image")->getUrl();
+
+            return $image;
         } else {
-            return env("APP_URL") . "/images/img-1.png";
+
+            return [
+                "sm" => env("APP_URL") . "/images/img-1.png"
+            ];
+        }
+    }
+
+    public function getGalleryAttribute()
+    {
+        $images = $this->getMedia("gallery_images");
+        $gallery = [];
+
+        if($images->count()){
+
+            foreach($images as $key => $image){
+                $gallery[$key]["sm"] = $image->getUrl("sm");
+                $gallery[$key]["md"] = $image->getUrl("md");
+                $gallery[$key]["lg"] = $image->getUrl();
+            }
+            return $gallery;
+        }else {
+            return [];
         }
     }
 

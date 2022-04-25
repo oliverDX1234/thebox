@@ -18,13 +18,13 @@ class Attribute extends Model
     public function filter()
     {
 
-        $this->belongsTo(Filter::Class);
+        return $this->belongsTo(Filter::Class);
     }
 
     public function product()
     {
 
-        $this->belongsTo(Product::Class);
+        return $this->belongsTo(Product::Class);
     }
 
 

@@ -108,9 +108,15 @@ export default [
     },
     {
         path: "/admin/product",
-        name: "admin/new-product",
+        name: "admin-new-product",
         meta: { admin: true },
-        component: () => import("../views/pages/products/add-product"),
+        component: () => import("../views/pages/products/product"),
+    },
+    {
+        path: "/admin/product/:id",
+        name: "admin-edit-product",
+        meta: { admin: true },
+        component: () => import("../views/pages/products/product"),
     },
     {
         path: "/admin/ecommerce/product-detail",

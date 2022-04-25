@@ -37,3 +37,7 @@ input::placeholder{
     border: 1px solid #ff3d60 !important;
     border-radius: 7px;
 }
+
+.ck-editor{
+    border: 1px solid #ced4da !important;
+}

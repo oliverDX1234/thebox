@@ -21,6 +21,9 @@ import i18n from "./i18n";
 
 import imagePlugin from "./plugins/imagePlugin";
 import notificationPlugin from "./plugins/notificationPlugin";
+
+import CKEditor from '@ckeditor/ckeditor5-vue2';
+
 const VueScrollTo = require('vue-scrollto')
 
 /*
@@ -37,6 +40,7 @@ Vue.use(vco);
 Vue.use(VueScrollTo)
 Vue.use(Vuelidate);
 Vue.use(VueSweetalert2);
+Vue.use( CKEditor );
 Vue.use(VueMask);
 Vue.use(require("vue-chartist"));
 Vue.use(imagePlugin);
