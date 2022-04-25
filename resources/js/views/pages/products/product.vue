@@ -602,7 +602,8 @@ export default {
             //Image and gallery
             formData.append("main_image", this.product.basic_information.image);
             if (this.product.galleryImages) {
-                this.product.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`, x))
+
+                this.product.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`,  !(x instanceof File) ? JSON.stringify(x) : x))
             }
 
             //SEO Information
@@ -610,7 +611,13 @@ export default {
             formData.append("seo_keywords", this.product.meta.keywords);
             formData.append("seo_description", this.product.meta.description);
 
-            let response = await productService.storeProduct(formData)
+            if(this.$route.params.id){
+                formData.append('_method', "patch");
+                formData.append('id', this.$route.params.id);
+                let response = await productService.updateProduct(this.$route.params.id, formData)
+            }else{
+                let response = await productService.storeProduct(formData)
+            }
         },
         imageUploaded(file) {
             this.product.basic_information.image = file;
@@ -629,13 +636,19 @@ export default {
             this.$refs.editor.editorData = product.description ?? "";
             this.product.basic_information.selectedCategories = product.categories;
             this.product.basic_information.selectedSuppliers = product.supplier_id;
+            this.product.basic_information.image = product.main_image.md;
+
             this.product.pricing.price = product.price
             this.product.pricing.supplier_price = product.supplier_price
             this.product.pricing.vat = product.vat
-            this.product.basic_information.image = product.main_image.md;
+
+            this.product.meta.title = product.seo_title;
+            this.product.meta.keywords = product.seo_keywords;
+            this.product.meta.description = product.seo_description;
+
 
             product.gallery.forEach( x => {
-                var file = { size: 500, name: "Gallery Image", type: "image" };
+                var file = { size: x.infos.size, name: x.infos.name, type: x.infos.extension, model_id: x.infos.model_id, id:x.infos.id };
                 this.$refs.galleryImagesDropzone.manuallyAddFile(file, x.md);
             });
 

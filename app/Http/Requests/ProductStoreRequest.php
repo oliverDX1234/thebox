@@ -32,7 +32,7 @@ class ProductStoreRequest extends FormRequest
             'height' => 'required',
             'length' => 'required',
             'categories' => 'required',
-            'main_image' => 'required|max:500|mimes:jpg,png,jpeg',
+            'main_image' => 'required|max:500',
             'price' => 'required|numeric',
             'supplier_price' => 'required|numeric',
             'vat' => 'required|numeric',

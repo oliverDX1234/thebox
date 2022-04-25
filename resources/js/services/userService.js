@@ -29,7 +29,7 @@ const UserService = {
 
         //If the logged in user is updating his information
         if(store.getters["auth/user"].id === response.data.payload.user.id){
-            console.log(response.data.payload.user);
+
             store.commit("auth/updateUser", response.data.payload.user);
         }
 

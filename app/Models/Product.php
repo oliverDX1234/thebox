@@ -91,9 +91,17 @@ class Product extends Model implements HasMedia
         if($images->count()){
 
             foreach($images as $key => $image){
+
                 $gallery[$key]["sm"] = $image->getUrl("sm");
                 $gallery[$key]["md"] = $image->getUrl("md");
                 $gallery[$key]["lg"] = $image->getUrl();
+                $gallery[$key]["infos"] = [
+                    "size" => $image->size,
+                    "model_id" => $image->model_id,
+                    "name" => $image->name,
+                    "id" => $image->id,
+                    "extension" => $image->mime_type
+                ];
             }
             return $gallery;
         }else {

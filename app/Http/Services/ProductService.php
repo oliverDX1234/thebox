@@ -8,6 +8,7 @@ use App\Models\Product;
 use Exception;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductService
 {
@@ -62,7 +63,7 @@ class ProductService
     public function saveProduct($request)
     {
         try {
-            $product = Product::make($request->except('active'));
+            $product = Product::make();
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
             $product->dimensions = json_encode([
@@ -71,7 +72,7 @@ class ProductService
                 "length" => $request->length
             ]);
             $product->supplier_price = $request->supplier_price;
-            $product->active = 1;
+            $product->active = $request->active;
 
             if ($request->file('main_image')) {
                 $product->addMediaFromRequest("main_image")
@@ -123,8 +124,58 @@ class ProductService
     public function updateProduct($request)
     {
         try {
+            dd($request->all());
             $product = $this->productRepository->findById($request->id);
+
+            $product->update($request->all());
+            $product->url = slugify($request->name);
+            $product->supplier_id = json_decode($request->supplier)->id;
+            $product->dimensions = json_encode([
+                "width" => $request->width,
+                "height" => $request->height,
+                "length" => $request->length
+            ]);
+            $product->supplier_price = $request->supplier_price;
+            $product->active = $request->active;
+
+            if ($request->file('main_image')) {
+                $product->addMediaFromRequest("main_image")
+                    ->toMediaCollection("main_image");
+            }
+
+            $i = 0;
+            $itemsForDeleting = [];
+
+            while (true) {
+
+                if (!$request->file("gallery_image_" . $i) && !$request->has("gallery_image_" . $i)) {
+                    break;
+                }else if($request->has("gallery_image_" . $i)){
+                    $image = json_decode($request->get("gallery_image_" . $i));
+                    $itemsForDeleting[] = $image->id;
+                    $i++;
+                } else {
+                    $product->addMediaFromRequest("gallery_image_" . $i)
+                        ->toMediaCollection("gallery_images");
+                    $i++;
+                }
+            }
+
+            if($itemsForDeleting){
+
+                $media = Media::where("collection_name", "gallery_images")->where("model_id", $product->id)->get();
+
+                foreach($media as $i){
+
+                    if(!in_array($i->id, $itemsForDeleting)){
+                        $product->deleteMedia($i->id);
+                    }
+                }
+            }
+
+            dd($product);
         } catch (Exception $e) {
+            dd($e->getMessage());
             throw new ApiException("product.not_found", 404, null, $e);
         }
 
