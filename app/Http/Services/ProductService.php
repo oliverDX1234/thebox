@@ -65,6 +65,7 @@ class ProductService
     {
         try {
             $product = Product::make();
+
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
             $product->dimensions = json_encode([
