@@ -41,7 +41,7 @@ class ProductService
         try {
             $product = $this->productRepository->findById($id);
 
-            $product->load(["attributes.filter", "categories"]);
+            $product->load(["attributes.filter", "categories:id,name"]);
 
             $filters = [];
 
@@ -53,9 +53,10 @@ class ProductService
 
             return $product;
         } catch (Exception $e) {
-            throw new ApiException("product.not_found", 404, null, $e);
+            throw new ApiException("products.not_found", 404, null, $e);
         }
     }
+
 
     /**
      * @throws ApiException
@@ -114,17 +115,19 @@ class ProductService
 
             $product->save();
         } catch (Exception $e) {
-            throw new ApiException("product.save_failed", 500, null, $e);
+            throw new ApiException("products.save_failed", 500, null, $e);
         }
     }
+
 
     /**
      * @throws ApiException
      */
+
     public function updateProduct($request)
     {
         try {
-            dd($request->all());
+
             $product = $this->productRepository->findById($request->id);
 
             $product->update($request->all());
@@ -145,6 +148,8 @@ class ProductService
 
             $i = 0;
             $itemsForDeleting = [];
+
+            $product->save();
 
             while (true) {
 
@@ -173,10 +178,29 @@ class ProductService
                 }
             }
 
-            dd($product);
+            $categories = json_decode($request->categories);
+            $product->categories()->detach();
+            if ($categories) {
+                foreach ($categories as $category) {
+                    $product->categories()->attach($category->id);
+                }
+            }
+
+            $filters = json_decode($request->get("attributes"));
+            $product->attributes()->detach();
+
+            if ($filters) {
+                foreach ($filters as $filter) {
+                    foreach ($filter as $attribute) {
+                        $product->attributes()->attach($attribute->id);
+                    }
+                }
+            }
+
+
         } catch (Exception $e) {
-            dd($e->getMessage());
-            throw new ApiException("product.not_found", 404, null, $e);
+
+            throw new ApiException("products.not_found", 404, null, $e);
         }
 
         $product->update($request->except('active'));
@@ -186,7 +210,7 @@ class ProductService
         try {
             $product->save();
         } catch (Exception $e) {
-            throw new ApiException("product.update_failed", 500, null, $e);
+            throw new ApiException("products.update_failed", 500, null, $e);
         }
     }
 
@@ -198,7 +222,7 @@ class ProductService
         try {
             $this->productRepository->deleteProduct($id);
         } catch (Exception $e) {
-            throw new ApiException("product.not_found", 404, null, $e);
+            throw new ApiException("products.not_found", 404, null, $e);
         }
     }
 

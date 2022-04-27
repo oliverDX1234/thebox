@@ -500,13 +500,19 @@ export default {
         },
 
         async getCategories() {
-            this.categories = await CategoryService.getCategories();
+            this.categories = await CategoryService.getCategoriesForProduct();
         },
 
         async categoriesChanged() {
             let response = await CategoryService.getFiltersForCategories(this.product.basic_information.selectedCategories);
 
             this.filters = response.filtersAndCategories;
+
+            for (const [key, value] of Object.entries(this.product.selectedAttributes)) {
+                if(!response.filters.includes(key)){
+                    delete this.product.selectedAttributes[key];
+                }
+            }
         },
 
         imageAdded(file) {

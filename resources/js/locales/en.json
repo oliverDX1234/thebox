@@ -48,7 +48,11 @@
     },
 
     "products": {
-        "problem_with_image": "There was a problem with uploading the image. Please try again!"
+        "saved": "The product was successfully created",
+        "updated": "The product was successfully updated",
+        "retrieved": "The products were successfully retrieved",
+        "deleted": "The product was successfully deleted",
+        "not_found": "The product was not found in the database"
     },
 
     "global": {

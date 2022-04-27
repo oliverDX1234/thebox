@@ -34,6 +34,18 @@ class CategoryService
     /**
      * @throws ApiException
      */
+    public function getCategoriesForProduct()
+    {
+        try {
+            return $this->categoryRepository->getCategoriesForProduct();
+        } catch (Exception $e) {
+            throw new ApiException("global.error", 404, null, $e);
+        }
+    }
+
+    /**
+     * @throws ApiException
+     */
     public function getCategory(int $id): Category
     {
         try {

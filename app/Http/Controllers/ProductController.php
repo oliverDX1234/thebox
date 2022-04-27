@@ -42,7 +42,7 @@ class ProductController extends Controller
     {
         $this->productService->saveProduct($request);
 
-        return response()->api(null , "product.saved", 200);
+        return response()->api(null , "products.saved", 200);
     }
 
     /**
@@ -53,7 +53,7 @@ class ProductController extends Controller
     {
         $product = $this->productService->getProduct($id);
 
-        return response()->api(['product' => $product], "product.retrieved", 200);
+        return response()->api(['product' => $product], "products.retrieved", 200);
     }
 
     /**
@@ -67,7 +67,7 @@ class ProductController extends Controller
     {
         $this->productService->updateProduct($request);
 
-        return response()->api(null , "product.updated", 200);
+        return response()->api(null , "products.updated", 200);
     }
 
     /**
@@ -81,6 +81,6 @@ class ProductController extends Controller
     {
         $this->productService->deleteProduct($id);
 
-        return response()->api(["product" => $id] , "product.deleted", 200);
+        return response()->api(["product" => $id] , "products.deleted", 200);
     }
 }

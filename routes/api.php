@@ -35,6 +35,7 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
         Route::get("categoriesTree", [CategoryController::class, "getCategoriesTree"]);
         Route::post("saveCategories", [CategoryController::class, "saveCategories"]);
         Route::post("getFiltersForCategories", [CategoryController::class, "getFiltersForCategories"]);
+        Route::get("getCategoriesForProduct", [CategoryController::class, "getCategoriesForProduct"]);
 
         Route::get("/cities", [CityController::class, 'getCities']);
 

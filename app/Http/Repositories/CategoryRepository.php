@@ -22,6 +22,11 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::with("filters")->get();
     }
 
+    public function getCategoriesForProduct()
+    {
+        return Category::with("filters")->select("id","name")->get();
+    }
+
 
     /**
      * @throws Exception
