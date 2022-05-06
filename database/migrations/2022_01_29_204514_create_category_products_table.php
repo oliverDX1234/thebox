@@ -16,7 +16,7 @@ class CreateCategoryProductsTable extends Migration
         Schema::create('category_product', function (Blueprint $table) {
             $table->foreignId("category_id")->index();
             $table->foreignId("product_id")->index();
-            $table->foreign("category_id")->references('id')->on("categories")->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("category_id")->references('id')->on("categories");
             $table->foreign("product_id")->references('id')->on("products")->onDelete('cascade')->onUpdate('cascade');
             $table->primary(['category_id', 'product_id']);
             $table->timestamps();

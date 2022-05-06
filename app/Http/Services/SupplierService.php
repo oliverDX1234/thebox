@@ -26,7 +26,7 @@ class SupplierService
         try {
             return $this->supplierRepository->getSuppliers();
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -38,7 +38,7 @@ class SupplierService
         try {
             return $this->supplierRepository->findById($id);
         } catch (Exception $e) {
-            throw new ApiException("supplier.not_found", 404, null, $e);
+            throw new ApiException("supplier.not_found", $e->getCode(), $e);
         }
     }
 
@@ -68,7 +68,7 @@ class SupplierService
         try {
             $supplier = $this->supplierRepository->findById($request->id);
         } catch (Exception $e) {
-            throw new ApiException("supplier.not_found", 404, null, $e);
+            throw new ApiException("supplier.not_found", $e->getCode(), $e);
         }
 
         $supplier->update($request->except('active'));
@@ -90,8 +90,8 @@ class SupplierService
         try {
             $this->supplierRepository->deleteSupplier($id);
         } catch (Exception $e) {
-            dd($e);
-            throw new ApiException("supplier.not_found", 404, null, $e);
+
+            throw new ApiException("supplier.not_found",  $e->getCode(), null, $e);
         }
     }
 

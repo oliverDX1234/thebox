@@ -26,7 +26,7 @@ class AttributeService
         try {
             return $this->attributeRepository->getAttributes();
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -38,7 +38,7 @@ class AttributeService
         try {
             return $this->attributeRepository->getAttributesForFilter($id);
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -50,7 +50,7 @@ class AttributeService
         try {
             return $this->attributeRepository->findById($id);
         } catch (Exception $e) {
-            throw new ApiException("attribute.not_found", 404, null, $e);
+            throw new ApiException("attribute.not_found", $e->getCode(), $e);
         }
     }
 
@@ -81,7 +81,7 @@ class AttributeService
         try {
             $attribute = $this->attributeRepository->findById($request->id);
         } catch (Exception $e) {
-            throw new ApiException("attribute.not_found", 404, null, $e);
+            throw new ApiException("attribute.not_found", $e->getCode(), $e);
         }
 
         $attribute->update($request->except('active'));
@@ -102,7 +102,7 @@ class AttributeService
         try {
             $this->attributeRepository->deleteAttribute($id);
         } catch (Exception $e) {
-            throw new ApiException("attribute.not_found", 404, null, $e);
+            throw new ApiException("attribute.not_found", $e->getCode(), $e);
         }
     }
 

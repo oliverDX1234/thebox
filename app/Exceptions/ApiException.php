@@ -14,6 +14,12 @@ class ApiException extends Exception
     {
         parent::__construct($message, 0, $previous);
         $this->statusCode = $statusCode;
+
+        if((int)$this->statusCode === 23000){
+            $this->statusCode = 405;
+            $this->message = "global.dependencies";
+        }
+
         $this->data = $data;
     }
 

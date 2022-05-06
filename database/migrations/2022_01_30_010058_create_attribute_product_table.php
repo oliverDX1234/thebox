@@ -17,7 +17,7 @@ class CreateAttributeProductTable extends Migration
             $table->foreignId("product_id")->index();
             $table->foreignId("attribute_id")->index();
             $table->foreign("product_id")->references('id')->on("products")->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign("attribute_id")->references('id')->on("attributes")->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("attribute_id")->references('id')->on("attributes");
             $table->primary(['product_id', 'attribute_id']);
             $table->timestamps();
         });

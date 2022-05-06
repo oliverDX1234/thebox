@@ -27,7 +27,7 @@ class CategoryService
         try {
             return $this->categoryRepository->getCategories();
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -39,7 +39,7 @@ class CategoryService
         try {
             return $this->categoryRepository->getCategoriesForProduct();
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -51,7 +51,7 @@ class CategoryService
         try {
             return $this->categoryRepository->findById($id);
         } catch (Exception $e) {
-            throw new ApiException("category.not_found", 404, null, $e);
+            throw new ApiException("category.not_found", $e->getCode(), $e);
         }
     }
 
@@ -83,7 +83,7 @@ class CategoryService
         try {
             $category = $this->categoryRepository->findById($request->id);
         } catch (Exception $e) {
-            throw new ApiException("category.not_found", 404, null, $e);
+            throw new ApiException("category.not_found", $e->getCode(), $e);
         }
 
         $items = $request->all();
@@ -128,7 +128,7 @@ class CategoryService
             }
 
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
     public function flatten($element, $parent_nodes = 0): array
@@ -161,7 +161,7 @@ class CategoryService
 
             $tree = $this->buildTree($categories->toArray());
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
 
         return $tree;
@@ -203,7 +203,7 @@ class CategoryService
 
             return $data;
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 

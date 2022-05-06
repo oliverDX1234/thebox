@@ -58,7 +58,8 @@
     "global": {
         "layout_changed_success": "The layout was successfully updated",
         "error": "There was an error while processing the requests",
-        "layout_changed_failed": "There was a problem with the layout update"
+        "layout_changed_failed": "There was a problem with the layout update",
+        "dependencies": "This item cannot be deleted because of dependencies in the database"
     },
     "auth": {
         "account_reset_failed": "The password reset request failed",

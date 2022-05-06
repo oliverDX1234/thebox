@@ -20,7 +20,7 @@ class CityService
         try {
             return $this->cityRepository->getCities();
         } catch (\Exception $e) {
-            throw new ApiException("generic.problem", 404, null, $e);
+            throw new ApiException("generic.problem", $e->getCode(), $e);
         }
 
     }

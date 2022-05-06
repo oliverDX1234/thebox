@@ -29,7 +29,7 @@ class ProductService
         try {
             return $this->productRepository->getProducts();
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -53,7 +53,7 @@ class ProductService
 
             return $product;
         } catch (Exception $e) {
-            throw new ApiException("products.not_found", 404, null, $e);
+            throw new ApiException("products.not_found", $e->getCode(), $e);
         }
     }
 
@@ -64,7 +64,7 @@ class ProductService
     public function saveProduct($request)
     {
         try {
-            $product = Product::make();
+            $product = Product::make($request->all());
 
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
@@ -74,7 +74,8 @@ class ProductService
                 "length" => $request->length
             ]);
             $product->supplier_price = $request->supplier_price;
-            $product->active = $request->active;
+
+            $product->active = !!$request->active;
 
             if ($request->file('main_image')) {
                 $product->addMediaFromRequest("main_image")
@@ -93,7 +94,6 @@ class ProductService
                     $i++;
                 }
             }
-
             $product->save();
 
             $categories = json_decode($request->categories);
@@ -201,7 +201,7 @@ class ProductService
 
         } catch (Exception $e) {
 
-            throw new ApiException("products.not_found", 404, null, $e);
+            throw new ApiException("products.not_found", $e->getCode(), $e);
         }
 
         $product->update($request->except('active'));
@@ -223,7 +223,7 @@ class ProductService
         try {
             $this->productRepository->deleteProduct($id);
         } catch (Exception $e) {
-            throw new ApiException("products.not_found", 404, null, $e);
+            throw new ApiException("products.not_found", $e->getCode(), $e);
         }
     }
 

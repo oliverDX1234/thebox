@@ -21,7 +21,7 @@ class FilterService
         try {
             return $this->filterRepository->getFilters()->load("attributes");
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -33,7 +33,7 @@ class FilterService
         try {
             return $this->filterRepository->findById($id);
         } catch (Exception $e) {
-            throw new ApiException("filter.not_found", 404, null, $e);
+            throw new ApiException("filter.not_found", $e->getCode(), $e);
         }
     }
 
@@ -64,7 +64,7 @@ class FilterService
         try {
             $filter = $this->filterRepository->findById($request->id);
         } catch (Exception $e) {
-            throw new ApiException("filter.not_found", 404, null, $e);
+            throw new ApiException("filter.not_found", $e->getCode(), $e);
         }
 
         $filter->update($request->except('active'));
@@ -88,7 +88,7 @@ class FilterService
         try {
             $this->filterRepository->deleteFilter($id);
         } catch (Exception $e) {
-            throw new ApiException("filter.not_found", 404, null, $e);
+            throw new ApiException("filter.not_found", $e->getCode(), $e);
         }
     }
 

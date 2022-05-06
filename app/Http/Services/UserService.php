@@ -26,7 +26,7 @@ class UserService
         try {
             return $this->userRepository->getUsers();
         } catch (Exception $e) {
-            throw new ApiException("global.error", 404, null, $e);
+            throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
 
@@ -35,7 +35,7 @@ class UserService
         try {
             return $this->userRepository->findById($id);
         } catch (Exception $e) {
-            throw new ApiException("user.not_found", 404, null, $e);
+            throw new ApiException("user.not_found", $e->getCode(), $e);
         }
     }
 
@@ -73,7 +73,7 @@ class UserService
         try {
             $user = $this->userRepository->findById($request->id);
         } catch (Exception $e) {
-            throw new ApiException("user.not_found", 404, null, $e);
+            throw new ApiException("user.not_found", $e->getCode(), $e);
         }
         $user->update($request->except(['image', 'active', '_method']));
 
@@ -98,7 +98,7 @@ class UserService
         try {
             $this->userRepository->deleteUser($id);
         } catch (Exception $e) {
-            throw new ApiException("user.not_found", 404, null, $e);
+            throw new ApiException("user.not_found", $e->getCode(), $e);
         }
     }
 

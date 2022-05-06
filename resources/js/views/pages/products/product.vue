@@ -402,7 +402,7 @@ import {
     decimal
 } from "vuelidate/lib/validators";
 
-const keywords = helpers.regex('keywords', /^[a-zA-Z\s]+,?[a-zA-Z\s]+$/);
+const keywords = helpers.regex('keywords', /,?[a-zA-Z][a-zA-Z0-9]*,?/);
 
 /**
  * Add Product Component
