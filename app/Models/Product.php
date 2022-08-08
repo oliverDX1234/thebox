@@ -114,6 +114,11 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Category::class);
     }
 
+    public function supplier()
+    {
+        return $this->hasOne(Supplier::class, "id", "supplier_id");
+    }
+
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class);

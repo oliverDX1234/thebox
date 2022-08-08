@@ -8,8 +8,10 @@ const ProductService = {
     },
 
 
-    async getProducts() {
-        let response = await axios.get(`/api/products`);
+    async getProducts(filters = null) {
+        let response = await axios.get(`/api/products`, {
+            params: filters
+        });
         return response.data.payload.products;
     },
 

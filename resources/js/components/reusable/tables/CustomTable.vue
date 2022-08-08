@@ -1,8 +1,14 @@
 <template>
     <div>
 
+        <filtering-options
+            v-if="filteringOptions"
+            :options="filteringOptions"
+            @filters-updated="filtersUpdated"
+            :filters="filters"
+        ></filtering-options>
 
-        <div class="row mt-4">
+        <div class="row mt-2">
             <div class="col-sm-12 col-md-6">
                 <div id="tickets-table_length" class="dataTables_length">
                     <label class="d-inline-flex align-items-center">
@@ -27,13 +33,15 @@
             <!-- End search -->
         </div>
 
-
         <div class="table-responsive">
             <b-table
                 class="table-centered"
                 :items="items"
                 :fields="fields"
                 responsive="sm"
+                striped
+                bordered
+                :busy="busy"
                 :per-page="perPage"
                 :current-page="currentPage"
                 :sort-by.sync="sortBy"
@@ -128,6 +136,14 @@
                         </a>
                     </div>
                 </template>
+
+                <template #table-busy>
+                    <div class="text-center text-primary my-2">
+                        <b-spinner class="align-middle"></b-spinner>
+                        <strong>Loading...</strong>
+                    </div>
+                </template>
+
             </b-table>
         </div>
         <div class="row">
@@ -143,10 +159,44 @@
     </div>
 </template>
 <script>
+import filteringOptions from "./FilteringOptions";
 
 export default {
     name: 'custom-table',
-    props: ["items", "attributes", "search", "fields"],
+    props:{
+        items:{
+
+        },
+        attributes:{
+            required: false,
+            type: Array,
+            default: null
+        },
+        search:{
+            required: false,
+            type: Boolean,
+            default: false
+        },
+        fields:{
+            required: true,
+            type: Array,
+        },
+        filteringOptions:{
+            required: false,
+            type: Array,
+            default: null
+        },
+        filters:{
+            required: false,
+            type: Object,
+            default: function(){
+                return {};
+            }
+        }
+    },
+    components:{
+        filteringOptions
+    },
     computed: {
         /**
          * Total no. of records
@@ -164,7 +214,8 @@ export default {
             filter: null,
             filterOn: [],
             sortBy: "id",
-            sortDesc: false
+            sortDesc: false,
+            busy: false
         }
     },
     mounted() {
@@ -177,6 +228,10 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;
             this.currentPage = 1;
+        },
+
+        filtersUpdated(value){
+            this.$emit("filters-updated", value);
         }
     }
 }

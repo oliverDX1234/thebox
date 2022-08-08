@@ -214,7 +214,7 @@
 
 <script>
 import PageHeader from "@/components/custom/page-header";
-import CustomTable from "@/components/reusable/CustomTable";
+import CustomTable from "@/components/reusable/tables/CustomTable";
 import Nestable from "@/components/custom/Nestable";
 import CategoryService from "@/services/categoryService";
 import {required} from "vuelidate/lib/validators";

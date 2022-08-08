@@ -48,7 +48,8 @@ input::placeholder{
 
 /* width */
 ::-webkit-scrollbar {
-    width: 9px;
+    width: 7px;
+    height: 7px;
 }
 
 /* Track */

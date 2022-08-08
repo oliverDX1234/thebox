@@ -55,7 +55,7 @@
 import PageHeader from "@/components/custom/page-header";
 
 
-import CustomTable from "@/components/reusable/CustomTable";
+import CustomTable from "@/components/reusable/tables/CustomTable";
 import Layout from "../../layouts/main";
 import FilterService from "@/services/filterService"
 import AttributeService from "@/services/attributeService"

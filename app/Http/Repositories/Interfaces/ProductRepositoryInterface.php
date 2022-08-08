@@ -6,7 +6,7 @@ interface ProductRepositoryInterface
 {
     public function findById($id);
 
-    public function getProducts();
+    public function getProducts($request);
 
     public function deleteProduct($id);
 }

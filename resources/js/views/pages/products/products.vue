@@ -17,7 +17,15 @@
                                 <i class="mdi mdi-plus mr-2"></i> New product
                             </a>
                         </div>
-                        <custom-table @edit-item="editProduct" @delete-item="deleteProduct" :search="true" :items="products" :fields="fields"/>
+                        <custom-table @edit-item="editProduct"
+                                      @delete-item="deleteProduct"
+                                      :search="true"
+                                      :items="products"
+                                      :fields="fields"
+                                      :filteringOptions="['categories', 'statuses', 'suppliers']"
+                                      :filters="filters"
+                                      @filters-updated="filtersUpdated"
+                        />
                     </div>
                 </div>
             </div>
@@ -27,7 +35,7 @@
 
 <script>
 import PageHeader from "@/components/custom/page-header";
-import CustomTable from "@/components/reusable/CustomTable";
+import CustomTable from "@/components/reusable/tables/CustomTable";
 import ProductService from "@/services/productService";
 import Layout from "../../layouts/main";
 
@@ -51,6 +59,7 @@ export default {
                 }
             ],
             products: [],
+            filters: null,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "thumb", sortable: true, label: "Image"},
@@ -69,8 +78,25 @@ export default {
         };
     },
 
+    watch: {
+        'filters': {
+            deep: true,
+            handler(filter) {
+
+                this.$router.replace({
+                    ...this.$route,
+                    query: filter,
+                }).catch(()=>{});
+
+                this.getProducts();
+
+            },
+        },
+    },
+
+
     created() {
-        this.getProducts();
+        this.filters = this.$route.query;
     },
     methods: {
         editProduct(id) {
@@ -97,8 +123,11 @@ export default {
 
         },
         async getProducts() {
-            this.products = await ProductService.getProducts();
+            this.products = await ProductService.getProducts(this.filters);
         },
+        filtersUpdated(value){
+            this.filters = value;
+        }
     }
 };
 </script>

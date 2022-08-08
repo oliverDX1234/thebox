@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Services\ProductService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
@@ -22,10 +23,10 @@ class ProductController extends Controller
      * @return Response
      * @throws ApiException
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
 
-        $products = $this->productService->getProducts();
+        $products = $this->productService->getProducts($request);
 
         return response()->api(['products' => $products] , "products.retrieved", 200);
     }

@@ -22,10 +22,10 @@ class ProductService
     /**
      * @throws ApiException
      */
-    public function getProducts()
+    public function getProducts($request)
     {
         try {
-            return $this->productRepository->getProducts();
+            return $this->productRepository->getProducts($request);
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }

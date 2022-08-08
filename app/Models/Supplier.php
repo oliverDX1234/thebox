@@ -27,4 +27,9 @@ class Supplier extends Model
     {
         return City::find($this->attributes['city']);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, "id", "supplier_id");
+    }
 }

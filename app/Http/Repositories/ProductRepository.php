@@ -14,9 +14,28 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
 
-    public function getProducts()
+    public function getProducts($request)
     {
-        return Product::with("categories")->get();
+        $products = Product::with("categories", "supplier");
+
+        if($request->has("categories")){
+            $products->whereHas("categories", function($q) use($request){
+                $q->where('id','=', $request->categories);
+            });
+        }
+
+        if($request->has("suppliers")){
+            $products->whereHas("supplier", function($q) use($request){
+                $q->where('id','=', $request->suppliers);
+            });
+        }
+
+        if($request->has("statuses")){
+
+            $products->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+        }
+
+        return $products->get();
     }
 
     public function deleteProduct($id)

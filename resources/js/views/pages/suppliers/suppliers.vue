@@ -28,7 +28,7 @@
 
 <script>
 import PageHeader from "@/components/custom/page-header";
-import CustomTable from "@/components/reusable/CustomTable";
+import CustomTable from "@/components/reusable/tables/CustomTable";
 import SupplierService from "@/services/supplierService";
 import Layout from "../../layouts/main";
 
