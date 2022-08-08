@@ -13,7 +13,7 @@ class ApiException extends Exception
     public function __construct($message = "generic_api_error", $statusCode = 500, $data = null, Throwable $previous = null)
     {
         parent::__construct($message, 0, $previous);
-        $this->statusCode = 500;
+        $this->statusCode = strlen($statusCode) !== 3 ? 500 : $statusCode;
 
         if((int)$this->statusCode === 23000){
             $this->statusCode = 405;
