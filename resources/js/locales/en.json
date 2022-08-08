@@ -50,6 +50,7 @@
     "products": {
         "saved": "The product was successfully created",
         "updated": "The product was successfully updated",
+        "update_failed": "There was an error processing the update request",
         "retrieved": "The products were successfully retrieved",
         "deleted": "The product was successfully deleted",
         "not_found": "The product was not found in the database"

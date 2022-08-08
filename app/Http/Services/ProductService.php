@@ -6,8 +6,6 @@ use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
 use Exception;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductService
@@ -148,7 +146,7 @@ class ProductService
             }
 
             $i = 0;
-            $itemsForDeleting = [];
+            $unchangedImages = [];
 
             $product->save();
 
@@ -158,22 +156,27 @@ class ProductService
                     break;
                 }else if($request->has("gallery_image_" . $i)){
                     $image = json_decode($request->get("gallery_image_" . $i));
-                    $itemsForDeleting[] = $image->id;
-                    $i++;
-                } else {
-                    $product->addMediaFromRequest("gallery_image_" . $i)
-                        ->toMediaCollection("gallery_images");
+
+                    if(isset($image)){
+                        $unchangedImages[] = $image->id;
+                    }else{
+                        $image = $product->addMediaFromRequest("gallery_image_" . $i)
+                            ->toMediaCollection("gallery_images");
+
+                        $unchangedImages[] = $image->id;
+                    }
+
                     $i++;
                 }
             }
 
-            if($itemsForDeleting){
+            if($unchangedImages){
 
                 $media = Media::where("collection_name", "gallery_images")->where("model_id", $product->id)->get();
 
                 foreach($media as $i){
 
-                    if(!in_array($i->id, $itemsForDeleting)){
+                    if(!in_array($i->id, $unchangedImages)){
                         $product->deleteMedia($i->id);
                     }
                 }
@@ -200,8 +203,8 @@ class ProductService
 
 
         } catch (Exception $e) {
-
-            throw new ApiException("products.not_found", $e->getCode(), $e);
+            dd($e);
+            throw new ApiException("products.update_failed", 500, $e);
         }
 
         $product->update($request->except('active'));
@@ -223,7 +226,7 @@ class ProductService
         try {
             $this->productRepository->deleteProduct($id);
         } catch (Exception $e) {
-            throw new ApiException("products.not_found", $e->getCode(), $e);
+            throw new ApiException("products.not_found", 500, $e);
         }
     }
 
