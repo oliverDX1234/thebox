@@ -1,7 +1,7 @@
 <script>
 import { FormWizard, TabContent } from "vue-form-wizard";
 
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
 
 /**
  * Checkout Component
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-8">

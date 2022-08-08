@@ -1,213 +1,3 @@
-<script>
-import PageHeader from "@/components/page-header";
-import CustomTable from "@/components/CustomTable";
-import Nestable from "@/components/Nestable";
-import CategoryService from "@/services/categoryService";
-import {required} from "vuelidate/lib/validators";
-import FilterService from "../../../services/filterService";
-import Multiselect from "vue-multiselect";
-import Layout from "../../layouts/main";
-
-
-/**
- * Customers Component
- */
-export default {
-    components: {
-        CustomTable,
-        PageHeader,
-        Layout,
-        Multiselect,
-        Nestable
-    },
-    data() {
-        return {
-            title: "Category",
-            index: null,
-            items: [
-                {
-                    text: "Category",
-                    active: true
-
-                }
-            ],
-            categories: [],
-            category: {
-                name: null,
-                description: null,
-                city: null,
-                seo_keywords: null,
-                active: false,
-                filters: []
-            },
-            editableId: null,
-            filters: [],
-            submitted: false,
-        };
-    },
-
-    validations: {
-        category: {
-            name: {required},
-            seo_description: {required},
-            seo_keywords: {required},
-            description: {required},
-        },
-    },
-    computed: {
-        inputHeading() {
-            return this.editableId ? "Edit Category" : "New Category";
-        }
-    },
-    created() {
-        this.getCategoriesTree();
-        this.getFilters();
-    },
-    methods: {
-        editCategory(id) {
-            if (window.innerWidth <= 767) {
-                this.$scrollTo('.needs-validation', 1500)
-            }
-            this.editableId = id;
-            this.loadCategory(id)
-        },
-        async updateCategory(value) {
-            await this.updateIndexFunction(this.categories, value)
-            this.index = null;
-        },
-        async storeCategory(value) {
-            this.categories.push({
-                id: value.id,
-                name: value.name,
-                description: value.description,
-                seo_keywords: value.seo_keywords,
-                active: value.active,
-                seo_description: value.seo_description,
-            });
-
-            await this.newCategory();
-        },
-        async deleteCategory(id) {
-            let response;
-            await this.$swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#34c38f",
-                cancelButtonColor: "#f46a6a",
-                confirmButtonText: "Yes, delete it!"
-            }).then(async result => {
-                if (result.value) {
-                    response = await CategoryService.deleteCategory(id);
-
-                    await this.deleteIndexFunction(this.categories, parseInt(response));
-                    this.index = null;
-                    await this.newCategory();
-                }
-            });
-        },
-
-        async formSubmit() {
-            this.submitted = true;
-            // stop here if form is invalid
-            this.$v.$touch();
-
-            if (!this.$v.$invalid) {
-
-                let response = [];
-
-                if (this.editableId) {
-                    response = await CategoryService.updateCategory(this.editableId, this.category);
-                    await this.updateCategory(response);
-                } else {
-                    response = await CategoryService.storeCategory(this.category);
-                    await this.storeCategory(response);
-                }
-
-
-            }
-        },
-
-
-        newCategory() {
-            this.editableId = false;
-            const keys = Object.keys(this.category);
-            keys.forEach((key, index) => {
-                this.category[key] = null;
-            });
-            this.$v.$reset()
-        },
-
-        async loadCategory(id) {
-            this.category = await CategoryService.getCategory(id);
-        },
-        deleteIndexFunction(category, id, previous = null) {
-            if (!!this.index) {
-                return;
-            }
-            for (var i = 0; i < category.length; i++) {
-                if (category[i].id === id) {
-                    this.index = id;
-                    if (this.categories === category) {
-                        this.categories.splice(i, 1)
-                    } else {
-                        previous.children = [];
-                    }
-                    return;
-                } else {
-                    if (category[i].children.length !== 0) {
-                        this.deleteIndexFunction(category[i].children, id, category[i]);
-                    }
-                }
-            }
-        },
-        updateIndexFunction(category, value, previous = null) {
-            if (!!this.index) {
-                return;
-            }
-            for (var i = 0; i < category.length; i++) {
-                if (category[i].id === value.id) {
-                    this.index = value.id;
-                    if (this.categories === category) {
-                        this.categories[i].name = value.name;
-                        this.categories[i].description = value.description;
-                        this.categories[i].seo_keywords = value.seo_keywords;
-                        this.categories[i].active = value.active;
-                        this.categories[i].seo_description = value.seo_description;
-                    } else {
-                        previous.children = [];
-                    }
-                    return;
-                } else {
-                    if (category[i].children.length !== 0) {
-                        this.updateIndexFunction(category[i].children, value, category[i]);
-                    }
-                }
-            }
-        },
-
-        updateItems(items) {
-            this.categories = items;
-        },
-        async saveChanges() {
-            await CategoryService.saveCategories(this.categories);
-        },
-        async getCategoriesTree() {
-            const categories = await CategoryService.getCategoriesTree();
-            this.categories = categories.map(x => {
-                x.parent = x.parent != null ? x.parent.name : "/";
-                return x;
-            })
-        },
-
-        async getFilters(){
-            this.filters = await FilterService.getFilters();
-        }
-    }
-};
-</script>
-
 <template>
     <Layout>
         <PageHeader
@@ -421,5 +211,215 @@ export default {
         </div>
     </Layout>
 </template>
+
+<script>
+import PageHeader from "@/components/custom/page-header";
+import CustomTable from "@/components/reusable/CustomTable";
+import Nestable from "@/components/custom/Nestable";
+import CategoryService from "@/services/categoryService";
+import {required} from "vuelidate/lib/validators";
+import FilterService from "../../../services/filterService";
+import Multiselect from "vue-multiselect";
+import Layout from "../../layouts/main";
+
+
+/**
+ * Customers Component
+ */
+export default {
+    components: {
+        CustomTable,
+        PageHeader,
+        Layout,
+        Multiselect,
+        Nestable
+    },
+    data() {
+        return {
+            title: "Category",
+            index: null,
+            items: [
+                {
+                    text: "Category",
+                    active: true
+
+                }
+            ],
+            categories: [],
+            category: {
+                name: null,
+                description: null,
+                city: null,
+                seo_keywords: null,
+                active: false,
+                filters: []
+            },
+            editableId: null,
+            filters: [],
+            submitted: false,
+        };
+    },
+
+    validations: {
+        category: {
+            name: {required},
+            seo_description: {required},
+            seo_keywords: {required},
+            description: {required},
+        },
+    },
+    computed: {
+        inputHeading() {
+            return this.editableId ? "Edit Category" : "New Category";
+        }
+    },
+    created() {
+        this.getCategoriesTree();
+        this.getFilters();
+    },
+    methods: {
+        editCategory(id) {
+            if (window.innerWidth <= 767) {
+                this.$scrollTo('.needs-validation', 1500)
+            }
+            this.editableId = id;
+            this.loadCategory(id)
+        },
+        async updateCategory(value) {
+            await this.updateIndexFunction(this.categories, value)
+            this.index = null;
+        },
+        async storeCategory(value) {
+            this.categories.push({
+                id: value.id,
+                name: value.name,
+                description: value.description,
+                seo_keywords: value.seo_keywords,
+                active: value.active,
+                seo_description: value.seo_description,
+            });
+
+            await this.newCategory();
+        },
+        async deleteCategory(id) {
+            let response;
+            await this.$swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#34c38f",
+                cancelButtonColor: "#f46a6a",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async result => {
+                if (result.value) {
+                    response = await CategoryService.deleteCategory(id);
+
+                    await this.deleteIndexFunction(this.categories, parseInt(response));
+                    this.index = null;
+                    await this.newCategory();
+                }
+            });
+        },
+
+        async formSubmit() {
+            this.submitted = true;
+            // stop here if form is invalid
+            this.$v.$touch();
+
+            if (!this.$v.$invalid) {
+
+                let response = [];
+
+                if (this.editableId) {
+                    response = await CategoryService.updateCategory(this.editableId, this.category);
+                    await this.updateCategory(response);
+                } else {
+                    response = await CategoryService.storeCategory(this.category);
+                    await this.storeCategory(response);
+                }
+
+
+            }
+        },
+
+
+        newCategory() {
+            this.editableId = false;
+            const keys = Object.keys(this.category);
+            keys.forEach((key, index) => {
+                this.category[key] = null;
+            });
+            this.$v.$reset()
+        },
+
+        async loadCategory(id) {
+            this.category = await CategoryService.getCategory(id);
+        },
+        deleteIndexFunction(category, id, previous = null) {
+            if (!!this.index) {
+                return;
+            }
+            for (var i = 0; i < category.length; i++) {
+                if (category[i].id === id) {
+                    this.index = id;
+                    if (this.categories === category) {
+                        this.categories.splice(i, 1)
+                    } else {
+                        previous.children = [];
+                    }
+                    return;
+                } else {
+                    if (category[i].children.length !== 0) {
+                        this.deleteIndexFunction(category[i].children, id, category[i]);
+                    }
+                }
+            }
+        },
+        updateIndexFunction(category, value, previous = null) {
+            if (!!this.index) {
+                return;
+            }
+            for (var i = 0; i < category.length; i++) {
+                if (category[i].id === value.id) {
+                    this.index = value.id;
+                    if (this.categories === category) {
+                        this.categories[i].name = value.name;
+                        this.categories[i].description = value.description;
+                        this.categories[i].seo_keywords = value.seo_keywords;
+                        this.categories[i].active = value.active;
+                        this.categories[i].seo_description = value.seo_description;
+                    } else {
+                        previous.children = [];
+                    }
+                    return;
+                } else {
+                    if (category[i].children.length !== 0) {
+                        this.updateIndexFunction(category[i].children, value, category[i]);
+                    }
+                }
+            }
+        },
+
+        updateItems(items) {
+            this.categories = items;
+        },
+        async saveChanges() {
+            await CategoryService.saveCategories(this.categories);
+        },
+        async getCategoriesTree() {
+            const categories = await CategoryService.getCategoriesTree();
+            this.categories = categories.map(x => {
+                x.parent = x.parent != null ? x.parent.name : "/";
+                return x;
+            })
+        },
+
+        async getFilters(){
+            this.filters = await FilterService.getFilters();
+        }
+    }
+};
+</script>
 
 

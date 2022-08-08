@@ -1,6 +1,6 @@
 <script>
 import Layout from "../../../layouts/main";
-import PageHeader from "@/components/page-header";
+import PageHeader from "@/components/custom/page-header";
 
 import { timelineData } from "./data";
 
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
     <div class="row justify-content-center">
       <div class="col-xl-10">

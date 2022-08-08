@@ -309,8 +309,8 @@
 <script>
 import {email, helpers, minLength, required, sameAs} from "vuelidate/lib/validators";
 
-import PageHeader from '@/components/page-header';
-import FileUpload from '@/components/file-upload.vue'
+import PageHeader from '@/components/custom/page-header';
+import FileUpload from '@/components/reusable/FileUpload.vue'
 import DatePicker from "vue2-datepicker";
 import Multiselect from "vue-multiselect";
 import Layout from "../../layouts/main";

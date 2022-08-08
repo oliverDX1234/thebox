@@ -3,7 +3,7 @@ import DatePicker from "vue2-datepicker";
 import Switches from "vue-switches";
 import Multiselect from "vue-multiselect";
 import NumberInputSpinner from "vue-number-input-spinner";
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -18,7 +18,7 @@ export default {
     DatePicker,
     Switches,
     Multiselect,
-    NumberInputSpinner, 
+    NumberInputSpinner,
 
     PageHeader
   },
@@ -95,7 +95,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
 
     <div class="row">

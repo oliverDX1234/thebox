@@ -1,6 +1,33 @@
+<template>
+    <Layout>
+        <PageHeader
+            :title="title"
+            :items="items"
+        />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <a
+                                href="javascript:void(0);"
+                                class="btn btn-success mb-2"
+                                @click="$router.push('/admin/product/')"
+                            >
+                                <i class="mdi mdi-plus mr-2"></i> New product
+                            </a>
+                        </div>
+                        <custom-table @edit-item="editProduct" @delete-item="deleteProduct" :search="true" :items="products" :fields="fields"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Layout>
+</template>
+
 <script>
-import PageHeader from "@/components/page-header";
-import CustomTable from "@/components/CustomTable";
+import PageHeader from "@/components/custom/page-header";
+import CustomTable from "@/components/reusable/CustomTable";
 import ProductService from "@/services/productService";
 import Layout from "../../layouts/main";
 
@@ -74,30 +101,3 @@ export default {
     }
 };
 </script>
-
-<template>
-    <Layout>
-        <PageHeader
-            :title="title"
-            :items="items"
-        />
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <a
-                                href="javascript:void(0);"
-                                class="btn btn-success mb-2"
-                                @click="$router.push('/admin/product/')"
-                            >
-                                <i class="mdi mdi-plus mr-2"></i> New product
-                            </a>
-                        </div>
-                        <custom-table @edit-item="editProduct" @delete-item="deleteProduct" :search="true" :items="products" :fields="fields"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </Layout>
-</template>

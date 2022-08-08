@@ -1,7 +1,7 @@
 <script>
 import draggable from "vuedraggable";
 
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
 import { todoTasks, progressTasks, completedTasks } from "./data";
 
 /**
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
     <div class="row mb-2">
       <div class="col-lg-6">

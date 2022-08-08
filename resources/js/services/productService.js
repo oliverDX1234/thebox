@@ -25,6 +25,8 @@ const ProductService = {
         await axios.post(`/api/products/${id}`, formData, {
             showToast: true
         });
+
+        await router.push("/admin/products");
     },
 
 

@@ -174,7 +174,7 @@
 <script>
 import {email, required} from "vuelidate/lib/validators";
 
-import PageHeader from '@/components/page-header';
+import PageHeader from '@/components/custom/page-header';
 import Multiselect from "vue-multiselect";
 import SupplierService from "@/services/supplierService";
 import Layout from "../../layouts/main";

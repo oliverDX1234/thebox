@@ -1,59 +1,3 @@
-<script>
-import HorizontalTopbar from "@/components/horizontal-topbar";
-import HorizontalNav from "@/components/horizontal-navbar";
-import RightBar from "@/components/right-sidebar";
-import Footer from "@/components/footer";
-
-import { layoutComputed } from "@/state/helpers";
-
-/**
- * Horizontal-layout
- */
-export default {
-  components: {
-    HorizontalTopbar,
-    HorizontalNav,
-    Footer,
-    RightBar,
-  },
-  data() {
-    return {};
-  },
-  computed: {
-    ...layoutComputed,
-  },
-  created: () => {
-    document.body.setAttribute("data-layout", "horizontal");
-    document.body.setAttribute("data-topbar", "dark");
-    document.body.removeAttribute("data-sidebar", "dark");
-    document.body.removeAttribute("data-layout-size", "boxed");
-  },
-  methods: {
-    toggleRightSidebar() {
-      document.body.classList.toggle("right-bar-enabled");
-    },
-    hideRightSidebar() {
-      document.body.classList.remove("right-bar-enabled");
-    },
-  },
-  mounted() {
-    document.body.classList.remove("auth-body-bg");
-    if (this.loader === true) {
-      document.getElementById("preloader").style.display = "block";
-      document.getElementById("status").style.display = "block";
-
-      setTimeout(function () {
-        document.getElementById("preloader").style.display = "none";
-        document.getElementById("status").style.display = "none";
-      }, 2500);
-    } else {
-      document.getElementById("preloader").style.display = "none";
-      document.getElementById("status").style.display = "none";
-    }
-  },
-};
-</script>
-
 <template>
   <div>
     <div id="preloader">
@@ -86,3 +30,59 @@ export default {
     <RightBar />
   </div>
 </template>
+
+<script>
+import HorizontalTopbar from "@/components/custom/horizontal-topbar";
+import HorizontalNav from "@/components/custom/horizontal-navbar";
+import RightBar from "@/components/custom/right-sidebar";
+import Footer from "@/components/custom/footer";
+
+import { layoutComputed } from "@/state/helpers";
+
+/**
+ * Horizontal-layout
+ */
+export default {
+    components: {
+        HorizontalTopbar,
+        HorizontalNav,
+        Footer,
+        RightBar,
+    },
+    data() {
+        return {};
+    },
+    computed: {
+        ...layoutComputed,
+    },
+    created: () => {
+        document.body.setAttribute("data-layout", "horizontal");
+        document.body.setAttribute("data-topbar", "dark");
+        document.body.removeAttribute("data-sidebar", "dark");
+        document.body.removeAttribute("data-layout-size", "boxed");
+    },
+    methods: {
+        toggleRightSidebar() {
+            document.body.classList.toggle("right-bar-enabled");
+        },
+        hideRightSidebar() {
+            document.body.classList.remove("right-bar-enabled");
+        },
+    },
+    mounted() {
+        document.body.classList.remove("auth-body-bg");
+        if (this.loader === true) {
+            document.getElementById("preloader").style.display = "block";
+            document.getElementById("status").style.display = "block";
+
+            setTimeout(function () {
+                document.getElementById("preloader").style.display = "none";
+                document.getElementById("status").style.display = "none";
+            }, 2500);
+        } else {
+            document.getElementById("preloader").style.display = "none";
+            document.getElementById("status").style.display = "none";
+        }
+    },
+};
+</script>

@@ -1,5 +1,5 @@
 <script>
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
  import Layout from "../../layouts/main";
 
 

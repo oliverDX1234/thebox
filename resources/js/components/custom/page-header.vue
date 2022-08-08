@@ -1,21 +1,3 @@
-<script>
-export default {
-  components: {},
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    items: {
-      type: Array,
-      default: () => {
-        return []
-      },
-    },
-  },
-}
-</script>
-
 <template>
   <!-- start page title -->
   <div class="row">
@@ -31,3 +13,21 @@ export default {
   </div>
   <!-- end page title -->
 </template>
+
+<script>
+export default {
+    components: {},
+    props: {
+        title: {
+            type: String,
+            default: '',
+        },
+        items: {
+            type: Array,
+            default: () => {
+                return []
+            },
+        },
+    },
+}
+</script>

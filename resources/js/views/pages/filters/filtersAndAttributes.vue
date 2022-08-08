@@ -1,8 +1,61 @@
+<template>
+    <Layout>
+        <PageHeader :title="title" :items="items"/>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <div class="row mt-3">
+                                <div class="col-lg-6 mb-sm-5">
+                                    <div class="row mb-2">
+                                        <div class="col-12">
+                                            <h5 class="float-left">Filters</h5>
+                                            <b-button class="float-right" @click="addItem('filter')" variant="success">
+                                                Add new
+                                            </b-button>
+                                        </div>
+                                        <div class="col-12">
+                                            <custom-table :attributes="true" @edit-item="editFilter"
+                                                          @load-attributes="loadAttributes" @delete-item="deleteFilter"
+                                                          :search="true" :items="filters" :fields="fieldsFilters"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row mb-2">
+                                        <div class="col-12">
+                                            <h5 class="float-left">Attributes</h5>
+                                            <b-button v-if="loadedFilterLists !== null" class="float-right" @click="addItem('attributes')"
+                                                      variant="success">Add new
+                                            </b-button>
+                                        </div>
+                                        <div class="col-12">
+                                            <custom-table id="scrolling" @edit-item="editAttribute"
+                                                          :search="true" @delete-item="deleteAttribute"
+                                                          :items="attributes" :fields="fieldsAttributes"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <filter-popup-modal @closed="resetModal" :modal="modal" @update-items="updateItems"/>
+
+    </Layout>
+</template>
+
 <script>
-import PageHeader from "@/components/page-header";
+import PageHeader from "@/components/custom/page-header";
 
 
-import CustomTable from "@/components/CustomTable";
+import CustomTable from "@/components/reusable/CustomTable";
 import Layout from "../../layouts/main";
 import FilterService from "@/services/filterService"
 import AttributeService from "@/services/attributeService"
@@ -259,56 +312,3 @@ export default {
     }
 };
 </script>
-
-<template>
-    <Layout>
-        <PageHeader :title="title" :items="items"/>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <div class="row mt-3">
-                                <div class="col-lg-6 mb-sm-5">
-                                    <div class="row mb-2">
-                                        <div class="col-12">
-                                            <h5 class="float-left">Filters</h5>
-                                            <b-button class="float-right" @click="addItem('filter')" variant="success">
-                                                Add new
-                                            </b-button>
-                                        </div>
-                                        <div class="col-12">
-                                            <custom-table :attributes="true" @edit-item="editFilter"
-                                                          @load-attributes="loadAttributes" @delete-item="deleteFilter"
-                                                          :search="true" :items="filters" :fields="fieldsFilters"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="row mb-2">
-                                        <div class="col-12">
-                                            <h5 class="float-left">Attributes</h5>
-                                            <b-button v-if="loadedFilterLists !== null" class="float-right" @click="addItem('attributes')"
-                                                      variant="success">Add new
-                                            </b-button>
-                                        </div>
-                                        <div class="col-12">
-                                            <custom-table id="scrolling" @edit-item="editAttribute"
-                                                          :search="true" @delete-item="deleteAttribute"
-                                                          :items="attributes" :fields="fieldsAttributes"/>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <filter-popup-modal @closed="resetModal" :modal="modal" @update-items="updateItems"/>
-
-    </Layout>
-</template>

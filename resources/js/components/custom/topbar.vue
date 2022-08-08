@@ -1,6 +1,6 @@
 <script>
 import simplebar from "simplebar-vue";
-import {authMethods} from "../state/helpers";
+import {authMethods} from "../../state/helpers";
 import {mapGetters} from "vuex";
 
 export default {

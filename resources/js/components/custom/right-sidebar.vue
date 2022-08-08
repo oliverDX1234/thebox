@@ -1,88 +1,3 @@
-<script>
-import { layoutMethods } from "@/state/helpers";
-/**
- * Right-sidebar
- */
-export default {
-    data() {
-        return {
-            config: {
-                handler: this.handleRightBarClick,
-                middleware: this.middleware,
-                events: ["click"],
-            },
-            layout: this.$store
-                ? this.$store.state.layout.layoutType
-                : {} || {},
-            width: this.$store
-                ? this.$store.state.layout.layoutWidth
-                : {} || {},
-            topbar: this.$store ? this.$store.state.layout.topbar : {} || {},
-            sidebarType: this.$store
-                ? this.$store.state.layout.leftSidebarType
-                : {} || {},
-            loader: this.$store ? this.$store.state.layout.loader : {} || {},
-        };
-    },
-    methods: {
-        ...layoutMethods,
-        hide() {
-            this.$parent.toggleRightSidebar();
-        },
-        // eslint-disable-next-line no-unused-vars
-        handleRightBarClick(e, el) {
-            this.$parent.hideRightSidebar();
-        },
-        // eslint-disable-next-line no-unused-vars
-        middleware(event, el) {
-            if (event.target.classList)
-                return !event.target.classList.contains("toggle-right");
-        },
-        changeLayout(layout) {
-            this.changeLayoutType({
-                layoutType: layout,
-            });
-        },
-        changeType(type) {
-            return this.changeLeftSidebarType({
-                leftSidebarType: type,
-            });
-        },
-        changeWidth(width) {
-            return this.changeLayoutWidth({
-                layoutWidth: width,
-            });
-        },
-        changeTopbartype(value) {
-            return this.changeTopbar({
-                topbar: value,
-            });
-        },
-        changeloader() {
-            return this.changeLoaderValue({
-                loader: this.loader,
-            });
-        },
-
-        async saveChanges() {
-            let layout = {
-                type: this.layout,
-                width: this.width,
-                sidebartype: this.sidebarType,
-                topbar: this.topbar,
-                loader: this.loader,
-            };
-
-            let response = await this.$http.post("/api/admin/changeLayout", {
-                layout: layout
-            },{
-                showToast: true
-            })
-        },
-    },
-};
-</script>
-
 <template>
     <div>
         <!-- Right Sidebar -->
@@ -197,3 +112,91 @@ export default {
         <div class="rightbar-overlay"></div>
     </div>
 </template>
+
+
+
+
+<script>
+import { layoutMethods } from "@/state/helpers";
+/**
+ * Right-sidebar
+ */
+export default {
+    data() {
+        return {
+            config: {
+                handler: this.handleRightBarClick,
+                middleware: this.middleware,
+                events: ["click"],
+            },
+            layout: this.$store
+                ? this.$store.state.layout.layoutType
+                : {} || {},
+            width: this.$store
+                ? this.$store.state.layout.layoutWidth
+                : {} || {},
+            topbar: this.$store ? this.$store.state.layout.topbar : {} || {},
+            sidebarType: this.$store
+                ? this.$store.state.layout.leftSidebarType
+                : {} || {},
+            loader: this.$store ? this.$store.state.layout.loader : {} || {},
+        };
+    },
+    methods: {
+        ...layoutMethods,
+        hide() {
+            this.$parent.toggleRightSidebar();
+        },
+        // eslint-disable-next-line no-unused-vars
+        handleRightBarClick(e, el) {
+            this.$parent.hideRightSidebar();
+        },
+        // eslint-disable-next-line no-unused-vars
+        middleware(event, el) {
+            if (event.target.classList)
+                return !event.target.classList.contains("toggle-right");
+        },
+        changeLayout(layout) {
+            this.changeLayoutType({
+                layoutType: layout,
+            });
+        },
+        changeType(type) {
+            return this.changeLeftSidebarType({
+                leftSidebarType: type,
+            });
+        },
+        changeWidth(width) {
+            return this.changeLayoutWidth({
+                layoutWidth: width,
+            });
+        },
+        changeTopbartype(value) {
+            return this.changeTopbar({
+                topbar: value,
+            });
+        },
+        changeloader() {
+            return this.changeLoaderValue({
+                loader: this.loader,
+            });
+        },
+
+        async saveChanges() {
+            let layout = {
+                type: this.layout,
+                width: this.width,
+                sidebartype: this.sidebarType,
+                topbar: this.topbar,
+                loader: this.loader,
+            };
+
+            let response = await this.$http.post("/api/admin/changeLayout", {
+                layout: layout
+            },{
+                showToast: true
+            })
+        },
+    },
+};
+</script>

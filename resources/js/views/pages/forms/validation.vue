@@ -1,5 +1,5 @@
 <script>
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
 import appConfig from "@/app.config";
 
 import {
@@ -149,7 +149,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-lg-6">

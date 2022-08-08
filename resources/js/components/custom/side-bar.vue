@@ -1,10 +1,124 @@
+<template>
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="vertical-menu">
+        <simplebar class="h-100" ref="currentMenu" id="my-element">
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="metismenu list-unstyled" id="side-menu">
+                    <template v-for="item in menuItems">
+                        <li class="menu-title" v-if="item.isTitle" :key="item.id">
+                            {{ $t(item.label) }}
+                        </li>
+
+                        <!--end Layouts menu -->
+                        <li v-if="!item.isTitle && !item.isLayout" :key="item.id">
+                            <a
+                                v-if="hasItems(item)"
+                                href="javascript:void(0);"
+                                class="is-parent"
+                                :class="{
+                  'has-arrow': !item.badge,
+                  'has-dropdown': item.badge,
+                }"
+                            >
+                                <i :class="`bx ${item.icon}`" v-if="item.icon"></i>
+                                <span>{{ $t(item.label) }}</span>
+                                <span
+                                    :class="`badge badge-pill badge-${item.badge.variant} float-right`"
+                                    v-if="item.badge"
+                                >{{ $t(item.badge.text) }}</span
+                                >
+                            </a>
+
+                            <router-link
+                                :to="item.link"
+                                v-if="!hasItems(item)"
+                                class="side-nav-link-ref"
+                            >
+                                <i :class="`bx ${item.icon}`" v-if="item.icon"></i>
+                                <span>{{ $t(item.label) }}</span>
+                                <span
+                                    :class="`badge badge-pill badge-${item.badge.variant} float-right`"
+                                    v-if="item.badge"
+                                >{{ $t(item.badge.text) }}</span
+                                >
+                            </router-link>
+
+                            <ul v-if="hasItems(item)" class="sub-menu" aria-expanded="false">
+                                <li v-for="(subitem, index) of item.subItems" :key="index">
+                                    <router-link
+                                        :to="subitem.link"
+                                        :key="subitem.link"
+                                        class="side-nav-link-ref"
+                                    >{{ $t(subitem.label) }}
+                                    </router-link
+                                    >
+                                    <a
+                                        v-if="hasItems(subitem)"
+                                        class="side-nav-link-a-ref has-arrow"
+                                        href="javascript:void(0);"
+                                    >{{ subitem.label }}</a
+                                    >
+                                    <ul
+                                        v-if="hasItems(subitem)"
+                                        class="sub-menu mm-collapse"
+                                        aria-expanded="false"
+                                    >
+                                        <li
+                                            v-for="(subSubitem, index) of subitem.subItems"
+                                            :key="index"
+                                        >
+                                            <router-link
+                                                :to="subSubitem.link"
+                                                class="side-nav-link-ref"
+                                            >{{ $t(subSubitem.label) }}
+                                            </router-link
+                                            >
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </template>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="ri-share-line"></i>
+                            <span>Multi Level</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            <li>
+                                <a href="javascript: void(0);">Level 1.1</a>
+                            </li>
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow">Level 1.2</a>
+                                <ul class="sub-menu" aria-expanded="true">
+                                    <li>
+                                        <a href="javascript: void(0);">Level 2.1</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript: void(0);">Level 2.2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- Sidebar -->
+        </simplebar>
+    </div>
+    <!-- Left Sidebar End -->
+</template>
+
 <script>
 import simplebar from "simplebar-vue";
 import {layoutComputed} from "@/state/helpers";
 
 import MetisMenu from "metismenujs/dist/metismenujs";
 
-import {menuItems} from "./menu";
+import {menuItems} from "../menu";
 
 export default {
     components: {
@@ -170,116 +284,3 @@ export default {
     },
 };
 </script>
-<template>
-    <!-- ========== Left Sidebar Start ========== -->
-    <div class="vertical-menu">
-        <simplebar class="h-100" ref="currentMenu" id="my-element">
-            <!--- Sidemenu -->
-            <div id="sidebar-menu">
-                <!-- Left Menu Start -->
-                <ul class="metismenu list-unstyled" id="side-menu">
-                    <template v-for="item in menuItems">
-                        <li class="menu-title" v-if="item.isTitle" :key="item.id">
-                            {{ $t(item.label) }}
-                        </li>
-
-                        <!--end Layouts menu -->
-                        <li v-if="!item.isTitle && !item.isLayout" :key="item.id">
-                            <a
-                                v-if="hasItems(item)"
-                                href="javascript:void(0);"
-                                class="is-parent"
-                                :class="{
-                  'has-arrow': !item.badge,
-                  'has-dropdown': item.badge,
-                }"
-                            >
-                                <i :class="`bx ${item.icon}`" v-if="item.icon"></i>
-                                <span>{{ $t(item.label) }}</span>
-                                <span
-                                    :class="`badge badge-pill badge-${item.badge.variant} float-right`"
-                                    v-if="item.badge"
-                                >{{ $t(item.badge.text) }}</span
-                                >
-                            </a>
-
-                            <router-link
-                                :to="item.link"
-                                v-if="!hasItems(item)"
-                                class="side-nav-link-ref"
-                            >
-                                <i :class="`bx ${item.icon}`" v-if="item.icon"></i>
-                                <span>{{ $t(item.label) }}</span>
-                                <span
-                                    :class="`badge badge-pill badge-${item.badge.variant} float-right`"
-                                    v-if="item.badge"
-                                >{{ $t(item.badge.text) }}</span
-                                >
-                            </router-link>
-
-                            <ul v-if="hasItems(item)" class="sub-menu" aria-expanded="false">
-                                <li v-for="(subitem, index) of item.subItems" :key="index">
-                                    <router-link
-                                        :to="subitem.link"
-                                        :key="subitem.link"
-                                        class="side-nav-link-ref"
-                                    >{{ $t(subitem.label) }}
-                                    </router-link
-                                    >
-                                    <a
-                                        v-if="hasItems(subitem)"
-                                        class="side-nav-link-a-ref has-arrow"
-                                        href="javascript:void(0);"
-                                    >{{ subitem.label }}</a
-                                    >
-                                    <ul
-                                        v-if="hasItems(subitem)"
-                                        class="sub-menu mm-collapse"
-                                        aria-expanded="false"
-                                    >
-                                        <li
-                                            v-for="(subSubitem, index) of subitem.subItems"
-                                            :key="index"
-                                        >
-                                            <router-link
-                                                :to="subSubitem.link"
-                                                class="side-nav-link-ref"
-                                            >{{ $t(subSubitem.label) }}
-                                            </router-link
-                                            >
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </template>
-
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
-                            <i class="ri-share-line"></i>
-                            <span>Multi Level</span>
-                        </a>
-                        <ul class="sub-menu" aria-expanded="true">
-                            <li>
-                                <a href="javascript: void(0);">Level 1.1</a>
-                            </li>
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow">Level 1.2</a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li>
-                                        <a href="javascript: void(0);">Level 2.1</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript: void(0);">Level 2.2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- Sidebar -->
-        </simplebar>
-    </div>
-    <!-- Left Sidebar End -->
-</template>

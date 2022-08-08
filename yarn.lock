@@ -1159,6 +1159,11 @@
   dependencies:
     "lodash-es" "^4.17.15"
 
+"@ckeditor/ckeditor5-vue@^4.0.1":
+  "integrity" "sha512-QjlQYY0DVqpk+Oj3aDxtcgknet6xquGwjdGLVxgJh6hP+IOpcHldk0BQgMNPiF4T5Ojj37N55IEkaHdQcCLQlA=="
+  "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-vue/-/ckeditor5-vue-4.0.1.tgz"
+  "version" "4.0.1"
+
 "@ckeditor/ckeditor5-vue2@^3.0.0":
   "integrity" "sha512-Q7ZkRZYZRhAN6Ll0WQoR49+yUPlrgWJxHw9Y6lwoU4RMAUvyZ180G50PL6FMg/Hi4hhwwCF4338EiCGKus1KIg=="
   "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-vue2/-/ckeditor5-vue2-3.0.0.tgz"

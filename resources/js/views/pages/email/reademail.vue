@@ -2,7 +2,7 @@
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
 
 import Toolbar from "./toolbar";
 
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
 
     <div class="row">

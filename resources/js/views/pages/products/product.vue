@@ -390,10 +390,10 @@ import SupplierService from "@/services/supplierService";
 import CategoryService from "@/services/categoryService";
 import {FormWizard, TabContent} from "vue-form-wizard";
 import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+import PageHeader from "@/components/custom/page-header";
 import productService from "../../../services/productService";
-import fileUpload from "../../../components/file-upload";
-import CKEditor from "../../../components/CKEditor";
+import fileUpload from "../../../components/reusable/FileUpload";
+import CKEditor from "../../../components/reusable/CKEditor";
 
 import {
     required,
@@ -620,10 +620,12 @@ export default {
             if(this.$route.params.id){
                 formData.append('_method', "patch");
                 formData.append('id', this.$route.params.id);
-                let response = await productService.updateProduct(this.$route.params.id, formData)
+                await productService.updateProduct(this.$route.params.id, formData)
             }else{
-                let response = await productService.storeProduct(formData)
+                await productService.storeProduct(formData)
             }
+
+
         },
         imageUploaded(file) {
             this.product.basic_information.image = file;

@@ -2,7 +2,7 @@
 import Vue from "vue";
 import Swal from "sweetalert2";
 
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
 import appConfig from "@/app.config";
 
 /**
@@ -249,7 +249,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
     <div class="row">
       <div class="col-12">

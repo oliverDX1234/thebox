@@ -1,7 +1,7 @@
 <script>
 import VueSlideBar from "vue-slide-bar";
 import Layout from "../../layouts/main";
-import PageHeader from "@/components/page-header";
+import PageHeader from "@/components/custom/page-header";
 import appConfig from "@/app.config";
 
 /**

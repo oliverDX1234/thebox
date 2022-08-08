@@ -1,7 +1,7 @@
 <script>
 import simplebar from "simplebar-vue";
 
- import PageHeader from "@/components/page-header";
+ import PageHeader from "@/components/custom/page-header";
 
 import { chatData, chatMessagesData } from "./data";
 
@@ -114,7 +114,7 @@ export default {
 </script>
 
 <template>
-  <div> 
+  <div>
     <PageHeader :title="title" :items="items" />
     <div class="d-lg-flex mb-4">
       <div class="chat-leftsidebar">
