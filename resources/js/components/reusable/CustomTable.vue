@@ -46,24 +46,43 @@
                     <img width="80px" :src="row.item.main_image.sm" alt="product-image-thumbnail">
                 </template>
                 <template v-slot:cell(weight)="row">
-                    {{row.value}} kg
+                    <div>
+                        {{ row.value }} kg
+                    </div>
                 </template>
                 <template v-slot:cell(vat)="row">
-                    {{row.value}}%
+                    <div>
+                        {{ row.value }}%
+                    </div>
                 </template>
                 <template v-slot:cell(supplier_id)="row">
-                    {{row.value.name}}
+                    <div style="min-width: 100px;">
+                        {{ row.value.name }}
+                    </div>
                 </template>
                 <template v-slot:cell(dimensions)="row">
-                    <div><strong>Width:</strong> {{ row.value.width }} cm</div>
-                    <div><strong>Height:</strong> {{ row.value.height }} cm</div>
-                    <div><strong>Length:</strong> {{ row.value.length }} cm</div>
+                    <div style="min-width: 120px;">
+                        <div><strong>Width:</strong> {{ row.value.width }} cm</div>
+                        <div><strong>Height:</strong> {{ row.value.height }} cm</div>
+                        <div><strong>Length:</strong> {{ row.value.length }} cm</div>
+                    </div>
                 </template>
                 <template v-slot:cell(price)="row">
-                    {{row.value}} MKD
+                    <div style="min-width: 80px;">
+                        {{ row.value }} MKD
+                    </div>
                 </template>
                 <template v-slot:cell(supplier_price)="row">
-                    {{row.value}} MKD
+                    <div style="min-width: 80px;">
+                        {{ row.value }} MKD
+                    </div>
+                </template>
+                <template v-slot:cell(categories)="row">
+                    <div style="min-width: 200px;">
+                        <span v-for="item in row.value">
+                            <b-badge variant="primary">{{ item.name }}</b-badge>
+                        </span>
+                    </div>
                 </template>
                 <template v-slot:cell(active)="row">
                     <div
@@ -75,37 +94,39 @@
                     </div>
                 </template>
                 <template v-slot:cell(action)="row">
-                    <a
-                        @click="$emit('load-attributes', row.item.id)"
-                        class="mr-3 text-success"
-                        role="button"
-                        v-b-tooltip.hover
-                        title="Attributes"
-                        v-if="attributes"
-                    >
-                        <span class="success font-weight-bold font-size-18">A</span>
-                    </a>
-                    <a
-                        @click="$emit('edit-item', row.item.id)"
-                        class="mr-3 text-primary"
-                        role="button"
-                        v-b-tooltip.hover
-                        title="Edit"
-                    >
-                        <i class="mdi mdi-pencil font-size-18"></i>
-                    </a>
-                    <a
-                        class="text-danger"
-                        role="button"
-                        v-b-tooltip.hover
+                    <div>
+                        <a
+                            @click="$emit('load-attributes', row.item.id)"
+                            class="mr-3 text-success"
+                            role="button"
+                            v-b-tooltip.hover
+                            title="Attributes"
+                            v-if="attributes"
+                        >
+                            <span class="success font-weight-bold font-size-18">A</span>
+                        </a>
+                        <a
+                            @click="$emit('edit-item', row.item.id)"
+                            class="mr-3 text-primary"
+                            role="button"
+                            v-b-tooltip.hover
+                            title="Edit"
+                        >
+                            <i class="mdi mdi-pencil font-size-18"></i>
+                        </a>
+                        <a
+                            class="text-danger"
+                            role="button"
+                            v-b-tooltip.hover
 
-                        @click="$emit('delete-item', row.item.id)"
+                            @click="$emit('delete-item', row.item.id)"
 
 
-                        title="Delete"
-                    >
-                        <i class="mdi mdi-trash-can font-size-18"></i>
-                    </a>
+                            title="Delete"
+                        >
+                            <i class="mdi mdi-trash-can font-size-18"></i>
+                        </a>
+                    </div>
                 </template>
             </b-table>
         </div>

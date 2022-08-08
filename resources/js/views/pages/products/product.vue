@@ -592,7 +592,7 @@ export default {
             formData.append("width", this.product.basic_information.width);
             formData.append("length", this.product.basic_information.length);
             formData.append("unit_code", this.product.basic_information.unit_code);
-            formData.append("short_description", this.product.basic_information.description);
+            formData.append("short_description", this.product.basic_information.short_description);
             formData.append("description", this.$refs.editor.editorData);
             formData.append("active", this.product.basic_information.active);
             formData.append("categories", JSON.stringify(this.product.basic_information.selectedCategories));

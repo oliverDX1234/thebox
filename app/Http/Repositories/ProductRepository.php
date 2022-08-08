@@ -16,7 +16,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getProducts()
     {
-        return Product::all();
+        return Product::with("categories")->get();
     }
 
     public function deleteProduct($id)

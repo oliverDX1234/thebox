@@ -54,6 +54,7 @@ export default {
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "thumb", sortable: true, label: "Image"},
+                {key: "active", sortable: true, label: "Active"},
                 {key: "name", sortable: true, label: "Name"},
                 {key: "unit_code", sortable: true, label: "Unit Code"},
                 {key: "supplier_id", sortable: true, label: "Supplier"},
@@ -62,7 +63,7 @@ export default {
                 {key: "dimensions", sortable: true, label: "Dimensions"},
                 {key: "price", sortable: true, label: "Price"},
                 {key: "supplier_price", sortable: true, label: "Supplier Price"},
-                {key: "active", sortable: true, label: "Active"},
+                {key: "categories", sortable: true, label: "Categories"},
                 {key: "action"}
             ]
         };
