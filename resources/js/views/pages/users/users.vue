@@ -17,7 +17,11 @@
                                 <i class="mdi mdi-plus mr-2"></i> New User
                             </a>
                         </div>
-                        <custom-table @edit-item="editUser" @delete-item="deleteUser" :search="true" :items="users"
+                        <custom-table @edit-item="editUser"
+                                      @delete-item="deleteUser"
+                                      :search="true"
+                                      :items="users"
+                                      :busy="busy"
                                       :fields="fields"/>
                     </div>
                 </div>
@@ -48,6 +52,7 @@ export default {
                 }
             ],
             users: [],
+            busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "first_name", sortable: true, label: "First Name"},
@@ -92,11 +97,15 @@ export default {
 
         },
         async getUsers() {
+            this.busy = true;
+
             const users = await UserService.getUsers();
             this.users = users.map(x => {
                 x.city = x.city.city_name_en;
                 return x;
             })
+
+            this.busy = false;
         },
     }
 };

@@ -17,7 +17,7 @@
                                 <i class="mdi mdi-plus mr-2"></i> New supplier
                             </a>
                         </div>
-                        <custom-table @edit-item="editSupplier" @delete-item="deleteSupplier" :search="true"
+                        <custom-table @edit-item="editSupplier" :busy="busy" @delete-item="deleteSupplier" :search="true"
                                       :items="suppliers" :fields="fields"/>
                     </div>
                 </div>
@@ -53,6 +53,7 @@ export default {
                 }
             ],
             suppliers: [],
+            busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "name", sortable: true, label: "Name"},
@@ -95,11 +96,15 @@ export default {
 
         },
         async getSuppliers() {
+            this.busy = true;
+
             const suppliers = await SupplierService.getSuppliers();
             this.suppliers = suppliers.map(x => {
                 x.city = x.city.city_name_en;
                 return x;
             })
+
+            this.busy = false;
         },
     }
 };

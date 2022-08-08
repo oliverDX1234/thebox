@@ -186,6 +186,11 @@ export default {
             type: Array,
             default: null
         },
+        busy:{
+            required: false,
+            type: Boolean,
+            default: false,
+        },
         filters:{
             required: false,
             type: Object,
@@ -214,8 +219,7 @@ export default {
             filter: null,
             filterOn: [],
             sortBy: "id",
-            sortDesc: false,
-            busy: false
+            sortDesc: false
         }
     },
     mounted() {

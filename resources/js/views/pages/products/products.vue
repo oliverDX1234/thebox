@@ -23,6 +23,7 @@
                                       :items="products"
                                       :fields="fields"
                                       :filteringOptions="['categories', 'statuses', 'suppliers']"
+                                      :busy="busy"
                                       :filters="filters"
                                       @filters-updated="filtersUpdated"
                         />
@@ -60,6 +61,7 @@ export default {
             ],
             products: [],
             filters: null,
+            busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "thumb", sortable: true, label: "Image"},
@@ -123,7 +125,12 @@ export default {
 
         },
         async getProducts() {
+            this.busy = true;
+
             this.products = await ProductService.getProducts(this.filters);
+
+            this.busy = false;
+
         },
         filtersUpdated(value){
             this.filters = value;
