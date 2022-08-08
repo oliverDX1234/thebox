@@ -379,7 +379,7 @@ export default {
                     </router-link>
                     <div class="dropdown-divider"></div>
                     <a
-                        class="dropdown-item text-danger"
+                        class="dropdown-item text-danger cursor-pointer"
                         @click="attemptLogout"
                     >
                         <i
