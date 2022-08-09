@@ -643,7 +643,7 @@ export default {
             this.product.basic_information.short_description = product.short_description;
             this.$refs.editor.editorData = product.description ?? "";
             this.product.basic_information.selectedCategories = product.categories;
-            this.product.basic_information.selectedSuppliers = product.supplier_id;
+            this.product.basic_information.selectedSuppliers = product.supplier;
             this.product.basic_information.image = product.main_image.md;
 
             this.product.pricing.price = product.price

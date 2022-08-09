@@ -10,7 +10,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById($id): Product
     {
-        return Product::findOrFail($id);
+        return Product::findOrFail($id)->with("supplier")->first();
     }
 
 
