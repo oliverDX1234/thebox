@@ -50,6 +50,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(ResponseFactory $responseFactory)
     {
 
+        if(config('app.env') === 'production') {
+            \URL::forceScheme('https');
+        }
+
         Schema::defaultStringLength(191);
 
         $responseFactory->macro('api', function ($data = null, $message = "", $statusCode = 200) use ($responseFactory) {
