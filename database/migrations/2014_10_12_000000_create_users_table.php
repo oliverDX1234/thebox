@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 100);
             $table->enum('roles', ['admin', 'user'])->default("user");
             $table->text("admin_settings");
+            //Commented because of mysql strict mode when on
 //            $table->text("admin_settings")->default('{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}');
             $table->string("phone", 20);
             $table->string("address", 100);

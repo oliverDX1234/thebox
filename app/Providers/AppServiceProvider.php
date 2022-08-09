@@ -17,6 +17,7 @@ use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\SupplierRepository;
 use App\Http\Repositories\UserRepository;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,6 +49,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ResponseFactory $responseFactory)
     {
+
+        Schema::defaultStringLength(191);
+
         $responseFactory->macro('api', function ($data = null, $message = "", $statusCode = 200) use ($responseFactory) {
             $customFormat = [
                 'message' => $message,
