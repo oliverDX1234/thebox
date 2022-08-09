@@ -9,7 +9,6 @@ class Category extends Model
     use HasFactory;
 
     protected $table = "categories";
-//    protected $with = ['filters'];
 
     protected $fillable = [
         'name',
@@ -20,8 +19,6 @@ class Category extends Model
         'active',
         'seo_description'
     ];
-
-    protected $hidden = ['category_products'];
 
     protected $casts = [
         'active' => 'boolean',

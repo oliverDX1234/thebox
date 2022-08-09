@@ -18,6 +18,7 @@
                                         </div>
                                         <div class="col-12">
                                             <custom-table :attributes="true" @edit-item="editFilter"
+                                                          :busy="busyFilters"
                                                           @load-attributes="loadAttributes" @delete-item="deleteFilter"
                                                           :search="true" :items="filters" :fields="fieldsFilters"/>
                                         </div>
@@ -33,6 +34,7 @@
                                         </div>
                                         <div class="col-12">
                                             <custom-table id="scrolling" @edit-item="editAttribute"
+                                                          :busy="busyAttributes"
                                                           :search="true" @delete-item="deleteAttribute"
                                                           :items="attributes" :fields="fieldsAttributes"/>
                                         </div>
@@ -77,6 +79,8 @@ export default {
             ],
             filters: [],
             attributes: [],
+            busyFilters: false,
+            busyAttributes: false,
             fieldsFilters: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "filter", sortable: true, label: "Filter"},
@@ -108,9 +112,14 @@ export default {
     },
     methods: {
         async loadFilters() {
+            this.busyFilters = true;
+
             this.filters = await FilterService.getFilters();
+
+            this.busyFilters = false;
         },
         loadAttributes(id) {
+            this.busyAttributes = true;
             let index = this.findItemIndex(id, "filters");
 
             if (window.innerWidth <= 767) {
@@ -124,6 +133,8 @@ export default {
             }
 
             this.loadedFilterLists = id;
+
+            this.busyAttributes = false;
         },
         addItem(item) {
             if (item === "filter") {

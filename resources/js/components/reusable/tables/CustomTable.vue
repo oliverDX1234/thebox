@@ -169,8 +169,8 @@ export default {
         },
         attributes:{
             required: false,
-            type: Array,
-            default: null
+            type: Boolean,
+            default: false
         },
         search:{
             required: false,
