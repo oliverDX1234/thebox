@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Requests\SupplierStoreRequest;
 use App\Http\Services\SupplierService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class SupplierController extends Controller
@@ -22,9 +23,9 @@ class SupplierController extends Controller
      * @return Response
      * @throws ApiException
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $suppliers = $this->supplierService->getSuppliers();
+        $suppliers = $this->supplierService->getSuppliers($request);
 
         return response()->api(['suppliers' => $suppliers] , "suppliers.retrieved", 200);
     }

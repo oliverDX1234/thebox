@@ -17,8 +17,17 @@
                                 <i class="mdi mdi-plus mr-2"></i> New supplier
                             </a>
                         </div>
-                        <custom-table @edit-item="editSupplier" :busy="busy" @delete-item="deleteSupplier" :search="true"
-                                      :items="suppliers" :fields="fields"/>
+                        <custom-table
+                            @edit-item="editSupplier"
+                            :busy="busy"
+                            @delete-item="deleteSupplier"
+                            :search="true"
+                            :items="suppliers"
+                            :filters="filters"
+                            :fields="fields"
+                            :filteringOptions="['statuses']"
+                            @filters-updated="filtersUpdated"
+                        />
                     </div>
                 </div>
             </div>
@@ -53,6 +62,7 @@ export default {
                 }
             ],
             suppliers: [],
+            filters: null,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
@@ -66,9 +76,24 @@ export default {
             ]
         };
     },
+    watch: {
+        'filters': {
+            deep: true,
+            handler(filter) {
+
+                this.$router.replace({
+                    ...this.$route,
+                    query: filter,
+                }).catch(()=>{});
+
+                this.getSuppliers();
+
+            },
+        },
+    },
 
     created() {
-        this.getSuppliers();
+        this.filters = this.$route.query;
     },
     methods: {
         editSupplier(id) {
@@ -98,7 +123,7 @@ export default {
         async getSuppliers() {
             this.busy = true;
 
-            const suppliers = await SupplierService.getSuppliers();
+            const suppliers = await SupplierService.getSuppliers(this.filters);
             this.suppliers = suppliers.map(x => {
                 x.city = x.city.city_name_en;
                 return x;
@@ -106,6 +131,10 @@ export default {
 
             this.busy = false;
         },
+
+        filtersUpdated(value){
+            this.filters = value;
+        }
     }
 };
 </script>

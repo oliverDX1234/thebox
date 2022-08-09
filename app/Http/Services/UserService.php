@@ -21,10 +21,10 @@ class UserService
         $this->imageService = $imageService;
     }
 
-    public function getUsers()
+    public function getUsers($request)
     {
         try {
-            return $this->userRepository->getUsers();
+            return $this->userRepository->getUsers($request);
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }

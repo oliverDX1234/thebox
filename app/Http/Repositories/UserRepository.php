@@ -14,12 +14,24 @@ class UserRepository implements UserRepositoryInterface
     }
 
 
-    public function getUsers()
+    public function getUsers($request)
     {
-        return User::all();
+        $users = User::query();
+
+        if($request->has("statuses")){
+
+            $users->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+        }
+
+
+        if($request->has("roles")){
+            $users->where("roles", "=", $request->roles === "Admin" ? "admin" : "user");
+        }
+
+        return $users->get();
     }
 
-    public function deleteUser($id)
+    public function deleteUser($id): ?bool
     {
         return User::findOrFail($id)->delete();
     }

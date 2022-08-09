@@ -5,6 +5,8 @@
                 <multiselect placeholder="Select a category" v-if="options.includes('categories')" v-model="categoriesValue" :options="categories" label="name" track-by="id" @input="filtersSelected"/>
                 <multiselect placeholder="Select a supplier" v-if="options.includes('suppliers')" v-model="suppliersValue" :options="suppliers" label="name" track-by="id" @input="filtersSelected"/>
                 <multiselect placeholder="Select a status" v-if="options.includes('statuses')" v-model="statusesValue" :options="statuses" @input="filtersSelected"/>
+                <multiselect placeholder="Select a role" v-if="options.includes('roles')" v-model="rolesValue" :options="roles" @input="filtersSelected"/>
+
             </div>
         </div>
     </div>
@@ -38,11 +40,16 @@ export default {
               "Active",
               "Inactive"
             ],
+            roles:[
+                "Admin",
+                "User"
+            ],
             categories: [],
             suppliers: [],
             categoriesValue: null,
             suppliersValue: null,
             statusesValue: null,
+            rolesValue: null
         }
     },
     mounted(){
@@ -58,6 +65,10 @@ export default {
         if(this.filters.statuses){
             this.statusesValue = this.filters.statuses;
         }
+
+        if(this.filters.roles){
+            this.rolesValue = this.filters.roles;
+        }
     },
     methods:{
 
@@ -67,6 +78,15 @@ export default {
 
             if(this.filters.categories){
                 this.categoriesValue = this.categories.find(x => x.id === +this.filters.categories);
+            }
+        },
+
+        async getSuppliers(){
+
+            this.suppliers = await supplierService.getSuppliers();
+
+            if(this.filters.suppliers){
+                this.suppliersValue = this.suppliers.find(x => x.id === +this.filters.suppliers);
             }
         },
 
@@ -99,15 +119,6 @@ export default {
                 return this.$data[fullValueName];
             }
 
-        },
-
-        async getSuppliers(){
-
-            this.suppliers = await supplierService.getSuppliers();
-
-            if(this.filters.suppliers){
-                this.suppliersValue = this.suppliers.find(x => x.id === +this.filters.suppliers);
-            }
         }
     }
 }

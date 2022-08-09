@@ -9,8 +9,10 @@ const UserService = {
     },
 
 
-    async getUsers() {
-        let response = await axios.get(`/api/users`);
+    async getUsers(filters = null) {
+        let response = await axios.get(`/api/users`, {
+            params: filters
+        });
         return response.data.payload.users;
     },
 

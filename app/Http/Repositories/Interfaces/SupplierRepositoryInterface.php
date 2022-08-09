@@ -9,7 +9,7 @@ interface SupplierRepositoryInterface
 
     public function findById(int $id): Supplier;
 
-    public function getSuppliers();
+    public function getSuppliers($request);
 
     public function deleteSupplier(int $id);
 

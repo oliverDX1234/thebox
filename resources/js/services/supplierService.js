@@ -8,8 +8,10 @@ const SupplierService = {
     },
 
 
-    async getSuppliers() {
-        let response = await axios.get(`/api/suppliers`);
+    async getSuppliers(filters = null) {
+        let response = await axios.get(`/api/suppliers`,{
+            params: filters
+        });
         return response.data.payload.suppliers;
     },
 

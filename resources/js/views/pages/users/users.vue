@@ -21,8 +21,12 @@
                                       @delete-item="deleteUser"
                                       :search="true"
                                       :items="users"
+                                      :filteringOptions="['roles', 'statuses']"
                                       :busy="busy"
-                                      :fields="fields"/>
+                                      :filters="filters"
+                                      :fields="fields"
+                                      @filters-updated="filtersUpdated"
+                        />
                     </div>
                 </div>
             </div>
@@ -52,6 +56,7 @@ export default {
                 }
             ],
             users: [],
+            filters: null,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
@@ -70,8 +75,24 @@ export default {
         };
     },
 
+    watch: {
+        'filters': {
+            deep: true,
+            handler(filter) {
+
+                this.$router.replace({
+                    ...this.$route,
+                    query: filter,
+                }).catch(()=>{});
+
+                this.getUsers();
+
+            },
+        },
+    },
+
     created() {
-        this.getUsers();
+        this.filters = this.$route.query;
     },
     methods: {
         editUser(id) {
@@ -99,7 +120,7 @@ export default {
         async getUsers() {
             this.busy = true;
 
-            const users = await UserService.getUsers();
+            const users = await UserService.getUsers(this.filters);
             this.users = users.map(x => {
                 x.city = x.city.city_name_en;
                 return x;
@@ -107,6 +128,9 @@ export default {
 
             this.busy = false;
         },
+        filtersUpdated(value){
+            this.filters = value;
+        }
     }
 };
 </script>

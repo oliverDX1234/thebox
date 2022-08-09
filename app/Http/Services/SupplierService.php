@@ -21,10 +21,10 @@ class SupplierService
     /**
      * @throws ApiException
      */
-    public function getSuppliers()
+    public function getSuppliers($request)
     {
         try {
-            return $this->supplierRepository->getSuppliers();
+            return $this->supplierRepository->getSuppliers($request);
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }

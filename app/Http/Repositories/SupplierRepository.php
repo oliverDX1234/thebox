@@ -14,9 +14,16 @@ class SupplierRepository implements SupplierRepositoryInterface
     }
 
 
-    public function getSuppliers()
+    public function getSuppliers($request)
     {
-        return Supplier::all();
+        $suppliers =  Supplier::query();
+
+        if($request->has("statuses")){
+
+            $suppliers->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+        }
+
+        return $suppliers->get();
     }
 
     public function deleteSupplier($id)

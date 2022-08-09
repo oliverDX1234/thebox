@@ -24,9 +24,9 @@ class UserController extends Controller
      * @return Response
      * @throws ApiException
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $users = $this->userService->getUsers();
+        $users = $this->userService->getUsers($request);
 
         return response()->api(['users' => $users], "users.retrieved", 200);
     }
