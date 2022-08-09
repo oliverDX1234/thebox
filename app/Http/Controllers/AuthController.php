@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Response;
+use Session;
 
 class AuthController extends Controller
 {
@@ -33,9 +34,7 @@ class AuthController extends Controller
     public function logout(): Response
     {
         try {
-            request()->session()->flush();
-            request()->session()->invalidate();
-            auth()->guard("web")->logout();
+            Session::flush();
         } catch (\Exception $e) {
             throw new ApiException("auth.logout_failure", 500, null, $e);
         }
