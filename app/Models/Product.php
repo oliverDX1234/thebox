@@ -38,11 +38,6 @@ class Product extends Model implements HasMedia
         return json_decode($value, true);
     }
 
-    protected function getSupplierIdAttribute($value)
-    {
-        return Supplier::select(["id", "name", "email"])->find($value);
-    }
-
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection("main_image")->singleFile();
@@ -116,6 +111,7 @@ class Product extends Model implements HasMedia
 
     public function supplier()
     {
+
         return $this->hasOne(Supplier::class, "id", "supplier_id");
     }
 

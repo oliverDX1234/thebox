@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string("name", 255);
             $table->string("url", 255);
-            $table->foreignId("supplier_id")->nullable();
+            $table->foreignId("supplier_id");
             $table->string("short_description", 250)->nullable();
             $table->string("unit_code", 100);
             $table->integer("vat");

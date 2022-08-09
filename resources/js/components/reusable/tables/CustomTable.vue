@@ -63,7 +63,7 @@
                         {{ row.value }}%
                     </div>
                 </template>
-                <template v-slot:cell(supplier_id)="row">
+                <template v-slot:cell(supplier)="row">
                     <div style="min-width: 100px;">
                         {{ row.value.name }}
                     </div>

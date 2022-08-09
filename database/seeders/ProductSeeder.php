@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
     public function run()
     {
 
-        Product::factory(7, [])->create();
+        Product::factory(50, [])->create();
 
         DB::table('attribute_product')->insert(array(
 

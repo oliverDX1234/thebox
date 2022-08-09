@@ -68,7 +68,7 @@ export default {
                 {key: "active", sortable: true, label: "Active"},
                 {key: "name", sortable: true, label: "Name"},
                 {key: "unit_code", sortable: true, label: "Unit Code"},
-                {key: "supplier_id", sortable: true, label: "Supplier"},
+                {key: "supplier", sortable: true, label: "Supplier"},
                 {key: "vat", sortable: true, label: "Vat"},
                 {key: "weight", sortable: true, label: "Weight"},
                 {key: "dimensions", sortable: true, label: "Dimensions"},
