@@ -217,7 +217,8 @@
                 "cart": "Cart",
                 "checkout": "Checkout",
                 "shops": "Shops",
-                "addproduct": "Add Product"
+                "all-products": "All Products",
+                "add-product": "Add Product"
             }
         },
         "email": {

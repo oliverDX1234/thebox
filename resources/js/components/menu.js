@@ -76,17 +76,23 @@ export const menuItems = [
             {
                 id: 14,
                 label: "menuitems.ecommerce.list.products",
-                link: "/admin/products",
+                subItems:[
+                    {
+                        label: "menuitems.ecommerce.list.all-products",
+                        id: 50,
+                        link: "/admin/products",
+                    },
+                    {
+                        id: 17,
+                        label: "menuitems.ecommerce.list.add-product",
+                        link: "/admin/product",
+                    },
+                ]
             },
             {
                 id: 16,
                 label: "menuitems.ecommerce.list.orders",
                 link: "/admin/ecommerce/orders",
-            },
-            {
-                id: 17,
-                label: "menuitems.ecommerce.list.addproduct",
-                link: "/admin/product",
             },
         ],
     },

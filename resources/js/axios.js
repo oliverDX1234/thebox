@@ -57,16 +57,6 @@ axios.interceptors.response.use(
             case 404:
                 router.push("/404");
                 return Promise.reject(error.response);
-            case 503: // Down for maintenance
-                // Bounce the user to the login screen with a redirect back
-                window.location.reload();
-                break;
-            case 500:
-                alert('Oops, something went wrong!  The team have been notified.');
-                break;
-            default:
-                // Allow individual requests to handle other e  rrors
-                return Promise.reject(error);
         }
 
         const vm = new Vue();

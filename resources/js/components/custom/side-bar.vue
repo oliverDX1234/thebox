@@ -48,6 +48,7 @@
                             <ul v-if="hasItems(item)" class="sub-menu" aria-expanded="false">
                                 <li v-for="(subitem, index) of item.subItems" :key="index">
                                     <router-link
+                                        v-if="subitem.link"
                                         :to="subitem.link"
                                         :key="subitem.link"
                                         class="side-nav-link-ref"
@@ -58,7 +59,7 @@
                                         v-if="hasItems(subitem)"
                                         class="side-nav-link-a-ref has-arrow"
                                         href="javascript:void(0);"
-                                    >{{ subitem.label }}</a
+                                    >{{ $t(subitem.label) }}</a
                                     >
                                     <ul
                                         v-if="hasItems(subitem)"
