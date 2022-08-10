@@ -1,6 +1,7 @@
 import axios from "axios";
 import router from "@/router";
 import i18n from '@/i18n'
+import state from "./state/store"
 import Vue from "vue";
 
 window.axios = require("axios");
@@ -8,10 +9,13 @@ window.axios.defaults.withCredentials = true;
 
 // Add a response interceptor
 axios.interceptors.response.use(
+
     response => {
+
+        const vm1 = new Vue();
+
         if (response.config.showToast) {
-            const vm = new Vue();
-            vm.$bvToast.toast(i18n.t(response.data.message), {
+            vm1.$bvToast.toast(i18n.t(response.data.message), {
                 title: "Success",
                 variant: "success",
                 toaster: "b-toaster-bottom-right",
@@ -19,15 +23,54 @@ axios.interceptors.response.use(
             });
         }
         return response;
-    },
+    }
+    ,
     error => {
-        if (404 === error.response.status) {
-            router.push("/404");
-            return Promise.reject(error.response);
+
+        const vm2 = new Vue();
+
+        switch (error.response.status) {
+            case 401: // Not logged in
+                state.commit('auth/logout');
+
+                vm2.$bvToast.toast("Session expired. Please log in again.", {
+                    title: "Error",
+                    variant: "danger",
+                    toaster: "b-toaster-bottom-right",
+                    solid: true,
+                });
+
+                setTimeout(router.push("/admin/login"), 500);
+                return Promise.reject(error.response);
+            case 419: // Session expired
+                state.commit('auth/logout');
+
+                vm2.$bvToast.toast("Session expired. Please log in again.", {
+                    title: "Error",
+                    variant: "danger",
+                    toaster: "b-toaster-bottom-right",
+                    solid: true,
+                });
+
+                setTimeout(router.push("/admin/login"), 500);
+                return Promise.reject(error.response);
+            case 404:
+                router.push("/404");
+                return Promise.reject(error.response);
+            case 503: // Down for maintenance
+                // Bounce the user to the login screen with a redirect back
+                window.location.reload();
+                break;
+            case 500:
+                alert('Oops, something went wrong!  The team have been notified.');
+                break;
+            default:
+                // Allow individual requests to handle other e  rrors
+                return Promise.reject(error);
         }
 
         const vm = new Vue();
-        vm.$bvToast.toast(i18n.t(error.response.data.message), {
+        vm1.$bvToast.toast(i18n.t(error.response.data.message), {
             title: "Error",
             variant: "danger",
             toaster: "b-toaster-bottom-right",
@@ -36,6 +79,7 @@ axios.interceptors.response.use(
 
         return Promise.reject(error.response);
     }
-);
+)
+;
 
 export default axios;
