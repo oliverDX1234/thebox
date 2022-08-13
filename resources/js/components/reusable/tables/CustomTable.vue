@@ -76,6 +76,7 @@
                     </div>
                 </template>
                 <template v-slot:cell(price)="row">
+
                     <div style="min-width: 80px;">
                         <div v-if="!hasDiscount(row.value)">{{ row.value.price }} MKD</div>
                         <div v-else>
