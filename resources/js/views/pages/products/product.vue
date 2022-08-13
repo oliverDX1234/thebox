@@ -151,6 +151,14 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
+                                                <label class="control-label">Discounted Price</label>
+                                                <input type="text" v-model="product.pricing.discounted_price"
+                                                       class="form-control"
+                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.discounted_price.$invalid }">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
                                                 <label class="control-label">Vat (%)<span
                                                     class="required">*</span></label>
                                                 <multiselect
@@ -333,6 +341,10 @@
                                         <h6>Supplier Price</h6>
                                         <p class="mt-1 mb-3">{{ product.pricing.supplier_price }}</p>
                                     </div>
+                                    <div v-if="product.pricing.discounted_price" class="col-4">
+                                        <h6>Discounted Price</h6>
+                                        <p class="mt-1 mb-3">{{ product.pricing.discounted_price }}</p>
+                                    </div>
                                     <div class="col-4">
                                         <h6>Vat</h6>
                                         <p class="mt-1 mb-3">{{ product.pricing.vat }}</p>
@@ -447,6 +459,7 @@ export default {
                 pricing: {
                     price: null,
                     supplier_price: null,
+                    discounted_price: null,
                     vat: null
                 },
                 galleryImages: [],
@@ -600,6 +613,7 @@ export default {
             //Price
             formData.append("price", this.product.pricing.price);
             formData.append("supplier_price", this.product.pricing.supplier_price);
+            formData.append("discounted_price", this.product.pricing.discounted_price);
             formData.append("vat", this.product.pricing.vat);
 
             //Filters and attributes
@@ -646,8 +660,9 @@ export default {
             this.product.basic_information.selectedSuppliers = product.supplier;
             this.product.basic_information.image = product.main_image.md;
 
-            this.product.pricing.price = product.price
-            this.product.pricing.supplier_price = product.supplier_price
+            this.product.pricing.price = product.price.price
+            this.product.pricing.supplier_price = product.price.supplier_price
+            this.product.pricing.discounted_price = product.price.discounted_price
             this.product.pricing.vat = product.vat
 
             this.product.meta.title = product.seo_title;

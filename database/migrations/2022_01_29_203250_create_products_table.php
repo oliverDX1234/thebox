@@ -24,8 +24,6 @@ class CreateProductsTable extends Migration
             $table->bigInteger("seen_times")->default(0);
             $table->integer("weight");
             $table->text("dimensions");
-            $table->integer("price");
-            $table->integer("supplier_price");
             $table->text("description")->nullable();
             $table->string("seo_title");
             $table->string("seo_keywords");

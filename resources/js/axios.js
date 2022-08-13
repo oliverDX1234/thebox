@@ -60,7 +60,7 @@ axios.interceptors.response.use(
         }
 
         const vm = new Vue();
-        vm1.$bvToast.toast(i18n.t(error.response.data.message), {
+        vm2.$bvToast.toast(i18n.t(error.response.data.message), {
             title: "Error",
             variant: "danger",
             toaster: "b-toaster-bottom-right",

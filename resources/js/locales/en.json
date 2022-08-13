@@ -50,6 +50,7 @@
     "products": {
         "saved": "The product was successfully created",
         "updated": "The product was successfully updated",
+        "save_failed": "There was an error processing the save request",
         "update_failed": "There was an error processing the update request",
         "retrieved": "The products were successfully retrieved",
         "deleted": "The product was successfully deleted",
@@ -218,7 +219,10 @@
                 "checkout": "Checkout",
                 "shops": "Shops",
                 "all-products": "All Products",
-                "add-product": "Add Product"
+                "add-product": "Add Product",
+                "discounts": "Discounts",
+                "all-discounts": "All Discounts",
+                "add-discount": "Add Discount"
             }
         },
         "email": {

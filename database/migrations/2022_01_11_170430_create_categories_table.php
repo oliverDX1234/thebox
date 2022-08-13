@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->text("description");
             $table->integer("parent")->nullable()->default(null);
             $table->string("seo_keywords");
-            $table->string("seo_description");
+            $table->text("seo_description");
             $table->boolean("active")->default(true);
             $table->timestamps();
         });

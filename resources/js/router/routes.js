@@ -124,6 +124,27 @@ export default [
         meta: { admin: true },
         component: () => import("../views/pages/ecommerce/product-detail"),
     },
+    //Discounts
+    {
+        path: "/admin/discounts",
+        name: "admin-all-discounts",
+        meta: { admin: true },
+        component: () => import("../views/pages/discounts/discounts"),
+    },
+    {
+        path: "/admin/discounts/new",
+        name: "admin-new-discount",
+        meta: { admin: true },
+        component: () => import("../views/pages/discounts/discount"),
+    },
+
+    {
+        path: "/admin/discount/:id",
+        name: "admin-edit-discount",
+        meta: { admin: true },
+        component: () => import("../views/pages/discounts/discount"),
+    },
+
     {
         path: "/admin/ecommerce/orders",
         name: "admin/Orders",

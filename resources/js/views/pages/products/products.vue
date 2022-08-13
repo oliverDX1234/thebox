@@ -22,7 +22,7 @@
                                       :search="true"
                                       :items="products"
                                       :fields="fields"
-                                      :filteringOptions="['categories', 'statuses', 'suppliers']"
+                                      :filteringOptions="['categories', 'statuses', 'suppliers', 'discounts']"
                                       :busy="busy"
                                       :filters="filters"
                                       @filters-updated="filtersUpdated"

@@ -68,3 +68,7 @@ input::placeholder{
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.text-strike{
+    text-decoration: line-through;
+}

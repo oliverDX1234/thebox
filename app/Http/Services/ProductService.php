@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use Exception;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -62,7 +63,7 @@ class ProductService
     public function saveProduct($request)
     {
         try {
-            $product = Product::make($request->all());
+            $product = Product::make($request->except("price", "supplier_price", "discounted_price"));
 
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
@@ -71,7 +72,6 @@ class ProductService
                 "height" => $request->height,
                 "length" => $request->length
             ]);
-            $product->supplier_price = $request->supplier_price;
 
             $product->active = !!$request->active;
 
@@ -94,6 +94,13 @@ class ProductService
             }
             $product->save();
 
+            ProductPrice::create([
+                "product_id" => $product->id,
+                "price" => $request->price,
+                "supplier_price" => $request->supplier_price,
+                "discounted_price" => $request->discounted_price
+            ]);
+
             $categories = json_decode($request->categories);
 
             if ($categories) {
@@ -114,6 +121,7 @@ class ProductService
 
             $product->save();
         } catch (Exception $e) {
+
             throw new ApiException("products.save_failed", 500, null, $e);
         }
     }
@@ -129,7 +137,8 @@ class ProductService
 
             $product = $this->productRepository->findById($request->id);
 
-            $product->update($request->all());
+            $product->update($request->except("active", "price", "supplier_price", "discounted_price"));
+
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
             $product->dimensions = json_encode([
@@ -137,7 +146,13 @@ class ProductService
                 "height" => $request->height,
                 "length" => $request->length
             ]);
-            $product->supplier_price = $request->supplier_price;
+
+            ProductPrice::where("product_id", "=" , $product->id)->update([
+                "price" => $request->price,
+                "supplier_price" => $request->supplier_price,
+                "discounted_price" => $request->discounted_price === "null" ? null : $request->discounted_price
+            ]);
+
             $product->active = $request->active;
 
             if ($request->file('main_image')) {
@@ -201,20 +216,12 @@ class ProductService
                 }
             }
 
+            $product->active = json_decode($request->active);
 
-        } catch (Exception $e) {
-            dd($e);
-            throw new ApiException("products.update_failed", 500, $e);
-        }
-
-        $product->update($request->except('active'));
-
-        $product->active = json_decode($request->active);
-
-        try {
             $product->save();
+
         } catch (Exception $e) {
-            throw new ApiException("products.update_failed", 500, null, $e);
+            throw new ApiException("products.update_failed", 500, $e);
         }
     }
 

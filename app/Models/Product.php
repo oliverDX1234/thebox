@@ -104,6 +104,11 @@ class Product extends Model implements HasMedia
         }
     }
 
+    public function price()
+    {
+        return $this->hasOne(ProductPrice::class, "product_id", "id");
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             AttributesSeeder::class,
             ProductSeeder::class,
+            ProductPriceSeeder::class
         ]);
     }
 }

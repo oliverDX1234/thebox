@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
             'description' => $this->faker->paragraph(),
             'parent' => null,
             'seo_keywords' => "shopping, perfumes, discount, natural, gifts",
-            'seo_description' => $this->faker->text(),
+            'seo_description' => $this->faker->sentence(),
             'active' => true
         ];
     }

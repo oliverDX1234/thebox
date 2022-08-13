@@ -10,14 +10,14 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById($id): Product
     {
-        return Product::findOrFail($id)->with("supplier")->first();
+        return Product::where("id", "=", $id)->with("supplier", "price")->first();
     }
 
 
     public function getProducts($request)
     {
 
-        $products = Product::with("categories:id,name", "supplier:id,name");
+        $products = Product::with("categories:id,name", "supplier:id,name", "price");
 
         if($request->has("categories")){
             $products->whereHas("categories", function($q) use($request){
@@ -36,7 +36,14 @@ class ProductRepository implements ProductRepositoryInterface
             $products->where("active", "=", $request->statuses === "Active" ? 1 : 0);
         }
 
-        $products->select("products.id", "products.name", "products.active", "products.unit_code", "products.supplier_id", "products.price", "products.supplier_price");
+        if($request->has("discounts")){
+            $products->whereHas("price", function($q) use ($request){
+
+                $q->whereNull("discounted_price", "and", $request->discounts === "Discount");
+            });
+        }
+
+        $products->select("products.id", "products.name", "products.active", "products.unit_code", "products.supplier_id");
 
         return $products->get();
     }
