@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -12,7 +13,7 @@ class Product extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $appends = ['main_image', "gallery"];
+    protected $appends = ['main_image', "gallery", "price_discount"];
 
     protected $fillable = [
         "name",
@@ -20,7 +21,7 @@ class Product extends Model implements HasMedia
         "weight",
         "vat",
         "price",
-        "supplier_price",
+        "price_supplier",
         "short_description",
         "description",
         "seo_title",
@@ -104,9 +105,24 @@ class Product extends Model implements HasMedia
         }
     }
 
-    public function price()
+    public function getPriceDiscountAttribute()
     {
-        return $this->hasOne(ProductPrice::class, "product_id", "id");
+        if(!$this->discount){
+            return null;
+        }
+
+        if($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()){
+            return null;
+        }
+
+        if($this->discount->type === "fixed"){
+
+            $price = max(0, $this->price - $this->discount->value);
+        }else{
+            $price = $this->price - ($this->price * ($this->discount->value/100));
+        }
+
+        return round($price);
     }
 
     public function categories()
@@ -118,6 +134,11 @@ class Product extends Model implements HasMedia
     {
 
         return $this->hasOne(Supplier::class, "id", "supplier_id");
+    }
+
+    public function discount()
+    {
+        return $this->hasOne(Discount::class, "id", "discount_id");
     }
 
     public function attributes()

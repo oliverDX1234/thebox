@@ -78,13 +78,19 @@
                 <template v-slot:cell(price)="row">
 
                     <div style="min-width: 80px;">
-                        <div v-if="!row.value.valid_discount">{{ row.value.price }} MKD</div>
+                        <div v-if="!row.item.price_discount">{{ row.item.price }} MKD</div>
                         <div v-else>
-                            <span>{{row.value.discounted_price}} MKD</span>
+                            <span>{{row.item.price_discount}} MKD</span>
                             <br>
-                            <span class="text-strike text-danger">{{row.value.price}} MKD</span>
+                            <span class="text-strike text-danger">{{row.item.price}} MKD</span>
                         </div>
 
+                    </div>
+                </template>
+                <template v-slot:cell(price_supplier)="row">
+
+                    <div style="min-width: 80px;">
+                        <span>{{row.value}} MKD</span>
                     </div>
                 </template>
                 <template v-slot:cell(supplier_price)="row">

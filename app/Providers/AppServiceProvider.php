@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Http\Repositories\AttributeRepository;
 use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\CityRepository;
+use App\Http\Repositories\DiscountRepository;
 use App\Http\Repositories\FilterRepository;
 use App\Http\Repositories\Interfaces\AttributeRepositoryInterface;
 use App\Http\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Http\Repositories\Interfaces\CityRepositoryInterface;
+use App\Http\Repositories\Interfaces\DiscountRepositoryInterface;
 use App\Http\Repositories\Interfaces\FilterRepositoryInterface;
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Http\Repositories\Interfaces\SupplierRepositoryInterface;
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(FilterRepositoryInterface::class, FilterRepository::class);
         $this->app->bind(AttributeRepositoryInterface::class, AttributeRepository::class);
+        $this->app->bind(DiscountRepositoryInterface::class, DiscountRepository::class);
 
         if ($this->app->isLocal()) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

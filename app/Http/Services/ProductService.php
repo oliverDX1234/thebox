@@ -4,8 +4,9 @@ namespace App\Http\Services;
 
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Models\Discount;
 use App\Models\Product;
-use App\Models\ProductPrice;
+use Carbon\Carbon;
 use Exception;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -44,8 +45,8 @@ class ProductService
 
             $filters = [];
 
-            foreach($product->attributes as $attribute){
-               $filters[$attribute->filter->name][] = $attribute;
+            foreach ($product->attributes as $attribute) {
+                $filters[$attribute->filter->name][] = $attribute;
             }
 
             $product->filters = $filters;
@@ -63,8 +64,9 @@ class ProductService
     public function saveProduct($request)
     {
         try {
-            $product = Product::make($request->except("price", "supplier_price", "discounted_price"));
+            $product = Product::make($request->all());
 
+            //URL, suppliers, dimensions
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
             $product->dimensions = json_encode([
@@ -75,11 +77,13 @@ class ProductService
 
             $product->active = !!$request->active;
 
+            //Product main image
             if ($request->file('main_image')) {
                 $product->addMediaFromRequest("main_image")
                     ->toMediaCollection("main_image");
             }
 
+            //Product gallery images
             $i = 0;
 
             while (true) {
@@ -92,15 +96,21 @@ class ProductService
                     $i++;
                 }
             }
-            $product->save();
 
-            ProductPrice::create([
-                "product_id" => $product->id,
-                "price" => $request->price,
-                "supplier_price" => $request->supplier_price,
-                "discounted_price" => $request->discounted_price
-            ]);
+            //Product discount
+            if ($request->price_discount !== null) {
+                $discount = Discount::create([
+                    "type" => "fixed",
+                    "start_date" => Carbon::now()->toDateTimeLocalString(),
+                    "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
+                    "value" => $request->price - $request->price_discount,
+                    "active" => true
+                ]);
 
+                $product->discount_id = $discount->id;
+            }
+
+            //Product Categories
             $categories = json_decode($request->categories);
 
             if ($categories) {
@@ -109,6 +119,7 @@ class ProductService
                 }
             }
 
+            //Product Filters
             $filters = json_decode($request->get("attributes"));
 
             if ($filters) {
@@ -137,8 +148,9 @@ class ProductService
 
             $product = $this->productRepository->findById($request->id);
 
-            $product->update($request->except("active", "price", "supplier_price", "discounted_price"));
+            $product->update($request->all());
 
+            //URL, suppliers, dimensions
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
             $product->dimensions = json_encode([
@@ -147,19 +159,16 @@ class ProductService
                 "length" => $request->length
             ]);
 
-            ProductPrice::where("product_id", "=" , $product->id)->update([
-                "price" => $request->price,
-                "supplier_price" => $request->supplier_price,
-                "discounted_price" => $request->discounted_price === "null" ? null : $request->discounted_price
-            ]);
 
-            $product->active = $request->active;
+            $product->active = !!$request->active;
 
+            //Product Main Image
             if ($request->file('main_image')) {
                 $product->addMediaFromRequest("main_image")
                     ->toMediaCollection("main_image");
             }
 
+            //Product Gallery Images
             $i = 0;
             $unchangedImages = [];
 
@@ -169,12 +178,12 @@ class ProductService
 
                 if (!$request->file("gallery_image_" . $i) && !$request->has("gallery_image_" . $i)) {
                     break;
-                }else if($request->has("gallery_image_" . $i)){
+                } else if ($request->has("gallery_image_" . $i)) {
                     $image = json_decode($request->get("gallery_image_" . $i));
 
-                    if(isset($image)){
+                    if (isset($image)) {
                         $unchangedImages[] = $image->id;
-                    }else{
+                    } else {
                         $image = $product->addMediaFromRequest("gallery_image_" . $i)
                             ->toMediaCollection("gallery_images");
 
@@ -185,18 +194,37 @@ class ProductService
                 }
             }
 
-            if($unchangedImages){
+            if ($unchangedImages) {
 
                 $media = Media::where("collection_name", "gallery_images")->where("model_id", $product->id)->get();
 
-                foreach($media as $i){
+                foreach ($media as $i) {
 
-                    if(!in_array($i->id, $unchangedImages)){
+                    if (!in_array($i->id, $unchangedImages)) {
                         $product->deleteMedia($i->id);
                     }
                 }
             }
 
+            //Product Discount
+            if($request->price_discount !== null){
+
+                if($product->price_discount !== (int)$request->price_discount){
+                    $discount = Discount::create([
+                        "type" => "fixed",
+                        "start_date" => Carbon::now()->toDateTimeLocalString(),
+                        "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
+                        "value" => $request->price - $request->price_discount,
+                        "active" => true
+                    ]);
+
+                    $product->discount_id = $discount->id;
+                }
+            }else{
+                $product->discount_id = null;
+            }
+
+            //Product Categories
             $categories = json_decode($request->categories);
             $product->categories()->detach();
             if ($categories) {
@@ -205,6 +233,7 @@ class ProductService
                 }
             }
 
+            //Product Filters
             $filters = json_decode($request->get("attributes"));
             $product->attributes()->detach();
 
@@ -215,8 +244,6 @@ class ProductService
                     }
                 }
             }
-
-            $product->active = json_decode($request->active);
 
             $product->save();
 

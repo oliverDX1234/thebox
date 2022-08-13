@@ -73,7 +73,7 @@ export default {
                 {key: "weight", sortable: true, label: "Weight"},
                 {key: "dimensions", sortable: true, label: "Dimensions"},
                 {key: "price", sortable: true, label: "Price"},
-                {key: "supplier_price", sortable: true, label: "Supplier Price"},
+                {key: "price_supplier", sortable: true, label: "Supplier Price"},
                 {key: "categories", sortable: true, label: "Categories"},
                 {key: "action"}
             ]

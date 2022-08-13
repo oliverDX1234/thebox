@@ -14,6 +14,9 @@ class ProductFactory extends Factory
     public function definition()
     {
         $name = $this->faker->word();
+
+        $discount = rand() % 2 === 0;
+
         return [
             "name" => $name,
             "url" => slugify($name),
@@ -27,6 +30,9 @@ class ProductFactory extends Factory
             'seo_title' => $this->faker->word(),
             'seo_keywords' => "shopping, perfumes, discount, natural, gifts",
             'seo_description' => $this->faker->sentence(),
+            "price" => $this->faker->numberBetween($min = 100, $max = 500),
+            "price_supplier" => $this->faker->numberBetween($min = 50, $max = 100),
+            "discount_id" => $discount ? $this->faker->numberBetween($min = 1, $max = 7) : null,
             'active' => true
 
         ];

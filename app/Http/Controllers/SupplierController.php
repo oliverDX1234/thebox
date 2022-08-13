@@ -79,8 +79,6 @@ class SupplierController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $this->supplierService->deleteSupplier($id);
 
-        return response()->api(["supplier" => $id] , "supplier.deleted", 200);
     }
 }

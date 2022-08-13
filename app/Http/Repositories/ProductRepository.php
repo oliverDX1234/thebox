@@ -4,46 +4,54 @@ namespace App\Http\Repositories;
 
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Models\Product;
+use Carbon\Carbon;
 
 class ProductRepository implements ProductRepositoryInterface
 {
 
     public function findById($id): Product
     {
-        return Product::where("id", "=", $id)->with("supplier", "price")->first();
+        return Product::where("id", "=", $id)->with("supplier")->first();
     }
 
 
     public function getProducts($request)
     {
 
-        $products = Product::with("categories:id,name", "supplier:id,name", "price");
+        $products = Product::with("categories:id,name", "supplier:id,name");
 
-        if($request->has("categories")){
-            $products->whereHas("categories", function($q) use($request){
-                $q->where('id','=', $request->categories);
+        if ($request->has("categories")) {
+            $products->whereHas("categories", function ($q) use ($request) {
+                $q->where('id', '=', $request->categories);
             });
         }
 
-        if($request->has("suppliers")){
-            $products->whereHas("supplier", function($q) use($request){
-                $q->where('id','=', $request->suppliers);
+        if ($request->has("suppliers")) {
+            $products->whereHas("supplier", function ($q) use ($request) {
+                $q->where('id', '=', $request->suppliers);
             });
         }
 
-        if($request->has("statuses")){
+        if ($request->has("statuses")) {
 
             $products->where("active", "=", $request->statuses === "Active" ? 1 : 0);
         }
 
-        if($request->has("discounts")){
-            $products->whereHas("price", function($q) use ($request){
+        if ($request->has("discounts")) {
 
-                $q->whereNull("discounted_price", "and", $request->discounts === "Discount");
-            });
+            if ($request->discounts === "Discount") {
+                $products->whereHas("discount", function ($q) {
+                    $q->whereRaw("start_date < STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))
+                        ->whereRaw("end_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'));
+                });
+            }else{
+                $products->whereNull("discount_id")->orWhereHas("discount", function ($q) {
+                    $q->whereRaw("start_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'));
+                });
+            }
         }
 
-        $products->select("products.id", "products.name", "products.active", "products.unit_code", "products.supplier_id");
+        $products->select("products.*");
 
         return $products->get();
     }

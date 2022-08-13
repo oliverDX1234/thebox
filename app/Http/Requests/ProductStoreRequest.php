@@ -34,7 +34,7 @@ class ProductStoreRequest extends FormRequest
             'categories' => 'required',
             'main_image' => 'required|max:500',
             'price' => 'required|numeric',
-            'supplier_price' => 'required|numeric',
+            'price_supplier' => 'required|numeric',
             'vat' => 'required|numeric',
             'seo_title' => 'required',
             'seo_keywords' => 'required',

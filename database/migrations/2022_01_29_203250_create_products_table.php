@@ -28,9 +28,13 @@ class CreateProductsTable extends Migration
             $table->string("seo_title");
             $table->string("seo_keywords");
             $table->string("seo_description");
+            $table->integer("price");
+            $table->integer("price_supplier");
+            $table->foreignId("discount_id")->nullable();
             $table->boolean("active")->default(true);
 
             $table->foreign("supplier_id")->references("id")->on("suppliers");
+            $table->foreign("discount_id")->references("id")->on("discounts")->onDelete('set null');
             $table->timestamps();
         });
     }

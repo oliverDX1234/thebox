@@ -21,7 +21,6 @@ import i18n from "./i18n";
 
 import imagePlugin from "./plugins/imagePlugin";
 import notificationPlugin from "./plugins/notificationPlugin";
-import pricePlugin from "./plugins/pricePlugin";
 
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 
@@ -46,7 +45,6 @@ Vue.use(VueMask);
 Vue.use(require("vue-chartist"));
 Vue.use(imagePlugin);
 Vue.use(notificationPlugin);
-Vue.use(pricePlugin);
 Vue.use(VueNestable);
 Vue.use(VueGoogleMaps, {
     load: {

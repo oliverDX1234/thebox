@@ -141,9 +141,9 @@
                                             <div class="form-group">
                                                 <label class="control-label">Supplier Price <span
                                                     class="required">*</span></label>
-                                                <input type="text" v-model="product.pricing.supplier_price"
+                                                <input type="text" v-model="product.pricing.price_supplier"
                                                        class="form-control"
-                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.supplier_price.$invalid }">
+                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.price_supplier.$invalid }">
                                             </div>
                                         </div>
                                     </div>
@@ -152,9 +152,9 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label class="control-label">Discounted Price</label>
-                                                <input type="text" v-model="product.pricing.discounted_price"
+                                                <input type="text" v-model="product.pricing.price_discount"
                                                        class="form-control"
-                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.discounted_price.$invalid }">
+                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.price_discount.$invalid }">
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -339,11 +339,11 @@
                                     </div>
                                     <div class="col-4">
                                         <h6>Supplier Price</h6>
-                                        <p class="mt-1 mb-3">{{ product.pricing.supplier_price }}</p>
+                                        <p class="mt-1 mb-3">{{ product.pricing.price_supplier }}</p>
                                     </div>
-                                    <div v-if="product.pricing.discounted_price" class="col-4">
+                                    <div v-if="product.pricing.price_discount" class="col-4">
                                         <h6>Discounted Price</h6>
-                                        <p class="mt-1 mb-3">{{ product.pricing.discounted_price }}</p>
+                                        <p class="mt-1 mb-3">{{ product.pricing.price_discount }}</p>
                                     </div>
                                     <div class="col-4">
                                         <h6>Vat</h6>
@@ -458,8 +458,8 @@ export default {
                 },
                 pricing: {
                     price: null,
-                    supplier_price: null,
-                    discounted_price: null,
+                    price_supplier: null,
+                    price_discount: null,
                     vat: null
                 },
                 galleryImages: [],
@@ -496,7 +496,7 @@ export default {
             },
             pricing: {
                 price: {required, decimal},
-                supplier_price: {required, decimal},
+                price_supplier: {required, decimal},
                 vat: {required}
             },
             meta: {
@@ -612,8 +612,8 @@ export default {
 
             //Price
             formData.append("price", this.product.pricing.price);
-            formData.append("supplier_price", this.product.pricing.supplier_price);
-            formData.append("discounted_price", this.product.pricing.discounted_price);
+            formData.append("price_supplier", this.product.pricing.price_supplier);
+            formData.append("price_discount", this.product.pricing.price_discount);
             formData.append("vat", this.product.pricing.vat);
 
             //Filters and attributes
@@ -660,9 +660,9 @@ export default {
             this.product.basic_information.selectedSuppliers = product.supplier;
             this.product.basic_information.image = product.main_image.md;
 
-            this.product.pricing.price = product.price.price
-            this.product.pricing.supplier_price = product.price.supplier_price
-            this.product.pricing.discounted_price = product.price.discounted_price
+            this.product.pricing.price = product.price
+            this.product.pricing.price_supplier = product.price_supplier
+            this.product.pricing.price_discount = product.price_discount
             this.product.pricing.vat = product.vat
 
             this.product.meta.title = product.seo_title;

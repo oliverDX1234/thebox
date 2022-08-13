@@ -12,17 +12,17 @@
                             <a
                                 href="javascript:void(0);"
                                 class="btn btn-success mb-2"
-                                @click="$router.push('/admin/supplier/')"
+                                @click="$router.push('/admin/discount/new')"
                             >
-                                <i class="mdi mdi-plus mr-2"></i> New supplier
+                                <i class="mdi mdi-plus mr-2"></i> New discount
                             </a>
                         </div>
                         <custom-table
-                            @edit-item="editSupplier"
+                            @edit-item="editDiscount"
                             :busy="busy"
-                            @delete-item="deleteSupplier"
+                            @delete-item="deleteDiscount"
                             :search="true"
-                            :items="suppliers"
+                            :items="discounts"
                             :filters="filters"
                             :fields="fields"
                             :filteringOptions="['statuses']"
@@ -38,7 +38,7 @@
 <script>
 import PageHeader from "@/components/custom/page-header";
 import CustomTable from "@/components/reusable/tables/CustomTable";
-import SupplierService from "@/services/supplierService";
+import DiscountService from "../../../services/discountService";
 import Layout from "../../layouts/main";
 
 
@@ -53,53 +53,53 @@ export default {
     },
     data() {
         return {
-            title: "Suppliers",
+            title: "Discounts",
             items: [
                 {
-                    text: "Suppliers",
+                    text: "Discounts",
                     active: true
 
                 }
             ],
-            suppliers: [],
+            discounts: [],
             filters: null,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
-                {key: "name", sortable: true, label: "Name"},
-                {key: "email", sortable: true, label: "Email"},
-                {key: "phone", sortable: true, label: "Phone"},
-                {key: "city", sortable: true, label: "City"},
-                {key: "address", sortable: true, label: "Address"},
-                {key: "active", sortable: true, label: "Active"},
+                {key: "product_id", sortable: true, label: "Product ID"},
+                {key: "category_id", sortable: true, label: "Category ID"},
+                {key: "value", sortable: true, label: "Value"},
+                {key: "type", sortable: true, label: "Type"},
+                {key: "start_date", sortable: true, label: "Start Date"},
+                {key: "end_date", sortable: true, label: "End Date"},
                 {key: "action"}
             ]
         };
     },
-    // watch: {
-    //     'filters': {
-    //         deep: true,
-    //         handler(filter) {
-    //
-    //             this.$router.replace({
-    //                 ...this.$route,
-    //                 query: filter,
-    //             }).catch(()=>{});
-    //
-    //             this.getSuppliers();
-    //
-    //         },
-    //     },
-    // },
+    watch: {
+        'filters': {
+            deep: true,
+            handler(filter) {
+
+                this.$router.replace({
+                    ...this.$route,
+                    query: filter,
+                }).catch(()=>{});
+
+                this.getDiscounts();
+
+            },
+        },
+    },
 
     created() {
         this.filters = this.$route.query;
     },
     methods: {
-        editSupplier(id) {
-            this.$router.push('/admin/supplier/' + id);
+        editDiscount(id) {
+            this.$router.push('/admin/discounts/new' + id);
         },
-        async deleteSupplier(id) {
+        async deleteDiscount(id) {
 
             this.$swal.fire({
                 title: "Are you sure?",
@@ -111,20 +111,20 @@ export default {
                 confirmButtonText: "Yes, delete it!"
             }).then(async result => {
                 if (result.value) {
-                    let response = await SupplierService.deleteSupplier(id);
-                    let index = this.suppliers.findIndex(supplier => supplier.id === parseInt(response))
+                    let response = await DiscountService.deleteDiscount(id);
+                    let index = this.discounts.findIndex(discount => discount.id === parseInt(response))
                     // find the post index
                     if (~index) // if the post exists in array
-                        this.suppliers.splice(index, 1) //delete the post
+                        this.discounts.splice(index, 1) //delete the post
                 }
             });
 
         },
-        async getSuppliers() {
+        async getDiscounts() {
             this.busy = true;
 
-            const suppliers = await SupplierService.getSuppliers(this.filters);
-            this.suppliers = suppliers.map(x => {
+            const discounts = await DiscountService.getDiscounts(this.filters);
+            this.discounts = discounts.map(x => {
                 x.city = x.city.city_name_en;
                 return x;
             })
