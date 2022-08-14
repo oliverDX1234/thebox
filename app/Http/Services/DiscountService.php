@@ -95,4 +95,24 @@ class DiscountService
         }
     }
 
+    public function getProductsForDiscount($id)
+    {
+        try {
+            return $this->discountRepository->getProductsForDiscount($id);
+        } catch (Exception $e) {
+
+            throw new ApiException("discount.discount_products_error",  $e->getCode(), null, $e);
+        }
+    }
+
+    public function updateStatus($id)
+    {
+        try {
+            return $this->discountRepository->updateStatus($id);
+        } catch (Exception $e) {
+
+            throw new ApiException("discount.update_failed",  $e->getCode(), null, $e);
+        }
+    }
+
 }

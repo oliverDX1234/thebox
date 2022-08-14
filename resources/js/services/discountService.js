@@ -30,9 +30,18 @@ const DiscountService = {
 
         return response.data.payload.discount;
 
+    },
+
+    async getProductsForDiscount(id){
+        let response = await axios.get(`/api/discounts/show-products/${id}`);
+
+        return response.data.payload.products;
+    },
+    async updateStatus(id) {
+        await axios.get(`/api/discounts/update-status/${id}`, {
+            showToast: true
+        });
     }
-
-
 }
 
 export default DiscountService

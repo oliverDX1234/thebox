@@ -20,7 +20,7 @@
                                             <custom-table :attributes="true" @edit-item="editFilter"
                                                           :busy="busyFilters"
                                                           @load-attributes="loadAttributes" @delete-item="deleteFilter"
-                                                          :search="true" :items="filters" :fields="fieldsFilters"/>
+                                                          :search="true" :items="filters" :actions="['delete', 'attributes' , 'edit']" :fields="fieldsFilters"/>
                                         </div>
                                     </div>
                                 </div>
@@ -36,7 +36,7 @@
                                             <custom-table id="scrolling" @edit-item="editAttribute"
                                                           :busy="busyAttributes"
                                                           :search="true" @delete-item="deleteAttribute"
-                                                          :items="attributes" :fields="fieldsAttributes"/>
+                                                          :items="attributes" :actions="['delete', 'edit']" :fields="fieldsAttributes"/>
                                         </div>
                                     </div>
 

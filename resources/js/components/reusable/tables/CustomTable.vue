@@ -80,9 +80,9 @@
                     <div style="min-width: 80px;">
                         <div v-if="!row.item.price_discount">{{ row.item.price }} MKD</div>
                         <div v-else>
-                            <span>{{row.item.price_discount}} MKD</span>
+                            <span>{{ row.item.price_discount }} MKD</span>
                             <br>
-                            <span class="text-strike text-danger">{{row.item.price}} MKD</span>
+                            <span class="text-strike text-danger">{{ row.item.price }} MKD</span>
                         </div>
 
                     </div>
@@ -90,9 +90,24 @@
                 <template v-slot:cell(price_supplier)="row">
 
                     <div style="min-width: 80px;">
-                        <span>{{row.value}} MKD</span>
+                        <span>{{ row.value }} MKD</span>
                     </div>
                 </template>
+
+                <template v-slot:cell(start_date)="row">
+
+                    <div style="min-width: 80px;">
+                        <span>{{ moment(row.value, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") }}</span>
+                    </div>
+                </template>
+
+                <template v-slot:cell(end_date)="row">
+
+                    <div style="min-width: 80px;">
+                        <span>{{ moment(row.value, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") }}</span>
+                    </div>
+                </template>
+
                 <template v-slot:cell(supplier_price)="row">
                     <div style="min-width: 80px;">
                         {{ row.item.price.supplier_price }} MKD
@@ -115,37 +130,71 @@
                     </div>
                 </template>
                 <template v-slot:cell(action)="row">
-                    <div>
+                    <div class="d-flex">
+
+                        <b-form-checkbox
+                            v-model="row.item.active"
+                            class="mr-2"
+                            style="margin-top: 3.5px;"
+                            switch
+                            @change="$emit('toggle-item', row.item.id)"
+                            v-if="actions.includes('switch')"
+                        >
+                        </b-form-checkbox>
+
                         <a
                             @click="$emit('load-attributes', row.item.id)"
                             class="mr-3 text-success"
                             role="button"
                             v-b-tooltip.hover
                             title="Attributes"
-                            v-if="attributes"
+                            v-if="actions.includes('attributes')"
                         >
                             <span class="success font-weight-bold font-size-18">A</span>
                         </a>
+
+                        <a
+                            @click="$router.push('/admin/discount/show-products/' + row.item.id)"
+                            class="mr-3 text-success"
+                            role="button"
+                            v-b-tooltip.hover
+                            title="Show Products"
+                            v-if="actions.includes('show-products')"
+                        >
+                            <i class="mdi mdi-eye font-size-18"></i>
+                        </a>
+
                         <a
                             @click="$emit('edit-item', row.item.id)"
                             class="mr-3 text-primary"
                             role="button"
                             v-b-tooltip.hover
                             title="Edit"
+                            v-if="actions.includes('edit')"
                         >
                             <i class="mdi mdi-pencil font-size-18"></i>
                         </a>
                         <a
-                            class="text-danger"
+                            class="text-danger mr-3"
                             role="button"
                             v-b-tooltip.hover
-
                             @click="$emit('delete-item', row.item.id)"
+                            title="Delete"
+                            v-if="actions.includes('delete')"
+                        >
+                            <i class="mdi mdi-trash-can font-size-18"></i>
+                        </a>
 
+                        <a
+                            class="text-danger mr-3"
+                            role="button"
+                            v-b-tooltip.hover
+                            v-if="actions.includes('remove-product')"
+                            @click="$emit('delete-item', row.item.id)"
 
                             title="Delete"
                         >
-                            <i class="mdi mdi-trash-can font-size-18"></i>
+                            <i class="fas fa-times font-size-18"></i>
                         </a>
                     </div>
                 </template>
@@ -176,43 +225,48 @@ import filteringOptions from "./FilteringOptions";
 
 export default {
     name: 'custom-table',
-    props:{
-        items:{
-
-        },
-        attributes:{
+    props: {
+        items: {},
+        attributes: {
             required: false,
             type: Boolean,
             default: false
         },
-        search:{
+        search: {
             required: false,
             type: Boolean,
             default: false
         },
-        fields:{
+        fields: {
             required: true,
             type: Array,
         },
-        filteringOptions:{
+        filteringOptions: {
             required: false,
             type: Array,
             default: null
         },
-        busy:{
+        busy: {
             required: false,
             type: Boolean,
             default: false,
         },
-        filters:{
+        filters: {
             required: false,
             type: Object,
-            default: function(){
+            default: function () {
                 return {};
+            }
+        },
+        actions: {
+            required: false,
+            type: Array,
+            default: function () {
+                return [];
             }
         }
     },
-    components:{
+    components: {
         filteringOptions
     },
     computed: {
@@ -247,7 +301,7 @@ export default {
             this.currentPage = 1;
         },
 
-        filtersUpdated(value){
+        filtersUpdated(value) {
             this.$emit("filters-updated", value);
         }
     }
@@ -256,9 +310,7 @@ export default {
 
 
 <style>
-
 .table td:last-child {
-    min-width: 150px;
+    min-width: 100px;
 }
-
 </style>

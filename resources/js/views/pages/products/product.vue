@@ -102,7 +102,9 @@
 
                                         <div class="form-group">
                                             <label for="productdesc">Product Short Description</label>
-                                            <textarea placeholder="Enter short description for product" class="form-control" v-model="product.basic_information.short_description"
+                                            <textarea placeholder="Enter short description for product"
+                                                      class="form-control"
+                                                      v-model="product.basic_information.short_description"
                                                       id="productdesc" rows="5"></textarea>
                                         </div>
 
@@ -112,7 +114,8 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <b-form-checkbox v-model="product.basic_information.active" size="lg" switch class="mb-1">
+                                            <b-form-checkbox v-model="product.basic_information.active" size="lg" switch
+                                                             class="mb-1">
                                                 <label>Active</label>
                                             </b-form-checkbox>
                                         </div>
@@ -154,7 +157,7 @@
                                                 <label class="control-label">Discounted Price</label>
                                                 <input type="text" v-model="product.pricing.price_discount"
                                                        class="form-control"
-                                                       :class="{ 'is-invalid': this.submitted && $v.product.pricing.price_discount.$invalid }">
+                                                >
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -522,7 +525,7 @@ export default {
             this.filters = response.filtersAndCategories;
 
             for (const [key, value] of Object.entries(this.product.selectedAttributes)) {
-                if(!response.filters.includes(key)){
+                if (!response.filters.includes(key)) {
                     delete this.product.selectedAttributes[key];
                 }
             }
@@ -623,7 +626,7 @@ export default {
             formData.append("main_image", this.product.basic_information.image);
             if (this.product.galleryImages) {
 
-                this.product.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`,  !(x instanceof File) ? JSON.stringify(x) : x))
+                this.product.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`, !(x instanceof File) ? JSON.stringify(x) : x))
             }
 
             //SEO Information
@@ -631,11 +634,11 @@ export default {
             formData.append("seo_keywords", this.product.meta.keywords);
             formData.append("seo_description", this.product.meta.description);
 
-            if(this.$route.params.id){
+            if (this.$route.params.id) {
                 formData.append('_method', "patch");
                 formData.append('id', this.$route.params.id);
                 await productService.updateProduct(this.$route.params.id, formData)
-            }else{
+            } else {
                 await productService.storeProduct(formData)
             }
 
@@ -645,7 +648,7 @@ export default {
             this.product.basic_information.image = file;
         },
 
-        async loadProduct(){
+        async loadProduct() {
             let product = await productService.getProduct(this.$route.params.id);
 
             this.product.basic_information.name = product.name
@@ -670,8 +673,14 @@ export default {
             this.product.meta.description = product.seo_description;
 
 
-            product.gallery.forEach( x => {
-                var file = { size: x.infos.size, name: x.infos.name, type: x.infos.extension, model_id: x.infos.model_id, id:x.infos.id };
+            product.gallery.forEach(x => {
+                var file = {
+                    size: x.infos.size,
+                    name: x.infos.name,
+                    type: x.infos.extension,
+                    model_id: x.infos.model_id,
+                    id: x.infos.id
+                };
                 this.$refs.galleryImagesDropzone.manuallyAddFile(file, x.md);
             });
 
@@ -685,7 +694,7 @@ export default {
         this.getSupplier();
         this.getCategories();
 
-        if(this.$route.params.id){
+        if (this.$route.params.id) {
 
             this.$refs.formWizard.activateAll();
 

@@ -84,4 +84,14 @@ class ProductController extends Controller
 
         return response()->api(["product" => $id] , "products.deleted", 200);
     }
+
+    /**
+     * @throws ApiException
+     */
+    public function removeProductDiscount($id)
+    {
+        $this->productService->removeProductDiscount($id);
+
+        return response()->api(null , "products.discount_successfully_removed", 200);
+    }
 }

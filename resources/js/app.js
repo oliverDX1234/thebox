@@ -22,6 +22,9 @@ import i18n from "./i18n";
 import imagePlugin from "./plugins/imagePlugin";
 import notificationPlugin from "./plugins/notificationPlugin";
 
+import moment from 'moment'
+Vue.prototype.moment = moment
+
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 
 const VueScrollTo = require('vue-scrollto')

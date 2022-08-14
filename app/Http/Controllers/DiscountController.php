@@ -55,4 +55,19 @@ class DiscountController extends Controller
 
         return response()->api(["discount" => $id] , "discount.deleted", 200);
     }
+
+    public function getProductsForDiscount($id)
+    {
+
+        $products = $this->discountService->getProductsForDiscount($id);
+
+        return response()->api(["products" => $products] , "products.retrieved", 200);
+    }
+
+    public function updateStatus($id)
+    {
+        $this->discountService->updateStatus($id);
+
+        return response()->api(null , "discounts.status_updated", 200);
+    }
 }

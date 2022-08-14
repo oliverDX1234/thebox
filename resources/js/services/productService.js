@@ -38,10 +38,13 @@ const ProductService = {
         });
 
         return response.data.payload.product;
+    },
 
+    async removeProductDiscount(id) {
+        await axios.get(`/api/products/remove-discount/${id}`, {
+            showToast: true
+        });
     }
-
-
 }
 
 export default ProductService

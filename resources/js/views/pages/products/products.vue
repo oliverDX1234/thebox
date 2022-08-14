@@ -2,7 +2,6 @@
     <Layout>
         <PageHeader
             :title="title"
-            :items="items"
         />
         <div class="row">
             <div class="col-lg-12">
@@ -25,6 +24,7 @@
                                       :filteringOptions="['categories', 'statuses', 'suppliers', 'discounts']"
                                       :busy="busy"
                                       :filters="filters"
+                                      :actions="['delete', 'edit']"
                                       @filters-updated="filtersUpdated"
                         />
                     </div>

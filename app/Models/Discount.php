@@ -21,10 +21,13 @@ class Discount extends Model
       "end_date",
       "active"
     ];
+    protected $casts = [
+        'active' => 'boolean'
+    ];
 
     public function products()
     {
-        $this->hasMany(Product::class, "discount_id", "id");
+        return $this->hasMany(Product::class, "discount_id", "id");
     }
 
     public function getIsValidAttribute()

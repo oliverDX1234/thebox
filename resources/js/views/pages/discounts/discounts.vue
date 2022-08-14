@@ -2,7 +2,6 @@
     <Layout>
         <PageHeader
             :title="title"
-            :items="items"
         />
         <div class="row">
             <div class="col-lg-12">
@@ -22,10 +21,12 @@
                             :busy="busy"
                             @delete-item="deleteDiscount"
                             :search="true"
+                            @toggle-item="toggleItem"
                             :items="discounts"
                             :filters="filters"
                             :fields="fields"
-                            :filteringOptions="['statuses']"
+                            :filteringOptions="['statuses', 'discountTypes']"
+                            :actions="['delete', 'switch', 'show-products']"
                             @filters-updated="filtersUpdated"
                         />
                     </div>
@@ -54,24 +55,16 @@ export default {
     data() {
         return {
             title: "Discounts",
-            items: [
-                {
-                    text: "Discounts",
-                    active: true
-
-                }
-            ],
             discounts: [],
             filters: null,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
-                {key: "product_id", sortable: true, label: "Product ID"},
-                {key: "category_id", sortable: true, label: "Category ID"},
                 {key: "value", sortable: true, label: "Value"},
                 {key: "type", sortable: true, label: "Type"},
                 {key: "start_date", sortable: true, label: "Start Date"},
                 {key: "end_date", sortable: true, label: "End Date"},
+                {key: "active", sortable: true, label: "Active"},
                 {key: "action"}
             ]
         };
@@ -120,14 +113,21 @@ export default {
             });
 
         },
+
+        async toggleItem(id){
+            this.busy = true;
+
+            await DiscountService.updateStatus(id);
+
+            let index = this.discounts.findIndex(x => x.id === id);
+
+            this.busy = false;
+
+        },
         async getDiscounts() {
             this.busy = true;
 
-            const discounts = await DiscountService.getDiscounts(this.filters);
-            this.discounts = discounts.map(x => {
-                x.city = x.city.city_name_en;
-                return x;
-            })
+            this.discounts = await DiscountService.getDiscounts(this.filters);
 
             this.busy = false;
         },

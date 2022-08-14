@@ -52,9 +52,21 @@
         "updated": "The product was successfully updated",
         "save_failed": "There was an error processing the save request",
         "update_failed": "There was an error processing the update request",
+        "discount_remove_failed": "There was en error while removing the discount",
+        "discount_successfully_removed": "The product discount was successfully removed",
         "retrieved": "The products were successfully retrieved",
         "deleted": "The product was successfully deleted",
         "not_found": "The product was not found in the database"
+    },
+
+    "discounts": {
+        "saved": "The discount was successfully created",
+        "updated": "The discount was successfully updated",
+        "retrieved": "The discounts were successfully retrieved",
+        "discount_products_error": "There was a problem retrieving discount products",
+        "status_updated": "The discount status was successfully updated",
+        "deleted": "The discount was successfully deleted",
+        "not_found": "The discount was not found in the database"
     },
 
     "global": {

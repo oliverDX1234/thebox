@@ -7,6 +7,7 @@
                 <multiselect placeholder="Select a status" v-if="options.includes('statuses')" v-model="statusesValue" :options="statuses" @input="filtersSelected"/>
                 <multiselect placeholder="Select a role" v-if="options.includes('roles')" v-model="rolesValue" :options="roles" @input="filtersSelected"/>
                 <multiselect placeholder="Select discount status" v-if="options.includes('discounts')" v-model="discountsValue" :options="discounts" @input="filtersSelected"/>
+                <multiselect placeholder="Select discount type" v-if="options.includes('discountTypes')" v-model="discountTypesValue" :options="discountTypes" @input="filtersSelected"/>
             </div>
         </div>
     </div>
@@ -48,13 +49,18 @@ export default {
               "Discount",
               "No Discount"
             ],
+            discountTypes: [
+              "Fixed",
+              "Percent"
+            ],
             categories: [],
             suppliers: [],
             categoriesValue: null,
             suppliersValue: null,
             statusesValue: null,
             rolesValue: null,
-            discountsValue: null
+            discountsValue: null,
+            discountTypesValue: null,
         }
     },
     mounted(){
@@ -77,6 +83,10 @@ export default {
 
         if(this.filters.discounts){
             this.discountsValue = this.filters.discounts;
+        }
+
+        if(this.filters.discountTypes){
+            this.discountTypesValue = this.filters.discountTypes;
         }
     },
     methods:{

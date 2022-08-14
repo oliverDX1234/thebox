@@ -95,7 +95,7 @@ export default [
     //Filters
     {
         path: "/admin/filtersAndAttributes",
-        name: "admin/filtersAndAttributes",
+        name: "admin-filtersAndAttributes",
         meta: { admin: true },
         component: () => import("../views/pages/filters/filtersAndAttributes"),
     },
@@ -143,6 +143,13 @@ export default [
         name: "admin-edit-discount",
         meta: { admin: true },
         component: () => import("../views/pages/discounts/discount"),
+    },
+
+    {
+        path: "/admin/discount/show-products/:id",
+        name: "admin-show-discount-products",
+        meta: { admin: true },
+        component: () => import("../views/pages/discounts/discountProducts"),
     },
 
     {

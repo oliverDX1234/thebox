@@ -43,8 +43,11 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
         Route::apiResource("attributes", AttributeController::class);
 
         Route::apiResource("products", ProductController::class);
+        Route::get("products/remove-discount/{id}", [ProductController::class, "removeProductDiscount"]);
 
         Route::apiResource("discounts", DiscountController::class);
+        Route::get("discounts/show-products/{id}", [DiscountController::class, "getProductsForDiscount"]);
+        Route::get("discounts/update-status/{id}", [DiscountController::class, "updateStatus"]);
     });
 });
 

@@ -2,7 +2,6 @@
     <Layout>
         <PageHeader
             :title="title"
-            :items="items"
         />
         <div class="row">
             <div class="col-lg-12">
@@ -25,6 +24,7 @@
                                       :busy="busy"
                                       :filters="filters"
                                       :fields="fields"
+                                      :actions="['delete', 'edit']"
                                       @filters-updated="filtersUpdated"
                         />
                     </div>

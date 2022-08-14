@@ -214,7 +214,7 @@ class ProductService
                         "type" => "fixed",
                         "start_date" => Carbon::now()->toDateTimeLocalString(),
                         "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
-                        "value" => $request->price - $request->price_discount,
+                        "value" => $request->price - (int)$request->price_discount,
                         "active" => true
                     ]);
 
@@ -261,6 +261,18 @@ class ProductService
             $this->productRepository->deleteProduct($id);
         } catch (Exception $e) {
             throw new ApiException("products.not_found", 500, $e);
+        }
+    }
+
+    /**
+     * @throws ApiException
+     */
+    public function removeProductDiscount($id)
+    {
+        try {
+            $this->productRepository->removeProductDiscount($id);
+        } catch (Exception $e) {
+            throw new ApiException("product.discount_remove_failed", 500, $e);
         }
     }
 

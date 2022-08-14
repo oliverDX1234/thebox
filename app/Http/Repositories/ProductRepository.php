@@ -41,12 +41,14 @@ class ProductRepository implements ProductRepositoryInterface
 
             if ($request->discounts === "Discount") {
                 $products->whereHas("discount", function ($q) {
-                    $q->whereRaw("start_date < STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))
+                    $q->where("active", "=", true)
+                        ->whereRaw("start_date < STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))
                         ->whereRaw("end_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'));
                 });
-            }else{
+            } else {
                 $products->whereNull("discount_id")->orWhereHas("discount", function ($q) {
-                    $q->whereRaw("start_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'));
+                    $q->whereRaw("start_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))
+                        ->orWhere("active", "=", false);
                 });
             }
         }
@@ -59,6 +61,13 @@ class ProductRepository implements ProductRepositoryInterface
     public function deleteProduct($id)
     {
         return Product::findOrFail($id)->delete();
+    }
+
+    public function removeProductDiscount($id)
+    {
+        Product::where("id", "=", $id)->update([
+            "discount_id" => null
+        ]);
     }
 
 

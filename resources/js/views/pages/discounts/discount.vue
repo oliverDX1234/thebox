@@ -1,13 +1,263 @@
 <template>
+    <Layout>
 
+        <PageHeader
+            :title="title"
+        />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 mt-5">
+                                <form
+                                    class="needs-validation"
+                                    @submit.prevent="formSubmit"
+                                >
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="validationCustom01">Value<span
+                                                    class="required">*</span></label>
+                                                <input
+                                                    id="validationCustom01"
+                                                    v-model="discount.value"
+                                                    :class="{ 'is-invalid': submitted && $v.discount.value.$error }"
+                                                    class="form-control"
+                                                    placeholder="Value"
+                                                    type="text"
+                                                />
+                                                <div
+                                                    v-if="submitted && $v.discount.value.$error"
+                                                    class="invalid-feedback"
+                                                >
+                                                    <span
+                                                        v-if="!$v.discount.value.required">This value is required.</span>
+                                                    <span
+                                                        v-if="!$v.discount.value.numeric">This value needs to be numeric.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Type <span
+                                                    class="required">*</span></label>
+                                                <multiselect
+                                                    :options="options"
+                                                    :class="{ 'is-invalid': submitted && $v.discount.type.$error }"
+                                                    placeholder="Select discount type"
+                                                >
+
+                                                </multiselect>
+                                                <div
+                                                    v-if="submitted && $v.discount.type.$error"
+                                                    class="invalid-feedback"
+                                                >
+                                                    <span
+                                                        v-if="!$v.discount.type.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Start Date <span
+                                                    class="required">*</span></label>
+                                                <br/>
+                                                <date-picker v-model="discount.start_date" type="datetime" lang="en"
+                                                             placeholder="Select Start Date"
+                                                             confirm></date-picker>
+                                                <div
+                                                    v-if="submitted && $v.discount.start_date.$error"
+                                                    class="invalid-feedback"
+                                                >
+                                                    <span
+                                                        v-if="!$v.discount.start_date.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>End Date <span class="font-size-11 text-warning">(Leave blank for no limit)</span></label>
+                                                <date-picker v-model="discount.end_date" type="datetime" lang="en"
+                                                             placeholder="Select End Date"
+                                                             confirm></date-picker>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Products</label>
+                                                <multiselect
+                                                    v-model="discount.product_ids"
+                                                    :options="products"
+                                                    label="name"
+                                                    track-by="id"
+                                                    class="text-capitalize"
+                                                    multiple
+                                                    placeholder="Select Products"
+                                                >
+                                                </multiselect>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Categories</label>
+                                                <multiselect
+                                                    v-model="discount.category_ids"
+                                                    :options="categories"
+                                                    label="name"
+                                                    multiple
+                                                    track-by="id"
+                                                    class="text-capitalize"
+                                                    placeholder="Select Categories"
+                                                >
+                                                </multiselect>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="ro">
+
+                                        <div class="col-md-12">
+                                            <b-form-checkbox v-model="discount.active" size="lg" switch
+                                                             class="mb-1 mt-2">
+                                                <label>Active</label>
+                                            </b-form-checkbox>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <a
+                                        class="btn btn-danger mt-2 float-left"
+                                        @click="deleteDiscount"
+                                    >Delete discount
+                                    </a>
+                                    <button
+                                        class="btn btn-primary mt-2 float-right"
+                                        type="submit"
+                                    >Save discount
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+
+    </Layout>
 </template>
 
 <script>
+import {required, numeric} from "vuelidate/lib/validators";
+
+import PageHeader from '@/components/custom/page-header';
+import Multiselect from "vue-multiselect";
+import DiscountService from "@/services/discountService";
+import ProductService from "../../../services/productService";
+import CategoryService from "../../../services/categoryService";
+import Layout from "../../layouts/main";
+import DatePicker from "vue2-datepicker";
+
 export default {
-name: "discount"
-}
+    page: {
+        title: "Discount"
+    },
+    components: {PageHeader, DatePicker, Layout, Multiselect},
+    data() {
+
+        return {
+            title: "New Discount",
+            options: [
+                "fixed",
+                "percent"
+            ],
+            products: [],
+            categories: [],
+            discount: {
+                value: null,
+                type: null,
+                start_date: null,
+                end_date: null,
+                active: false,
+                product_ids: [],
+                category_ids: []
+            },
+            submitted: false,
+        };
+    },
+    validations: {
+        discount: {
+            value: {required, numeric},
+            type: {required},
+            start_date: {required}
+        },
+    },
+    methods: {
+        async formSubmit() {
+
+            this.submitted = true;
+            // stop here if form is invalid
+            this.$v.$touch();
+
+            if (!this.$v.$invalid) {
+                await DiscountService.storeDiscount(formData);
+
+            }
+        },
+        async loadProducts() {
+
+            this.products = await ProductService.getProducts();
+        },
+
+        async loadCategories(){
+
+            this.categories = await CategoryService.getCategories();
+        },
+
+        async deleteDiscount() {
+
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#34c38f",
+                cancelButtonColor: "#f46a6a",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async result => {
+                if (result.value) {
+                    await DiscountService.deleteDiscount(this.$route.params.id);
+
+                    await this.$router.push('/admin/discounts');
+                }
+            });
+        }
+    },
+
+    created() {
+        this.loadProducts();
+
+        this.loadCategories();
+    }
+};
 </script>
-
-<style scoped>
-
-</style>
