@@ -41,7 +41,7 @@ class DiscountService
         try {
             return $this->discountRepository->findById($id);
         } catch (Exception $e) {
-            throw new ApiException("discount.not_found", $e->getCode(), $e);
+            throw new ApiException("discounts.not_found", $e->getCode(), $e);
         }
     }
 
@@ -52,8 +52,9 @@ class DiscountService
     {
 
         try {
+
             if(!$request->end_date){
-                $request->end_date = Carbon::create()->addYears(100)->toDateTimeLocalString();
+                $request->replace(array_merge($request->all(), ["end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString()]));
             }
 
             $discount = Discount::create($request->all());
@@ -61,31 +62,7 @@ class DiscountService
             $this->addProductsToDiscount($discount->id, $request->product_ids, $request->category_ids);
 
         } catch (Exception $e) {
-
-            dd($e);
-            throw new ApiException("discount.save_failed", 500, null, $e);
-        }
-    }
-
-    /**
-     * @throws ApiException
-     */
-    public function updateDiscount($request)
-    {
-        try {
-            $discount = $this->discountRepository->findById($request->id);
-        } catch (Exception $e) {
-            throw new ApiException("discount.not_found", $e->getCode(), $e);
-        }
-
-        $discount->update($request->except('active'));
-
-        $discount->active = json_decode($request->active);
-
-        try {
-            $discount->save();
-        } catch (Exception $e) {
-            throw new ApiException("discount.update_failed", 500, null, $e);
+            throw new ApiException("discounts.save_failed", 500, null, $e);
         }
     }
 
@@ -98,27 +75,33 @@ class DiscountService
             $this->discountRepository->deleteDiscount($id);
         } catch (Exception $e) {
 
-            throw new ApiException("discount.not_found",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.not_found",  $e->getCode(), null, $e);
         }
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getProductsForDiscount($id)
     {
         try {
             return $this->discountRepository->getProductsForDiscount($id);
         } catch (Exception $e) {
 
-            throw new ApiException("discount.discount_products_error",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.discount_products_error",  $e->getCode(), null, $e);
         }
     }
 
+    /**
+     * @throws ApiException
+     */
     public function updateStatus($id)
     {
         try {
             return $this->discountRepository->updateStatus($id);
         } catch (Exception $e) {
 
-            throw new ApiException("discount.update_failed",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.update_failed",  $e->getCode(), null, $e);
         }
     }
 
