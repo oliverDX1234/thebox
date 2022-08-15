@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Requests\StoreDiscountRequest;
 use App\Http\Services\DiscountService;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class DiscountController extends Controller
     }
 
     /**
-     * @throws \App\Exceptions\ApiException
+     * @throws ApiException
      */
     public function index(Request $request)
     {
@@ -27,36 +28,39 @@ class DiscountController extends Controller
 
 
     /**
-     * @throws \App\Exceptions\ApiException
+     * @throws ApiException
      */
     public function store(StoreDiscountRequest $request)
     {
         $this->discountService->saveDiscount($request);
 
-        return response()->api(null , "discount.saved", 200);
+        return response()->api(null , "discounts.saved", 200);
     }
 
 
     /**
-     * @throws \App\Exceptions\ApiException
+     * @throws ApiException
      */
-    public function update(StoreDiscountRequest $request, $id)
+    public function update(StoreDiscountRequest $request)
     {
         $this->discountService->updateDiscount($request);
 
-        return response()->api(null , "discount.updated", 200);
+        return response()->api(null , "discounts.updated", 200);
     }
 
     /**
-     * @throws \App\Exceptions\ApiException
+     * @throws ApiException
      */
     public function destroy($id)
     {
         $this->discountService->deleteDiscount($id);
 
-        return response()->api(["discount" => $id] , "discount.deleted", 200);
+        return response()->api(["discount" => $id] , "discounts.deleted", 200);
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getProductsForDiscount($id)
     {
 
@@ -65,6 +69,9 @@ class DiscountController extends Controller
         return response()->api(["products" => $products] , "products.retrieved", 200);
     }
 
+    /**
+     * @throws ApiException
+     */
     public function updateStatus($id)
     {
         $this->discountService->updateStatus($id);

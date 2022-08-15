@@ -111,6 +111,10 @@ class Product extends Model implements HasMedia
             return null;
         }
 
+        if(!$this->discount->active){
+            return null;
+        }
+
         if($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()){
             return null;
         }
