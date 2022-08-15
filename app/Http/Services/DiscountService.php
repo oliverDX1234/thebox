@@ -4,7 +4,10 @@ namespace App\Http\Services;
 
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\DiscountRepositoryInterface;
+use App\Models\Category;
 use App\Models\Discount;
+use App\Models\Product;
+use Carbon\Carbon;
 use Exception;
 
 class DiscountService
@@ -48,14 +51,18 @@ class DiscountService
     public function saveDiscount($request)
     {
 
-        $discount = Discount::make($request->except('active'));
-        $discount->active = json_decode($request->active);
-
-        $discount->save();
-
         try {
-            $discount->save();
+            if(!$request->end_date){
+                $request->end_date = Carbon::create()->addYears(100)->toDateTimeLocalString();
+            }
+
+            $discount = Discount::create($request->all());
+
+            $this->addProductsToDiscount($discount->id, $request->product_ids, $request->category_ids);
+
         } catch (Exception $e) {
+
+            dd($e);
             throw new ApiException("discount.save_failed", 500, null, $e);
         }
     }
@@ -112,6 +119,37 @@ class DiscountService
         } catch (Exception $e) {
 
             throw new ApiException("discount.update_failed",  $e->getCode(), null, $e);
+        }
+    }
+
+    private function addProductsToDiscount($discount_id, $product_ids = null, $category_ids = null)
+    {
+        $p_ids = collect($product_ids)->pluck("id");
+        $c_ids = collect($category_ids)->pluck("id");
+
+        if(count($c_ids)){
+
+            $category_products = [];
+
+            foreach($c_ids as $id){
+                $category_products = array_merge($category_products, [...Category::where("id", "=", $id)->with("products")->first()->products]);
+            }
+
+            if(count($p_ids)){
+                $category_products = array_merge($category_products, [...Product::whereIn("id", $p_ids)->get()]);
+            }
+
+            $category_products = array_unique($category_products);
+
+            $finalIds = array_unique(collect($category_products)->pluck("id")->toArray());
+
+            Product::whereIn("id", $finalIds)->update([
+                "discount_id" => $discount_id
+            ]);
+        }else if(count($p_ids)){
+            Product::whereIn("id", $p_ids)->update([
+                "discount_id" => $discount_id
+            ]);
         }
     }
 

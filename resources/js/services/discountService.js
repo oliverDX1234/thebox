@@ -9,15 +9,15 @@ const DiscountService = {
         return response.data.payload.discounts;
     },
 
-    async storeDiscount(formData) {
-        await axios.post(`/api/discounts`, formData, {
+    async storeDiscount(payload) {
+        await axios.post(`/api/discounts`, payload, {
             showToast: true
         });
         await router.push("/admin/discounts");
     },
 
-    async updateDiscount(id, formData) {
-        await axios.post(`/api/discounts/${id}`, formData, {
+    async updateDiscount(id, payload) {
+        await axios.post(`/api/discounts/${id}`, payload, {
             showToast: true
         });
         await router.push("/admin/discounts");

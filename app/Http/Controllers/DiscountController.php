@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDiscountRequest;
 use App\Http\Services\DiscountService;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class DiscountController extends Controller
     /**
      * @throws \App\Exceptions\ApiException
      */
-    public function store(Request $request)
+    public function store(StoreDiscountRequest $request)
     {
         $this->discountService->saveDiscount($request);
 
@@ -39,7 +40,7 @@ class DiscountController extends Controller
     /**
      * @throws \App\Exceptions\ApiException
      */
-    public function update(Request $request, $id)
+    public function update(StoreDiscountRequest $request, $id)
     {
         $this->discountService->updateDiscount($request);
 

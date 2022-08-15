@@ -44,6 +44,7 @@
                                                     class="required">*</span></label>
                                                 <multiselect
                                                     :options="options"
+                                                    v-model="discount.type"
                                                     :class="{ 'is-invalid': submitted && $v.discount.type.$error }"
                                                     placeholder="Select discount type"
                                                 >
@@ -67,6 +68,7 @@
                                                     class="required">*</span></label>
                                                 <br/>
                                                 <date-picker v-model="discount.start_date" type="datetime" lang="en"
+                                                             :class="{ 'is-invalid': submitted && $v.discount.start_date.$error }"
                                                              placeholder="Select Start Date"
                                                              confirm></date-picker>
                                                 <div
@@ -96,6 +98,7 @@
                                                 <label>Products</label>
                                                 <multiselect
                                                     v-model="discount.product_ids"
+                                                    :class="{ 'is-invalid': submitted && $v.discount.product_ids.$error }"
                                                     :options="products"
                                                     label="name"
                                                     track-by="id"
@@ -104,6 +107,13 @@
                                                     placeholder="Select Products"
                                                 >
                                                 </multiselect>
+                                                <div
+                                                    v-if="submitted && $v.discount.product_ids.$error"
+                                                    class="invalid-feedback"
+                                                >
+                                                    <span
+                                                        v-if="!$v.discount.product_ids.required">Select this field or categories.</span>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -117,9 +127,17 @@
                                                     multiple
                                                     track-by="id"
                                                     class="text-capitalize"
+                                                    :class="{ 'is-invalid': submitted && $v.discount.category_ids.$error }"
                                                     placeholder="Select Categories"
                                                 >
                                                 </multiselect>
+                                                <div
+                                                    v-if="submitted && $v.discount.category_ids.$error"
+                                                    class="invalid-feedback"
+                                                >
+                                                    <span
+                                                        v-if="!$v.discount.category_ids.required">Select this field or products.</span>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -168,7 +186,7 @@
 </template>
 
 <script>
-import {required, numeric} from "vuelidate/lib/validators";
+import {required, requiredIf, numeric} from "vuelidate/lib/validators";
 
 import PageHeader from '@/components/custom/page-header';
 import Multiselect from "vue-multiselect";
@@ -198,7 +216,7 @@ export default {
                 type: null,
                 start_date: null,
                 end_date: null,
-                active: false,
+                active: true,
                 product_ids: [],
                 category_ids: []
             },
@@ -209,7 +227,17 @@ export default {
         discount: {
             value: {required, numeric},
             type: {required},
-            start_date: {required}
+            start_date: {required},
+            product_ids: {
+                required: requiredIf(function (items) {
+                    return !items.product_ids.length && !items.category_ids.length
+                })
+            },
+            category_ids: {
+                required: requiredIf(function (items) {
+                    return !items.product_ids.length && !items.category_ids.length
+                })
+            }
         },
     },
     methods: {
@@ -220,7 +248,18 @@ export default {
             this.$v.$touch();
 
             if (!this.$v.$invalid) {
-                await DiscountService.storeDiscount(formData);
+
+                let payload = {
+                    value: this.discount.value,
+                    type: this.discount.type,
+                    start_date: this.moment(this.discount.start_date).format("YYYY-MM-DD HH:mm:ss"),
+                    end_date: this.discount.end_date ? this.moment(this.discount.end_date).format("YYYY-MM-DD HH:mm:ss") : null,
+                    active: this.discount.active,
+                    product_ids: this.discount.product_ids,
+                    category_ids: this.discount.category_ids
+                }
+
+                await DiscountService.storeDiscount(payload);
 
             }
         },
@@ -229,7 +268,7 @@ export default {
             this.products = await ProductService.getProducts();
         },
 
-        async loadCategories(){
+        async loadCategories() {
 
             this.categories = await CategoryService.getCategories();
         },
