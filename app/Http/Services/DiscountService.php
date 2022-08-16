@@ -109,7 +109,7 @@ class DiscountService
     private function addProductsToDiscount($discount_id, $product_ids = null, $category_ids = null)
     {
 
-        if(count($product_ids)){
+        if(count($category_ids)){
 
             $category_products = new Collection();
 
