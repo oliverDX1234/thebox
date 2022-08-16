@@ -24,7 +24,7 @@
                                                     v-model="discount.value"
                                                     :class="{ 'is-invalid': submitted && $v.discount.value.$error }"
                                                     class="form-control"
-                                                    placeholder="Value"
+                                                    placeholder="Enter Discount Value"
                                                     type="text"
                                                 />
                                                 <div
@@ -46,7 +46,7 @@
                                                     :options="options"
                                                     v-model="discount.type"
                                                     :class="{ 'is-invalid': submitted && $v.discount.type.$error }"
-                                                    placeholder="Select discount type"
+                                                    placeholder="Select Discount Type"
                                                 >
 
                                                 </multiselect>
