@@ -29,11 +29,6 @@ import CKEditor from '@ckeditor/ckeditor5-vue2';
 
 const VueScrollTo = require('vue-scrollto')
 
-/*
- * Move to separate file
- * */
-window.axios = require("axios");
-window.axios.defaults.withCredentials = true;
 Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false;
