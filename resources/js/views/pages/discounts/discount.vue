@@ -249,14 +249,17 @@ export default {
 
             if (!this.$v.$invalid) {
 
+                let product_ids = this.discount.product_ids.map(x => x.id);
+                let category_ids =  this.discount.category_ids.map(x => x.id);
+
                 let payload = {
                     value: this.discount.value,
                     type: this.discount.type,
                     start_date: this.moment(this.discount.start_date).format("YYYY-MM-DD HH:mm:ss"),
                     end_date: this.discount.end_date ? this.moment(this.discount.end_date).format("YYYY-MM-DD HH:mm:ss") : null,
                     active: this.discount.active,
-                    product_ids: this.discount.product_ids,
-                    category_ids: this.discount.category_ids
+                    product_ids: product_ids,
+                    category_ids: category_ids
                 }
 
                 await DiscountService.storeDiscount(payload);

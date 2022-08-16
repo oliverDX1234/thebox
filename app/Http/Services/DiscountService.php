@@ -108,19 +108,17 @@ class DiscountService
 
     private function addProductsToDiscount($discount_id, $product_ids = null, $category_ids = null)
     {
-        $p_ids = collect($product_ids)->pluck("id");
-        $c_ids = collect($category_ids)->pluck("id");
 
-        if(count($c_ids)){
+        if(count($product_ids)){
 
             $category_products = new Collection();
 
-            foreach($c_ids as $id){
+            foreach($category_ids as $id){
                 $category_products = $category_products->merge(Category::where("id", "=", $id)->with("products")->first()->products);
             }
 
-            if(count($p_ids)){
-                $category_products = $category_products->merge(Product::whereIn("id", $p_ids)->get());
+            if(count($product_ids)){
+                $category_products = $category_products->merge(Product::whereIn("id", $product_ids)->get());
             }
 
             $finalIds = $category_products->pluck("id")->toArray();
@@ -128,8 +126,8 @@ class DiscountService
             Product::whereIn("id", $finalIds)->update([
                 "discount_id" => $discount_id
             ]);
-        }else if(count($p_ids)){
-            Product::whereIn("id", $p_ids)->update([
+        }else if(count($product_ids)){
+            Product::whereIn("id", $product_ids)->update([
                 "discount_id" => $discount_id
             ]);
         }
