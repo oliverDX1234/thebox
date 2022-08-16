@@ -22,18 +22,6 @@
                                     <nestable @nestable-updated="updateItems" @delete-item="deleteCategory"
                                               @edit-item="editCategory"
                                               :itemsForNesting="categories"></nestable>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <a
-                                                href="javascript:void(0);"
-                                                class="btn btn-primary mb-2 mt-2"
-                                                v-if="categories.length !== 0"
-                                                @click="saveChanges"
-                                            >
-                                                Save changes
-                                            </a>
-                                        </div>
-                                    </div>
 
                                     <div class="row mt-3 mb-3 d-md-none">
                                         <div class="col-12">
@@ -232,6 +220,14 @@ export default {
         Layout,
         Multiselect,
         Nestable
+    },
+    watch:{
+
+        categories(newValue, oldValue){
+                if(newValue.length && oldValue.length){
+                this.saveChanges();
+            }
+        }
     },
     data() {
         return {

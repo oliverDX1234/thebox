@@ -2,7 +2,7 @@
 
 
 
-    <vue-nestable v-model="nestableItems">
+    <vue-nestable v-model="nestableItems" @change="$emit('nestable-updated', nestableItems)">
         <vue-nestable-handle
             slot-scope="{ item }"
             :item="item">
@@ -33,13 +33,9 @@ export default {
         }
     },
     watch: {
-        itemsForNesting(value) {
+        itemsForNesting() {
             this.nestableItems = this.itemsForNesting;
-        },
-        nestableItems(){
-            this.$emit("nestable-updated", this.nestableItems);
         }
-
     }
 }
 </script>
