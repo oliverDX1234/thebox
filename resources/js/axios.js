@@ -30,18 +30,6 @@ axios.interceptors.response.use(
         const vm2 = new Vue();
 
         switch (error.response.status) {
-            case 401: // Session expired
-                state.commit('auth/logout');
-
-                vm2.$bvToast.toast("Session expired. Please log in again.", {
-                    title: "Error",
-                    variant: "danger",
-                    toaster: "b-toaster-bottom-right",
-                    solid: true,
-                });
-
-                setTimeout(router.push("/admin/login"), 500);
-                return Promise.reject(error.response);
             case 419: // Session expired
                 state.commit('auth/logout');
 
