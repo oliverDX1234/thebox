@@ -9,6 +9,7 @@ use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 class DiscountService
 {
@@ -112,19 +113,17 @@ class DiscountService
 
         if(count($c_ids)){
 
-            $category_products = [];
+            $category_products = new Collection();
 
             foreach($c_ids as $id){
-                $category_products = array_merge($category_products, [...Category::where("id", "=", $id)->with("products")->first()->products]);
+                $category_products = $category_products->merge(Category::where("id", "=", $id)->with("products")->first()->products);
             }
 
             if(count($p_ids)){
-                $category_products = array_merge($category_products, [...Product::whereIn("id", $p_ids)->get()]);
+                $category_products = $category_products->merge(Product::whereIn("id", $p_ids)->get());
             }
 
-            $category_products = array_unique($category_products);
-
-            $finalIds = array_unique(collect($category_products)->pluck("id")->toArray());
+            $finalIds = $category_products->pluck("id")->toArray();
 
             Product::whereIn("id", $finalIds)->update([
                 "discount_id" => $discount_id
