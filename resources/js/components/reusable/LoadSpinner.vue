@@ -1,4 +1,5 @@
 <template>
+
     <b-overlay
         :variant="variant"
         opacity="0.85"
@@ -13,6 +14,7 @@
         <slot></slot>
 
     </b-overlay>
+
 </template>
 
 <script>
