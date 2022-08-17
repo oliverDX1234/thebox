@@ -20,6 +20,7 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      * @throws ApiException
      */
@@ -29,7 +30,6 @@ class SupplierController extends Controller
 
         return response()->api(['suppliers' => $suppliers] , "suppliers.retrieved", 200);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -79,6 +79,8 @@ class SupplierController extends Controller
      */
     public function destroy(int $id): Response
     {
+        $this->supplierService->deleteSupplier($id);
 
+        return response()->api(null , "supplier.updated", 200);
     }
 }

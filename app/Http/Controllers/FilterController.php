@@ -29,7 +29,6 @@ class FilterController extends Controller
         return response()->api(['filters' => $filters] , "filters.retrieved", 200);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *

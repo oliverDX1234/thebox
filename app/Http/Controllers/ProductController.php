@@ -20,6 +20,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      * @throws ApiException
      */
@@ -30,7 +31,6 @@ class ProductController extends Controller
 
         return response()->api(['products' => $products] , "products.retrieved", 200);
     }
-
 
     /**
      * Store a newly created resource in storage.

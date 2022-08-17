@@ -15,6 +15,9 @@ class CityService
         $this->cityRepository = $cityRepository;
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getCities()
     {
         try {

@@ -44,6 +44,7 @@ class CategoryController extends Controller
 
         return response()->api(['category' => $category] , "category.saved", 200);
     }
+
     /**
      * @throws ApiException
      */
@@ -99,6 +100,9 @@ class CategoryController extends Controller
         return response()->api(["categories" => $categories] , "categories.retrieved", 200);
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getFiltersForCategories(Request $request)
     {
         $response = $this->categoryService->getFiltersForCategories($request);
@@ -106,6 +110,9 @@ class CategoryController extends Controller
         return response()->api(["data" => $response] , "filter.retrieved", 200);
     }
 
+    /**
+     * @throws ApiException
+     */
     public function getCategoriesForProduct(): Response
     {
         $categories = $this->categoryService->getCategoriesForProduct();

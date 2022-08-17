@@ -11,7 +11,8 @@
         "updated": "The supplier was successfully updated",
         "retrieved": "The supplier was successfully retrieved",
         "deleted": "The supplier was successfully deleted",
-        "not_found": "The supplier was not found in the database"
+        "not_found": "The supplier was not found in the database",
+        "constraint_error": "The supplier is associated with active products and can not be deleted. "
     },
     "passwords": {
         "throttled": "Please wait before next attempt",

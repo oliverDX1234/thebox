@@ -16,7 +16,6 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::findOrFail($id)->load("filters");
     }
 
-
     public function getCategories()
     {
         return Category::with("filters")->get();
@@ -26,7 +25,6 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::with("filters")->select("id","name")->get();
     }
-
 
     /**
      * @throws Exception
@@ -43,10 +41,7 @@ class CategoryRepository implements CategoryRepositoryInterface
             throw new Exception("category.not_found", 404);
         }
 
-
-        $items = $items->delete();
-
-        return $items;
+        $items->delete();
     }
 
 

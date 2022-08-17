@@ -47,13 +47,10 @@ class SupplierService
      */
     public function saveSupplier($request)
     {
-
-        $supplier = Supplier::make($request->except('active'));
-        $supplier->active = json_decode($request->active);
-
-        $supplier->save();
-
         try {
+            $supplier = Supplier::make($request->except('active'));
+            $supplier->active = json_decode($request->active);
+
             $supplier->save();
         } catch (Exception $e) {
             throw new ApiException("supplier.save_failed", 500, null, $e);
@@ -90,7 +87,9 @@ class SupplierService
         try {
             $this->supplierRepository->deleteSupplier($id);
         } catch (Exception $e) {
-
+            if($e->getCode() === "23000"){
+                throw new ApiException("supplier.constraint_error",  $e->getCode(), null, $e);
+            }
             throw new ApiException("supplier.not_found",  $e->getCode(), null, $e);
         }
     }

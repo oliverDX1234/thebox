@@ -60,15 +60,18 @@ class CategoryService
      */
     public function saveCategory($request)
     {
-        $items = $request->all();
-        $filters = isset($items["filters"]) ? collect($items["filters"])->pluck("id")->toArray() : [];
-        $items["url"] = slugify($request->name);
-        $category = Category::make($items);
-        $category->save();
-        $category->filters()->sync($filters);
-
         try {
+            $items = $request->all();
+
+            $filters = isset($items["filters"]) ? collect($items["filters"])->pluck("id")->toArray() : [];
+
+            $items["url"] = slugify($request->name);
+
+            $category = Category::make($items);
+
             $category->save();
+
+            $category->filters()->sync($filters);
         } catch (Exception $e) {
             throw new ApiException("category.save_failed", 500, null, $e);
         }
@@ -78,7 +81,7 @@ class CategoryService
     /**
      * @throws ApiException
      */
-    public function updateCategory($request)
+    public function updateCategory($request): Category
     {
         try {
             $category = $this->categoryRepository->findById($request->id);
@@ -87,10 +90,13 @@ class CategoryService
         }
 
         $items = $request->all();
+
         $filters = isset($items["filters"]) ? collect($items["filters"])->pluck("id")->toArray() : [];
+
         $items["url"] = slugify($request->name);
 
         $category->filters()->sync($filters);
+
         $category->update($items);
 
         try {
@@ -101,6 +107,7 @@ class CategoryService
 
         return $category;
     }
+
     /**
      * @throws ApiException
      */
@@ -131,7 +138,8 @@ class CategoryService
             throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
-    public function flatten($element, $parent_nodes = 0): array
+
+    private function flatten($element, $parent_nodes = 0): array
     {
         $flatArray = array();
         foreach ($element as $key => $node) {
@@ -154,6 +162,9 @@ class CategoryService
     }
 
 
+    /**
+     * @throws ApiException
+     */
     public function getCategoriesTree(): array
     {
         try {
@@ -170,6 +181,7 @@ class CategoryService
     private function buildTree(array $data, $parent = 0): array
     {
         $tree = array();
+
         foreach ($data as $d) {
             if ($d['parent'] == $parent) {
                 $children = $this->buildTree($data, $d['id']);
@@ -182,11 +194,15 @@ class CategoryService
                 $tree[] = $d;
             }
         }
+
         return $tree;
     }
 
 
-    public function getFiltersForCategories($request)
+    /**
+     * @throws ApiException
+     */
+    public function getFiltersForCategories($request): array
     {
         try {
             $categoryIds = collect($request->categories)->pluck("id")->toArray();
@@ -195,13 +211,11 @@ class CategoryService
             $filters = $filtersAndCategories->pluck("name")->toArray();
             $attributes = $filtersAndCategories->pluck("attributes");
 
-            $data = [
+            return [
                 "filtersAndCategories" => $filtersAndCategories,
                 "filters" => $filters,
                 "attributes" => $attributes
             ];
-
-            return $data;
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }

@@ -26,7 +26,6 @@ class DiscountController extends Controller
         return response()->api(['discounts' => $discounts] , "discounts.retrieved", 200);
     }
 
-
     /**
      * @throws ApiException
      */
@@ -35,17 +34,6 @@ class DiscountController extends Controller
         $this->discountService->saveDiscount($request);
 
         return response()->api(null , "discounts.saved", 200);
-    }
-
-
-    /**
-     * @throws ApiException
-     */
-    public function update(StoreDiscountRequest $request)
-    {
-        $this->discountService->updateDiscount($request);
-
-        return response()->api(null , "discounts.updated", 200);
     }
 
     /**

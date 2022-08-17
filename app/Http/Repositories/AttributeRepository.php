@@ -13,7 +13,6 @@ class AttributeRepository implements AttributeRepositoryInterface
         return Attribute::findOrFail($id);
     }
 
-
     public function getAttributes()
     {
         return Attribute::all();

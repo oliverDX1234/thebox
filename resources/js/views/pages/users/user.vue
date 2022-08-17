@@ -291,6 +291,7 @@
                                         </div>
                                         <a
                                             class="btn btn-danger mt-2 float-left"
+                                            v-if="$route.params.id"
                                             @click="deleteUser"
                                         >Delete User
                                         </a>

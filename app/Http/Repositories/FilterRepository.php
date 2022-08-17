@@ -13,7 +13,6 @@ class FilterRepository implements FilterRepositoryInterface
         return Filter::findOrFail($id);
     }
 
-
     public function getFilters()
     {
         return Filter::all();

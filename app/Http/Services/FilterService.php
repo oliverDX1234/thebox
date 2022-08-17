@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\FilterRepositoryInterface;
 use App\Models\Filter;
+use Exception;
 
 class FilterService
 {
@@ -16,6 +17,10 @@ class FilterService
     {
         $this->filterRepository = $filterRepository;
     }
+
+    /**
+     * @throws ApiException
+     */
     public function getFilters()
     {
         try {
@@ -42,13 +47,11 @@ class FilterService
      */
     public function saveFilter($request)
     {
-
-        $filter = Filter::make($request->except('active'));
-        $filter->active = json_decode($request->active);
-
-        $filter->save();
-
         try {
+            $filter = Filter::make($request->except('active'));
+
+            $filter->active = json_decode($request->active);
+
             $filter->save();
         } catch (Exception $e) {
             throw new ApiException("filter.save_failed", 500, null, $e);
@@ -59,7 +62,7 @@ class FilterService
     /**
      * @throws ApiException
      */
-    public function updateFilter($request)
+    public function updateFilter($request): Filter
     {
         try {
             $filter = $this->filterRepository->findById($request->id);
@@ -67,11 +70,11 @@ class FilterService
             throw new ApiException("filter.not_found", $e->getCode(), $e);
         }
 
-        $filter->update($request->except('active'));
-
-        $filter->active = json_decode($request->active);
-
         try {
+            $filter->update($request->except('active'));
+
+            $filter->active = json_decode($request->active);
+
             $filter->save();
         } catch (Exception $e) {
             throw new ApiException("filter.update_failed", 500, null, $e);

@@ -50,6 +50,11 @@
                 :filter-included-fields="filterOn"
                 @filtered="onFiltered"
             >
+                <template v-slot:cell(id)="row">
+                    <a class="cursor-pointer" @click="$emit('edit-item', row.item.id)">
+                        {{ row.value }}
+                    </a>
+                </template>
                 <template v-slot:cell(thumb)="row">
                     <img width="80px" :src="row.item.main_image.sm" alt="product-image-thumbnail">
                 </template>

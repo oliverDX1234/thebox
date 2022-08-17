@@ -33,18 +33,6 @@ class AttributeService
     /**
      * @throws ApiException
      */
-    public function getAttributesForFilter($id)
-    {
-        try {
-            return $this->attributeRepository->getAttributesForFilter($id);
-        } catch (Exception $e) {
-            throw new ApiException("global.error", $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * @throws ApiException
-     */
     public function getAttribute(int $id): Attribute
     {
         try {
@@ -59,11 +47,9 @@ class AttributeService
      */
     public function saveAttribute($request)
     {
-        $attribute = Attribute::make($request->except('active'));
-
-        $attribute->save();
-
         try {
+            $attribute = Attribute::make($request->except('active'));
+
             $attribute->save();
         } catch (Exception $e) {
             throw new ApiException("attribute.save_failed", 500, null, $e);
@@ -76,22 +62,17 @@ class AttributeService
     /**
      * @throws ApiException
      */
-    public function updateAttribute($request)
+    public function updateAttribute($request): Attribute
     {
         try {
             $attribute = $this->attributeRepository->findById($request->id);
-        } catch (Exception $e) {
-            throw new ApiException("attribute.not_found", $e->getCode(), $e);
-        }
 
-        $attribute->update($request->except('active'));
-        try {
-            $attribute->save();
+            $attribute->update($request->except('active'));
+
+            return $attribute;
         } catch (Exception $e) {
             throw new ApiException("attribute.update_failed", 500, null, $e);
         }
-        return $attribute;
-
     }
 
     /**

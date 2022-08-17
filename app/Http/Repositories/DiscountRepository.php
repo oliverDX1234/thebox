@@ -15,12 +15,10 @@ class DiscountRepository implements DiscountRepositoryInterface
         return Discount::findOrFail($id);
     }
 
-
     public function getDiscounts($request)
     {
         $discounts =  Discount::with("products")
             ->whereRaw("end_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))->whereHas("products");
-
 
         if($request->has("statuses")){
 

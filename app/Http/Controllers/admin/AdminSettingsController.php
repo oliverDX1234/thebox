@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class AdminSettingsController extends Controller
 {
+    /**
+     * @throws ApiException
+     */
     public function changeLayout(Request $request){
         try {
             $user = auth()->user();

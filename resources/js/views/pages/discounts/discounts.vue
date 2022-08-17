@@ -17,7 +17,6 @@
                             </a>
                         </div>
                         <custom-table
-                            @edit-item="editDiscount"
                             :busy="busy"
                             @delete-item="deleteDiscount"
                             :search="true"
@@ -89,9 +88,6 @@ export default {
         this.filters = this.$route.query;
     },
     methods: {
-        editDiscount(id) {
-            this.$router.push('/admin/discounts/new' + id);
-        },
         async deleteDiscount(id) {
 
             this.$swal.fire({

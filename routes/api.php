@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\admin\AdminSettingsController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DiscountController;

@@ -14,7 +14,6 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::where("id", "=", $id)->with("supplier")->first();
     }
 
-
     public function getProducts($request)
     {
 
@@ -60,7 +59,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function deleteProduct($id)
     {
-        return Product::findOrFail($id)->delete();
+        Product::findOrFail($id)->delete();
     }
 
     public function removeProductDiscount($id)

@@ -13,7 +13,6 @@ class UserRepository implements UserRepositoryInterface
         return User::findOrFail($id);
     }
 
-
     public function getUsers($request)
     {
         $users = User::query();
@@ -31,9 +30,9 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
-    public function deleteUser($id): ?bool
+    public function deleteUser($id)
     {
-        return User::findOrFail($id)->delete();
+        User::findOrFail($id)->delete();
     }
 
 

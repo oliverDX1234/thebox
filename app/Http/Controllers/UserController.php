@@ -21,6 +21,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      * @throws ApiException
      */
@@ -30,7 +31,6 @@ class UserController extends Controller
 
         return response()->api(['users' => $users], "users.retrieved", 200);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -48,6 +48,7 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     * @throws ApiException
      */
     public function show(int $id): Response
     {
@@ -77,7 +78,7 @@ class UserController extends Controller
      * @return Response
      * @throws ApiException
      */
-    public function destroy($id): Response
+    public function destroy(int $id): Response
     {
         $this->userService->deleteUser($id);
 

@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <PageHeader :title="title" />
-        <load-spinner :show="loading" variant="white">
+            <load-spinner :show="loading" variant="white">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">

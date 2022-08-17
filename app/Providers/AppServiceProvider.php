@@ -18,6 +18,7 @@ use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\SupplierRepository;
 use App\Http\Repositories\UserRepository;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -41,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DiscountRepositoryInterface::class, DiscountRepository::class);
 
         if ($this->app->isLocal()) {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->app->register(IdeHelperServiceProvider::class);
         }
     }
 
