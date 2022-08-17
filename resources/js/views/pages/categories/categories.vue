@@ -3,199 +3,205 @@
         <PageHeader
             :title="title"
         />
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
+        <load-spinner :show="loading" variant="white">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
 
-                            <div class="row mt-2">
-                                <div class="col-xl-6 col-md-6 col-12">
+                                <div class="row mt-2">
+                                    <div class="col-xl-6 col-md-6 col-12">
 
 
-                                    <div class="row">
-                                        <div class="col-12 mt-3 mb-2">
-                                            <h5>List of Categories</h5>
+                                        <div class="row">
+                                            <div class="col-12 mt-3 mb-2">
+                                                <h5>List of Categories</h5>
+                                            </div>
+                                        </div>
+
+                                        <nestable @nestable-updated="updateItems" @delete-item="deleteCategory"
+                                                  @edit-item="editCategory"
+                                                  :itemsForNesting="categories"></nestable>
+
+                                        <div class="row mt-3 mb-3 d-md-none">
+                                            <div class="col-12">
+                                                <hr>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <nestable @nestable-updated="updateItems" @delete-item="deleteCategory"
-                                              @edit-item="editCategory"
-                                              :itemsForNesting="categories"></nestable>
-
-                                    <div class="row mt-3 mb-3 d-md-none">
-                                        <div class="col-12">
-                                            <hr>
+                                    <div class="col-xl-6 col-md-6 col-12">
+                                        <div class="row">
+                                            <div class="col-12 mt-3 ml-3">
+                                                <h5>{{ inputHeading }}</h5>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-6 col-md-6 col-12">
-                                    <div class="row">
-                                        <div class="col-12 mt-3 ml-3">
-                                            <h5>{{ inputHeading }}</h5>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12 mt-1">
-                                            <div class="card-box-shadow">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            <form
-                                                                class="needs-validation"
-                                                                @submit.prevent="formSubmit"
-                                                            >
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <label for="validationCustom01">Name<span
-                                                                                class="required">*</span></label>
-                                                                            <input
-                                                                                id="validationCustom01"
-                                                                                v-model="category.name"
-                                                                                :class="{ 'is-invalid': submitted && $v.category.name.$error }"
-                                                                                class="form-control"
-                                                                                placeholder="First name"
-                                                                                type="text"
-                                                                                value="Mark"
-                                                                            />
-                                                                            <div
-                                                                                v-if="submitted && $v.category.name.$error"
-                                                                                class="invalid-feedback"
-                                                                            >
-                                                                                <span v-if="!$v.category.name.required">This value is required.</span>
+                                        <div class="row">
+                                            <div class="col-lg-12 mt-1">
+                                                <div class="card-box-shadow">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <form
+                                                                    class="needs-validation"
+                                                                    @submit.prevent="formSubmit"
+                                                                >
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label
+                                                                                    for="validationCustom01">Name<span
+                                                                                    class="required">*</span></label>
+                                                                                <input
+                                                                                    id="validationCustom01"
+                                                                                    v-model="category.name"
+                                                                                    :class="{ 'is-invalid': submitted && $v.category.name.$error }"
+                                                                                    class="form-control"
+                                                                                    placeholder="First name"
+                                                                                    type="text"
+                                                                                    value="Mark"
+                                                                                />
+                                                                                <div
+                                                                                    v-if="submitted && $v.category.name.$error"
+                                                                                    class="invalid-feedback"
+                                                                                >
+                                                                                    <span
+                                                                                        v-if="!$v.category.name.required">This value is required.</span>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <label>Description
-                                                                                <span
-                                                                                    class="required">*</span></label>
-                                                                            <textarea
-                                                                                id="validationCustom02"
-                                                                                rows="5"
-                                                                                v-model="category.description"
-                                                                                :class="{ 'is-invalid': submitted && $v.category.description.$error }"
-                                                                                class="form-control"
-                                                                                placeholder="Description"
-                                                                                :disabled="$route.params.id"
-                                                                                type="text"
-                                                                            />
-                                                                            <div
-                                                                                v-if="submitted && $v.category.description.$error"
-                                                                                class="invalid-feedback"
-                                                                            >
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label>Description
+                                                                                    <span
+                                                                                        class="required">*</span></label>
+                                                                                <textarea
+                                                                                    id="validationCustom02"
+                                                                                    rows="5"
+                                                                                    v-model="category.description"
+                                                                                    :class="{ 'is-invalid': submitted && $v.category.description.$error }"
+                                                                                    class="form-control"
+                                                                                    placeholder="Description"
+                                                                                    :disabled="$route.params.id"
+                                                                                    type="text"
+                                                                                />
+                                                                                <div
+                                                                                    v-if="submitted && $v.category.description.$error"
+                                                                                    class="invalid-feedback"
+                                                                                >
                                                                                 <span
                                                                                     v-if="!$v.category.description.required">This value is required.</span>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <label for="validationCustom03">SEO keywords
-                                                                                <span
-                                                                                    class="required">*</span></label>
-                                                                            <input
-                                                                                id="validationCustom03"
-                                                                                v-model="category.seo_keywords"
-                                                                                :class="{ 'is-invalid': submitted && $v.category.seo_keywords.$error }"
-                                                                                class="form-control"
-                                                                                placeholder="SEO keywords"
-                                                                                type="text"
-                                                                            />
-                                                                            <div
-                                                                                v-if="submitted && $v.category.seo_keywords.$error"
-                                                                                class="invalid-feedback"
-                                                                            >
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label for="validationCustom03">SEO
+                                                                                    keywords
+                                                                                    <span
+                                                                                        class="required">*</span></label>
+                                                                                <input
+                                                                                    id="validationCustom03"
+                                                                                    v-model="category.seo_keywords"
+                                                                                    :class="{ 'is-invalid': submitted && $v.category.seo_keywords.$error }"
+                                                                                    class="form-control"
+                                                                                    placeholder="SEO keywords"
+                                                                                    type="text"
+                                                                                />
+                                                                                <div
+                                                                                    v-if="submitted && $v.category.seo_keywords.$error"
+                                                                                    class="invalid-feedback"
+                                                                                >
                                                                                 <span
                                                                                     v-if="!$v.category.seo_keywords.required">This value is required.</span>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <label>SEO description
-                                                                                <span
-                                                                                    class="required">*</span></label>
-                                                                            <textarea
-                                                                                rows="5"
-                                                                                v-model="category.seo_description"
-                                                                                :class="{ 'is-invalid': submitted && $v.category.seo_description.$error }"
-                                                                                class="form-control"
-                                                                                placeholder="SEO description"
-                                                                                :disabled="$route.params.id"
-                                                                                type="text"
-                                                                            />
-                                                                            <div
-                                                                                v-if="submitted && $v.category.seo_description.$error"
-                                                                                class="invalid-feedback"
-                                                                            >
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label>SEO description
+                                                                                    <span
+                                                                                        class="required">*</span></label>
+                                                                                <textarea
+                                                                                    rows="5"
+                                                                                    v-model="category.seo_description"
+                                                                                    :class="{ 'is-invalid': submitted && $v.category.seo_description.$error }"
+                                                                                    class="form-control"
+                                                                                    placeholder="SEO description"
+                                                                                    :disabled="$route.params.id"
+                                                                                    type="text"
+                                                                                />
+                                                                                <div
+                                                                                    v-if="submitted && $v.category.seo_description.$error"
+                                                                                    class="invalid-feedback"
+                                                                                >
                                                                                 <span
                                                                                     v-if="!$v.category.seo_description.required">This value is required.</span>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <label for="validationCustom03">Filters</label>
-                                                                            <multiselect
-                                                                                v-model="category.filters"
-                                                                                :options="filters"
-                                                                                label="name"
-                                                                                multiple=""
-                                                                                track-by="id"
-                                                                                class="text-capitalize"
-                                                                            >
-                                                                            </multiselect>
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label
+                                                                                    for="validationCustom03">Filters</label>
+                                                                                <multiselect
+                                                                                    v-model="category.filters"
+                                                                                    :options="filters"
+                                                                                    label="name"
+                                                                                    multiple=""
+                                                                                    track-by="id"
+                                                                                    class="text-capitalize"
+                                                                                >
+                                                                                </multiselect>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <b-form-checkbox v-model="category.active"
+                                                                                             size="lg" switch
+                                                                                             class="mb-1 mt-2">
+                                                                                <label>Active</label>
+                                                                            </b-form-checkbox>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-12">
-                                                                        <b-form-checkbox v-model="category.active"
-                                                                                         size="lg" switch
-                                                                                         class="mb-1 mt-2">
-                                                                            <label>Active</label>
-                                                                        </b-form-checkbox>
-                                                                    </div>
-                                                                </div>
 
-                                                                <a
-                                                                    class="btn btn-success mt-2 float-left"
-                                                                    @click="newCategory"
-                                                                    v-if="editableId"
-                                                                >New category
-                                                                </a>
-                                                                <button
-                                                                    class="btn btn-primary mt-2 float-right"
-                                                                    type="submit"
-                                                                >Save category
-                                                                </button>
-                                                            </form>
+                                                                    <a
+                                                                        class="btn btn-success mt-2 float-left"
+                                                                        @click="newCategory"
+                                                                        v-if="editableId"
+                                                                    >New category
+                                                                    </a>
+                                                                    <button
+                                                                        class="btn btn-primary mt-2 float-right"
+                                                                        type="submit"
+                                                                    >Save category
+                                                                    </button>
+                                                                </form>
+                                                            </div>
                                                         </div>
+
                                                     </div>
-
                                                 </div>
+                                                <!-- end card -->
                                             </div>
-                                            <!-- end card -->
+                                            <!-- end col -->
                                         </div>
-                                        <!-- end col -->
+
                                     </div>
-
                                 </div>
+
+
                             </div>
-
-
                         </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
+        </load-spinner>
     </Layout>
 </template>
 
@@ -221,10 +227,10 @@ export default {
         Multiselect,
         Nestable
     },
-    watch:{
+    watch: {
 
-        categories(newValue, oldValue){
-                if(newValue.length && oldValue.length){
+        categories(newValue, oldValue) {
+            if (newValue.length && oldValue.length) {
                 this.saveChanges();
             }
         }
@@ -233,13 +239,7 @@ export default {
         return {
             title: "Category",
             index: null,
-            items: [
-                {
-                    text: "Category",
-                    active: true
-
-                }
-            ],
+            loading: false,
             categories: [],
             category: {
                 name: null,
@@ -269,6 +269,8 @@ export default {
         }
     },
     created() {
+        this.loading = true;
+
         this.getCategoriesTree();
         this.getFilters();
     },
@@ -278,6 +280,9 @@ export default {
                 this.$scrollTo('.needs-validation', 1500)
             }
             this.editableId = id;
+
+            this.loading = true;
+
             this.loadCategory(id)
         },
         async updateCategory(value) {
@@ -350,6 +355,8 @@ export default {
 
         async loadCategory(id) {
             this.category = await CategoryService.getCategory(id);
+
+            this.loading = false;
         },
         deleteIndexFunction(category, id, previous = null) {
             if (!!this.index) {
@@ -404,13 +411,16 @@ export default {
         },
         async getCategoriesTree() {
             const categories = await CategoryService.getCategoriesTree();
+
             this.categories = categories.map(x => {
                 x.parent = x.parent != null ? x.parent.name : "/";
                 return x;
             })
+
+            this.loading = false;
         },
 
-        async getFilters(){
+        async getFilters() {
             this.filters = await FilterService.getFilters();
         }
     }

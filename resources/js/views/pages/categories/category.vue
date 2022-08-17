@@ -2,7 +2,6 @@
     <Layout>
 
         <PageHeader
-            :items="items"
             :title="title"
         />
         <div class="row">

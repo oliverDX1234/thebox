@@ -2,9 +2,9 @@
     <Layout>
 
         <PageHeader
-            :items="items"
             :title="title"
         />
+        <load-spinner :show="loading" variant="white">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -167,7 +167,7 @@
             <!-- end col -->
         </div>
         <!-- end row -->
-
+        </load-spinner>
     </Layout>
 </template>
 
@@ -189,16 +189,7 @@ export default {
 
         return {
             title: "New Supplier",
-            items: [
-                {
-                    text: "Suppliers",
-                    to: "/admin/suppliers"
-                },
-                {
-                    text: "New Supplier",
-                    active: true
-                }
-            ],
+            loading: false,
             cities: [],
             supplier: {
                 name: null,
@@ -249,6 +240,8 @@ export default {
         async loadSuppliers() {
 
             this.supplier = await SupplierService.getSupplier(this.$route.params.id);
+
+            this.loading = false;
         },
 
 
@@ -284,8 +277,10 @@ export default {
     created() {
 
         if (this.$route.params.id) {
+
+            this.loading = true;
+
             this.title = "Edit supplier";
-            this.items[1].text = "Edit supplier";
             this.loadSuppliers();
         }
         this.loadCities();

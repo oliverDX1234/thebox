@@ -12,6 +12,7 @@ import VueYoutube from "vue-youtube";
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 import '../sass/custom/customStyle.css';
+import loadSpinner from "./components/reusable/LoadSpinner";
 
 import vco from "v-click-outside";
 
@@ -32,6 +33,7 @@ const VueScrollTo = require('vue-scrollto')
 Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false;
+Vue.component("load-spinner", loadSpinner);
 Vue.use(VueYoutube);
 Vue.use(BootstrapVue);
 Vue.use(vco);

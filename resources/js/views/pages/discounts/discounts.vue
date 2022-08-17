@@ -115,14 +115,9 @@ export default {
         },
 
         async toggleItem(id){
-            this.busy = true;
-
             await DiscountService.updateStatus(id);
 
             let index = this.discounts.findIndex(x => x.id === id);
-
-            this.busy = false;
-
         },
         async getDiscounts() {
             this.busy = true;

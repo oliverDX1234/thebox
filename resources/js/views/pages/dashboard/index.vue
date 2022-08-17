@@ -48,7 +48,7 @@ export default {
 
 <template>
     <Layout>
-        <PageHeader :title="title" :items="items"/>
+        <PageHeader :title="title" />
         <div className="row">
             <div className="col-xl-8">
                 <Stat/>

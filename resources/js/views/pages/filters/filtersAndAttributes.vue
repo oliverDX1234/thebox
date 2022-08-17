@@ -1,6 +1,6 @@
 <template>
     <Layout>
-        <PageHeader :title="title" :items="items"/>
+        <PageHeader :title="title" />
 
         <div class="row">
             <div class="col-lg-12">

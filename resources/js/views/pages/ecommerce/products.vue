@@ -38,7 +38,7 @@ export default {
 
 <template>
     <Layout>
-        <PageHeader :title="title" :items="items"/>
+        <PageHeader :title="title" />
         <div class="row">
             <div class="col-xl-3 col-lg-4">
                 <div class="card">

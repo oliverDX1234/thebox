@@ -76,8 +76,6 @@ export default {
         },
 
         async removeProduct(id){
-            this.busy = true;
-
             await productService.removeProductDiscount(id);
 
             let index = this.discountProducts.findIndex(x => x.id === id);
@@ -85,8 +83,6 @@ export default {
             if(index !== -1){
                 this.discountProducts.splice(index, 1);
             }
-
-            this.busy = false;
         },
 
         filtersUpdated(value) {

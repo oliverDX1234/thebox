@@ -34,6 +34,6 @@ export default {
 
 <template>
     <Layout>
-        <PageHeader :title="title" :items="items"/>
+        <PageHeader :title="title" />
     </Layout>
 </template>
