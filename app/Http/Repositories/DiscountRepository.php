@@ -43,7 +43,7 @@ class DiscountRepository implements DiscountRepositoryInterface
     }
 
     public function updateStatus(int $id){
-        $discount = Discount::where("id", "=", $id)->firstOrFail();
+        $discount = Discount::where("id", $id)->firstOrFail();
 
         $discount->update([
            "active" => !$discount->active

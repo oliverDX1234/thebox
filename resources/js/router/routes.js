@@ -124,6 +124,7 @@ export default [
         meta: { admin: true },
         component: () => import("../views/pages/ecommerce/product-detail"),
     },
+
     //Discounts
     {
         path: "/admin/discounts",
@@ -139,17 +140,31 @@ export default [
     },
 
     {
-        path: "/admin/discount/:id",
-        name: "admin-edit-discount",
-        meta: { admin: true },
-        component: () => import("../views/pages/discounts/discount"),
-    },
-
-    {
         path: "/admin/discount/show-products/:id",
         name: "admin-show-discount-products",
         meta: { admin: true },
         component: () => import("../views/pages/discounts/discountProducts"),
+    },
+
+    //Couriers
+    {
+        path: "/admin/couriers",
+        name: "admin-all-couriers",
+        meta: { admin: true },
+        component: () => import("../views/pages/couriers/couriers"),
+    },
+    {
+        path: "/admin/courier/new",
+        name: "admin-new-courier",
+        meta: { admin: true },
+        component: () => import("../views/pages/couriers/courier"),
+    },
+
+    {
+        path: "/admin/courier/:id",
+        name: "admin-edit-courier",
+        meta: { admin: true },
+        component: () => import("../views/pages/couriers/courier"),
     },
 
     {

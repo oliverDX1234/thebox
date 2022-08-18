@@ -16,13 +16,6 @@ const DiscountService = {
         await router.push("/admin/discounts");
     },
 
-    async updateDiscount(id, payload) {
-        await axios.post(`/api/discounts/${id}`, payload, {
-            showToast: true
-        });
-        await router.push("/admin/discounts");
-    },
-
     async deleteDiscount(id) {
         let response = await axios.delete(`/api/discounts/${id}`, {
             showToast: true

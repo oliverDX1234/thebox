@@ -67,7 +67,17 @@
         "discount_products_error": "There was a problem retrieving discount products",
         "status_updated": "The discount status was successfully updated",
         "deleted": "The discount was successfully deleted",
+        "update_failed": "There was an error processing the update request",
         "not_found": "The discount was not found in the database"
+    },
+
+    "couriers": {
+        "saved": "The courier was successfully created",
+        "updated": "The courier was successfully updated",
+        "retrieved": "The couriers were successfully retrieved",
+        "deleted": "The courier was successfully deleted",
+        "update_failed": "There was an error processing the update request",
+        "not_found": "The courier was not found in the database"
     },
 
     "global": {
@@ -235,7 +245,10 @@
                 "add-product": "Add Product",
                 "discounts": "Discounts",
                 "all-discounts": "All Discounts",
-                "add-discount": "Add Discount"
+                "add-discount": "Add Discount",
+                "couriers": "Couriers",
+                "all-couriers": "All Couriers",
+                "add-courier": "Add Courier"
             }
         },
         "email": {

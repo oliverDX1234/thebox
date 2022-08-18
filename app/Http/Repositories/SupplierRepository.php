@@ -10,7 +10,7 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function findById($id): Supplier
     {
-        return Supplier::where("id", "=", $id)->with("city")->firstOrFail();
+        return Supplier::where("id", $id)->with("city")->firstOrFail();
     }
 
     public function getSuppliers($request)
@@ -27,7 +27,7 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function deleteSupplier($id)
     {
-        Supplier::where("id", "=", $id)->delete();
+        Supplier::where("id", $id)->delete();
     }
 
 

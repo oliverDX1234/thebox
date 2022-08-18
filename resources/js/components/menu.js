@@ -106,6 +106,22 @@ export const menuItems = [
                 ]
             },
             {
+                id: 15,
+                label: "menuitems.ecommerce.list.couriers",
+                subItems: [
+                    {
+                        id: 17,
+                        label: "menuitems.ecommerce.list.all-couriers",
+                        link: "/admin/couriers",
+                    },
+                    {
+                        id: 16,
+                        label: "menuitems.ecommerce.list.add-courier",
+                        link: "/admin/couriers/new",
+                    },
+                ]
+            },
+            {
                 id: 16,
                 label: "menuitems.ecommerce.list.orders",
                 link: "/admin/ecommerce/orders",

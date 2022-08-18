@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\CourierController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\ProductController;
@@ -48,6 +49,8 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
         Route::apiResource("discounts", DiscountController::class);
         Route::get("discounts/show-products/{id}", [DiscountController::class, "getProductsForDiscount"]);
         Route::get("discounts/update-status/{id}", [DiscountController::class, "updateStatus"]);
+
+        Route::apiResource("couriers", CourierController::class);
     });
 });
 

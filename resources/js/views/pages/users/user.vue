@@ -281,7 +281,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12">
+                                            <div class="col-12">
                                                 <b-form-checkbox v-model="user.active" size="lg" switch
                                                                  class="mb-1 mt-2">
                                                     <label>Active</label>
