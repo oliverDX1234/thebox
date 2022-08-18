@@ -2,6 +2,7 @@ const CategoryService = {
 
     async getCategory(id) {
         let response = await axios.get(`/api/categories/${id}`);
+
         return response.data.payload.category;
     },
 
@@ -12,24 +13,20 @@ const CategoryService = {
     },
 
     async getCategories(){
-
         let response = await axios.get(`/api/categories`);
 
         return response.data.payload.categories;
-
     },
 
     async getCategoriesForProduct(){
-
         let response = await axios.get(`/api/getCategoriesForProduct`);
 
         return response.data.payload.categories;
-
     },
-
 
     async getCategoriesTree() {
         let response = await axios.get(`/api/categoriesTree`);
+
         return response.data.payload.categories;
     },
 
@@ -37,17 +34,17 @@ const CategoryService = {
         let response  = await axios.post(`/api/categories`, formData, {
             showToast: true
         });
+
         return response.data.payload.category;
     },
-
 
     async updateCategory(id, formData) {
         let response = await axios.patch(`/api/categories/${id}`, formData, {
             showToast: true
         });
+
         return response.data.payload.category;
     },
-
 
     async deleteCategory(id) {
         let response = await axios.delete(`/api/categories/${id}`, {
@@ -55,7 +52,6 @@ const CategoryService = {
         });
 
         return response.data.payload.category;
-
     },
 
     async getFiltersForCategories(categories){
@@ -67,7 +63,6 @@ const CategoryService = {
 
         return response.data.payload.data;
     }
-
 }
 
 export default CategoryService

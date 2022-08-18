@@ -41,10 +41,6 @@ import CustomTable from "@/components/reusable/tables/CustomTable";
 import DiscountService from "../../../services/discountService";
 import Layout from "../../layouts/main";
 
-
-/**
- * Customers Component
- */
 export default {
     components: {
         CustomTable,
@@ -79,11 +75,9 @@ export default {
                 }).catch(()=>{});
 
                 this.getDiscounts();
-
             },
         },
     },
-
     created() {
         this.filters = this.$route.query;
     },
@@ -103,18 +97,16 @@ export default {
                     let response = await DiscountService.deleteDiscount(id);
                     let index = this.discounts.findIndex(discount => discount.id === parseInt(response))
                     // find the post index
-                    if (~index) // if the post exists in array
+                    if (!index) // if the post exists in array
                         this.discounts.splice(index, 1) //delete the post
                 }
             });
-
         },
 
         async toggleItem(id){
             await DiscountService.updateStatus(id);
-
-            let index = this.discounts.findIndex(x => x.id === id);
         },
+
         async getDiscounts() {
             this.busy = true;
 

@@ -9,7 +9,6 @@ window.axios.defaults.withCredentials = true;
 
 // Add a response interceptor
 axios.interceptors.response.use(
-
     response => {
 
         const vm1 = new Vue();
@@ -47,7 +46,6 @@ axios.interceptors.response.use(
                 return Promise.reject(error.response);
         }
 
-        const vm = new Vue();
         vm2.$bvToast.toast(i18n.t(error.response.data.message), {
             title: "Error",
             variant: "danger",
@@ -57,7 +55,6 @@ axios.interceptors.response.use(
 
         return Promise.reject(error.response);
     }
-)
-;
+);
 
 export default axios;

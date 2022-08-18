@@ -125,7 +125,6 @@
                                                 </b-form-checkbox>
                                             </div>
 
-
                                         </form>
                                     </div>
                                 </tab-content>
@@ -398,7 +397,6 @@
 
                                     </div>
                                 </tab-content>
-
                             </form-wizard>
                         </div>
                     </div>
@@ -408,7 +406,6 @@
     </Layout>
 </template>
 <script>
-import Multiselect from "vue-multiselect";
 import vue2Dropzone from "vue2-dropzone";
 import SupplierService from "@/services/supplierService";
 import CategoryService from "@/services/categoryService";
@@ -438,7 +435,6 @@ export default {
         PageHeader,
         FormWizard,
         TabContent,
-        Multiselect,
         fileUpload,
         CKEditor
     },
@@ -537,12 +533,14 @@ export default {
                 this.product.galleryImages.push(file);
             }
         },
+
         imageDeleted(file) {
             let index = this.product.galleryImages.findIndex(x => x.name === file.name)
             if (index !== -1) {
                 this.product.galleryImages.splice(index, 1);
             }
         },
+
         validateStep1() {
             this.submitted = true;
 
@@ -559,6 +557,7 @@ export default {
                 }
             });
         },
+
         validateStep2() {
             this.submitted = true;
 
@@ -574,16 +573,19 @@ export default {
                 }
             })
         },
+
         validateStep3() {
             return new Promise((resolve, reject) => {
                 resolve(true);
             })
         },
+
         validateStep4() {
             return new Promise((resolve, reject) => {
                 resolve(true);
             })
         },
+
         validateStep5() {
             this.submitted = true;
 
@@ -597,6 +599,7 @@ export default {
                 resolve(true);
             })
         },
+
         async finishSteps() {
 
             let formData = new FormData();
@@ -639,12 +642,14 @@ export default {
                 formData.append('_method', "patch");
                 formData.append('id', this.$route.params.id);
                 await productService.updateProduct(this.$route.params.id, formData)
+                await this.$router.push("/admin/products");
             } else {
                 await productService.storeProduct(formData)
+
+                await this.$router.push("/admin/products");
             }
-
-
         },
+
         imageUploaded(file) {
             this.product.basic_information.image = file;
         },
@@ -673,7 +678,6 @@ export default {
             this.product.meta.keywords = product.seo_keywords;
             this.product.meta.description = product.seo_description;
 
-
             product.gallery.forEach(x => {
                 var file = {
                     size: x.infos.size,
@@ -684,7 +688,6 @@ export default {
                 };
                 this.$refs.galleryImagesDropzone.manuallyAddFile(file, x.md);
             });
-
 
             await this.categoriesChanged();
 

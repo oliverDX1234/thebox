@@ -30,10 +30,6 @@ import DiscountService from "../../../services/discountService";
 import productService from "../../../services/productService";
 import Layout from "../../layouts/main";
 
-
-/**
- * Customers Component
- */
 export default {
     components: {
         CustomTable,
@@ -62,7 +58,6 @@ export default {
             return "Discount Products for Discount ID - " + this.$route.params.id
         }
     },
-
     created() {
         this.getProductsForDiscount();
     },

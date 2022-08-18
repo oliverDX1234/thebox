@@ -48,13 +48,6 @@ export default {
     data() {
         return {
             title: "Users",
-            items: [
-                {
-                    text: "Users",
-                    active: true
-
-                }
-            ],
             users: [],
             filters: null,
             busy: false,
@@ -74,7 +67,6 @@ export default {
             ]
         };
     },
-
     watch: {
         'filters': {
             deep: true,
@@ -90,7 +82,6 @@ export default {
             },
         },
     },
-
     created() {
         this.filters = this.$route.query;
     },
@@ -98,6 +89,7 @@ export default {
         editUser(id) {
             this.$router.push('/admin/user/' + id);
         },
+
         async deleteUser(id) {
             this.$swal.fire({
                 title: "Are you sure?",
@@ -117,6 +109,7 @@ export default {
             });
 
         },
+
         async getUsers() {
             this.busy = true;
 
@@ -128,6 +121,7 @@ export default {
 
             this.busy = false;
         },
+
         filtersUpdated(value){
             this.filters = value;
         }

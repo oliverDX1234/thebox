@@ -1,6 +1,5 @@
 <template>
     <Layout>
-
         <PageHeader
             :title="title"
         />
@@ -59,8 +58,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -83,7 +82,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -151,7 +149,6 @@
                                 </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!-- end card -->
@@ -159,15 +156,12 @@
             <!-- end col -->
         </div>
         <!-- end row -->
-
     </Layout>
 </template>
 
 <script>
 import {email, required} from "vuelidate/lib/validators";
-
 import PageHeader from '@/components/custom/page-header';
-import Multiselect from "vue-multiselect";
 import CategoryService from "@/services/categoryService";
 import Layout from "../../layouts/main";
 
@@ -176,21 +170,10 @@ export default {
         title: "Category",
         meta: [{name: "New/Edit Category", content: "Create or edit a category"}],
     },
-    components: {PageHeader,  Multiselect, Layout},
+    components: {PageHeader,Layout},
     data() {
-
         return {
             title: "New Category",
-            items: [
-                {
-                    text: "Category",
-                    to: "/admin/categories"
-                },
-                {
-                    text: "New Category",
-                    active: true
-                }
-            ],
             cities: [],
             category: {
                 name: null,
@@ -213,14 +196,14 @@ export default {
     },
     methods: {
         async formSubmit() {
-
             this.submitted = true;
-            let id = this.$route.params.id;
+
             // stop here if form is invalid
             this.$v.$touch();
 
             let fullCity = this.category.city;
             this.category.city = this.category.city.id;
+
             let formData = new FormData();
 
             Object.keys(this.category).forEach(key => formData.append(key, this.category[key]));
@@ -228,9 +211,9 @@ export default {
 
             if (!this.$v.$invalid) {
 
-                if (id) {
+                if (this.$route.params.id) {
                     formData.append('_method', "patch");
-                    await CategoryService.updateCategory(id, formData);
+                    await CategoryService.updateCategory(this.$route.params.id, formData);
 
                 } else {
                     await CategoryService.storeCategory(formData);
@@ -238,37 +221,29 @@ export default {
             }
         },
         async loadCategory() {
-
-
             this.category = await CategoryService.getCategory(this.$route.params.id);
         },
 
-
         async deleteCategory() {
-
             await CategoryService.deleteCategory(this.$route.params.id);
 
             await this.$router.push('/admin/categories');
-
         },
 
         async loadCities() {
+            let response = await this.$http.get('/api/cities');
 
-            try {
-                let response = await this.$http.get('/api/cities');
-                this.cities = response.data.payload.cities;
-            } catch (e) {
-            }
+            this.cities = response.data.payload.cities;
         },
     },
 
     created() {
-
         if (this.$route.params.id) {
             this.title = "Edit category";
-            this.items[1].text = "Edit category";
+
             this.loadCategory();
         }
+
         this.loadCities();
     }
 };

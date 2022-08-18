@@ -1,7 +1,4 @@
 <template>
-
-
-
     <vue-nestable v-model="nestableItems" @change="$emit('nestable-updated', nestableItems)">
         <vue-nestable-handle
             slot-scope="{ item }"
@@ -11,13 +8,9 @@
             <i class="mdi mdi-pencil-outline font-size-17 float-right text-success delete-list-button mr-1 font-size-15" role="button" @click="$emit('edit-item', item.id)"></i>
         </vue-nestable-handle>
     </vue-nestable>
-
-
-
 </template>
 
 <script>
-
 import {VueNestable, VueNestableHandle} from 'vue-nestable';
 
 export default {
@@ -41,8 +34,6 @@ export default {
 </script>
 
 <style>
-
-
 /*
 * Style for nestable
 */

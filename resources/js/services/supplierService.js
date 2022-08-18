@@ -1,5 +1,3 @@
-import router from "@/router"
-
 const SupplierService = {
 
     async getSupplier(id) {
@@ -7,11 +5,11 @@ const SupplierService = {
         return response.data.payload.supplier;
     },
 
-
     async getSuppliers(filters = null) {
         let response = await axios.get(`/api/suppliers`,{
             params: filters
         });
+
         return response.data.payload.suppliers;
     },
 
@@ -19,9 +17,7 @@ const SupplierService = {
         await axios.post(`/api/suppliers`, formData, {
             showToast: true
         });
-        await router.push("/admin/suppliers");
     },
-
 
     async updateSupplier(id, formData) {
         await axios.post(`/api/suppliers/${id}`, formData, {
@@ -29,17 +25,13 @@ const SupplierService = {
         });
     },
 
-
     async deleteSupplier(id) {
         let response = await axios.delete(`/api/suppliers/${id}`, {
             showToast: true
         });
 
         return response.data.payload.supplier;
-
     }
-
-
 }
 
 export default SupplierService

@@ -1,6 +1,5 @@
 <template>
     <Layout>
-
         <PageHeader
             :title="title"
         />
@@ -303,7 +302,6 @@
                                     </form>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <!-- end card -->
@@ -321,19 +319,18 @@ import {email, helpers, minLength, required, sameAs} from "vuelidate/lib/validat
 import PageHeader from '@/components/custom/page-header';
 import FileUpload from '@/components/reusable/FileUpload.vue'
 import DatePicker from "vue2-datepicker";
-import Multiselect from "vue-multiselect";
 import Layout from "../../layouts/main";
 import UserService from "@/services/userService";
 
 const numbers = helpers.regex('numbers', /^[+\d0-9]*$/i);
+
 export default {
     page: {
         title: "User",
         meta: [{name: "New/Edit User", content: "Create or edit a user"}],
     },
-    components: {PageHeader, FileUpload, DatePicker, Multiselect, Layout},
+    components: {PageHeader, FileUpload, DatePicker, Layout},
     data() {
-
         return {
             title: "New User",
             loading: false,
@@ -393,9 +390,8 @@ export default {
     },
     methods: {
         async formSubmit() {
-
             this.submitted = true;
-            let id = this.$route.params.id;
+
             // stop here if form is invalid
             this.$v.$touch();
 
@@ -409,12 +405,15 @@ export default {
                 formData.append("imageInput", this.imageInput);
                 this.user.city = fullCity;
 
-                if (id) {
+                if (this.$route.params.id) {
                     formData.append('_method', "patch");
-                    await UserService.updateUser(id, formData);
+                    await UserService.updateUser(this.$route.params.id, formData);
 
+                    await this.$router.push("/admin/users");
                 } else {
                     await UserService.storeUser(formData);
+
+                    await this.$router.push("/admin/users");
                 }
             }
         },
@@ -443,23 +442,20 @@ export default {
         },
 
         async loadCities() {
-
             try {
                 let response = await this.$http.get('/api/cities');
                 this.cities = response.data.payload.cities;
             } catch (e) {
             }
         },
+
         imageUploaded(file) {
             this.imageInput = file;
         }
-
     },
-
     created() {
 
         if (this.$route.params.id) {
-
             this.loading = true;
 
             this.title = "Edit User";
@@ -468,6 +464,7 @@ export default {
         } else {
             this.user.image = "http://127.0.0.1:8000/images/upload.png"
         }
+
         this.loadCities();
     }
 };

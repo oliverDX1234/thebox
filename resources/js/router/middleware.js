@@ -1,4 +1,5 @@
 import state from "@/state/store";
+
 function isLoggedIn() {
     return state.getters["auth/isLoggedIn"];
 }

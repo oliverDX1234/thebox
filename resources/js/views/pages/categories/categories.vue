@@ -9,11 +9,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div>
-
                                 <div class="row mt-2">
                                     <div class="col-xl-6 col-md-6 col-12">
-
-
                                         <div class="row">
                                             <div class="col-12 mt-3 mb-2">
                                                 <h5>List of Categories</h5>
@@ -189,16 +186,11 @@
                                             </div>
                                             <!-- end col -->
                                         </div>
-
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </load-spinner>
@@ -212,9 +204,7 @@ import Nestable from "@/components/custom/Nestable";
 import CategoryService from "@/services/categoryService";
 import {required} from "vuelidate/lib/validators";
 import FilterService from "../../../services/filterService";
-import Multiselect from "vue-multiselect";
 import Layout from "../../layouts/main";
-
 
 /**
  * Customers Component
@@ -224,11 +214,9 @@ export default {
         CustomTable,
         PageHeader,
         Layout,
-        Multiselect,
         Nestable
     },
     watch: {
-
         categories(newValue, oldValue) {
             if (newValue.length && oldValue.length) {
                 this.saveChanges();
@@ -254,7 +242,6 @@ export default {
             submitted: false,
         };
     },
-
     validations: {
         category: {
             name: {required},
@@ -338,11 +325,8 @@ export default {
                     response = await CategoryService.storeCategory(this.category);
                     await this.storeCategory(response);
                 }
-
-
             }
         },
-
 
         newCategory() {
             this.editableId = false;
@@ -358,6 +342,7 @@ export default {
 
             this.loading = false;
         },
+
         deleteIndexFunction(category, id, previous = null) {
             if (!!this.index) {
                 return;
@@ -378,6 +363,7 @@ export default {
                 }
             }
         },
+
         updateIndexFunction(category, value, previous = null) {
             if (!!this.index) {
                 return;
@@ -406,9 +392,11 @@ export default {
         updateItems(items) {
             this.categories = items;
         },
+
         async saveChanges() {
             await CategoryService.saveCategories(this.categories);
         },
+
         async getCategoriesTree() {
             const categories = await CategoryService.getCategoriesTree();
 

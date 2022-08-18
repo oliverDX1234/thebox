@@ -1,40 +1,40 @@
 <template>
-  <div>
-    <div id="preloader">
-      <div id="status">
-        <div class="spinner">
-          <i class="ri-loader-line spin-icon"></i>
+    <div>
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <i class="ri-loader-line spin-icon"></i>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Begin page -->
-    <div id="layout-wrapper">
-      <Topbar />
-      <SideBar
-        :is-condensed="isMenuCondensed"
-        :type="leftSidebarType"
-        :width="layoutWidth"
-      />
-      <!-- ============================================================== -->
-      <!-- Start right Content here -->
-      <!-- ============================================================== -->
-      <div class="main-content">
-        <div class="page-content">
-          <div class="container-fluid">
-            <slot />
-          </div>
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+            <Topbar/>
+            <SideBar
+                :is-condensed="isMenuCondensed"
+                :type="leftSidebarType"
+                :width="layoutWidth"
+            />
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <slot/>
+                    </div>
+                </div>
+                <Footer/>
+            </div>
+            <Rightsidebar/>
         </div>
-        <Footer />
-      </div>
-      <Rightsidebar/>
     </div>
-  </div>
 </template>
 
 <script>
 import router from "@/router";
-import { layoutComputed } from "@/state/helpers";
+import {layoutComputed} from "@/state/helpers";
 
 import Topbar from "@/components/custom/topbar";
 import SideBar from "@/components/custom/side-bar";
@@ -42,7 +42,7 @@ import Rightsidebar from "@/components/custom/right-sidebar";
 import Footer from "@/components/custom/footer";
 
 export default {
-    components: { Topbar, SideBar, Rightsidebar, Footer },
+    components: {Topbar, SideBar, Rightsidebar, Footer},
     data() {
         return {
             isMenuCondensed: false,

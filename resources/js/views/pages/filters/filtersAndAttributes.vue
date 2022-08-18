@@ -1,7 +1,6 @@
 <template>
     <Layout>
         <PageHeader :title="title" />
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -39,7 +38,6 @@
                                                           :items="attributes" :actions="['delete', 'edit']" :fields="fieldsAttributes"/>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -52,7 +50,6 @@
 
     </Layout>
 </template>
-
 <script>
 import PageHeader from "@/components/custom/page-header";
 
@@ -71,12 +68,6 @@ export default {
     data() {
         return {
             title: "Filters And Attributes",
-            items: [
-                {
-                    text: "Filters And Attributes",
-                    href: "/"
-                },
-            ],
             filters: [],
             attributes: [],
             busyFilters: false,
@@ -105,9 +96,7 @@ export default {
             }
         };
     },
-
     mounted() {
-
         this.loadFilters();
     },
     methods: {
@@ -118,6 +107,7 @@ export default {
 
             this.busyFilters = false;
         },
+
         loadAttributes(id) {
             this.busyAttributes = true;
             let index = this.findItemIndex(id, "filters");
@@ -136,6 +126,7 @@ export default {
 
             this.busyAttributes = false;
         },
+
         addItem(item) {
             if (item === "filter") {
                 this.modal.showModal = true;
@@ -147,8 +138,8 @@ export default {
                 this.modal.title = "Add Attribute";
             }
         },
-        editFilter(id) {
 
+        editFilter(id) {
             let filter = this.filters.find(index => {
                 return index.id === id;
             });
@@ -162,6 +153,7 @@ export default {
             this.modal.showModal = true;
 
         },
+
         editAttribute(id) {
             let filter = this.filters.find(index => {
                 return index.id === this.loadedFilterLists;
@@ -179,9 +171,10 @@ export default {
             this.modal.active = filter.active ? filter.active : null;
             this.modal.showModal = true;
         },
-        async updateItems(modal) {
 
+        async updateItems(modal) {
             this.modal.showModal = false;
+
             if (modal.id) {
                 if (modal.type === "filter") {
                     this.modal.showModal = false;
@@ -215,6 +208,7 @@ export default {
             }else{
                 if (modal.type === "filter") {
                     this.modal.showModal = false;
+
                     modal[modal.type] = modal.type_value;
                     let response = await FilterService.storeFilter(modal);
                     this.resetModal();
@@ -226,6 +220,7 @@ export default {
                     });
                 } else {
                     this.modal.showModal = false;
+
                     modal[modal.type] = modal.type_value;
                     modal["filter_id"] = this.loadedFilterLists;
                     let response = await AttributeService.storeAttribute(modal);
@@ -252,15 +247,14 @@ export default {
                 })
             }
 
-
             if (index === -1) {
                 this.makeToast("danger", "Oops, there was an error");
             }
 
             return index;
         },
-        async deleteFilter(id) {
 
+        async deleteFilter(id) {
             await this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -285,6 +279,7 @@ export default {
             });
 
         },
+
         async deleteAttribute(id) {
             await this.$swal.fire({
                 title: "Are you sure?",
@@ -303,12 +298,12 @@ export default {
                     this.attributes.splice(index, 1);
                     let attributes = this.attributes;
                     this.attributes = [];
+
                     this.$nextTick(() => {
                         this.attributes = attributes;
                     });
                 }
             });
-
         },
 
         resetModal() {

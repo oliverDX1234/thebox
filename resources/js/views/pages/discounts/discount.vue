@@ -1,6 +1,5 @@
 <template>
     <Layout>
-
         <PageHeader
             :title="title"
         />
@@ -81,7 +80,6 @@
                                             </div>
                                         </div>
 
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>End Date <span class="font-size-11 text-warning">(Leave blank for no limit)</span></label>
@@ -151,7 +149,6 @@
                                                 <label>Active</label>
                                             </b-form-checkbox>
                                         </div>
-
                                     </div>
 
                                     <div class="row">
@@ -168,7 +165,6 @@
                                 </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!-- end card -->
@@ -176,15 +172,12 @@
             <!-- end col -->
         </div>
         <!-- end row -->
-
     </Layout>
 </template>
 
 <script>
 import {required, requiredIf, numeric} from "vuelidate/lib/validators";
-
 import PageHeader from '@/components/custom/page-header';
-import Multiselect from "vue-multiselect";
 import DiscountService from "@/services/discountService";
 import ProductService from "../../../services/productService";
 import CategoryService from "../../../services/categoryService";
@@ -195,9 +188,8 @@ export default {
     page: {
         title: "Discount"
     },
-    components: {PageHeader, DatePicker, Layout, Multiselect},
+    components: {PageHeader, DatePicker, Layout},
     data() {
-
         return {
             title: "New Discount",
             options: [
@@ -261,20 +253,17 @@ export default {
 
             }
         },
-        async loadProducts() {
 
+        async loadProducts() {
             this.products = await ProductService.getProducts();
         },
 
         async loadCategories() {
-
             this.categories = await CategoryService.getCategories();
         }
     },
-
     created() {
         this.loadProducts();
-
         this.loadCategories();
     }
 };

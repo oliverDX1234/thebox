@@ -41,10 +41,6 @@ import CustomTable from "@/components/reusable/tables/CustomTable";
 import SupplierService from "@/services/supplierService";
 import Layout from "../../layouts/main";
 
-
-/**
- * Customers Component
- */
 export default {
     components: {
         CustomTable,
@@ -87,11 +83,9 @@ export default {
                 }).catch(()=>{});
 
                 this.getSuppliers();
-
             },
         },
     },
-
     created() {
         this.filters = this.$route.query;
     },
@@ -99,6 +93,7 @@ export default {
         editSupplier(id) {
             this.$router.push('/admin/supplier/' + id);
         },
+
         async deleteSupplier(id) {
 
             this.$swal.fire({
@@ -118,8 +113,8 @@ export default {
                         this.suppliers.splice(index, 1) //delete the post
                 }
             });
-
         },
+
         async getSuppliers() {
             this.busy = true;
 

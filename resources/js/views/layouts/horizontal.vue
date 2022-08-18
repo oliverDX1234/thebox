@@ -1,34 +1,34 @@
 <template>
-  <div>
-    <div id="preloader">
-      <div id="status">
-        <div class="spinner">
-          <i class="ri-loader-line spin-icon"></i>
+    <div>
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <i class="ri-loader-line spin-icon"></i>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- Begin page -->
-    <div id="layout-wrapper">
-      <HorizontalTopbar :type="topbar" :width="layoutWidth" />
-      <HorizontalNav />
-      <!-- ============================================================== -->
-      <!-- Start right Content here -->
-      <!-- ============================================================== -->
-      <div class="main-content">
-        <div class="page-content">
-          <div class="container-fluid">
-            <slot />
-          </div>
-          <!-- container-fluid -->
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+            <HorizontalTopbar :type="topbar" :width="layoutWidth"/>
+            <HorizontalNav/>
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <slot/>
+                    </div>
+                    <!-- container-fluid -->
+                </div>
+                <!-- End Page-content -->
+                <Footer/>
+            </div>
+            <!-- end main content-->
         </div>
-        <!-- End Page-content -->
-        <Footer />
-      </div>
-      <!-- end main content-->
+        <!-- END layout-wrapper -->
+        <RightBar/>
     </div>
-    <!-- END layout-wrapper -->
-    <RightBar />
-  </div>
 </template>
 
 <script>
@@ -37,7 +37,7 @@ import HorizontalNav from "@/components/custom/horizontal-navbar";
 import RightBar from "@/components/custom/right-sidebar";
 import Footer from "@/components/custom/footer";
 
-import { layoutComputed } from "@/state/helpers";
+import {layoutComputed} from "@/state/helpers";
 
 /**
  * Horizontal-layout

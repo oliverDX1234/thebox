@@ -30,6 +30,7 @@
     </b-modal>
 </template>
 <script>
+
 export default {
     name: 'filter-popup-modal',
     props: ["modal"],
@@ -42,6 +43,7 @@ export default {
     mounted() {
       this.innerModal = this.modal;
     },
+
     methods:{
         closed(){
             this.$emit('closed');

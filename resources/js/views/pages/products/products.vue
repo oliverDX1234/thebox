@@ -40,9 +40,6 @@ import CustomTable from "@/components/reusable/tables/CustomTable";
 import ProductService from "@/services/productService";
 import Layout from "../../layouts/main";
 
-/**
- * Customers Component
- */
 export default {
     components: {
         CustomTable,
@@ -52,13 +49,6 @@ export default {
     data() {
         return {
             title: "Products",
-            items: [
-                {
-                    text: "Products",
-                    active: true
-
-                }
-            ],
             products: [],
             filters: null,
             busy: false,
@@ -79,7 +69,6 @@ export default {
             ]
         };
     },
-
     watch: {
         'filters': {
             deep: true,
@@ -91,12 +80,9 @@ export default {
                 }).catch(()=>{});
 
                 this.getProducts();
-
             },
         },
     },
-
-
     created() {
         this.filters = this.$route.query;
     },
@@ -104,6 +90,7 @@ export default {
         editProduct(id) {
             this.$router.push('/admin/product/' + id);
         },
+
         async deleteProduct(id) {
             this.$swal.fire({
                 title: "Are you sure?",
@@ -122,16 +109,16 @@ export default {
                         this.products.splice(index, 1) //delete the post
                 }
             });
-
         },
+
         async getProducts() {
             this.busy = true;
 
             this.products = await ProductService.getProducts(this.filters);
 
             this.busy = false;
-
         },
+
         filtersUpdated(value){
             this.filters = value;
         }

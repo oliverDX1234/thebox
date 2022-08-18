@@ -16,12 +16,9 @@
 <script>
 import categoryService from "../../../services/categoryService";
 import supplierService from "../../../services/supplierService";
-import Multiselect from "vue-multiselect";
+
 export default {
     name: "FilteringOptions",
-    components:{
-        Multiselect
-    },
     props:{
         options:{
             required: true,

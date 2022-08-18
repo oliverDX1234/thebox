@@ -1,6 +1,5 @@
 <template>
     <Layout>
-
         <PageHeader
             :title="title"
         />
@@ -60,7 +59,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -85,7 +83,6 @@
                                             </div>
                                         </div>
 
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="validationCustom05">Address <span class="required">*</span></label>
@@ -106,7 +103,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -176,18 +172,15 @@
 import {email, required} from "vuelidate/lib/validators";
 
 import PageHeader from '@/components/custom/page-header';
-import Multiselect from "vue-multiselect";
 import SupplierService from "@/services/supplierService";
 import Layout from "../../layouts/main";
 
 export default {
     page: {
         title: "Supplier",
-        meta: [{name: "New/Edit Supplier", content: "Create or edit a supplier"}],
     },
-    components: {PageHeader, Layout, Multiselect},
+    components: {PageHeader, Layout},
     data() {
-
         return {
             title: "New Supplier",
             loading: false,
@@ -203,6 +196,7 @@ export default {
             submitted: false,
         };
     },
+
     validations: {
         supplier: {
             name: {required},
@@ -214,9 +208,8 @@ export default {
     },
     methods: {
         async formSubmit() {
-
             this.submitted = true;
-            let id = this.$route.params.id;
+
             // stop here if form is invalid
             this.$v.$touch();
 
@@ -229,22 +222,22 @@ export default {
 
             if (!this.$v.$invalid) {
 
-                if (id) {
+                if (this.$route.params.id) {
                     formData.append('_method', "patch");
-                    await SupplierService.updateSupplier(id, formData);
+                    await SupplierService.updateSupplier(this.$route.params.id, formData);
 
                 } else {
                     await SupplierService.storeSupplier(formData);
+                    await this.$router.push("/admin/suppliers");
                 }
             }
         },
-        async loadSuppliers() {
 
+        async loadSuppliers() {
             this.supplier = await SupplierService.getSupplier(this.$route.params.id);
 
             this.loading = false;
         },
-
 
         async deleteSupplier() {
 
@@ -266,7 +259,6 @@ export default {
         },
 
         async loadCities() {
-
             try {
                 let response = await this.$http.get('/api/cities');
                 this.cities = response.data.payload.cities;
@@ -274,7 +266,6 @@ export default {
             }
         },
     },
-
     created() {
 
         if (this.$route.params.id) {
@@ -282,8 +273,10 @@ export default {
             this.loading = true;
 
             this.title = "Edit supplier";
+
             this.loadSuppliers();
         }
+
         this.loadCities();
     }
 };
