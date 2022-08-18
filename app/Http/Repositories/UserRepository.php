@@ -10,12 +10,12 @@ class UserRepository implements UserRepositoryInterface
 
     public function findById($id): User
     {
-        return User::findOrFail($id);
+        return User::where("id", $id)->with("city")->first();
     }
 
     public function getUsers($request)
     {
-        $users = User::query();
+        $users = User::with("city");
 
         if($request->has("statuses")){
 

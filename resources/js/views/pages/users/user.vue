@@ -397,13 +397,14 @@ export default {
 
             if (!this.$v.$invalid) {
 
-                let fullCity = this.user.city;
-                this.user.city = this.user.city.id;
                 let formData = new FormData();
 
+                this.user.city_id = this.user.city.id;
+
                 Object.keys(this.user).forEach(key => formData.append(key, this.user[key]));
+
                 formData.append("imageInput", this.imageInput);
-                this.user.city = fullCity;
+                formData.delete("city");
 
                 if (this.$route.params.id) {
                     formData.append('_method', "patch");

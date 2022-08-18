@@ -68,11 +68,11 @@ class SupplierService
             throw new ApiException("supplier.not_found", $e->getCode(), $e);
         }
 
-        $supplier->update($request->except('active'));
-
-        $supplier->active = json_decode($request->active);
-
         try {
+            $supplier->update($request->except('active'));
+
+            $supplier->active = json_decode($request->active);
+
             $supplier->save();
         } catch (Exception $e) {
             throw new ApiException("supplier.update_failed", 500, null, $e);

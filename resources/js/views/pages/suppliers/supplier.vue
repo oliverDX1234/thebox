@@ -213,21 +213,26 @@ export default {
             // stop here if form is invalid
             this.$v.$touch();
 
-            let fullCity = this.supplier.city;
-            this.supplier.city = this.supplier.city.id;
             let formData = new FormData();
 
+            this.supplier.city_id = this.supplier.city.id;
+
             Object.keys(this.supplier).forEach(key => formData.append(key, this.supplier[key]));
-            this.supplier.city = fullCity;
+
+            formData.delete("city");
 
             if (!this.$v.$invalid) {
 
                 if (this.$route.params.id) {
                     formData.append('_method', "patch");
+
                     await SupplierService.updateSupplier(this.$route.params.id, formData);
+
+                    await this.$router.push("/admin/suppliers");
 
                 } else {
                     await SupplierService.storeSupplier(formData);
+
                     await this.$router.push("/admin/suppliers");
                 }
             }
@@ -259,11 +264,9 @@ export default {
         },
 
         async loadCities() {
-            try {
-                let response = await this.$http.get('/api/cities');
-                this.cities = response.data.payload.cities;
-            } catch (e) {
-            }
+            let response = await this.$http.get('/api/cities');
+
+            this.cities = response.data.payload.cities;
         },
     },
     created() {

@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->string("phone", 20);
             $table->string("address", 100);
             $table->enum("gender", ["male", "female"]);
-            $table->integer("city");
+            $table->integer("city_id");
             $table->date("dob");
             $table->string("image")->nullable();
             $table->boolean("active")->default(true);

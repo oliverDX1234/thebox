@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Support\Carbon;
@@ -91,7 +92,7 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
         'roles',
         'gender',
         'active',
-        'city',
+        'city_id',
         'dob',
     ];
 
@@ -162,5 +163,10 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function city(): HasOne
+    {
+        return $this->hasOne(City::class, "id", "city_id");
     }
 }

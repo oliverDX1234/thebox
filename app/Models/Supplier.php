@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -47,7 +48,7 @@ class Supplier extends Model
         'email',
         'address',
         'active',
-        'city',
+        'city_id',
         'phone',
     ];
 
@@ -55,13 +56,13 @@ class Supplier extends Model
         'active' => 'boolean'
     ];
 
-    protected function getCityAttribute()
-    {
-        return City::find($this->attributes['city']);
-    }
-
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, "id", "supplier_id");
+        return $this->hasMany(Product::class, "id", "city_id");
+    }
+
+    public function city(): HasOne
+    {
+        return $this->hasOne(City::class, "id", "city_id");
     }
 }

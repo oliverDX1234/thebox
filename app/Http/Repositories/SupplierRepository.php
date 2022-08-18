@@ -10,12 +10,12 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function findById($id): Supplier
     {
-        return Supplier::findOrFail($id);
+        return Supplier::where("id", "=", $id)->with("city")->firstOrFail();
     }
 
     public function getSuppliers($request)
     {
-        $suppliers =  Supplier::query();
+        $suppliers =  Supplier::with("city");
 
         if($request->has("statuses")){
 
