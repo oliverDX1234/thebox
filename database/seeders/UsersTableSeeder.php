@@ -22,6 +22,15 @@ class UsersTableSeeder extends Seeder
             'image' => 'http://127.0.0.1:8000/images/upload.png'
         ])->create();
 
+        User::factory([
+            'email' => 'guest@thebox.com',
+            'password' => "admin1234567",
+            'roles' => 'user',
+            'admin_settings' => '{"layout":{"type":"vertical","width":"fluid","sidebartype":"dark","topbar":"dark","loader":"false"}}',
+            'phone' => '+38971234567',
+            'image' => 'http://127.0.0.1:8000/images/upload.png'
+        ])->create();
+
         User::factory(17, [
             'password' => "admin1234567",
             'roles' => 'user',

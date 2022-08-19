@@ -114,7 +114,7 @@ class DiscountService
             $category_products = new Collection();
 
             foreach($category_ids as $id){
-                $category_products = $category_products->merge(Category::where("id", "=", $id)->with("products")->first()->products);
+                $category_products = $category_products->merge(Category::where("id", $id)->with("products")->first()->products);
             }
 
             if(count($product_ids)){

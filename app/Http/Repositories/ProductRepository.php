@@ -11,7 +11,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById($id): Product
     {
-        return Product::where("id", "=", $id)->with("supplier")->first();
+        return Product::where("id", $id)->with("supplier")->first();
     }
 
     public function getProducts($request)
@@ -64,7 +64,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function removeProductDiscount($id)
     {
-        Product::where("id", "=", $id)->update([
+        Product::where("id", $id)->update([
             "discount_id" => null
         ]);
     }

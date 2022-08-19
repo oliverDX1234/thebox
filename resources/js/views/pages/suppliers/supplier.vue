@@ -47,7 +47,6 @@
                                                     :class="{ 'is-invalid': submitted && $v.supplier.email.$error }"
                                                     class="form-control"
                                                     placeholder="Email"
-                                                    :disabled="$route.params.id"
                                                     type="text"
                                                 />
                                                 <div
@@ -190,7 +189,7 @@ export default {
                 email: null,
                 city: null,
                 phone: null,
-                active: false,
+                active: true,
                 address: null
             },
             submitted: false,
