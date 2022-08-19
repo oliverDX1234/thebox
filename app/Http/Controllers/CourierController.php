@@ -7,7 +7,6 @@ use App\Http\Requests\CourierStoreRequest;
 use App\Http\Services\CourierService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use stdClass;
 
 class CourierController extends Controller
 {
