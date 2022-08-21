@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Discount;
 use Illuminate\Database\Seeder;
 
-class DiscountSeeder extends Seeder
+class DiscountTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

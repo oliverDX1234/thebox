@@ -118,11 +118,24 @@ export default [
         meta: { admin: true },
         component: () => import("../views/pages/products/product"),
     },
+    //Packages
     {
-        path: "/admin/ecommerce/product-detail",
-        name: "admin/productDetail",
+        path: "/admin/packages",
+        name: "admin/packages",
         meta: { admin: true },
-        component: () => import("../views/pages/ecommerce/product-detail"),
+        component: () => import("../views/pages/packages/packages"),
+    },
+    {
+        path: "/admin/package",
+        name: "admin-new-package",
+        meta: { admin: true },
+        component: () => import("../views/pages/packages/package"),
+    },
+    {
+        path: "/admin/package/:id",
+        name: "admin-edit-package",
+        meta: { admin: true },
+        component: () => import("../views/pages/packages/package"),
     },
 
     //Discounts

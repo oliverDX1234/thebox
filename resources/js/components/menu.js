@@ -90,6 +90,22 @@ export const menuItems = [
                 ]
             },
             {
+                id: 14,
+                label: "menuitems.ecommerce.list.packages",
+                subItems:[
+                    {
+                        label: "menuitems.ecommerce.list.all-packages",
+                        id: 50,
+                        link: "/admin/packages",
+                    },
+                    {
+                        id: 17,
+                        label: "menuitems.ecommerce.list.add-package",
+                        link: "/admin/package",
+                    },
+                ]
+            },
+            {
                 id: 15,
                 label: "menuitems.ecommerce.list.discounts",
                 subItems: [

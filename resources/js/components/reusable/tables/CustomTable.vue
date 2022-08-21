@@ -231,7 +231,10 @@ import filteringOptions from "./FilteringOptions";
 export default {
     name: 'custom-table',
     props: {
-        items: {},
+        items: {
+            required: true,
+            type: Array
+        },
         attributes: {
             required: false,
             type: Boolean,

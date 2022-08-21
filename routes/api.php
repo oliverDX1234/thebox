@@ -10,6 +10,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CourierController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\FilterController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -45,6 +46,9 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
 
         Route::apiResource("products", ProductController::class);
         Route::get("products/remove-discount/{id}", [ProductController::class, "removeProductDiscount"]);
+
+        Route::apiResource("packages", PackageController::class);
+        Route::get("packages/remove-discount/{id}", [PackageController::class, "removePackageDiscount"]);
 
         Route::apiResource("discounts", DiscountController::class);
         Route::get("discounts/show-products/{id}", [DiscountController::class, "getProductsForDiscount"]);

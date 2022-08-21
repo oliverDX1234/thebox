@@ -60,6 +60,20 @@
         "not_found": "The product was not found in the database"
     },
 
+
+
+    "packages": {
+        "saved": "The package was successfully created",
+        "updated": "The package was successfully updated",
+        "save_failed": "There was an error processing the save request",
+        "update_failed": "There was an error processing the update request",
+        "discount_remove_failed": "There was en error while removing the discount",
+        "discount_successfully_removed": "The package discount was successfully removed",
+        "retrieved": "The packages were successfully retrieved",
+        "deleted": "The package was successfully deleted",
+        "not_found": "The package was not found in the database"
+    },
+
     "discounts": {
         "saved": "The discount was successfully created",
         "updated": "The discount was successfully updated",
@@ -248,7 +262,10 @@
                 "add-discount": "Add Discount",
                 "couriers": "Couriers",
                 "all-couriers": "All Couriers",
-                "add-courier": "Add Courier"
+                "add-courier": "Add Courier",
+                "packages": "Packages",
+                "all-packages": "All Packages",
+                "add-package": "Add Package"
             }
         },
         "email": {
