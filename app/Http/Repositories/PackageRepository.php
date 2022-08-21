@@ -11,13 +11,13 @@ class PackageRepository implements PackageRepositoryInterface
 
     public function findById($id): Package
     {
-        return Package::where("id", $id)->first();
+        return Package::where("id", $id)->with('products:id,name,unit_code,price,discount_id')->first();
     }
 
     public function getPackages($request)
     {
 
-        $packages = Package::with("categories:id,name");
+        $packages = Package::with("categories:id,name", "products:id,name");
 
         if ($request->has("categories")) {
             $packages->whereHas("categories", function ($q) use ($request) {

@@ -145,6 +145,11 @@ class Package extends Model implements HasMedia
         return $this->hasOne(Discount::class, "id", "discount_id");
     }
 
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
     public function attributes(): BelongsToMany
     {
         return $this->belongsToMany(Attribute::class);

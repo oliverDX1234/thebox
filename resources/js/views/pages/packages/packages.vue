@@ -63,6 +63,7 @@ export default {
                 {key: "dimensions", sortable: true, label: "Dimensions"},
                 {key: "price", sortable: true, label: "Price"},
                 {key: "categories", sortable: true, label: "Categories"},
+                {key: "products", sortable: true, label: "Products"},
                 {key: "action"}
             ]
         };

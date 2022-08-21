@@ -193,6 +193,8 @@
                                                         <label class="control-label">Package Price:<span
                                                             class="required">*</span></label>
                                                         <b-input placeholder="Enter Price"
+                                                                 :disabled="!addedProducts.length"
+                                                                 :class="{ 'is-invalid': this.submitted && $v.package.pricing.price.$invalid }"
                                                                  v-model="package.pricing.price"></b-input>
                                                     </div>
 
@@ -200,6 +202,7 @@
                                                         <label class="control-label">Discount Price:<span
                                                             class="required">*</span></label>
                                                         <b-input placeholder="Enter Discount"
+                                                                 :disabled="!addedProducts.length"
                                                                  v-model="package.pricing.price_discount"></b-input>
                                                     </div>
 
@@ -574,6 +577,8 @@ export default {
             this.addedProducts.push(...this.selectedProducts);
 
             this.selectedProducts = [];
+
+            this.package.pricing.price_discount = null;
         },
 
         removeProduct(id) {
@@ -709,6 +714,9 @@ export default {
             formData.append("seo_keywords", this.package.meta.keywords);
             formData.append("seo_description", this.package.meta.description);
 
+            //Products
+            formData.append("products", JSON.stringify(this.addedProducts));
+
             if (this.$route.params.id) {
                 formData.append('_method', "patch");
                 formData.append('id', this.$route.params.id);
@@ -746,6 +754,8 @@ export default {
             this.package.meta.title = tempPackage.seo_title;
             this.package.meta.keywords = tempPackage.seo_keywords;
             this.package.meta.description = tempPackage.seo_description;
+
+            this.addedProducts = tempPackage.products;
 
             tempPackage.gallery.forEach(x => {
                 var file = {

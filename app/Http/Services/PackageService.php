@@ -121,6 +121,15 @@ class PackageService
                 }
             }
 
+            //Package Products
+            $products = json_decode($request->products);
+
+            if ($products) {
+                foreach ($products as $product) {
+                    $package->products()->attach($product->id);
+                }
+            }
+
             //Package Filters
             $filters = json_decode($request->get("attributes"));
 
@@ -229,9 +238,19 @@ class PackageService
             //Package Categories
             $categories = json_decode($request->categories);
             $package->categories()->detach();
+
             if ($categories) {
                 foreach ($categories as $category) {
                     $package->categories()->attach($category->id);
+                }
+            }
+
+            //Package Products
+            $products = json_decode($request->products);
+            $package->products()->detach();
+            if ($products) {
+                foreach ($products as $product) {
+                    $package->products()->attach($product->id);
                 }
             }
 
@@ -250,6 +269,7 @@ class PackageService
             $package->save();
 
         } catch (Exception $e) {
+            dd($e->getMessage());
             throw new ApiException("packages.update_failed", 500, $e);
         }
     }

@@ -22,7 +22,6 @@ const VueScrollTo = require('vue-scrollto')
 
 //Import styles
 import 'vue-select/dist/vue-select.css';
-import '../sass/custom/customStyle.css';
 
 //Import global components
 import loadSpinner from "./components/reusable/LoadSpinner";
