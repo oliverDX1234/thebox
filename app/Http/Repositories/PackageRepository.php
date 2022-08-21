@@ -28,6 +28,7 @@ class PackageRepository implements PackageRepositoryInterface
         if ($request->has("statuses")) {
 
             $packages->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+
         }
 
         if ($request->has("products")) {
