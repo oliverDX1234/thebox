@@ -199,7 +199,7 @@ class Product extends Model implements HasMedia
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
     public function supplier(): HasOne
@@ -208,9 +208,9 @@ class Product extends Model implements HasMedia
         return $this->hasOne(Supplier::class, "id", "supplier_id");
     }
 
-    public function packages()
+    public function packages(): BelongsToMany
     {
-        return $this->belongsToMany(Package::class);
+        return $this->belongsToMany(Package::class)->withTimestamps();
     }
 
     public function discount(): HasOne
@@ -220,6 +220,6 @@ class Product extends Model implements HasMedia
 
     public function attributes(): BelongsToMany
     {
-        return $this->belongsToMany(Attribute::class);
+        return $this->belongsToMany(Attribute::class)->withTimestamps();
     }
 }
