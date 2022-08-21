@@ -21,7 +21,7 @@
                                       :search="true"
                                       :items="packages"
                                       :fields="fields"
-                                      :filteringOptions="['categories', 'statuses', 'discounts']"
+                                      :filteringOptions="['categories', 'statuses', 'discounts', 'products']"
                                       :busy="busy"
                                       :filters="filters"
                                       :actions="['delete', 'edit']"

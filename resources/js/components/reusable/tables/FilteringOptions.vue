@@ -4,6 +4,7 @@
             <div class="d-flex">
                 <multiselect placeholder="Select a category" v-if="options.includes('categories')" v-model="categoriesValue" :options="categories" label="name" track-by="id" @input="filtersSelected"/>
                 <multiselect placeholder="Select a supplier" v-if="options.includes('suppliers')" v-model="suppliersValue" :options="suppliers" label="name" track-by="id" @input="filtersSelected"/>
+                <multiselect placeholder="Select a product" v-if="options.includes('products')" v-model="productsValue" :options="products" label="name" track-by="id" @input="filtersSelected"/>
                 <multiselect placeholder="Select a status" v-if="options.includes('statuses')" v-model="statusesValue" :options="statuses" @input="filtersSelected"/>
                 <multiselect placeholder="Select a role" v-if="options.includes('roles')" v-model="rolesValue" :options="roles" @input="filtersSelected"/>
                 <multiselect placeholder="Select discount status" v-if="options.includes('discounts')" v-model="discountsValue" :options="discounts" @input="filtersSelected"/>
@@ -16,6 +17,7 @@
 <script>
 import categoryService from "../../../services/categoryService";
 import supplierService from "../../../services/supplierService";
+import productService from "../../../services/productService";
 
 export default {
     name: "FilteringOptions",
@@ -52,10 +54,12 @@ export default {
             ],
             categories: [],
             suppliers: [],
+            products: [],
             categoriesValue: null,
             suppliersValue: null,
             statusesValue: null,
             rolesValue: null,
+            productsValue: null,
             discountsValue: null,
             discountTypesValue: null,
         }
@@ -70,6 +74,10 @@ export default {
             this.getSuppliers();
         }
 
+        if(this.options.includes("products")){
+            this.getProducts();
+        }
+
         if(this.filters.statuses){
             this.statusesValue = this.filters.statuses;
         }
@@ -80,6 +88,10 @@ export default {
 
         if(this.filters.discounts){
             this.discountsValue = this.filters.discounts;
+        }
+
+        if(this.filters.products){
+            this.productsValue = this.filters.products;
         }
 
         if(this.filters.discountTypes){
@@ -105,6 +117,15 @@ export default {
                 this.suppliersValue = this.suppliers.find(x => x.id === +this.filters.suppliers);
             }
         },
+        async getProducts(){
+
+            this.products = await productService.getProducts();
+
+            if(this.filters.products){
+                this.productsValue = this.products.find(x => x.id === +this.filters.products);
+            }
+        },
+
 
         filtersSelected(){
 

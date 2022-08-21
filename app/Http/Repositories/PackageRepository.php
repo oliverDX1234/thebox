@@ -30,6 +30,12 @@ class PackageRepository implements PackageRepositoryInterface
             $packages->where("active", "=", $request->statuses === "Active" ? 1 : 0);
         }
 
+        if ($request->has("products")) {
+            $packages->whereHas("products", function ($q) use ($request) {
+                $q->where("id", "=", $request->products);
+            });
+        }
+
         if ($request->has("discounts")) {
 
             if ($request->discounts === "Discount") {
