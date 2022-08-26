@@ -704,9 +704,11 @@ export default {
 
             //Image and gallery
             formData.append("main_image", this.package.basic_information.image);
-            if (this.package.galleryImages) {
 
-                this.package.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`, !(x instanceof File) ? JSON.stringify(x) : x))
+            if (this.package.galleryImages) {
+              this.package.galleryImages.forEach((image) => {
+                formData.append("gallery_images[]", image);
+              });
             }
 
             //SEO Information

@@ -8,6 +8,7 @@ use App\Models\Discount;
 use App\Models\Package;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PackageService
@@ -24,10 +25,16 @@ class PackageService
     /**
      * @throws ApiException
      */
-    public function getPackages($request)
+    public function getPackages(Request $request)
     {
         try {
-            return $this->packageRepository->getPackages($request);
+            return $this->packageRepository->getPackages(
+                $request->categories,
+                $request->statuses,
+                $request->products,
+                $request->discounts
+
+            );
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }
@@ -83,18 +90,10 @@ class PackageService
                     ->toMediaCollection("main_image");
             }
 
-            //Package gallery images
-            $i = 0;
-
-            while (true) {
-
-                if (!$request->file("gallery_image_" . $i)) {
-                    break;
-                } else {
-                    $package->addMediaFromRequest("gallery_image_" . $i)
-                        ->toMediaCollection("gallery_images");
-                    $i++;
-                }
+            foreach ($request->file('gallery_images') as $galleryImage) {
+                $package
+                    ->addMedia($galleryImage)
+                    ->toMediaCollection("gallery_images");
             }
 
             //Package discount
