@@ -90,7 +90,7 @@ class PackageService
                     ->toMediaCollection("main_image");
             }
 
-            foreach ($request->file('gallery_images') as $galleryImage) {
+            foreach ($request->file('gallery_images') ?? [] as $galleryImage) {
                 $package
                     ->addMedia($galleryImage)
                     ->toMediaCollection("gallery_images");
@@ -142,7 +142,6 @@ class PackageService
 
             $package->save();
         } catch (Exception $e) {
-            dd($e);
             throw new ApiException("packages.save_failed", 500, null, $e);
         }
     }
@@ -178,48 +177,27 @@ class PackageService
                     ->toMediaCollection("main_image");
             }
 
-            //Package Gallery Images
-            $i = 0;
-            $unchangedImages = [];
+            //Delete gallery images
+            $media = Media::where("collection_name", "gallery_images")->where("model_id", $package->id)->get();
+            foreach ($media as $i) {
+                if(!in_array($i->id, json_decode($request->old_image_ids))){
+                    $package->deleteMedia($i->id);
+                }
+            }
+
+            //Add gallery images
+            foreach ($request->file('gallery_images') ?? [] as $galleryImage) {
+                $package
+                    ->addMedia($galleryImage)
+                    ->toMediaCollection("gallery_images");
+            }
 
             $package->save();
 
-            while (true) {
-
-                if (!$request->file("gallery_image_" . $i) && !$request->has("gallery_image_" . $i)) {
-                    break;
-                } else if ($request->has("gallery_image_" . $i)) {
-                    $image = json_decode($request->get("gallery_image_" . $i));
-
-                    if (isset($image)) {
-                        $unchangedImages[] = $image->id;
-                    } else {
-                        $image = $package->addMediaFromRequest("gallery_image_" . $i)
-                            ->toMediaCollection("gallery_images");
-
-                        $unchangedImages[] = $image->id;
-                    }
-
-                    $i++;
-                }
-            }
-
-            if ($unchangedImages) {
-
-                $media = Media::where("collection_name", "gallery_images")->where("model_id", $package->id)->get();
-
-                foreach ($media as $i) {
-
-                    if (!in_array($i->id, $unchangedImages)) {
-                        $package->deleteMedia($i->id);
-                    }
-                }
-            }
-
             //Package Discount
-            if($request->price_discount !== null){
+            if ($request->price_discount !== null) {
 
-                if($package->price_discount !== (int)$request->price_discount){
+                if ($package->price_discount !== (int)$request->price_discount) {
                     $discount = Discount::create([
                         "type" => "fixed",
                         "start_date" => Carbon::now()->toDateTimeLocalString(),
@@ -230,7 +208,7 @@ class PackageService
 
                     $package->discount_id = $discount->id;
                 }
-            }else{
+            } else {
                 $package->discount_id = null;
             }
 
