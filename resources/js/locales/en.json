@@ -94,6 +94,17 @@
         "not_found": "The courier was not found in the database"
     },
 
+    "orders": {
+        "saved": "The order was successfully created",
+        "updated": "The order was successfully updated",
+        "retrieved": "The orders were successfully retrieved",
+        "order_products_error": "There was a problem retrieving order products",
+        "status_updated": "The order status was successfully updated",
+        "deleted": "The order was successfully deleted",
+        "update_failed": "There was an error processing the update request",
+        "not_found": "The order was not found in the database"
+    },
+
     "global": {
         "layout_changed_success": "The layout was successfully updated",
         "error": "There was an error while processing the requests",

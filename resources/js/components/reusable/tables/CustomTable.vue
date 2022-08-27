@@ -99,6 +99,20 @@
                     </div>
                 </template>
 
+                <template v-slot:cell(total_price)="row">
+
+                    <div style="min-width: 80px;">
+                        <span>{{ row.value }} MKD</span>
+                    </div>
+                </template>
+
+                <template v-slot:cell(price_price_delivery)="row">
+
+                    <div style="min-width: 80px;">
+                        <span>{{ row.value }} MKD</span>
+                    </div>
+                </template>
+
                 <template v-slot:cell(start_date)="row">
 
                     <div style="min-width: 80px;">
@@ -130,6 +144,47 @@
                         <span class="ml-1" v-for="item in row.value">
                             <b-badge class="p-1 text-capitalize" variant="success">{{ item.name }}</b-badge>
                         </span>
+                    </div>
+                </template>
+                <template v-slot:cell(payment_type)="row">
+                    <div>
+                        <b-badge v-if="row.value === 'cash'" class="p-1 text-capitalize" variant="success">{{ row.value }}</b-badge>
+                        <b-badge v-else class="p-1 text-capitalize" variant="primary">{{ row.value }}</b-badge>
+                    </div>
+                </template>
+                <template v-slot:cell(order_shipping_email)="row">
+                    <div>
+                        <div style="min-width: 80px;">
+                        <span>{{ row.item.user_shipping_details.email }}</span>
+                    </div>
+                    </div>
+                </template>
+                <template v-slot:cell(order_shipping_first_name)="row">
+                    <div>
+                        <div style="min-width: 80px;">
+                        <span>{{ row.item.user_shipping_details.first_name }}</span>
+                    </div>
+                    </div>
+                </template>
+                <template v-slot:cell(order_shipping_last_name)="row">
+                    <div>
+                        <div style="min-width: 80px;">
+                        <span>{{ row.item.user_shipping_details.last_name }}</span>
+                    </div>
+                    </div>
+                </template>
+                <template v-slot:cell(order_shipping_phone)="row">
+                    <div>
+                        <div style="min-width: 80px;">
+                        <span>{{ row.item.user_shipping_details.phone }}</span>
+                    </div>
+                    </div>
+                </template>
+                <template v-slot:cell(order_shipping_address)="row">
+                    <div>
+                        <div style="min-width: 80px;">
+                        <span>{{ row.item.user_shipping_details.address }}</span>
+                    </div>
                     </div>
                 </template>
                 <template v-slot:cell(active)="row">

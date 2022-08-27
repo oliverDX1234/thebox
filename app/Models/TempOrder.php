@@ -13,6 +13,7 @@ class TempOrder extends Model
 
     public function packages()
     {
-        $this->belongsToMany(Package::class);
+
+        return $this->belongsToMany(Package::class, "temp_order_package")->withPivot(["quantity", "package_name", "package_price", "package_price_no_vat"]);
     }
 }

@@ -135,6 +135,11 @@ class Package extends Model implements HasMedia
         return round($price);
     }
 
+    public function getPriceNoVat()
+    {
+        return ($this->price_discount ?? $this->price) * (100 - $this->vat)/100;
+    }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
@@ -157,11 +162,11 @@ class Package extends Model implements HasMedia
 
     public function tempOrders()
     {
-        $this->belongsToMany(TempOrder::class);
+        return $this->belongsToMany(TempOrder::class, "temp_order_package")->withPivot(["quantity", "package_name", "package_price", "package_price_no_vat"]);
     }
 
     public function orders()
     {
-        $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class)->withPivot(["quantity", "package_name", "package_price", "package_price_no_vat"]);
     }
 }

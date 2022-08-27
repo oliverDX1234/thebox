@@ -11,8 +11,15 @@ class Order extends Model
 
     protected $table = "orders";
 
+    public function getUserShippingDetailsAttribute($value)
+    {
+
+        return json_decode($value);
+    }
+
     public function packages()
     {
-        $this->belongsToMany(Package::class);
+
+        return $this->belongsToMany(Package::class)->withPivot(["quantity", "package_name", "package_price", "package_price_no_vat"]);
     }
 }

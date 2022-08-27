@@ -64,7 +64,7 @@ class UserController extends Controller
      * @return Response
      * @throws ApiException
      */
-    public function update(Request $request): Response
+    public function update(UserUpdateRequest $request): Response
     {
         $user = $this->userService->updateUser($request);
 

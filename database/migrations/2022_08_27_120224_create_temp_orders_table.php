@@ -22,7 +22,8 @@ class CreateTempOrdersTable extends Migration
             $table->integer("total_price_no_vat");
             $table->integer("delivery_price");
             $table->text("user_shipping_details");
-            $table->boolean("success");
+            $table->text("comment")->nullable();
+            $table->boolean("success")->default(0);
             $table->timestamps();
 
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");

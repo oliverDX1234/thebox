@@ -18,9 +18,9 @@ class CreateTempOrderPackageTable extends Migration
             $table->foreignId("temp_order_id");
             $table->foreignId("package_id");
             $table->integer("quantity");
-            $table->string("product_name");
-            $table->integer("product_price");
-            $table->integer("product_price_no_vat");
+            $table->string("package_name");
+            $table->integer("package_price");
+            $table->integer("package_price_no_vat");
             $table->timestamps();
 
             $table->foreign("temp_order_id")->references("id")->on("temp_orders");

@@ -14,10 +14,12 @@ use App\Http\Repositories\Interfaces\CityRepositoryInterface;
 use App\Http\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Http\Repositories\Interfaces\DiscountRepositoryInterface;
 use App\Http\Repositories\Interfaces\FilterRepositoryInterface;
+use App\Http\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Http\Repositories\Interfaces\PackageRepositoryInterface;
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Http\Repositories\Interfaces\SupplierRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
+use App\Http\Repositories\OrderRepository;
 use App\Http\Repositories\PackageRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\SupplierRepository;
@@ -46,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DiscountRepositoryInterface::class, DiscountRepository::class);
         $this->app->bind(CourierRepositoryInterface::class, CourierRepository::class);
         $this->app->bind(PackageRepositoryInterface::class, PackageRepository::class);
-
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
 
         if ($this->app->isLocal()) {
             $this->app->register(IdeHelperServiceProvider::class);
