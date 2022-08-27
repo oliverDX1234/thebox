@@ -11,7 +11,7 @@
                             <a
                                 href="javascript:void(0);"
                                 class="btn btn-success mb-2"
-                                @click="$router.push('/admin/courier/new')"
+                                @click="$router.push('/admin/couriers/new')"
                             >
                                 <i class="mdi mdi-plus mr-2"></i> New courier
                             </a>
