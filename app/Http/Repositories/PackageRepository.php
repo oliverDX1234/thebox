@@ -14,7 +14,7 @@ class PackageRepository implements PackageRepositoryInterface
         return Package::where("id", $id)->with('products:id,name,unit_code,price,discount_id')->first();
     }
 
-    public function getPackages($categories, $statuses, $products, $discounts)
+    public function getPackages($categories, $statuses, $products, $discounts, $preMadeStatuses)
     {
 
         $packages = Package::with("categories:id,name", "products:id,name");
@@ -49,6 +49,10 @@ class PackageRepository implements PackageRepositoryInterface
                         ->orWhere("active", "=", false);
                 });
             }
+        }
+
+        if ($preMadeStatuses) {
+            $packages->where("pre_made", "=", $preMadeStatuses === "Premade" ? 1 : 0);
         }
 
         $packages->select("packages.*");

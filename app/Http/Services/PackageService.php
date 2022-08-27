@@ -32,8 +32,8 @@ class PackageService
                 $request->categories,
                 $request->statuses,
                 $request->products,
-                $request->discounts
-
+                $request->discounts,
+                $request->preMadeStatuses,
             );
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
@@ -83,6 +83,8 @@ class PackageService
             ]);
 
             $package->active = !!$request->active;
+
+            $package->pre_made = true;
 
             //Package main image
             if ($request->file('main_image')) {
