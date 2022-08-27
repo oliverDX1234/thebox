@@ -27,7 +27,6 @@ class PackageRepository implements PackageRepositoryInterface
 
         if ($request->has("statuses")) {
             $packages->where("active", "=", $request->statuses === "Active" ? 1 : 0);
-
         }
 
         if ($request->has("products")) {
@@ -50,6 +49,10 @@ class PackageRepository implements PackageRepositoryInterface
                         ->orWhere("active", "=", false);
                 });
             }
+        }
+
+        if ($request->has("preMadeStatuses")) {
+            $packages->where("pre_made", "=", $request->preMadeStatuses === "Premade" ? 1 : 0);
         }
 
         $packages->select("packages.*");

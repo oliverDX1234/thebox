@@ -77,6 +77,8 @@ class PackageService
 
             $package->active = !!$request->active;
 
+            $package->pre_made = true;
+
             //Package main image
             if ($request->file('main_image')) {
                 $package->addMediaFromRequest("main_image")

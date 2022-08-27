@@ -1,7 +1,7 @@
 <template>
     <div class="row py-3">
         <div class="col-12">
-            <div class="d-flex">
+            <div class="filtering-options-wrapper">
                 <multiselect placeholder="Select a category" v-if="options.includes('categories')" v-model="categoriesValue" :options="categories" label="name" track-by="id" @input="filtersSelected"/>
                 <multiselect placeholder="Select a supplier" v-if="options.includes('suppliers')" v-model="suppliersValue" :options="suppliers" label="name" track-by="id" @input="filtersSelected"/>
                 <multiselect placeholder="Select a product" v-if="options.includes('products')" v-model="productsValue" :options="products" label="name" track-by="id" @input="filtersSelected"/>
@@ -9,6 +9,7 @@
                 <multiselect placeholder="Select a role" v-if="options.includes('roles')" v-model="rolesValue" :options="roles" @input="filtersSelected"/>
                 <multiselect placeholder="Select discount status" v-if="options.includes('discounts')" v-model="discountsValue" :options="discounts" @input="filtersSelected"/>
                 <multiselect placeholder="Select discount type" v-if="options.includes('discountTypes')" v-model="discountTypesValue" :options="discountTypes" @input="filtersSelected"/>
+                <multiselect placeholder="Select Premade status" v-if="options.includes('preMadeStatuses')" v-model="preMadeStatusesValue" :options="preMadeStatuses" @input="filtersSelected"/>
             </div>
         </div>
     </div>
@@ -52,6 +53,10 @@ export default {
               "Fixed",
               "Percent"
             ],
+            preMadeStatuses:[
+                "Premade",
+                "Ordered"
+            ],
             categories: [],
             suppliers: [],
             products: [],
@@ -62,6 +67,7 @@ export default {
             productsValue: null,
             discountsValue: null,
             discountTypesValue: null,
+            preMadeStatusesValue: null
         }
     },
     mounted(){
@@ -80,6 +86,10 @@ export default {
 
         if(this.filters.statuses){
             this.statusesValue = this.filters.statuses;
+        }
+
+        if(this.filters.preMadeStatuses){
+            this.preMadeStatusesValue = this.filters.preMadeStatuses;
         }
 
         if(this.filters.roles){
@@ -160,12 +170,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.multiselect{
-    max-width: 300px;
-}
-.multiselect:not(:first-child){
-    margin-left: 20px;
-}
-</style>
