@@ -249,8 +249,6 @@
             "text": "Ecommerce",
             "list": {
                 "products": "Products",
-                "productdetail": "Product Detail",
-                "orders": "Orders",
                 "customers": "Customers",
                 "cart": "Cart",
                 "checkout": "Checkout",
@@ -265,7 +263,10 @@
                 "add-courier": "Add Courier",
                 "packages": "Packages",
                 "all-packages": "All Packages",
-                "add-package": "Add Package"
+                "add-package": "Add Package",
+                "orders": "Orders",
+                "all-orders": "All Orders",
+                "add-order": "Add Order"
             }
         },
         "email": {
