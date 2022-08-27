@@ -34,7 +34,7 @@ export const menuItems = [
             {
                 id: 6,
                 label: "menuitems.users.new",
-                link: "/admin/user/",
+                link: "/admin/users/new",
             },
         ],
     },
@@ -52,7 +52,7 @@ export const menuItems = [
             {
                 id: 9,
                 label: "menuitems.suppliers.new",
-                link: "/admin/supplier/",
+                link: "/admin/suppliers/new",
             },
         ],
     },
@@ -85,7 +85,7 @@ export const menuItems = [
                     {
                         id: 17,
                         label: "menuitems.ecommerce.list.add-product",
-                        link: "/admin/product",
+                        link: "/admin/products/new",
                     },
                 ]
             },

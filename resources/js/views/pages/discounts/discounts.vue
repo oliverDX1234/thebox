@@ -11,7 +11,7 @@
                             <a
                                 href="javascript:void(0);"
                                 class="btn btn-success mb-2"
-                                @click="$router.push('/admin/discount/new')"
+                                @click="$router.push('/admin/discounts/new')"
                             >
                                 <i class="mdi mdi-plus mr-2"></i> New discount
                             </a>

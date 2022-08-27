@@ -50,7 +50,7 @@ export default [
     },
 
     {
-        path: "/admin/user/",
+        path: "/admin/users/new",
         name: "admin-new-user",
         meta: { admin: true },
         component: () => import("../views/pages/users/user"),
@@ -72,7 +72,7 @@ export default [
     },
 
     {
-        path: "/admin/supplier/",
+        path: "/admin/suppliers/new",
         name: "admin-new-supplier",
         meta: { admin: true },
         component: () => import("../views/pages/suppliers/supplier"),
@@ -107,7 +107,7 @@ export default [
         component: () => import("../views/pages/products/products"),
     },
     {
-        path: "/admin/product",
+        path: "/admin/products/new",
         name: "admin-new-product",
         meta: { admin: true },
         component: () => import("../views/pages/products/product"),
@@ -167,7 +167,7 @@ export default [
         component: () => import("../views/pages/couriers/couriers"),
     },
     {
-        path: "/admin/courier/new",
+        path: "/admin/couriers/new",
         name: "admin-new-courier",
         meta: { admin: true },
         component: () => import("../views/pages/couriers/courier"),
