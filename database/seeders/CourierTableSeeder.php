@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use DB;
 use Illuminate\Database\Seeder;
 
-class CourierSeeder extends Seeder
+class CourierTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

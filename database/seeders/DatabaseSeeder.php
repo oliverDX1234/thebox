@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 
@@ -21,12 +20,13 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CitiesMkTableSeeder::class,
-            FilterSeeder::class,
+            FilterTableSeeder::class,
             UsersTableSeeder::class,
-            AttributesSeeder::class,
-            DiscountSeeder::class,
-            ProductSeeder::class,
-            CourierSeeder::class
+            AttributesTableSeeder::class,
+            DiscountTableSeeder::class,
+            ProductTableSeeder::class,
+            CourierTableSeeder::class,
+            PackageTableSeeder::class
         ]);
     }
 }

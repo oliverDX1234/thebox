@@ -64,7 +64,7 @@ class Category extends Model
     public function filters(): BelongsToMany
     {
 
-        return $this->belongsToMany(Filter::class);
+        return $this->belongsToMany(Filter::class)->withTimestamps();
     }
 
     public function products(): BelongsToMany

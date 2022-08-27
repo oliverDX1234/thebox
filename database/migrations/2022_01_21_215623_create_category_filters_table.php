@@ -18,6 +18,7 @@ class CreateCategoryFiltersTable extends Migration
             $table->foreignId("filter_id")->index();
             $table->foreign("category_id")->references('id')->on("categories")->onDelete('cascade')->onUpdate('cascade');
             $table->foreign("filter_id")->references('id')->on("filters");
+            $table->timestamps();
             $table->primary(['category_id', 'filter_id']);
         });
     }

@@ -142,7 +142,7 @@ class Product extends Model implements HasMedia
         } else {
 
             return [
-                "sm" => env("APP_URL") . "/images/img-1.png"
+                "sm" => env("APP_URL") . "/images/product.png"
             ];
         }
     }
@@ -199,7 +199,7 @@ class Product extends Model implements HasMedia
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
     public function supplier(): HasOne
@@ -208,13 +208,18 @@ class Product extends Model implements HasMedia
         return $this->hasOne(Supplier::class, "id", "supplier_id");
     }
 
-    public function discount()
+    public function packages(): BelongsToMany
+    {
+        return $this->belongsToMany(Package::class)->withTimestamps();
+    }
+
+    public function discount(): HasOne
     {
         return $this->hasOne(Discount::class, "id", "discount_id");
     }
 
-    public function attributes()
+    public function attributes(): BelongsToMany
     {
-        return $this->belongsToMany(Attribute::class);
+        return $this->belongsToMany(Attribute::class)->withTimestamps();
     }
 }

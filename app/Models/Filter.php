@@ -45,9 +45,9 @@ class Filter extends Model
     ];
 
 
-    public function category(): BelongsToMany
+    public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
     public function attributes(): \Illuminate\Database\Eloquent\Relations\HasMany

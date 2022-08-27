@@ -120,8 +120,15 @@
                 </template>
                 <template v-slot:cell(categories)="row">
                     <div style="min-width: 200px;">
-                        <span v-for="item in row.value">
-                            <b-badge variant="primary">{{ item.name }}</b-badge>
+                        <span class="ml-1" v-for="item in row.value">
+                            <b-badge class="p-1 text-capitalize" variant="primary">{{ item.name }}</b-badge>
+                        </span>
+                    </div>
+                </template>
+                <template v-slot:cell(products)="row">
+                    <div style="min-width: 200px;">
+                        <span class="ml-1" v-for="item in row.value">
+                            <b-badge class="p-1 text-capitalize" variant="success">{{ item.name }}</b-badge>
                         </span>
                     </div>
                 </template>
@@ -231,7 +238,10 @@ import filteringOptions from "./FilteringOptions";
 export default {
     name: 'custom-table',
     props: {
-        items: {},
+        items: {
+            required: true,
+            type: Array
+        },
         attributes: {
             required: false,
             type: Boolean,

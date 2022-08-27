@@ -1,4 +1,4 @@
-.vs__search{
+.vs__search {
     position: relative !important;
     display: inline-block !important;
     min-height: 30px !important;
@@ -13,43 +13,77 @@
     vertical-align: top !important;
 }
 
-.vs__selected{
-    background: rgb(86, 100, 210);
-    margin: 10px 5px;
-    color: white;
+.vs__selected {
+    background-color: rgb(86, 100, 210) !important;
+    margin: 10px 5px !important;
+    color: white !important;
 }
 
-.vs__search::placeholder{
+.vs__search::placeholder {
     color: lightgrey;
     padding-left: 7px;
     font-size: 15px;
 }
 
-input::placeholder{
+input::placeholder {
     color: lightgrey;
 }
 
-.vs__selected svg{
+.vs__selected svg {
     fill: white;
 }
 
-.is-invalid{
+.is-invalid {
     border: 1px solid #ff3d60 !important;
     border-radius: 7px;
 }
 
-.ck-editor{
+.ck-editor {
     border: 1px solid #ced4da !important;
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
 }
 
-.spinner-border{
+.spinner-border {
     position: absolute;
     left: 50%;
     top: 200px;
+}
+
+.b-basic-table th:first-child,
+.b-basic-table th:last-child {
+    width: 120px;
+}
+
+.wizard-card-footer {
+    margin-top: 50px;
+}
+
+input:disabled {
+    background-color: $gray-100 !important;
+}
+
+@media ( min-width: 768px) {
+    .add-product-wrapper {
+        display: flex;
+    }
+
+    .add-product-wrapper:first-child {
+        max-width: 500px;
+    }
+
+    .add-product-wrapper button {
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 767px) {
+    .add-product-wrapper button {
+        margin-top: 5px;
+        float: right;
+    }
 }
 
 /* width */
@@ -75,6 +109,6 @@ input::placeholder{
     background: #555;
 }
 
-.text-strike{
+.text-strike {
     text-decoration: line-through;
 }
