@@ -154,4 +154,14 @@ class Package extends Model implements HasMedia
     {
         return $this->belongsToMany(Attribute::class)->withTimestamps();
     }
+
+    public function tempOrders()
+    {
+        $this->belongsToMany(TempOrder::class);
+    }
+
+    public function orders()
+    {
+        $this->belongsToMany(Order::class);
+    }
 }
