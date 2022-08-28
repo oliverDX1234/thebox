@@ -26,7 +26,10 @@ mix.webpackConfig(webpack => {
     return {
         plugins: [
             dotenvplugin,
-        ]
+        ],
+        stats: {
+            children: true
+        }
     };
 });
 

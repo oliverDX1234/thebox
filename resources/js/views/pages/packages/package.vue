@@ -674,11 +674,16 @@ export default {
                     this.makeToast("danger", "Please properly enter all the required fields", "Error");
                 }
 
+                this.submitted = false;
                 resolve(true);
             })
         },
 
         async finishSteps() {
+
+            if(this.submitted){
+                return;
+            }
 
             let formData = new FormData();
 
@@ -704,10 +709,27 @@ export default {
 
             //Image and gallery
             formData.append("main_image", this.package.basic_information.image);
-            if (this.package.galleryImages) {
 
-                this.package.galleryImages.forEach((x, index) => formData.append(`gallery_image_${index}`, !(x instanceof File) ? JSON.stringify(x) : x))
+            if(!this.$route.params.id){
+
+                this.package.galleryImages.forEach((image) => {
+                    formData.append("gallery_images[]", image);
+                });
+
+            }else{
+                let oldAddedImageIds = [];
+
+                this.package.galleryImages.forEach((image) => {
+                    if(!image.manuallyAdded){
+                        formData.append("gallery_images[]", image);
+                    }else{
+                        oldAddedImageIds.push(image.id);
+                    }
+                });
+
+                formData.append("old_image_ids", JSON.stringify(oldAddedImageIds));
             }
+
 
             //SEO Information
             formData.append("seo_title", this.package.meta.title);
@@ -716,6 +738,8 @@ export default {
 
             //Products
             formData.append("products", JSON.stringify(this.addedProducts));
+
+            this.submitted = true;
 
             if (this.$route.params.id) {
                 formData.append('_method', "patch");

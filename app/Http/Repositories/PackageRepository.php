@@ -14,30 +14,30 @@ class PackageRepository implements PackageRepositoryInterface
         return Package::where("id", $id)->with('products:id,name,unit_code,price,discount_id')->first();
     }
 
-    public function getPackages($request)
+    public function getPackages($categories, $statuses, $products, $discounts, $preMadeStatuses)
     {
 
         $packages = Package::with("categories:id,name", "products:id,name");
 
-        if ($request->has("categories")) {
-            $packages->whereHas("categories", function ($q) use ($request) {
-                $q->where('id', '=', $request->categories);
+        if ($categories) {
+            $packages->whereHas("categories", function ($q) use ($categories) {
+                $q->where('id', '=', $categories);
             });
         }
 
-        if ($request->has("statuses")) {
-            $packages->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+        if ($statuses) {
+            $packages->where("active", "=", $statuses === "Active" ? 1 : 0);
+
         }
 
-        if ($request->has("products")) {
-            $packages->whereHas("products", function ($q) use ($request) {
-                $q->where("id", "=", $request->products);
+        if ($products) {
+            $packages->whereHas("products", function ($q) use ($products) {
+                $q->where("id", "=", $products);
             });
         }
 
-        if ($request->has("discounts")) {
-
-            if ($request->discounts === "Discount") {
+        if ($discounts) {
+            if ($discounts === "Discount") {
                 $packages->whereHas("discount", function ($q) {
                     $q->where("active", "=", true)
                         ->whereRaw("start_date < STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))
@@ -51,8 +51,8 @@ class PackageRepository implements PackageRepositoryInterface
             }
         }
 
-        if ($request->has("preMadeStatuses")) {
-            $packages->where("pre_made", "=", $request->preMadeStatuses === "Premade" ? 1 : 0);
+        if ($preMadeStatuses) {
+            $packages->where("pre_made", "=", $preMadeStatuses === "Premade" ? 1 : 0);
         }
 
         $packages->select("packages.*");

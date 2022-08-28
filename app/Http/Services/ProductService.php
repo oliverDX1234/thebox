@@ -79,23 +79,11 @@ class ProductService
 
             //Product main image
             if ($request->file('main_image')) {
-                $product->addMediaFromRequest("main_image")
-                    ->toMediaCollection("main_image");
+                $product->uploadMainImage($request->file('main_image'));
             }
 
-            //Product gallery images
-            $i = 0;
-
-            while (true) {
-
-                if (!$request->file("gallery_image_" . $i)) {
-                    break;
-                } else {
-                    $product->addMediaFromRequest("gallery_image_" . $i)
-                        ->toMediaCollection("gallery_images");
-                    $i++;
-                }
-            }
+            //Product Gallery Images
+            $product->uploadGalleryImages($request->file('gallery_images'));
 
             //Product discount
             if ($request->price_discount !== null) {
@@ -161,57 +149,22 @@ class ProductService
                 "length" => $request->length
             ]);
 
+            //Product main image
+            if ($request->file('main_image')) {
+                $product->uploadMainImage($request->file('main_image'));
+            }
 
             $product->active = !!$request->active;
 
-            //Product Main Image
-            if ($request->file('main_image')) {
-                $product->addMediaFromRequest("main_image")
-                    ->toMediaCollection("main_image");
-            }
-
             //Product Gallery Images
-            $i = 0;
-            $unchangedImages = [];
+            $product->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
 
             $product->save();
 
-            while (true) {
-
-                if (!$request->file("gallery_image_" . $i) && !$request->has("gallery_image_" . $i)) {
-                    break;
-                } else if ($request->has("gallery_image_" . $i)) {
-                    $image = json_decode($request->get("gallery_image_" . $i));
-
-                    if (isset($image)) {
-                        $unchangedImages[] = $image->id;
-                    } else {
-                        $image = $product->addMediaFromRequest("gallery_image_" . $i)
-                            ->toMediaCollection("gallery_images");
-
-                        $unchangedImages[] = $image->id;
-                    }
-
-                    $i++;
-                }
-            }
-
-            if ($unchangedImages) {
-
-                $media = Media::where("collection_name", "gallery_images")->where("model_id", $product->id)->get();
-
-                foreach ($media as $i) {
-
-                    if (!in_array($i->id, $unchangedImages)) {
-                        $product->deleteMedia($i->id);
-                    }
-                }
-            }
-
             //Product Discount
-            if($request->price_discount !== null){
+            if ($request->price_discount !== null) {
 
-                if($product->price_discount !== (int)$request->price_discount){
+                if ($product->price_discount !== (int)$request->price_discount) {
                     $discount = Discount::create([
                         "type" => "fixed",
                         "start_date" => Carbon::now()->toDateTimeLocalString(),
@@ -222,7 +175,7 @@ class ProductService
 
                     $product->discount_id = $discount->id;
                 }
-            }else{
+            } else {
                 $product->discount_id = null;
             }
 
