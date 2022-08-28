@@ -154,10 +154,10 @@ class ProductService
                 $product->uploadMainImage($request->file('main_image'));
             }
 
-            $product->active = !!$request->active;
-
             //Product Gallery Images
             $product->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
+
+            $product->active = !!$request->active;
 
             $product->save();
 
