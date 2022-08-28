@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\ImageTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -76,7 +77,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class Product extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, ImageTrait;
 
     protected $appends = ['main_image', "gallery", "price_discount"];
 

@@ -88,15 +88,11 @@ class PackageService
 
             //Package main image
             if ($request->file('main_image')) {
-                $package->addMediaFromRequest("main_image")
-                    ->toMediaCollection("main_image");
+                $package->uploadMainImage($request->file('main_image'));
             }
 
-            foreach ($request->file('gallery_images') ?? [] as $galleryImage) {
-                $package
-                    ->addMedia($galleryImage)
-                    ->toMediaCollection("gallery_images");
-            }
+            //Package Gallery Images
+            $package->uploadGalleryImages($request->file('gallery_images'));
 
             //Package discount
             if ($request->price_discount !== null) {
@@ -173,26 +169,13 @@ class PackageService
 
             $package->active = !!$request->active;
 
-            //Package Main Image
+            //Package main image
             if ($request->file('main_image')) {
-                $package->addMediaFromRequest("main_image")
-                    ->toMediaCollection("main_image");
+                $package->uploadMainImage($request->file('main_image'));
             }
 
-            //Delete gallery images
-            $media = Media::where("collection_name", "gallery_images")->where("model_id", $package->id)->get();
-            foreach ($media as $i) {
-                if(!in_array($i->id, json_decode($request->old_image_ids))){
-                    $package->deleteMedia($i->id);
-                }
-            }
-
-            //Add gallery images
-            foreach ($request->file('gallery_images') ?? [] as $galleryImage) {
-                $package
-                    ->addMedia($galleryImage)
-                    ->toMediaCollection("gallery_images");
-            }
+            //Package Gallery Images
+            $package->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
 
             $package->save();
 

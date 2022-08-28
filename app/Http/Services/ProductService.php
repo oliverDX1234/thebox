@@ -79,15 +79,11 @@ class ProductService
 
             //Product main image
             if ($request->file('main_image')) {
-                $product->addMediaFromRequest("main_image")
-                    ->toMediaCollection("main_image");
+                $product->uploadMainImage($request->file('main_image'));
             }
 
-            foreach ($request->file('gallery_images') ?? [] as $galleryImage) {
-                $product
-                    ->addMedia($galleryImage)
-                    ->toMediaCollection("gallery_images");
-            }
+            //Product Gallery Images
+            $product->uploadGalleryImages($request->file('gallery_images'));
 
             //Product discount
             if ($request->price_discount !== null) {
@@ -153,23 +149,15 @@ class ProductService
                 "length" => $request->length
             ]);
 
+            //Product main image
+            if ($request->file('main_image')) {
+                $product->uploadMainImage($request->file('main_image'));
+            }
 
             $product->active = !!$request->active;
 
-            //Delete gallery images
-            $media = Media::where("collection_name", "gallery_images")->where("model_id", $product->id)->get();
-            foreach ($media as $i) {
-                if(!in_array($i->id, json_decode($request->old_image_ids))){
-                    $product->deleteMedia($i->id);
-                }
-            }
-
-            //Add gallery images
-            foreach ($request->file('gallery_images') ?? [] as $galleryImage) {
-                $product
-                    ->addMedia($galleryImage)
-                    ->toMediaCollection("gallery_images");
-            }
+            //Product Gallery Images
+            $product->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
 
             $product->save();
 
