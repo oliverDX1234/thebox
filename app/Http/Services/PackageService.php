@@ -8,6 +8,7 @@ use App\Models\Discount;
 use App\Models\Package;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PackageService
@@ -24,10 +25,16 @@ class PackageService
     /**
      * @throws ApiException
      */
-    public function getPackages($request)
+    public function getPackages(Request $request)
     {
         try {
-            return $this->packageRepository->getPackages($request);
+            return $this->packageRepository->getPackages(
+                $request->categories,
+                $request->statuses,
+                $request->products,
+                $request->discounts,
+                $request->preMadeStatuses,
+            );
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }
@@ -75,27 +82,15 @@ class PackageService
                 "length" => $request->length
             ]);
 
-            $package->active = !!$request->active;
+            $package->pre_made = true;
 
             //Package main image
             if ($request->file('main_image')) {
-                $package->addMediaFromRequest("main_image")
-                    ->toMediaCollection("main_image");
+                $package->uploadMainImage($request->file('main_image'));
             }
 
-            //Package gallery images
-            $i = 0;
-
-            while (true) {
-
-                if (!$request->file("gallery_image_" . $i)) {
-                    break;
-                } else {
-                    $package->addMediaFromRequest("gallery_image_" . $i)
-                        ->toMediaCollection("gallery_images");
-                    $i++;
-                }
-            }
+            //Package Gallery Images
+            $package->uploadGalleryImages($request->file('gallery_images'));
 
             //Package discount
             if ($request->price_discount !== null) {
@@ -143,7 +138,6 @@ class PackageService
 
             $package->save();
         } catch (Exception $e) {
-            dd($e);
             throw new ApiException("packages.save_failed", 500, null, $e);
         }
     }
@@ -170,57 +164,20 @@ class PackageService
                 "length" => $request->length
             ]);
 
-
-            $package->active = !!$request->active;
-
-            //Package Main Image
+            //Package main image
             if ($request->file('main_image')) {
-                $package->addMediaFromRequest("main_image")
-                    ->toMediaCollection("main_image");
+                $package->uploadMainImage($request->file('main_image'));
             }
 
             //Package Gallery Images
-            $i = 0;
-            $unchangedImages = [];
+            $package->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
 
             $package->save();
 
-            while (true) {
-
-                if (!$request->file("gallery_image_" . $i) && !$request->has("gallery_image_" . $i)) {
-                    break;
-                } else if ($request->has("gallery_image_" . $i)) {
-                    $image = json_decode($request->get("gallery_image_" . $i));
-
-                    if (isset($image)) {
-                        $unchangedImages[] = $image->id;
-                    } else {
-                        $image = $package->addMediaFromRequest("gallery_image_" . $i)
-                            ->toMediaCollection("gallery_images");
-
-                        $unchangedImages[] = $image->id;
-                    }
-
-                    $i++;
-                }
-            }
-
-            if ($unchangedImages) {
-
-                $media = Media::where("collection_name", "gallery_images")->where("model_id", $package->id)->get();
-
-                foreach ($media as $i) {
-
-                    if (!in_array($i->id, $unchangedImages)) {
-                        $package->deleteMedia($i->id);
-                    }
-                }
-            }
-
             //Package Discount
-            if($request->price_discount !== null){
+            if ($request->price_discount !== null) {
 
-                if($package->price_discount !== (int)$request->price_discount){
+                if ($package->price_discount !== (int)$request->price_discount) {
                     $discount = Discount::create([
                         "type" => "fixed",
                         "start_date" => Carbon::now()->toDateTimeLocalString(),
@@ -231,7 +188,7 @@ class PackageService
 
                     $package->discount_id = $discount->id;
                 }
-            }else{
+            } else {
                 $package->discount_id = null;
             }
 

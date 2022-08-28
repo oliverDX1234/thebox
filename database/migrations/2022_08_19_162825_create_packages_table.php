@@ -29,6 +29,7 @@ class CreatePackagesTable extends Migration
             $table->string("seo_description");
             $table->integer("price");
             $table->foreignId("discount_id")->nullable();
+            $table->boolean("pre_made")->default(true);
             $table->boolean("active")->default(true);
             $table->timestamps();
 

@@ -14,7 +14,8 @@ class ExampleTest extends TestCase
      */
     public function test_example()
     {
-        $response = $this->get('/');
+        $this->withoutMiddleware();
+        $response = $this->get('/api/packages?categories=5&statuses=Active&discounts=No+Discount');
 
         $response->assertStatus(200);
     }

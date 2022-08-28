@@ -32,6 +32,7 @@ class PackageFactory extends Factory
             'seo_description' => $this->faker->sentence(),
             "price" => $this->faker->numberBetween($min = 100, $max = 500),
             "discount_id" => $discount ? $this->faker->numberBetween($min = 1, $max = 7) : null,
+            "pre_made" => true,
             'active' => true
         ];
     }
