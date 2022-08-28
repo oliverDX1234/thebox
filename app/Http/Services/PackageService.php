@@ -82,8 +82,6 @@ class PackageService
                 "length" => $request->length
             ]);
 
-            $package->active = !!$request->active;
-
             $package->pre_made = true;
 
             //Package main image
@@ -165,9 +163,6 @@ class PackageService
                 "height" => $request->height,
                 "length" => $request->length
             ]);
-
-
-            $package->active = !!$request->active;
 
             //Package main image
             if ($request->file('main_image')) {

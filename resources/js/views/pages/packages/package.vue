@@ -746,10 +746,14 @@ export default {
                 formData.append('id', this.$route.params.id);
                 await packageService.updatePackage(this.$route.params.id, formData)
                 await this.$router.push("/admin/packages");
+
+                this.submitted = false;
             } else {
                 await packageService.storePackage(formData)
 
                 await this.$router.push("/admin/packages");
+
+                this.submitted = false;
             }
         },
 

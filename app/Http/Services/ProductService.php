@@ -75,8 +75,6 @@ class ProductService
                 "length" => $request->length
             ]);
 
-            $product->active = !!$request->active;
-
             //Product main image
             if ($request->file('main_image')) {
                 $product->uploadMainImage($request->file('main_image'));
@@ -156,8 +154,6 @@ class ProductService
 
             //Product Gallery Images
             $product->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
-
-            $product->active = !!$request->active;
 
             $product->save();
 

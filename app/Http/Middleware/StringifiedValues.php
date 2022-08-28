@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\TransformsRequest;
 
-class StringifiedNullToNull extends TransformsRequest
+class StringifiedValues extends TransformsRequest
 {
     /**
      * Transform the given value.
@@ -16,6 +16,14 @@ class StringifiedNullToNull extends TransformsRequest
      */
     protected function transform($key, $value)
     {
-        return $value === 'null' ? null : $value;
+        if($value === 'null'){
+            return null;
+        }
+
+        if($value === "true" || $value === "false"){
+            return $value === "true";
+        }
+
+        return $value;
     }
 }

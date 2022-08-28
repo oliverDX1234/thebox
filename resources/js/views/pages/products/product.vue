@@ -667,10 +667,14 @@ export default {
                 formData.append('id', this.$route.params.id);
                 await productService.updateProduct(this.$route.params.id, formData)
                 await this.$router.push("/admin/products");
+
+                this.submitted = false;
             } else {
                 await productService.storeProduct(formData)
 
                 await this.$router.push("/admin/products");
+
+                this.submitted = false;
             }
         },
 

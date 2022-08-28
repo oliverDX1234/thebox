@@ -92,7 +92,8 @@ class Product extends Model implements HasMedia
         "description",
         "seo_title",
         "seo_keywords",
-        "seo_description"
+        "seo_description",
+        "active"
     ];
 
     protected $casts = [
