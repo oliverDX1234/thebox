@@ -31,7 +31,7 @@ class OrderTableSeeder extends Seeder
                     }
                 }
 
-                DB::table('temp_order_package')->insert(array('temp_order_id' => $order->id, 'package_id' => $package->id, "quantity" => rand(1, 2), "package_name" => $package->name, "package_price" => $package->price_discount ?? $package->price, "package_price_no_vat" => $package->getPriceNoVat()));
+                DB::table('temp_order_package')->insert(array('temp_order_id' => $order->id, 'package_id' => $package->id, "quantity" => rand(1, 2), "package_name" => $package->name, "package_price" => $package->price_discount ?? $package->price, "package_price_no_vat" => $package->price_no_vat));
             }
 
         }
@@ -51,7 +51,7 @@ class OrderTableSeeder extends Seeder
                     }
                 }
 
-                DB::table('order_package')->insert(array('order_id' => $order->id, 'package_id' => $package->id, "quantity" => rand(1, 2), "package_name" => $package->name, "package_price" => $package->price_discount ?? $package->price, "package_price_no_vat" => $package->getPriceNoVat()));
+                DB::table('order_package')->insert(array('order_id' => $order->id, 'package_id' => $package->id, "quantity" => rand(1, 2), "package_name" => $package->name, "package_price" => $package->price_discount ?? $package->price, "package_price_no_vat" => $package->price_no_vat));
             }
 
         }

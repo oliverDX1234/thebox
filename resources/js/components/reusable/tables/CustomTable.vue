@@ -187,6 +187,13 @@
                     </div>
                     </div>
                 </template>
+                <template v-slot:cell(order_shipping_city)="row">
+                    <div>
+                        <div style="min-width: 80px;">
+                            <span>{{ row.item.user_shipping_details.city.city_name_en }}</span>
+                        </div>
+                    </div>
+                </template>
                 <template v-slot:cell(active)="row">
                     <div
                         class="badge font-size-12"

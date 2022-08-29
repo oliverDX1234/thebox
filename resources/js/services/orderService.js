@@ -16,22 +16,16 @@ const OrderService = {
         return response.data.payload.orders;
     },
 
-    async storeOrder(formData) {
-        await axios.post(`/api/orders`, formData, {
+    async storeOrder(payload) {
+        await axios.post(`/api/orders`, payload, {
             showToast: true
         });
     },
 
-    async updateOrder(id, formData) {
-        let response = await axios.post(`/api/orders/${id}`, formData, {
+    async updateOrder(id, payload) {
+        await axios.patch(`/api/orders/${id}`, payload, {
             showToast: true
         });
-
-        //If the logged in order is updating his information
-        if(store.getters["auth/order"].id === response.data.payload.order.id){
-
-            store.commit("auth/updateOrder", response.data.payload.order);
-        }
 
     },
 

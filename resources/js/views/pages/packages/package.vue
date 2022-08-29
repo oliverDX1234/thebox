@@ -125,64 +125,10 @@
                                     <div class="tab-pane">
                                         <h4 class="card-title mb-3">Add new products</h4>
 
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="add-product-wrapper">
-                                                    <multiselect
-                                                        :options="filteredProducts"
-                                                        class="add-product-select"
-                                                        v-model="selectedProducts"
-                                                        label="name"
-                                                        track-by="id"
-                                                        :show-labels="false"
-                                                        multiple
-                                                    >
-                                                        <template slot="singleLabel" slot-scope="props">
-                                                            <img width="20" class="option__image"
-                                                                 :src="props.option.main_image.sm"
-                                                                 alt="">
-                                                            <span class="option__desc">
-                                                            <span class="option__title text-capitalize ml-3">
-                                                                {{ props.option.name }}
-                                                            </span>
-                                                        </span>
-                                                        </template>
-                                                        <template slot="option" slot-scope="props">
-                                                            <div class="d-flex">
-                                                                <img width="50"
-                                                                     class="option__image"
-                                                                     :src="props.option.main_image.sm" alt="">
-                                                                <div
-                                                                    class="option__desc d-flex align-items-center">
-                                                            <span
-                                                                class="option__title text-capitalize ml-3">
-                                                                {{ props.option.name }}
-                                                            </span>
-                                                                </div>
-                                                            </div>
-                                                        </template>
-                                                    </multiselect>
-
-                                                    <b-button variant="success" @click="addProducts" class="ml-2">
-                                                        Add Products
-                                                    </b-button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-5">
-                                            <div class="col-12">
-
-                                                <h4 class="card-title mb-3">Selected products</h4>
-
-                                                <basic-table
-                                                    @delete-item="removeProduct"
-                                                    :items="addedProducts"
-                                                    :fields="fields"
-                                                    :actions="['delete']">
-                                                </basic-table>
-                                            </div>
-                                        </div>
+                                        <add-products
+                                            :alreadyAddedProducts="addedProducts"
+                                            @added-products="addProducts"
+                                        ></add-products>
 
                                         <div class="row">
                                             <div class="col-12">
@@ -438,7 +384,6 @@
 </template>
 <script>
 import vue2Dropzone from "vue2-dropzone";
-import productService from "../../../services/productService";
 import CategoryService from "@/services/categoryService";
 import {FormWizard, TabContent} from "vue-form-wizard";
 import Layout from "../../layouts/main";
@@ -447,6 +392,7 @@ import packageService from "../../../services/packageService";
 import fileUpload from "../../../components/reusable/FileUpload";
 import CKEditor from "../../../components/reusable/CKEditor";
 import basicTable from "../../../components/reusable/tables/BasicTable";
+import addProducts from "../../../components/reusable/ecommerce/AddProducts";
 
 import {
     required,
@@ -469,7 +415,8 @@ export default {
         TabContent,
         fileUpload,
         CKEditor,
-        basicTable
+        basicTable,
+        addProducts
     },
     data() {
         return {
@@ -504,15 +451,7 @@ export default {
             categories: [],
             filters: [],
             products: [],
-            selectedProducts: [],
             addedProducts: [],
-            fields: [
-                {key: "thumb", sortable: true, label: "Image"},
-                {key: "name", sortable: true, label: "Name"},
-                {key: "unit_code", sortable: true, label: "Unit Code"},
-                {key: "price", sortable: true, label: "Price"},
-                {key: "action"}
-            ],
             dropzoneOptions: {
                 url: "#",
                 thumbnailWidth: 200,
@@ -569,25 +508,11 @@ export default {
 
     },
     methods: {
-        async getProducts() {
-            this.products = await productService.getProducts();
-        },
 
-        addProducts() {
-            this.addedProducts.push(...this.selectedProducts);
-
-            this.selectedProducts = [];
+        addProducts(products) {
+            this.addedProducts = products;
 
             this.package.pricing.price_discount = null;
-        },
-
-        removeProduct(id) {
-
-            let index = this.addedProducts.findIndex(x => x.id === id);
-
-            if (index !== -1) {
-                this.addedProducts.splice(index, 1);
-            }
         },
 
         async getCategories() {
@@ -804,7 +729,6 @@ export default {
         }
     },
     mounted() {
-        this.getProducts();
 
         this.getCategories();
 

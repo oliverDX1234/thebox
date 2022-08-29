@@ -10,12 +10,12 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function findById($id): Order
     {
-        return Order::where("id", $id)->with("packages")->first();
+        return Order::where("id", $id)->with("packages", "user", "courier")->first();
     }
 
     public function getOrders($request)
     {
-        $orders = Order::with("packages");
+        $orders = Order::with("packages", "user", "courier");
 
         if($request->has("statuses")){
 

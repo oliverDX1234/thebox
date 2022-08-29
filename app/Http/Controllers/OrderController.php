@@ -42,7 +42,7 @@ class OrderController extends Controller
     {
         $this->orderService->saveOrder($request);
 
-        return response()->api(null, "order.saved", 200);
+        return response()->api(null, "orders.saved", 200);
     }
 
     /**
@@ -53,7 +53,7 @@ class OrderController extends Controller
     {
         $order = $this->orderService->getOrder($id);
 
-        return response()->api(['order' => $order], "order.retrieved", 200);
+        return response()->api(['order' => $order], "orders.retrieved", 200);
     }
 
     /**
@@ -63,11 +63,11 @@ class OrderController extends Controller
      * @return Response
      * @throws ApiException
      */
-    public function update(OrderStoreRequest $request): Response
+    public function update(OrderUpdateRequest $request): Response
     {
         $order = $this->orderService->updateOrder($request);
 
-        return response()->api(['order' => $order], "order.updated", 200);
+        return response()->api(['order' => $order], "orders.updated", 200);
     }
 
     /**
@@ -81,6 +81,6 @@ class OrderController extends Controller
     {
         $this->orderService->deleteOrder($id);
 
-        return response()->api(["order" => $id], "order.deleted", 200);
+        return response()->api(["order" => $id], "orders.deleted", 200);
     }
 }

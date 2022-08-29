@@ -17,14 +17,14 @@ class CreateOrderPackageTable extends Migration
             $table->id();
             $table->foreignId("order_id");
             $table->foreignId("package_id");
-            $table->integer("quantity");
-            $table->string("package_name");
-            $table->integer("package_price");
-            $table->integer("package_price_no_vat");
+            $table->integer("quantity")->default(1);
+            $table->string("package_name")->nullable();
+            $table->integer("package_price")->nullable();
+            $table->integer("package_price_no_vat")->nullable();
             $table->timestamps();
 
-            $table->foreign("order_id")->references("id")->on("orders");
-            $table->foreign("package_id")->references("id")->on("packages");
+            $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("package_id")->references("id")->on("packages")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

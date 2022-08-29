@@ -23,8 +23,8 @@ class CreateTempOrderPackageTable extends Migration
             $table->integer("package_price_no_vat");
             $table->timestamps();
 
-            $table->foreign("temp_order_id")->references("id")->on("temp_orders");
-            $table->foreign("package_id")->references("id")->on("packages");
+            $table->foreign("temp_order_id")->references("id")->on("temp_orders")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("package_id")->references("id")->on("packages")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

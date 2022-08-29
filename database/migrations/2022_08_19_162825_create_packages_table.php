@@ -15,18 +15,18 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 255);
-            $table->string("url", 255);
+            $table->string("name", 255)->nullable();
+            $table->string("url", 255)->nullable();
             $table->string("short_description", 250)->nullable();
-            $table->string("unit_code", 100);
+            $table->string("unit_code", 100)->nullable();
             $table->bigInteger("seen_times")->default(0);
-            $table->integer("vat");
-            $table->integer("weight");
-            $table->text("dimensions");
+            $table->integer("vat")->nullable();
+            $table->integer("weight")->nullable();
+            $table->text("dimensions")->nullable();
             $table->text("description")->nullable();
-            $table->string("seo_title");
-            $table->string("seo_keywords");
-            $table->string("seo_description");
+            $table->string("seo_title")->nullable();
+            $table->string("seo_keywords")->nullable();
+            $table->string("seo_description")->nullable();
             $table->integer("price");
             $table->foreignId("discount_id")->nullable();
             $table->boolean("pre_made")->default(true);

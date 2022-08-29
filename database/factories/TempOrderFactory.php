@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
 use App\Models\Courier;
 use App\Models\User;
 use Carbon\Carbon;
@@ -28,7 +29,7 @@ class TempOrderFactory extends Factory
                 "first_name" => $this->faker->firstName(),
                 "last_name" => $this->faker->lastName(),
                 "address" => $this->faker->address(),
-                "city" => $this->faker->city()
+                "city" => City::all()->random()->id
             ]),
             "checksum" => "#CS". rand(100, 999),
             "total_price" => $total_price,

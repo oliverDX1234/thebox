@@ -19,7 +19,7 @@ class Package extends Model implements HasMedia
 
     protected $table = "packages";
 
-    protected $appends = ['main_image', "gallery", "price_discount"];
+    protected $appends = ['main_image', "gallery", "price_discount", "price_no_vat"];
 
     protected $fillable = [
         "name",
@@ -137,9 +137,9 @@ class Package extends Model implements HasMedia
         return round($price);
     }
 
-    public function getPriceNoVat()
+    public function getPriceNoVatAttribute()
     {
-        return ($this->price_discount ?? $this->price) * (100 - $this->vat)/100;
+        return round(($this->price_discount ?? $this->price) * (100 - $this->vat)/100);
     }
 
     public function categories(): BelongsToMany

@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Models\Order;
+use App\Models\Package;
 use Exception;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -40,7 +41,7 @@ class OrderService
         try {
             return $this->orderRepository->findById($id);
         } catch (Exception $e) {
-            throw new ApiException("order.not_found", $e->getCode(), $e);
+            throw new ApiException("orders.not_found", $e->getCode(), $e);
         }
     }
 
@@ -53,24 +54,38 @@ class OrderService
     {
         try {
 
-            $order = Order::make($request->except(['image', 'active', '_method']));
+            $order = Order::make($request->except("id"));
 
-            $order->active = json_decode($request->active);
+            $order->user_shipping_details = json_encode($request->user_shipping_details);
 
             $order->save();
 
-            if ($request->file('imageInput')) {
-                $order->addMediaFromRequest("imageInput")
-                    ->toMediaCollection("avatar");
-                $order->image = $order->getFirstMedia("avatar")->getUrl();
-            } else {
-                $order->image = env("APP_URL") . "/images/upload.png";
-            }
+            if($request->products){
+                $package = Package::create([
+                    "price" => 0
+                ]);
 
+                foreach($request->products as $product){
+                    $package->products()->attach($product["id"]);
+                }
+
+                $package->price = array_reduce($request->products, function ($sum, $item)
+                {
+                    $sum += $item["price_discount"] ?? $item["price"];
+                    return $sum;
+                });
+
+                $package->save();
+
+                $order->packages()->attach($package->id, ["quantity" => 1]);
+            }else{
+
+            }
 
             $order->save();
         } catch (Exception $e) {
-            throw new ApiException("order.save_failed", 500, null, $e);
+            dd($e);
+            throw new ApiException("orders.save_failed", 500, null, $e);
         }
     }
 
@@ -81,29 +96,24 @@ class OrderService
      */
     public function updateOrder($request): Order
     {
+
         try {
             $order = $this->orderRepository->findById($request->id);
         } catch (Exception $e) {
-            throw new ApiException("order.not_found", $e->getCode(), $e);
+            throw new ApiException("orders.not_found", $e->getCode(), $e);
         }
 
         try {
+            $order->update($request->all());
 
-            $order->update($request->except(['image', 'active', '_method']));
-
-            $order->active = json_decode($request->active);
-
-            if ($request->file('imageInput')) {
-                $order->addMediaFromRequest("imageInput")
-                    ->toMediaCollection("avatar");
-                $order->image = $order->getFirstMedia("avatar")->getUrl();
-            }
+            $order->user_shipping_details = json_encode($request->user_shipping_details);
 
             $order->save();
 
             return $order;
         } catch (Exception $e) {
-            throw new ApiException("order.update_failed", 500, null, $e);
+
+            throw new ApiException("orders.update_failed", 500, null, $e);
         }
     }
 
@@ -115,7 +125,7 @@ class OrderService
         try {
             $this->orderRepository->deleteOrder($id);
         } catch (Exception $e) {
-            throw new ApiException("order.not_found", $e->getCode(), $e);
+            throw new ApiException("orders.not_found", $e->getCode(), $e);
         }
     }
 

@@ -64,6 +64,7 @@ export default {
                 {key: "order_shipping_last_name", sortable: true, label: "User Last Name"},
                 {key: "order_shipping_phone", sortable: true, label: "User Phone"},
                 {key: "order_shipping_address", sortable: true, label: "User Address"},
+                {key: "order_shipping_city", sortable: true, label: "User City"},
                 {key: "comment", sortable: true, label: "Comment"},
                 {key: "order_sent_at", sortable: true, label: "Order Sent At"},
                 {key: "order_delivered_at", sortable: true, label: "Order Delivered At"},

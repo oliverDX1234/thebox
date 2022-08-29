@@ -79,7 +79,7 @@ class Product extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, ImageTrait;
 
-    protected $appends = ['main_image', "gallery", "price_discount"];
+    protected $appends = ['main_image', "gallery", "price_discount", "price_no_vat"];
 
     protected $fillable = [
         "name",
@@ -197,6 +197,11 @@ class Product extends Model implements HasMedia
         }
 
         return round($price);
+    }
+
+    public function getPriceNoVatAttribute()
+    {
+        return round(($this->price_discount ?? $this->price) * (100 - $this->vat)/100);
     }
 
     public function categories(): BelongsToMany
