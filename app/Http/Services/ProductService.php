@@ -4,12 +4,9 @@ namespace App\Http\Services;
 
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
-use App\Models\Discount;
 use App\Models\Product;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductService
 {
@@ -158,7 +155,7 @@ class ProductService
             $product->uploadMainImage($request->file('main_image'));
         }
 
-        $product->uploadGalleryImages($request->file('gallery_images'));
+        $product->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
     }
 
     public function setCategories(Request $request, Product $product): void
@@ -188,22 +185,11 @@ class ProductService
 
     private function setDiscount(Request $request, Product $product): void
     {
-        if ($request->price_discount === null) {
-            $product->discount_id = null;
-            return;
-        }
-
-        if ($product->price_discount !== (int)$request->price_discount) {
-            $discount = Discount::create([
-                "type" => "fixed",
-                "start_date" => Carbon::now()->toDateTimeLocalString(),
-                "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
-                "value" => $request->price - (int)$request->price_discount,
-                "active" => true
-            ]);
-
-            $product->discount_id = $discount->id;
-        }
+        $this->discountService->createDiscountForSellable(
+            $product,
+            $request->price,
+            $request->price_discount
+        );
     }
 
 }

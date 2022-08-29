@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Traits\ImageTrait;
-use Carbon\Carbon;
+use App\Http\Traits\HasMediaGallery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Package extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, ImageTrait;
+    use HasFactory, InteractsWithMedia, HasMediaGallery;
 
     protected $table = "packages";
 
@@ -39,18 +38,6 @@ class Package extends Model implements HasMedia
         'active' => 'boolean'
     ];
 
-    public function getDimensionsAttribute($value)
-    {
-        return json_decode($value, true);
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection("main_image")->singleFile();
-
-        $this->addMediaCollection("gallery_images");
-    }
-
     /**
      * @throws InvalidManipulation
      */
@@ -67,72 +54,11 @@ class Package extends Model implements HasMedia
             ->height(300);
     }
 
-    public function getMainImageAttribute(): array
+    public function registerMediaCollections(): void
     {
-        if ($this->getFirstMedia("main_image")) {
+        $this->addMediaCollection("main_image")->singleFile();
 
-            $image = [];
-
-            $image["sm"] = $this->getFirstMedia("main_image")->getUrl("sm");
-            $image["md"] = $this->getFirstMedia("main_image")->getUrl("md");
-            $image["lg"] = $this->getFirstMedia("main_image")->getUrl();
-
-            return $image;
-        } else {
-
-            return [
-                "sm" => env("APP_URL") . "/images/package.png"
-            ];
-        }
-    }
-
-    public function getGalleryAttribute(): array
-    {
-        $images = $this->getMedia("gallery_images");
-        $gallery = [];
-
-        if ($images->count()) {
-
-            foreach ($images as $key => $image) {
-
-                $gallery[$key]["sm"] = $image->getUrl("sm");
-                $gallery[$key]["md"] = $image->getUrl("md");
-                $gallery[$key]["lg"] = $image->getUrl();
-                $gallery[$key]["infos"] = [
-                    "size" => $image->size,
-                    "model_id" => $image->model_id,
-                    "name" => $image->name,
-                    "id" => $image->id,
-                    "extension" => $image->mime_type
-                ];
-            }
-            return $gallery;
-        } else {
-            return [];
-        }
-    }
-
-    public function getPriceDiscountAttribute(): ?float
-    {
-        if (!$this->discount) {
-            return null;
-        }
-
-        if (!$this->discount->active) {
-            return null;
-        }
-
-        if ($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()) {
-            return null;
-        }
-
-        if ($this->discount->type === "fixed") {
-            $price = max(0, $this->price - $this->discount->value);
-        } else {
-            $price = $this->price - ($this->price * ($this->discount->value / 100));
-        }
-
-        return round($price);
+        $this->addMediaCollection("gallery_images");
     }
 
     public function categories(): BelongsToMany

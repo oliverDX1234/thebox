@@ -4,21 +4,22 @@ namespace App\Http\Services;
 
 use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\PackageRepositoryInterface;
-use App\Models\Discount;
 use App\Models\Package;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 
 class PackageService
 {
-    protected $packageRepository;
+    private PackageRepositoryInterface $packageRepository;
+    private DiscountService $discountService;
 
     public function __construct(
-        PackageRepositoryInterface $packageRepository
+        PackageRepositoryInterface $packageRepository,
+        DiscountService $discountService
     )
     {
         $this->packageRepository = $packageRepository;
+        $this->discountService = $discountService;
     }
 
     /**
@@ -162,36 +163,22 @@ class PackageService
         ]);
     }
 
-    private function setFilters(Request $request, Package $package): void
+    public function setMedia($request, Package $package): void
     {
-        $filters = json_decode($request->get("attributes"));
-        if ($filters) {
-            foreach ($filters as $filter) {
-                foreach ($filter as $attribute) {
-                    $package->attributes()->attach($attribute->id);
-                }
-            }
+        if ($request->file('main_image')) {
+            $package->uploadMainImage($request->file('main_image'));
         }
+
+        $package->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
     }
 
     private function setDiscount(Request $request, Package $package): void
     {
-        if ($request->price_discount === null) {
-            $package->discount_id = null;
-            return;
-        }
-
-        if ($package->price_discount !== (int)$request->price_discount) {
-            $discount = Discount::create([
-                "type" => "fixed",
-                "start_date" => Carbon::now()->toDateTimeLocalString(),
-                "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
-                "value" => $request->price - (int)$request->price_discount,
-                "active" => true
-            ]);
-
-            $package->discount_id = $discount->id;
-        }
+        $this->discountService->createDiscountForSellable(
+            $package,
+            $request->price,
+            $request->price_discount
+        );
     }
 
     private function setCategories(Request $request, Package $package): void
@@ -214,13 +201,17 @@ class PackageService
         }
     }
 
-    public function setMedia($request, Package $package): void
+    private function setFilters(Request $request, Package $package): void
     {
-        if ($request->file('main_image')) {
-            $package->uploadMainImage($request->file('main_image'));
+        $filters = json_decode($request->get("attributes"));
+        if ($filters) {
+            foreach ($filters as $filter) {
+                foreach ($filter as $attribute) {
+                    $package->attributes()->attach($attribute->id);
+                }
+            }
         }
-
-        $package->uploadGalleryImages($request->file('gallery_images'));
     }
+
 
 }

@@ -6,6 +6,7 @@ use App\Exceptions\ApiException;
 use App\Http\Repositories\Interfaces\DiscountRepositoryInterface;
 use App\Models\Category;
 use App\Models\Discount;
+use App\Models\Package;
 use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
@@ -103,6 +104,26 @@ class DiscountService
         } catch (Exception $e) {
 
             throw new ApiException("discounts.update_failed",  $e->getCode(), null, $e);
+        }
+    }
+
+    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int $priceDiscount)
+    {
+        if ($priceDiscount === null) {
+            $sellable->discount_id = null;
+            return;
+        }
+
+        if ($sellable->price_discount !== $priceDiscount) {
+            $discount = Discount::create([
+                "type" => "fixed",
+                "start_date" => Carbon::now()->toDateTimeLocalString(),
+                "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
+                "value" => $originalPrice - $priceDiscount,
+                "active" => true
+            ]);
+
+            $sellable->discount_id = $discount->id;
         }
     }
 
