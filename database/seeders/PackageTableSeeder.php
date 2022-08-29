@@ -21,9 +21,9 @@ class PackageTableSeeder extends Seeder
 
         foreach (range(1, 7) as $number) {
             array(
-                DB::table('package_product')->insert(array('product_id' => $arr[0], 'package_id' => $number)),
-                DB::table('package_product')->insert(array('product_id' => $arr[1], 'package_id' => $number)),
-                DB::table('package_product')->insert(array('product_id' => $arr[2], 'package_id' => $number))
+                DB::table('package_product')->insert(array('product_id' => $arr[0], 'package_id' => $number, "quantity" => 1)),
+                DB::table('package_product')->insert(array('product_id' => $arr[1], 'package_id' => $number, "quantity" => 1)),
+                DB::table('package_product')->insert(array('product_id' => $arr[2], 'package_id' => $number, "quantity" => 1))
             );
 
             array_shift($arr);
