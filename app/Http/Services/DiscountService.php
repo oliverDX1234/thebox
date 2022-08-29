@@ -107,7 +107,7 @@ class DiscountService
         }
     }
 
-    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int $priceDiscount)
+    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount)
     {
         if ($priceDiscount === null) {
             $sellable->discount_id = null;

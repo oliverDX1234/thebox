@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Traits\HasMediaGallery;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -84,5 +85,28 @@ class Product extends Model implements HasMedia
     public function attributes(): BelongsToMany
     {
         return $this->belongsToMany(Attribute::class)->withTimestamps();
+    }
+
+    public function getPriceDiscountAttribute(): ?float
+    {
+        if (!$this->discount) {
+            return null;
+        }
+
+        if (!$this->discount->active) {
+            return null;
+        }
+
+        if ($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()) {
+            return null;
+        }
+
+        if ($this->discount->type === "fixed") {
+            $price = max(0, $this->price - $this->discount->value);
+        } else {
+            $price = $this->price - ($this->price * ($this->discount->value / 100));
+        }
+
+        return round($price);
     }
 }
