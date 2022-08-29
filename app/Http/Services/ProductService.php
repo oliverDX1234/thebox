@@ -8,6 +8,7 @@ use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductService
@@ -24,7 +25,7 @@ class ProductService
     /**
      * @throws ApiException
      */
-    public function getProducts($request)
+    public function getProducts(Request $request)
     {
         try {
             return $this->productRepository->getProducts($request);
@@ -61,7 +62,7 @@ class ProductService
     /**
      * @throws ApiException
      */
-    public function saveProduct($request)
+    public function saveProduct(Request $request)
     {
         try {
             $product = Product::make($request->all());
@@ -69,55 +70,13 @@ class ProductService
             //URL, suppliers, dimensions
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
-            $product->dimensions = json_encode([
-                "width" => $request->width,
-                "height" => $request->height,
-                "length" => $request->length
-            ]);
-
-            //Product main image
-            if ($request->file('main_image')) {
-                $product->uploadMainImage($request->file('main_image'));
-            }
-
-            //Product Gallery Images
-            $product->uploadGalleryImages($request->file('gallery_images'));
-
-            //Product discount
-            if ($request->price_discount !== null) {
-                $discount = Discount::create([
-                    "type" => "fixed",
-                    "start_date" => Carbon::now()->toDateTimeLocalString(),
-                    "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
-                    "value" => $request->price - $request->price_discount,
-                    "active" => true
-                ]);
-
-                $product->discount_id = $discount->id;
-            }
-
+            $this->setDimensions($request, $product);
+            $this->setMedia($request, $product);
+            $this->setDiscount($request, $product);
             $product->save();
 
-            //Product Categories
-            $categories = json_decode($request->categories);
-
-            if ($categories) {
-                foreach ($categories as $category) {
-                    $product->categories()->attach($category->id);
-                }
-            }
-
-            //Product Filters
-            $filters = json_decode($request->get("attributes"));
-
-            if ($filters) {
-                foreach ($filters as $filter) {
-                    foreach ($filter as $attribute) {
-                        $product->attributes()->attach($attribute->id);
-                    }
-                }
-            }
-
+            $this->setCategories($request, $product);
+            $this->setFilters($request, $product);
             $product->save();
         } catch (Exception $e) {
 
@@ -130,7 +89,7 @@ class ProductService
      * @throws ApiException
      */
 
-    public function updateProduct($request)
+    public function updateProduct(Request $request)
     {
         try {
 
@@ -141,60 +100,17 @@ class ProductService
             //URL, suppliers, dimensions
             $product->url = slugify($request->name);
             $product->supplier_id = json_decode($request->supplier)->id;
-            $product->dimensions = json_encode([
-                "width" => $request->width,
-                "height" => $request->height,
-                "length" => $request->length
-            ]);
 
-            //Product main image
-            if ($request->file('main_image')) {
-                $product->uploadMainImage($request->file('main_image'));
-            }
-
-            //Product Gallery Images
-            $product->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
-
+            $this->setDimensions($request, $product);
+            $this->setMedia($request, $product);
+            $this->setDiscount($request, $product);
             $product->save();
 
-            //Product Discount
-            if ($request->price_discount !== null) {
-
-                if ($product->price_discount !== (int)$request->price_discount) {
-                    $discount = Discount::create([
-                        "type" => "fixed",
-                        "start_date" => Carbon::now()->toDateTimeLocalString(),
-                        "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
-                        "value" => $request->price - (int)$request->price_discount,
-                        "active" => true
-                    ]);
-
-                    $product->discount_id = $discount->id;
-                }
-            } else {
-                $product->discount_id = null;
-            }
-
-            //Product Categories
-            $categories = json_decode($request->categories);
             $product->categories()->detach();
-            if ($categories) {
-                foreach ($categories as $category) {
-                    $product->categories()->attach($category->id);
-                }
-            }
+            $this->setCategories($request, $product);
 
-            //Product Filters
-            $filters = json_decode($request->get("attributes"));
             $product->attributes()->detach();
-
-            if ($filters) {
-                foreach ($filters as $filter) {
-                    foreach ($filter as $attribute) {
-                        $product->attributes()->attach($attribute->id);
-                    }
-                }
-            }
+            $this->setFilters($request, $product);
 
             $product->save();
 
@@ -224,6 +140,69 @@ class ProductService
             $this->productRepository->removeProductDiscount($id);
         } catch (Exception $e) {
             throw new ApiException("product.discount_remove_failed", 500, $e);
+        }
+    }
+
+    public function setDimensions(Request $request, Product $product): void
+    {
+        $product->dimensions = json_encode([
+            "width" => $request->width,
+            "height" => $request->height,
+            "length" => $request->length
+        ]);
+    }
+
+    public function setMedia(Request $request, Product $product): void
+    {
+        if ($request->file('main_image')) {
+            $product->uploadMainImage($request->file('main_image'));
+        }
+
+        $product->uploadGalleryImages($request->file('gallery_images'));
+    }
+
+    public function setCategories(Request $request, Product $product): void
+    {
+        $categories = json_decode($request->categories);
+
+        if ($categories) {
+            foreach ($categories as $category) {
+                $product->categories()->attach($category->id);
+            }
+        }
+    }
+
+    public function setFilters(Request $request, Product $product): void
+    {
+        $filters = json_decode($request->get("attributes"));
+
+        if ($filters) {
+            foreach ($filters as $filter) {
+                foreach ($filter as $attribute) {
+                    $product->attributes()->attach($attribute->id);
+                }
+            }
+        }
+    }
+
+
+    private function setDiscount(Request $request, Product $product): void
+    {
+        if ($request->price_discount === null) {
+            $product->discount_id = null;
+            return;
+        }
+
+        if ($product->price_discount !== (int)$request->price_discount) {
+            $discount = Discount::create([
+                "type" => "fixed",
+                "start_date" => Carbon::now()->toDateTimeLocalString(),
+                "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
+                "value" => $request->price - (int)$request->price_discount,
+                "active" => true
+            ]);
+
+            $product->discount_id = $discount->id;
         }
     }
 

@@ -9,7 +9,6 @@ use App\Models\Package;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PackageService
 {
@@ -75,68 +74,20 @@ class PackageService
 
             //URL, dimensions
             $package->url = slugify($request->name);
-
-            $package->dimensions = json_encode([
-                "width" => $request->width,
-                "height" => $request->height,
-                "length" => $request->length
-            ]);
-
+            $package->active = !!$request->active;
             $package->pre_made = true;
+            $this->setDimensions($request, $package);
+            $this->setMedia($request, $package);
+            $this->setDiscount($request, $package);
+            $package->save();
 
-            //Package main image
-            if ($request->file('main_image')) {
-                $package->uploadMainImage($request->file('main_image'));
-            }
-
-            //Package Gallery Images
-            $package->uploadGalleryImages($request->file('gallery_images'));
-
-            //Package discount
-            if ($request->price_discount !== null) {
-                $discount = Discount::create([
-                    "type" => "fixed",
-                    "start_date" => Carbon::now()->toDateTimeLocalString(),
-                    "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
-                    "value" => $request->price - $request->price_discount,
-                    "active" => true
-                ]);
-
-                $package->discount_id = $discount->id;
-            }
+            $this->setCategories($request, $package);
+            $this->setProducts($request, $package);
+            $this->setFilters($request, $package);
 
             $package->save();
 
-            //Package Categories
-            $categories = json_decode($request->categories);
-
-            if ($categories) {
-                foreach ($categories as $category) {
-                    $package->categories()->attach($category->id);
-                }
-            }
-
-            //Package Products
-            $products = json_decode($request->products);
-
-            if ($products) {
-                foreach ($products as $product) {
-                    $package->products()->attach($product->id);
-                }
-            }
-
-            //Package Filters
-            $filters = json_decode($request->get("attributes"));
-
-            if ($filters) {
-                foreach ($filters as $filter) {
-                    foreach ($filter as $attribute) {
-                        $package->attributes()->attach($attribute->id);
-                    }
-                }
-            }
-
-            $package->save();
+            return $package;
         } catch (Exception $e) {
             throw new ApiException("packages.save_failed", 500, null, $e);
         }
@@ -147,7 +98,7 @@ class PackageService
      * @throws ApiException
      */
 
-    public function updatePackage($request)
+    public function updatePackage(Request $request)
     {
         try {
 
@@ -155,78 +106,25 @@ class PackageService
 
             $package->update($request->all());
 
-            //URL, dimensions
+            $package->active = !!$request->active;
             $package->url = slugify($request->name);
-
-            $package->dimensions = json_encode([
-                "width" => $request->width,
-                "height" => $request->height,
-                "length" => $request->length
-            ]);
-
-            //Package main image
-            if ($request->file('main_image')) {
-                $package->uploadMainImage($request->file('main_image'));
-            }
-
-            //Package Gallery Images
-            $package->uploadGalleryImages($request->file('gallery_images'), $request->old_image_ids);
-
+            $this->setDimensions($request, $package);
+            $this->setMedia($request, $package);
+            $this->setDiscount($request, $package);
             $package->save();
 
-            //Package Discount
-            if ($request->price_discount !== null) {
-
-                if ($package->price_discount !== (int)$request->price_discount) {
-                    $discount = Discount::create([
-                        "type" => "fixed",
-                        "start_date" => Carbon::now()->toDateTimeLocalString(),
-                        "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
-                        "value" => $request->price - (int)$request->price_discount,
-                        "active" => true
-                    ]);
-
-                    $package->discount_id = $discount->id;
-                }
-            } else {
-                $package->discount_id = null;
-            }
-
-            //Package Categories
-            $categories = json_decode($request->categories);
             $package->categories()->detach();
+            $this->setCategories($request, $package);
 
-            if ($categories) {
-                foreach ($categories as $category) {
-                    $package->categories()->attach($category->id);
-                }
-            }
-
-            //Package Products
-            $products = json_decode($request->products);
             $package->products()->detach();
-            if ($products) {
-                foreach ($products as $product) {
-                    $package->products()->attach($product->id);
-                }
-            }
+            $this->setProducts($request, $package);
 
-            //Package Filters
-            $filters = json_decode($request->get("attributes"));
             $package->attributes()->detach();
-
-            if ($filters) {
-                foreach ($filters as $filter) {
-                    foreach ($filter as $attribute) {
-                        $package->attributes()->attach($attribute->id);
-                    }
-                }
-            }
+            $this->setFilters($request, $package);
 
             $package->save();
 
         } catch (Exception $e) {
-            dd($e->getMessage());
             throw new ApiException("packages.update_failed", 500, $e);
         }
     }
@@ -253,6 +151,76 @@ class PackageService
         } catch (Exception $e) {
             throw new ApiException("package.discount_remove_failed", 500, $e);
         }
+    }
+
+    private function setDimensions(Request $request, Package $package): void
+    {
+        $package->dimensions = json_encode([
+            "width" => $request->width,
+            "height" => $request->height,
+            "length" => $request->length
+        ]);
+    }
+
+    private function setFilters(Request $request, Package $package): void
+    {
+        $filters = json_decode($request->get("attributes"));
+        if ($filters) {
+            foreach ($filters as $filter) {
+                foreach ($filter as $attribute) {
+                    $package->attributes()->attach($attribute->id);
+                }
+            }
+        }
+    }
+
+    private function setDiscount(Request $request, Package $package): void
+    {
+        if ($request->price_discount === null) {
+            $package->discount_id = null;
+            return;
+        }
+
+        if ($package->price_discount !== (int)$request->price_discount) {
+            $discount = Discount::create([
+                "type" => "fixed",
+                "start_date" => Carbon::now()->toDateTimeLocalString(),
+                "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
+                "value" => $request->price - (int)$request->price_discount,
+                "active" => true
+            ]);
+
+            $package->discount_id = $discount->id;
+        }
+    }
+
+    private function setCategories(Request $request, Package $package): void
+    {
+        $categories = json_decode($request->categories);
+        if ($categories) {
+            foreach ($categories as $category) {
+                $package->categories()->attach($category->id);
+            }
+        }
+    }
+
+    private function setProducts(Request $request, Package $package): void
+    {
+        $products = json_decode($request->products);
+        if ($products) {
+            foreach ($products as $product) {
+                $package->products()->attach($product->id);
+            }
+        }
+    }
+
+    public function setMedia($request, Package $package): void
+    {
+        if ($request->file('main_image')) {
+            $package->uploadMainImage($request->file('main_image'));
+        }
+
+        $package->uploadGalleryImages($request->file('gallery_images'));
     }
 
 }

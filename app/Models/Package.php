@@ -41,7 +41,6 @@ class Package extends Model implements HasMedia
 
     public function getDimensionsAttribute($value)
     {
-
         return json_decode($value, true);
     }
 
@@ -92,9 +91,9 @@ class Package extends Model implements HasMedia
         $images = $this->getMedia("gallery_images");
         $gallery = [];
 
-        if($images->count()){
+        if ($images->count()) {
 
-            foreach($images as $key => $image){
+            foreach ($images as $key => $image) {
 
                 $gallery[$key]["sm"] = $image->getUrl("sm");
                 $gallery[$key]["md"] = $image->getUrl("md");
@@ -108,30 +107,29 @@ class Package extends Model implements HasMedia
                 ];
             }
             return $gallery;
-        }else {
+        } else {
             return [];
         }
     }
 
     public function getPriceDiscountAttribute(): ?float
     {
-        if(!$this->discount){
+        if (!$this->discount) {
             return null;
         }
 
-        if(!$this->discount->active){
+        if (!$this->discount->active) {
             return null;
         }
 
-        if($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()){
+        if ($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()) {
             return null;
         }
 
-        if($this->discount->type === "fixed"){
-
+        if ($this->discount->type === "fixed") {
             $price = max(0, $this->price - $this->discount->value);
-        }else{
-            $price = $this->price - ($this->price * ($this->discount->value/100));
+        } else {
+            $price = $this->price - ($this->price * ($this->discount->value / 100));
         }
 
         return round($price);
