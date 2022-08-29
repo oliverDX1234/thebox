@@ -2,7 +2,6 @@
 
 namespace App\Http\Traits;
 
-use Carbon\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -93,29 +92,6 @@ trait HasMediaGallery
         } else {
             return [];
         }
-    }
-
-    public function getPriceDiscountAttribute(): ?float
-    {
-        if (!$this->discount) {
-            return null;
-        }
-
-        if (!$this->discount->active) {
-            return null;
-        }
-
-        if ($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()) {
-            return null;
-        }
-
-        if ($this->discount->type === "fixed") {
-            $price = max(0, $this->price - $this->discount->value);
-        } else {
-            $price = $this->price - ($this->price * ($this->discount->value / 100));
-        }
-
-        return round($price);
     }
 
 }
