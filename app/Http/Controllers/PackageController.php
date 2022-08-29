@@ -95,14 +95,4 @@ class PackageController extends Controller
 
         return response()->api(null , "packages.discount_successfully_removed", 200);
     }
-
-    /**
-     * @throws ApiException
-     */
-    public function updatePackageQuantity(UpdatePackageQuantityRequest $request)
-    {
-        $this->packageService->updatePackageQuantity($request);
-
-        return response()->api(null , "packages.updated_package_quantity", 200);
-    }
 }

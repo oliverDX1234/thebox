@@ -25,7 +25,6 @@ class OrderStoreRequest extends FormRequest
     {
         return [
             "user_id" => "required|numeric",
-            "courier_id" => "required|numeric",
             "payment_type" => "required",
             "paid" => "required",
             "user_shipping_details" => "required",

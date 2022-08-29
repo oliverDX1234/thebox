@@ -25,12 +25,17 @@
                 </div>
             </template>
 
+            <template v-slot:cell(unit_code)="row">
+                {{ row.value ? row.value : "/" }}
+            </template>
+
             <template v-slot:cell(quantity)="row">
                 <div class="position-relative">
                     <NumberInputSpinner
                         :min="1"
+                        :max="1000"
                         :step="1"
-                        :value="row.item.pivot.quantity"
+                        :value="row.item.quantity ?? 1"
                         :integerOnly="true"
                         @input="quantityUpdated($event, row.item.id)"
                     />
@@ -143,7 +148,7 @@ export default {
 
             this.timeout = setTimeout(() => {
                 this.$emit('quantity-updated', value, id)
-            }, 1000)
+            }, 500)
         }
     }
 }

@@ -12,7 +12,7 @@
                                 <div class="col-12">
                                     <form
                                         class="needs-validation"
-                                        @submit.prevent="formSubmit"
+                                        @submit.prevent=""
                                     >
                                         <div class="row">
                                             <div class="col-md-6">
@@ -341,6 +341,7 @@
                                         <button
                                             class="btn btn-primary mt-2 float-right"
                                             type="submit"
+                                            @click="formSubmit"
                                         >Save Order
                                         </button>
                                     </form>
@@ -560,7 +561,7 @@ export default {
             this.order.payment_type = tempOrder.payment_type;
             this.order.user_shipping_details = tempOrder.user_shipping_details;
             this.order.delivery_price = tempOrder.delivery_price;
-            this.addedPackages = tempOrder.packages;
+            this.addedPackages = tempOrder.packages.map(obj => ({...obj, "quantity": obj.pivot.quantity}));
 
             this.loading = false;
         },
@@ -587,7 +588,7 @@ export default {
 
             payload.id = this.$route.params.id;
             payload.user_id = this.order.user.id;
-            payload.courier_id = this.order.courier.id;
+            payload.courier_id = this.order.courier?.id;
             payload.payment_type = this.order.payment_type;
             payload.paid = this.order.paid === "Paid";
             payload.total_price = this.order.total_price;
@@ -595,7 +596,8 @@ export default {
             payload.delivery_price = this.order.delivery_price;
             payload.order_sent_at = this.order.order_sent_at ? this.moment(this.order.order_sent_at).format("YYYY-MM-DD") : null;
             payload.order_delivered_at = this.order.order_delivered_at ? this.moment(this.order.order_delivered_at).format("YYYY-MM-DD") : null;
-            payload.user_shipping_details = this.order.user_shipping_details;
+
+            payload.user_shipping_details = Object.assign({}, this.order.user_shipping_details);
             payload.user_shipping_details.city = this.order.user_shipping_details.city.id;
 
             if(!this.$route.params.id){

@@ -71,9 +71,4 @@ class PackageRepository implements PackageRepositoryInterface
             "discount_id" => null
         ]);
     }
-
-    public function updatePackageQuantity($package_id, $product_id, $value)
-    {
-        Package::findOrFail($package_id)->products()->updateExistingPivot($product_id, ["quantity" => $value]);
-    }
 }

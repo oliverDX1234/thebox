@@ -121,7 +121,7 @@ class PackageService
 
             if ($products) {
                 foreach ($products as $product) {
-                    $package->products()->attach($product->id);
+                    $package->products()->attach($product->id, ["quantity" => $product->quantity]);
                 }
             }
 
@@ -207,7 +207,7 @@ class PackageService
             $package->products()->detach();
             if ($products) {
                 foreach ($products as $product) {
-                    $package->products()->attach($product->id);
+                    $package->products()->attach($product->id, ["quantity" => $product->quantity]);
                 }
             }
 
@@ -254,17 +254,4 @@ class PackageService
             throw new ApiException("package.discount_remove_failed", 500, $e);
         }
     }
-
-    /**
-     * @throws ApiException
-     */
-    public function updatePackageQuantity($request)
-    {
-        try {
-            $this->packageRepository->updatePackageQuantity($request->package_id, $request->product_id, $request->quantity);
-        } catch (Exception $e) {
-            throw new ApiException("package.quantity_update_failed", 500, $e);
-        }
-    }
-
 }

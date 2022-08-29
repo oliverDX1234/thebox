@@ -32,12 +32,34 @@ class Package extends Model implements HasMedia
         "seo_title",
         "seo_keywords",
         "seo_description",
+        "pre_made",
         "active"
     ];
 
     protected $casts = [
         'active' => 'boolean'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $query->price = $query->price ?? 0;
+
+            if(!$query->name){
+                $lastItem = Package::where("pre_made", 0)->latest()->first();
+
+                if($lastItem){
+                    $lastId = explode("-", $lastItem->name)[1];
+
+                    $query->name = "Package-".(++$lastId);
+                }else{
+                    $query->name = "Package-"."1";
+                }
+            }
+        });
+    }
 
     public function getDimensionsAttribute($value)
     {

@@ -15,7 +15,7 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 255)->nullable();
+            $table->string("name", 255);
             $table->string("url", 255)->nullable();
             $table->string("short_description", 250)->nullable();
             $table->string("unit_code", 100)->nullable();
@@ -29,7 +29,7 @@ class CreatePackagesTable extends Migration
             $table->string("seo_description")->nullable();
             $table->integer("price");
             $table->foreignId("discount_id")->nullable();
-            $table->boolean("pre_made")->default(true);
+            $table->boolean("pre_made")->default(false);
             $table->boolean("active")->default(true);
             $table->timestamps();
 

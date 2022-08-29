@@ -29,15 +29,17 @@ class Order extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(function (Order $model) {
-            $lastItem = Order::latest()->first();
+        static::creating(function (Order $query) {
+            if(!$query->order_number){
+                $lastItem = Order::latest()->first();
 
-            if($lastItem){
-                $lastId = explode("-", $lastItem->order_number)[1];
+                if($lastItem){
+                    $lastId = explode("-", $lastItem->order_number)[1];
 
-                $model->order_number = "Order-".$lastId + 1;
-            }else{
-                $model->order_number = "Order-"."0000001";
+                    $query->order_number = "Order-".(++$lastId);
+                }else{
+                    $query->order_number = "Order-"."0000001";
+                }
             }
         });
     }

@@ -708,7 +708,7 @@ export default {
             this.package.meta.keywords = tempPackage.seo_keywords;
             this.package.meta.description = tempPackage.seo_description;
 
-            this.addedProducts = tempPackage.products;
+            this.addedProducts = tempPackage.products.map(obj => ({...obj, "quantity": obj.pivot.quantity}));
 
             tempPackage.gallery.forEach(x => {
                 var file = {

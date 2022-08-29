@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id");
-            $table->foreignId("courier_id");
+            $table->foreignId("courier_id")->nullable();
             $table->string("order_number", 50);
             $table->enum("payment_type", ["cash", "card"]);
             $table->boolean("paid");

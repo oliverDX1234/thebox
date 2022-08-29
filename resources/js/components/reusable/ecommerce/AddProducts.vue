@@ -117,7 +117,7 @@ export default {
     },
     methods:{
         async loadProducts(){
-            this.products = await productService.getProducts();
+            this.products = await productService.getProducts().then( response => response.map(obj => ({...obj, "quantity": 1})));
         },
 
         addProducts() {
@@ -126,8 +126,12 @@ export default {
             this.selectedProducts = [];
         },
 
-        async quantityUpdated(value, id){
-            await packageService.updateProductQuantity(this.$route.params.id, id, value);
+        quantityUpdated(value, id){
+            let index = this.addedProducts.findIndex(x => x.id === id);
+
+            if(index !== -1){
+                this.addedProducts[index].quantity = value;
+            }
         },
 
 

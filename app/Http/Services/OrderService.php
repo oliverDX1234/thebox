@@ -61,30 +61,12 @@ class OrderService
             $order->save();
 
             if($request->products){
-                $package = Package::create([
-                    "price" => 0
-                ]);
-
-                foreach($request->products as $product){
-                    $package->products()->attach($product["id"]);
-                }
-
-                $package->price = array_reduce($request->products, function ($sum, $item)
-                {
-                    $sum += $item["price_discount"] ?? $item["price"];
-                    return $sum;
-                });
-
-                $package->save();
-
-                $order->packages()->attach($package->id, ["quantity" => 1]);
+                $this->createOrderPackage($request->products, $order);
             }else{
-
+                $this->addOrderPackages($request->packages, $order);
             }
-
-            $order->save();
         } catch (Exception $e) {
-            dd($e);
+
             throw new ApiException("orders.save_failed", 500, null, $e);
         }
     }
@@ -127,6 +109,44 @@ class OrderService
         } catch (Exception $e) {
             throw new ApiException("orders.not_found", $e->getCode(), $e);
         }
+    }
+
+    private function createOrderPackage($products, $order)
+    {
+        $package = Package::create([
+            "pre_made" => 0
+        ]);
+
+        foreach($products as $product){
+
+            $package->products()->attach($product["id"], ["quantity" => $product["quantity"]]);
+        }
+
+        $package->price = array_reduce($products, function ($sum, $item)
+        {
+            $sum += $item["price_discount"] ?? $item["price"];
+
+            return $sum;
+        });
+
+        $package->save();
+
+        $order->packages()->attach($package->id, ["quantity" => 1]);
+    }
+
+    private function addOrderPackages($packages, $order)
+    {
+        foreach($packages as $package){
+            $order->packages()->attach($package["id"], ["quantity" => $package["quantity"]]);
+        }
+
+        $order->total_price = array_reduce($packages, function($sum, $item){
+            $sum += $item["price_discount"] ?? $item["price"];
+
+            return $sum;
+        });
+
+        $order->save();
     }
 
 }

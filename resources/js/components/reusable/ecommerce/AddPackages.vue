@@ -52,6 +52,7 @@
 
                 <basic-table
                     @delete-item="removePackage"
+                    @quantity-updated="quantityUpdated"
                     :items="addedPackages"
                     :fields="fields"
                     :actions="['delete']">
@@ -87,6 +88,7 @@ export default {
                 {key: "name", sortable: true, label: "Name"},
                 {key: "unit_code", sortable: true, label: "Unit Code"},
                 {key: "price", sortable: true, label: "Price"},
+                {key: "quantity", sortable: true, label: "Quantity"},
                 {key: "action"}
             ],
         }
@@ -113,13 +115,21 @@ export default {
     },
     methods:{
         async loadPackages(){
-            this.packages = await packageService.getPackages();
+            this.packages = await packageService.getPackages().then( response => response.map(obj => ({...obj, "quantity": 1})));
         },
 
         addPackages() {
             this.addedPackages.push(...this.selectedPackages);
 
             this.selectedPackages = [];
+        },
+
+        quantityUpdated(value, id){
+            let index = this.addedPackages.findIndex(x => x.id === id);
+
+            if(index !== -1){
+                this.addedPackages[index].quantity = value;
+            }
         },
 
         removePackage(id) {
