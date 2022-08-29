@@ -154,7 +154,7 @@ class Package extends Model implements HasMedia
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)->withTimestamps();
+        return $this->belongsToMany(Product::class)->withTimestamps()->withPivot(["quantity"]);
     }
 
     public function attributes(): BelongsToMany

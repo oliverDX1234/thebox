@@ -52,6 +52,7 @@
 
                 <basic-table
                     @delete-item="removeProduct"
+                    @quantity-updated="quantityUpdated"
                     :items="addedProducts"
                     :fields="fields"
                     :actions="['delete']">
@@ -64,6 +65,8 @@
 <script>
 import basicTable from "../tables/BasicTable";
 import productService from "../../../services/productService";
+import packageService from "../../../services/packageService";
+import _ from "lodash/fp";
 
 export default {
     name: "AddProducts",
@@ -87,6 +90,7 @@ export default {
                 {key: "name", sortable: true, label: "Name"},
                 {key: "unit_code", sortable: true, label: "Unit Code"},
                 {key: "price", sortable: true, label: "Price"},
+                {key: "quantity", sortable: true, label: "Quantity"},
                 {key: "action"}
             ],
         }
@@ -121,6 +125,11 @@ export default {
 
             this.selectedProducts = [];
         },
+
+        async quantityUpdated(value, id){
+            await packageService.updateProductQuantity(this.$route.params.id, id, value);
+        },
+
 
         removeProduct(id) {
 

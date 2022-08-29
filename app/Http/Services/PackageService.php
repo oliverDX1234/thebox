@@ -255,4 +255,16 @@ class PackageService
         }
     }
 
+    /**
+     * @throws ApiException
+     */
+    public function updatePackageQuantity($request)
+    {
+        try {
+            $this->packageRepository->updatePackageQuantity($request->package_id, $request->product_id, $request->quantity);
+        } catch (Exception $e) {
+            throw new ApiException("package.quantity_update_failed", 500, $e);
+        }
+    }
+
 }

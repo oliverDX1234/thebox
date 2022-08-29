@@ -25,6 +25,18 @@
                 </div>
             </template>
 
+            <template v-slot:cell(quantity)="row">
+                <div class="position-relative">
+                    <NumberInputSpinner
+                        :min="1"
+                        :step="1"
+                        :value="row.item.pivot.quantity"
+                        :integerOnly="true"
+                        @input="quantityUpdated($event, row.item.id)"
+                    />
+                </div>
+            </template>
+
             <template v-slot:cell(action)="row">
                 <div class="d-flex">
 
@@ -99,8 +111,14 @@
 </template>
 
 <script>
+import NumberInputSpinner from "vue-number-input-spinner";
+import _ from "lodash";
+
 export default {
     name: "BasicTable",
+    components:{
+        NumberInputSpinner
+    },
     props: {
         items: {
             required: true,
@@ -116,6 +134,16 @@ export default {
             default: function () {
                 return [];
             }
+        }
+    },
+    methods:{
+        quantityUpdated(value, id){
+            if (this.timeout)
+                clearTimeout(this.timeout);
+
+            this.timeout = setTimeout(() => {
+                this.$emit('quantity-updated', value, id)
+            }, 1000)
         }
     }
 }

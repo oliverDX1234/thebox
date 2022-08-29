@@ -50,6 +50,7 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
 
         Route::apiResource("packages", PackageController::class);
         Route::get("packages/remove-discount/{id}", [PackageController::class, "removePackageDiscount"]);
+        Route::post("packages/update-quantity", [PackageController::class, "updatePackageQuantity"]);
 
         Route::apiResource("discounts", DiscountController::class);
         Route::get("discounts/show-products/{id}", [DiscountController::class, "getProductsForDiscount"]);

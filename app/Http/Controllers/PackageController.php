@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Http\Requests\PackageStoreRequest;
+use App\Http\Requests\UpdatePackageQuantityRequest;
 use App\Http\Services\PackageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -93,5 +94,15 @@ class PackageController extends Controller
         $this->packageService->removePackageDiscount($id);
 
         return response()->api(null , "packages.discount_successfully_removed", 200);
+    }
+
+    /**
+     * @throws ApiException
+     */
+    public function updatePackageQuantity(UpdatePackageQuantityRequest $request)
+    {
+        $this->packageService->updatePackageQuantity($request);
+
+        return response()->api(null , "packages.updated_package_quantity", 200);
     }
 }

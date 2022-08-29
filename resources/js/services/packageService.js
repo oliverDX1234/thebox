@@ -38,6 +38,16 @@ const PackageService = {
         await axios.get(`/api/packages/remove-discount/${id}`, {
             showToast: true
         });
+    },
+
+    async updateProductQuantity(package_id, product_id, value) {
+        await axios.post(`/api/packages/update-quantity`, {
+            package_id: package_id,
+            product_id: product_id,
+            quantity: value
+        }, {
+            showToast: true
+        });
     }
 }
 
