@@ -16,6 +16,7 @@ class CreatePackageProductTable extends Migration
         Schema::create('package_product', function (Blueprint $table) {
             $table->foreignId("product_id");
             $table->foreignId("package_id");
+            $table->integer("quantity");
             $table->timestamps();
 
             $table->primary(["product_id", "package_id"]);
