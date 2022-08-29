@@ -10,13 +10,16 @@ use Illuminate\Http\Request;
 
 class ProductService
 {
-    protected $productRepository;
+    private $productRepository;
+    private $discountService;
 
     public function __construct(
-        ProductRepositoryInterface $productRepository
+        ProductRepositoryInterface $productRepository,
+        DiscountService $discountService
     )
     {
         $this->productRepository = $productRepository;
+        $this->discountService = $discountService;
     }
 
     /**
