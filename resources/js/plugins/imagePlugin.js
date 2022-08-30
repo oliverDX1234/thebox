@@ -11,20 +11,15 @@ export default {
 
             switch (imgExtension) {
                 case "jpg":
-                    return require(`@assets/images${imgSplited[0]}.jpg`)
-                        .default;
+                    return require(`@assets/images${imgSplited[0]}.jpg`);
                 case "jpeg":
-                    return require(`@assets/images${imgSplited[0]}.jpeg`)
-                        .default;
+                    return require(`@assets/images${imgSplited[0]}.jpeg`);
                 case "png":
-                    return require(`@assets/images${imgSplited[0]}.png`)
-                        .default;
+                    return require(`@assets/images${imgSplited[0]}.png`);
                 case "gif":
-                    return require(`@assets/images${imgSplited[0]}.gif`)
-                        .default;
+                    return require(`@assets/images${imgSplited[0]}.gif`);
                 case "svg":
-                    return require(`@assets/images${imgSplited[0]}.svg`)
-                        .default;
+                    return require(`@assets/images${imgSplited[0]}.svg`);
             }
         };
     },
