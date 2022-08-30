@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Traits\ImageTrait;
+use App\Http\Traits\HasMediaGallery;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Package extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, ImageTrait;
+    use HasFactory, InteractsWithMedia, HasMediaGallery;
 
     protected $table = "packages";
 
@@ -90,70 +90,30 @@ class Package extends Model implements HasMedia
             ->height(300);
     }
 
-    public function getMainImageAttribute(): array
+
+    public function categories(): BelongsToMany
     {
-        if ($this->getFirstMedia("main_image")) {
-
-            $image = [];
-
-            $image["sm"] = $this->getFirstMedia("main_image")->getUrl("sm");
-            $image["md"] = $this->getFirstMedia("main_image")->getUrl("md");
-            $image["lg"] = $this->getFirstMedia("main_image")->getUrl();
-
-            return $image;
-        } else {
-
-            return [
-                "sm" => env("APP_URL") . "/images/package.png"
-            ];
-        }
-    }
-
-    public function getGalleryAttribute(): array
-    {
-        $images = $this->getMedia("gallery_images");
-        $gallery = [];
-
-        if($images->count()){
-
-            foreach($images as $key => $image){
-
-                $gallery[$key]["sm"] = $image->getUrl("sm");
-                $gallery[$key]["md"] = $image->getUrl("md");
-                $gallery[$key]["lg"] = $image->getUrl();
-                $gallery[$key]["infos"] = [
-                    "size" => $image->size,
-                    "model_id" => $image->model_id,
-                    "name" => $image->name,
-                    "id" => $image->id,
-                    "extension" => $image->mime_type
-                ];
-            }
-            return $gallery;
-        }else {
-            return [];
-        }
+        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
     public function getPriceDiscountAttribute(): ?float
     {
-        if(!$this->discount){
+        if (!$this->discount) {
             return null;
         }
 
-        if(!$this->discount->active){
+        if (!$this->discount->active) {
             return null;
         }
 
-        if($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()){
+        if ($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()) {
             return null;
         }
 
-        if($this->discount->type === "fixed"){
-
+        if ($this->discount->type === "fixed") {
             $price = max(0, $this->price - $this->discount->value);
-        }else{
-            $price = $this->price - ($this->price * ($this->discount->value/100));
+        } else {
+            $price = $this->price - ($this->price * ($this->discount->value / 100));
         }
 
         return round($price);
@@ -162,11 +122,6 @@ class Package extends Model implements HasMedia
     public function getPriceNoVatAttribute()
     {
         return round(($this->price_discount ?? $this->price) * (100 - $this->vat)/100);
-    }
-
-    public function categories(): BelongsToMany
-    {
-        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
     public function discount(): HasOne
