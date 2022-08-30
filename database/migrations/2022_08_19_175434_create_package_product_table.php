@@ -14,6 +14,7 @@ class CreatePackageProductTable extends Migration
     public function up()
     {
         Schema::create('package_product', function (Blueprint $table) {
+            $table->id();
             $table->foreignId("product_id");
             $table->foreignId("package_id");
             $table->integer("quantity");

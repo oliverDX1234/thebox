@@ -10,7 +10,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function findById($id): Order
     {
-        return Order::where("id", $id)->with("packages", "user", "courier")->first();
+        return Order::where("id", $id)->with("packages.products", "user", "courier")->first();
     }
 
     public function getOrders($request)

@@ -19,6 +19,7 @@ class Order extends Model
         "courier_id",
         "total_price",
         "paid",
+        "tracking_code",
         "total_price_no_vat",
         "payment_type",
         "order_sent_at",

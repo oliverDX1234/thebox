@@ -29,6 +29,7 @@ class CreateOrdersTable extends Migration
             $table->string("tracking_code")->nullable();
             $table->text("comment")->nullable();
             $table->string("checksum")->nullable();
+            $table->boolean("manual")->default(false);
             $table->timestamps();
 
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");

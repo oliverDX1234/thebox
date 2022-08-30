@@ -55,6 +55,7 @@
         "update_failed": "There was an error processing the update request",
         "discount_remove_failed": "There was en error while removing the discount",
         "discount_successfully_removed": "The product discount was successfully removed",
+        "product_price_fetch_failed": "The product price could not be fetched",
         "retrieved": "The products were successfully retrieved",
         "deleted": "The product was successfully deleted",
         "not_found": "The product was not found in the database"
@@ -71,6 +72,7 @@
         "discount_successfully_removed": "The package discount was successfully removed",
         "updated_package_quantity": "The package quantity was successfully updated",
         "quantity_update_failed": "There was an error while updating the quantity for the product",
+        "package_price_fetch_failed": "The package price could not be fetched",
         "retrieved": "The packages were successfully retrieved",
         "deleted": "The package was successfully deleted",
         "not_found": "The package was not found in the database"

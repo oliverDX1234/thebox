@@ -30,7 +30,8 @@ class OrderStoreRequest extends FormRequest
             "user_shipping_details" => "required",
             "products" => "required_without:packages",
             "packages" => "required_without:products",
-            "total_price" => "required"
+            "total_price" => "required",
+            "type_of_packages" => "required"
         ];
     }
 }

@@ -212,4 +212,13 @@ class PackageService
             throw new ApiException("package.discount_remove_failed", 500, $e);
         }
     }
+
+    public function getPackagePrice($id)
+    {
+        try {
+            return $this->packageRepository->getPackagePrice($id);
+        } catch (Exception $e) {
+            throw new ApiException("package.package_price_fetch_failed", 500, $e);
+        }
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Http\Requests\OrderStoreRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use App\Http\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

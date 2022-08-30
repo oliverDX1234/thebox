@@ -29,8 +29,18 @@
                 {{ row.value ? row.value : "/" }}
             </template>
 
+            <template v-slot:cell(show_quantity)="row">
+                {{ row.item.quantity }}
+            </template>
+
+            <template v-slot:cell(products)="row">
+                <b-badge variant="success" class="mr-1" v-for="product in row.item.products">
+                    {{ product.name }}
+                </b-badge>
+            </template>
+
             <template v-slot:cell(quantity)="row">
-                <div class="position-relative">
+                <div class="position-relative" style="min-width: 100px;">
                     <NumberInputSpinner
                         :min="1"
                         :max="1000"

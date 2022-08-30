@@ -13,12 +13,18 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 class OrderService
 {
     protected $orderRepository;
+    protected $packageService;
+    protected $productService;
 
     public function __construct(
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        PackageService $packageService,
+        ProductService $productService
     )
     {
         $this->orderRepository = $orderRepository;
+        $this->packageService = $packageService;
+        $this->productService = $productService;
     }
 
     /**
@@ -57,14 +63,12 @@ class OrderService
             $order = Order::make($request->except("id"));
 
             $order->user_shipping_details = json_encode($request->user_shipping_details);
+            $order->manual = 1;
 
             $order->save();
 
-            if($request->products){
-                $this->createOrderPackage($request->products, $order);
-            }else{
-                $this->addOrderPackages($request->packages, $order);
-            }
+            $this->addOrderPackages($request->packages, $request->type_of_packages, $order);
+
         } catch (Exception $e) {
 
             throw new ApiException("orders.save_failed", 500, null, $e);
@@ -81,6 +85,12 @@ class OrderService
 
         try {
             $order = $this->orderRepository->findById($request->id);
+
+            $order->update($request->except("id"));
+
+            $order->user_shipping_details = json_encode($request->user_shipping_details);
+
+            $order->save();
         } catch (Exception $e) {
             throw new ApiException("orders.not_found", $e->getCode(), $e);
         }
@@ -111,42 +121,76 @@ class OrderService
         }
     }
 
-    private function createOrderPackage($products, $order)
+    /**
+     * @throws ApiException
+     */
+    private function createOrderPackage($package)
     {
-        $package = Package::create([
+        $dbPackage = Package::create([
             "pre_made" => 0
         ]);
 
-        foreach($products as $product){
+        $totalPrice = 0;
 
-            $package->products()->attach($product["id"], ["quantity" => $product["quantity"]]);
+        foreach ($package["products"] as $product) {;
+
+            $totalPrice += $this->productService->getProductPrice($product["id"])["price"] * $product["quantity"];
+
+            $dbPackage->products()->attach($product["id"], ["quantity" => $product["quantity"]]);
         }
 
-        $package->price = array_reduce($products, function ($sum, $item)
-        {
-            $sum += $item["price_discount"] ?? $item["price"];
+        $dbPackage->price = $totalPrice;
 
-            return $sum;
-        });
+        $dbPackage->save();
 
-        $package->save();
-
-        $order->packages()->attach($package->id, ["quantity" => 1]);
+        return $dbPackage;
     }
 
-    private function addOrderPackages($packages, $order)
+    /**
+     * @throws ApiException
+     */
+    private function addOrderPackages($packages, $typeOfPackages, $order)
     {
-        foreach($packages as $package){
-            $order->packages()->attach($package["id"], ["quantity" => $package["quantity"]]);
+
+        if($typeOfPackages === "existing"){
+
+            $totalPrice = 0;
+
+            foreach ($packages as $package) {
+
+                $priceArr = $this->packageService->getPackagePrice($package["id"]);
+                echo($priceArr["price"]);
+                $totalPrice += $priceArr["price"] * $package["quantity"];
+
+                $order->packages()->attach(
+                    $package["id"],
+                    [
+                        "quantity" => $package["quantity"],
+                        "package_name" => $package["name"],
+                        "package_price" => $priceArr["price"],
+                        "package_price_no_vat" => $priceArr["price_no_vat"]
+                    ]
+                );
+            }
+
+            $order->total_price = $totalPrice;
+
+            $order->save();
+        }else{
+
+            foreach ($packages as $package) {
+                $createdPackage = $this->createOrderPackage($package);
+
+                $order->packages()->attach(
+                    $createdPackage->id,
+                    [
+                        "quantity" => 1,
+                        "package_name" => $createdPackage->name,
+                        "package_price" => $createdPackage->price_discount ?? $createdPackage->price,
+                        "package_price_no_vat" => $createdPackage->price_no_vat
+                    ]);
+            }
         }
-
-        $order->total_price = array_reduce($packages, function($sum, $item){
-            $sum += $item["price_discount"] ?? $item["price"];
-
-            return $sum;
-        });
-
-        $order->save();
     }
 
 }

@@ -231,6 +231,25 @@
                                         </div>
 
                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Tracking Code</label>
+                                                    <b-input
+                                                        v-model="order.tracking_code"
+                                                        class="form-control"
+                                                        placeholder="Enter Tracking Code">
+
+                                                    </b-input>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-12">
                                                 <hr>
                                             </div>
@@ -263,6 +282,23 @@
                                             </div>
                                         </div>
 
+                                        <div class="row" v-if="order.comment">
+                                            <div class="col-12">
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" v-if="order.comment">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Comment</label>
+                                                    <p>
+                                                        {{ order.comment }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-12">
                                                 <hr>
@@ -272,25 +308,51 @@
                                         <div class="row">
                                             <div v-if="!$route.params.id" class="col-12">
                                                 <b-tabs content-class="p-3 text-muted" @activate-tab="tabChanged">
-                                                    <b-tab active class="border-0">
-                                                        <template v-slot:title>
-                                                          <span class="d-inline-block d-sm-none">
-                                                            <i class="fas fa-home"></i>
-                                                          </span>
-                                                            <span class="d-none d-sm-inline-block">Products</span>
-                                                        </template>
-                                                        <add-products :already-added-products="addedProducts"
-                                                                      @added-products="addProducts"></add-products>
-                                                    </b-tab>
-                                                    <b-tab>
+                                                    <b-tab active>
                                                         <template v-slot:title>
                                                           <span class="d-inline-block d-sm-none">
                                                             <i class="far fa-user"></i>
                                                           </span>
-                                                            <span class="d-none d-sm-inline-block">Packages</span>
+                                                            <span
+                                                                class="d-none d-sm-inline-block">Existing Packages</span>
                                                         </template>
                                                         <add-packages :already-added-packages="addedPackages"
                                                                       @added-packages="addPackages"></add-packages>
+                                                    </b-tab>
+                                                    <b-tab class="border-0">
+                                                        <template v-slot:title>
+                                                          <span class="d-inline-block d-sm-none">
+                                                            <i class="fas fa-home"></i>
+                                                          </span>
+                                                            <span class="d-none d-sm-inline-block">New Packages</span>
+                                                        </template>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <add-products :already-added-products="addedProducts"
+                                                                              @added-products="addProducts"></add-products>
+
+                                                                <b-button
+                                                                    class="float-right mt-3"
+                                                                    variant="primary"
+                                                                    :disabled="!addedProducts.length"
+                                                                    @click="createPackage"
+                                                                >
+                                                                    Add Package
+                                                                </b-button>
+                                                            </div>
+                                                            <div class="col-md-6">
+
+                                                                <h4 class="card-title mb-3">Selected packages</h4>
+
+                                                                <basic-table :fields="fields" :items="addedPackages"
+                                                                             :actions="['delete']"
+                                                                             @delete-item="deletePackage"
+                                                                             @quantity-updated="quantityUpdated"
+                                                                >
+
+                                                                </basic-table>
+                                                            </div>
+                                                        </div>
                                                     </b-tab>
                                                 </b-tabs>
                                             </div>
@@ -311,7 +373,7 @@
                                                         <label class="control-label">Total Price:<span
                                                             class="required">*</span></label>
                                                         <b-input placeholder="Enter Price"
-                                                                 :disabled="!addedProducts.length && !addedPackages.length"
+                                                                 :disabled="!!$route.params.id || (!addedProducts.length && !addedPackages.length)"
                                                                  :class="{ 'is-invalid': this.submitted && $v.order.total_price.$invalid }"
                                                                  v-model="order.total_price"></b-input>
                                                     </div>
@@ -326,6 +388,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Delivery Price:</label>
                                                         <b-input
+                                                            :disabled="!!$route.params.id"
                                                             v-model="order.delivery_price"></b-input>
                                                     </div>
                                                 </div>
@@ -384,6 +447,7 @@ export default {
         return {
             title: "New Order",
             loading: false,
+            activeTab: "existing",
             paymentOptions: ["cash", "card"],
             couriers: [],
             paymentStatuses: ["Paid", "Unpaid"],
@@ -391,15 +455,10 @@ export default {
             addedPackages: [],
             users: [],
             cities: [],
-            fields: [
-                {key: "thumb", sortable: true, label: "Image"},
-                {key: "name", sortable: true, label: "Name"},
-                {key: "unit_code", sortable: true, label: "Unit Code"},
-                {key: "price", sortable: true, label: "Price"}
-            ],
             order: {
                 user: null,
                 courier: null,
+                comment: null,
                 payment_type: null,
                 paid: "Paid",
                 total_price: null,
@@ -407,6 +466,7 @@ export default {
                 delivery_price: 0,
                 order_sent_at: null,
                 order_delivered_at: null,
+                tracking_code: null,
                 user_shipping_details: {
                     email: null,
                     first_name: null,
@@ -435,50 +495,53 @@ export default {
             total_price: {required}
         },
     },
+    computed: {
+        fields() {
+            let fields = [
+                {key: "thumb", sortable: true, label: "Image"},
+                {key: "name", sortable: true, label: "Name"},
+                {key: "unit_code", sortable: true, label: "Unit Code"},
+                {key: "price", sortable: true, label: "Price"}
+            ];
+
+            if (!this.$route.params.id) {
+                fields.push({key: "quantity", sortable: true, label: "Quantity"});
+                fields.push({key: "action"});
+            } else {
+                fields.push({key: "products", sortable: true, label: "Products"})
+                fields.push({key: "show_quantity", sortable: true, label: "Quantity"})
+            }
+
+            return fields;
+        }
+    },
     watch: {
 
-        addedProducts() {
+        addedPackages: {
+            handler(){
 
-            if (!this.addedProducts.length) {
-                this.order.total_price = null;
-                this.order.total_price_no_vat = null;
-            } else if (this.addedProducts.length === 1) {
-                this.order.total_price = this.addedProducts[0].price_discount ? this.addedProducts[0].price_discount : this.addedProducts[0].price;
-                this.order.total_price_no_vat = this.addedProducts[0].price_no_vat;
-            } else {
-                this.order.total_price = this.addedProducts.reduce((total, current) => {
-                    return total + (current.price_discount ? current.price_discount : current.price)
-                }, 0)
+                if (this.$route.params.id) {
+                    return;
+                }
 
-                this.order.total_price_no_vat = this.addedProducts.reduce((total, current) => {
-                    return total + (current.price_no_vat)
-                }, 0)
-            }
+                if (!this.addedPackages.length) {
+                    this.order.total_price = null;
+                    this.order.total_price_no_vat = null;
+                } else if (this.addedPackages.length === 1) {
+                    this.order.total_price = (this.addedPackages[0].price_discount ? this.addedPackages[0].price_discount : this.addedPackages[0].price) * this.addedPackages[0].quantity;
+                    this.order.total_price_no_vat = this.addedPackages[0].price_no_vat;
+                } else {
+                    this.order.total_price = this.addedPackages.reduce((total, current) => {
+                        return total + ((current.price_discount ? current.price_discount : current.price)) * current.quantity
+                    }, 0)
 
-        },
+                    this.order.total_price_no_vat = this.addedPackages.reduce((total, current) => {
+                        return total + (current.price_no_vat) * current.quantity
+                    }, 0)
+                }
 
-        addedPackages() {
-
-            if(this.$route.params.id){
-                return;
-            }
-
-            if (!this.addedPackages.length) {
-                this.order.total_price = null;
-                this.order.total_price_no_vat = null;
-            } else if (this.addedPackages.length === 1) {
-                this.order.total_price = this.addedPackages[0].price_discount ? this.addedPackages[0].price_discount : this.addedPackages[0].price;
-                this.order.total_price_no_vat = this.addedPackages[0].price_no_vat;
-            } else {
-                this.order.total_price = this.addedPackages.reduce((total, current) => {
-                    return total + (current.price_discount ? current.price_discount : current.price)
-                }, 0)
-
-                this.order.total_price_no_vat = this.addedPackages.reduce((total, current) => {
-                    return total + (current.price_no_vat)
-                }, 0)
-            }
-
+            },
+            deep: true
         }
     },
     methods: {
@@ -508,12 +571,68 @@ export default {
             this.couriers = await courierService.getCouriers();
         },
 
-        tabChanged() {
+        tabChanged(value) {
+
+            if (value === 0) {
+                this.activeTab = "existing"
+            } else {
+                this.activeTab = "new"
+            }
+
             this.order.total_price = null;
             this.order.total_price_no_vat = null;
 
             this.addedProducts = [];
             this.addedPackages = [];
+        },
+
+        quantityUpdated(value, id){
+            let index = this.addedPackages.findIndex(x => x.id === id);
+
+            if(index !== -1){
+                this.addedPackages[index].quantity = value;
+            }
+        },
+
+        createPackage() {
+            let newPackage = {};
+
+            newPackage.id = Date.now();
+
+            newPackage.name = "/";
+            newPackage.unit_code = "/";
+            newPackage.quantity = 1;
+            newPackage.main_image = {
+                sm: "/images/package.png"
+            }
+
+            newPackage.products = [];
+
+            let totalPrice = 0;
+            let totalPriceNoVat = 0;
+
+            this.addedProducts.forEach(product => {
+                newPackage.products.push(product);
+
+                totalPrice += (product.price_discount ?? product.price) * product.quantity;
+                totalPriceNoVat += product.price_no_vat * product.quantity
+            })
+
+            newPackage.price = totalPrice;
+            newPackage.price_no_vat = totalPriceNoVat;
+
+            this.addedProducts = [];
+
+            this.addedPackages.push(newPackage);
+        },
+
+        deletePackage(id) {
+
+            let index = this.addedPackages.findIndex(x => x.id === id)
+
+            if (index !== -1) {
+                this.addedPackages.splice(index, 1);
+            }
         },
 
         addProducts(products) {
@@ -524,7 +643,7 @@ export default {
             this.addedPackages = packages;
         },
 
-        async formSubmit() {
+        formSubmit() {
 
             this.submitted = true;
 
@@ -533,17 +652,37 @@ export default {
 
             if (!this.$v.$invalid) {
 
-                let payload = this.preparePayload();
-
-                if (this.$route.params.id) {
-                    await OrderService.updateOrder(this.$route.params.id, payload);
-
-                    await this.$router.push("/admin/orders");
+                if (!this.$route.params.id) {
+                    this.submit();
                 } else {
-                    await OrderService.storeOrder(payload);
-
-                    await this.$router.push("/admin/orders");
+                    this.$swal.fire({
+                        title: "Are you sure?",
+                        text: "This action will update an active order!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#34c38f",
+                        cancelButtonColor: "#f46a6a",
+                        confirmButtonText: "Yes, update it!"
+                    }).then(async result => {
+                        if (result.value) {
+                            this.submit();
+                        }
+                    });
                 }
+            }
+        },
+
+        async submit() {
+            let payload = this.preparePayload();
+
+            if (this.$route.params.id) {
+                await OrderService.updateOrder(this.$route.params.id, payload);
+
+                await this.$router.push("/admin/orders");
+            } else {
+                await OrderService.storeOrder(payload);
+
+                await this.$router.push("/admin/orders");
             }
         },
 
@@ -555,11 +694,13 @@ export default {
             this.order.courier = tempOrder.courier;
             this.order.total_price = tempOrder.total_price;
             this.order.total_price_no_vat = tempOrder.total_price_no_vat;
+            this.order.comment = tempOrder.comment;
             this.order.order_sent_at = new Date(tempOrder.order_sent_at);
             this.order.order_delivered_at = new Date(tempOrder.order_delivered_at);
             this.order.paid = tempOrder.paid ? "Paid" : "Unpaid";
             this.order.payment_type = tempOrder.payment_type;
             this.order.user_shipping_details = tempOrder.user_shipping_details;
+            this.order.tracking_code = tempOrder.tracking_code;
             this.order.delivery_price = tempOrder.delivery_price;
             this.addedPackages = tempOrder.packages.map(obj => ({...obj, "quantity": obj.pivot.quantity}));
 
@@ -591,6 +732,7 @@ export default {
             payload.courier_id = this.order.courier?.id;
             payload.payment_type = this.order.payment_type;
             payload.paid = this.order.paid === "Paid";
+            payload.tracking_code = this.order.tracking_code;
             payload.total_price = this.order.total_price;
             payload.total_price_no_vat = this.order.total_price_no_vat;
             payload.delivery_price = this.order.delivery_price;
@@ -600,8 +742,9 @@ export default {
             payload.user_shipping_details = Object.assign({}, this.order.user_shipping_details);
             payload.user_shipping_details.city = this.order.user_shipping_details.city.id;
 
-            if(!this.$route.params.id){
-                payload.products = this.addedProducts;
+            payload.type_of_packages = this.activeTab;
+
+            if (!this.$route.params.id) {
                 payload.packages = this.addedPackages;
             }
 
