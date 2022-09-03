@@ -17,9 +17,14 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $orders = Order::with("packages", "user", "courier");
 
-        if($request->has("statuses")){
+        if($request->has("paymentTypes")){
 
-            $orders->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+            $orders->where("payment_type", "=", $request->paymentTypes);
+        }
+
+        if($request->has("users")){
+
+            $orders->where("payment_type", "=", $request->paymentTypes);
         }
 
         return $orders->get();

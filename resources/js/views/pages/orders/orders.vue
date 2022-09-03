@@ -20,7 +20,7 @@
                                       @delete-item="deleteOrder"
                                       :search="true"
                                       :items="orders"
-                                      :filteringOptions="['statuses']"
+                                      :filteringOptions="['paymentTypes']"
                                       :busy="busy"
                                       :filters="filters"
                                       :fields="fields"
@@ -54,7 +54,7 @@ export default {
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "order_number", sortable: true, label: "Order Number"},
-                {key: "user_id", sortable: true, label: "User"},
+                {key: "user", sortable: true, label: "User"},
                 {key: "payment_type", sortable: true, label: "Payment Type"},
                 {key: "paid", sortable: true, label: "Paid"},
                 {key: "total_price", sortable: true, label: "Total Price"},
@@ -76,20 +76,22 @@ export default {
     watch: {
         'filters': {
             deep: true,
-            handler(filter) {
+            handler(filter, oldFilter) {
+                if(!oldFilter){
+                    return;
+                }
 
                 this.$router.replace({
                     ...this.$route,
                     query: filter,
                 }).catch(()=>{});
-
-                this.getOrders();
-
             },
         },
     },
     created() {
         this.filters = this.$route.query;
+
+        this.getOrders()
     },
     methods: {
         editOrder(id) {

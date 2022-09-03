@@ -152,6 +152,11 @@
                         <b-badge v-else class="p-1 text-capitalize" variant="primary">{{ row.value }}</b-badge>
                     </div>
                 </template>
+                <template v-slot:cell(user)="row">
+                    <div>
+                        {{ row.value.first_name }}  {{ row.value.last_name }}
+                    </div>
+                </template>
                 <template v-slot:cell(order_shipping_email)="row">
                     <div>
                         <div style="min-width: 80px;">
