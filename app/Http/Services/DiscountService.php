@@ -70,10 +70,14 @@ class DiscountService
     /**
      * @throws ApiException
      */
-    public function deleteDiscount($id)
+    public function deleteDiscount(Discount $discount)
     {
+        if($discount->is_default) {
+            throw new ApiException("discounts.default_cant_be_deleted", 400, null);
+        }
+
         try {
-            $this->discountRepository->deleteDiscount($id);
+            $this->discountRepository->deleteDiscount($discount->id);
         } catch (Exception $e) {
             throw new ApiException("discounts.not_found", $e->getCode(), null, $e);
         }
