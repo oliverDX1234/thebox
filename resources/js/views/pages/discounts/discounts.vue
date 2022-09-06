@@ -55,6 +55,7 @@ export default {
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
+                {key: "name", sortable: true, label: "Name"},
                 {key: "value", sortable: true, label: "Value"},
                 {key: "type", sortable: true, label: "Type"},
                 {key: "start_date", sortable: true, label: "Start Date"},

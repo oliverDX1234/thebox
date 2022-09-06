@@ -45,12 +45,14 @@ class Discount extends Model
     protected $appends = ["is_valid"];
 
     protected $fillable = [
-      "value",
-      "type",
-      "start_date",
-      "end_date",
-      "active"
+        "value",
+        "name",
+        "type",
+        "start_date",
+        "end_date",
+        "active"
     ];
+
     protected $casts = [
         'active' => 'boolean'
     ];
@@ -62,7 +64,7 @@ class Discount extends Model
 
     public function getIsValidAttribute(): bool
     {
-        if($this->start_date < Carbon::now()->toDateTimeString() && $this->end_date > Carbon::now()->toDateTimeString()){
+        if ($this->start_date < Carbon::now()->toDateTimeString() && $this->end_date > Carbon::now()->toDateTimeString()) {
             return true;
         }
 

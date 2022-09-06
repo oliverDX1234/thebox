@@ -52,7 +52,6 @@ class DiscountService
      */
     public function saveDiscount($request)
     {
-
         try {
 
             if(!$request->end_date){
@@ -76,7 +75,6 @@ class DiscountService
         try {
             $this->discountRepository->deleteDiscount($id);
         } catch (Exception $e) {
-
             throw new ApiException("discounts.not_found",  $e->getCode(), null, $e);
         }
     }
@@ -89,7 +87,6 @@ class DiscountService
         try {
             return $this->discountRepository->getProductsForDiscount($id);
         } catch (Exception $e) {
-
             throw new ApiException("discounts.discount_products_error",  $e->getCode(), null, $e);
         }
     }
@@ -102,12 +99,11 @@ class DiscountService
         try {
             return $this->discountRepository->updateStatus($id);
         } catch (Exception $e) {
-
             throw new ApiException("discounts.update_failed",  $e->getCode(), null, $e);
         }
     }
 
-    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount)
+    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount): void
     {
         if ($priceDiscount === null) {
             $sellable->discount_id = null;
