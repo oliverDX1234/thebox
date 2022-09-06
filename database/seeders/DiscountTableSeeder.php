@@ -39,9 +39,8 @@ class DiscountTableSeeder extends Seeder
             90
         ];
 
-
+//TODO move to separate seeder, to be used on production
         foreach ($premadeDiscounts as $discount) {
-            echo "Creating discount $discount";
             Discount::factory()->create([
                 'value' => $discount,
                 'name' => "Default Discount $discount%",
@@ -49,6 +48,7 @@ class DiscountTableSeeder extends Seeder
                 'end_date' => Carbon::now()->addYears(100),
                 'type' => 'percent',
                 'active' => true,
+                'is_default' => true
             ]);
         }
 

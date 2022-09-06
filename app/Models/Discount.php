@@ -54,7 +54,8 @@ class Discount extends Model
     ];
 
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
+        'is_default' => 'boolean'
     ];
 
     public function products(): HasMany

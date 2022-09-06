@@ -14,7 +14,17 @@
                                 @click="$router.push('/admin/discounts/new')"
                             >
                                 <i class="mdi mdi-plus mr-2"></i> New discount
+
                             </a>
+                            <div class="col-md-12">
+                                <b-form-checkbox v-model="showDefaults"
+                                                 size="lg" switch
+                                                 class="mb-1 mt-2"
+                                                 @change="toggleDefaultsFilter()"
+                                >
+                                    <label>Show default discounts</label>
+                                </b-form-checkbox>
+                            </div>
                         </div>
                         <custom-table
                             :busy="busy"
@@ -52,6 +62,7 @@ export default {
             title: "Discounts",
             discounts: [],
             filters: null,
+            showDefaults: this.$route.query.showDefaults,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
@@ -73,7 +84,8 @@ export default {
                 this.$router.replace({
                     ...this.$route,
                     query: filter,
-                }).catch(()=>{});
+                }).catch(() => {
+                });
 
                 this.getDiscounts();
             },
@@ -104,8 +116,12 @@ export default {
             });
         },
 
-        async toggleItem(id){
+        async toggleItem(id) {
             await DiscountService.updateStatus(id);
+        },
+
+        async toggleDefaultsFilter() {
+            await this.$router.push({path: '/admin/discounts', query: {showDefaults: !!this.showDefaults}})
         },
 
         async getDiscounts() {
@@ -116,7 +132,7 @@ export default {
             this.busy = false;
         },
 
-        filtersUpdated(value){
+        filtersUpdated(value) {
             this.filters = value;
         }
     }

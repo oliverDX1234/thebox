@@ -30,6 +30,10 @@ class DiscountRepository implements DiscountRepositoryInterface
             $discounts->where("type", "=", $request->discountTypes === "Fixed" ? "fixed" : "percent");
         }
 
+        if(!$request->has('showDefaults') || !$request->showDefaults) {
+            $discounts->where("is_default", false);
+        }
+
         return $discounts->get();
     }
 
