@@ -54,7 +54,7 @@ class DiscountService
     {
         try {
 
-            if(!$request->end_date){
+            if (!$request->end_date) {
                 $request->replace(array_merge($request->all(), ["end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString()]));
             }
 
@@ -75,7 +75,7 @@ class DiscountService
         try {
             $this->discountRepository->deleteDiscount($id);
         } catch (Exception $e) {
-            throw new ApiException("discounts.not_found",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.not_found", $e->getCode(), null, $e);
         }
     }
 
@@ -87,7 +87,7 @@ class DiscountService
         try {
             return $this->discountRepository->getProductsForDiscount($id);
         } catch (Exception $e) {
-            throw new ApiException("discounts.discount_products_error",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.discount_products_error", $e->getCode(), null, $e);
         }
     }
 
@@ -99,7 +99,7 @@ class DiscountService
         try {
             return $this->discountRepository->updateStatus($id);
         } catch (Exception $e) {
-            throw new ApiException("discounts.update_failed",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.update_failed", $e->getCode(), null, $e);
         }
     }
 
@@ -126,15 +126,15 @@ class DiscountService
     private function addProductsToDiscount($discount_id, $product_ids = null, $category_ids = null)
     {
 
-        if(count($category_ids)){
+        if (count($category_ids)) {
 
             $category_products = new Collection();
 
-            foreach($category_ids as $id){
+            foreach ($category_ids as $id) {
                 $category_products = $category_products->merge(Category::where("id", $id)->with("products")->first()->products);
             }
 
-            if(count($product_ids)){
+            if (count($product_ids)) {
                 $category_products = $category_products->merge(Product::whereIn("id", $product_ids)->get());
             }
 
@@ -143,7 +143,7 @@ class DiscountService
             Product::whereIn("id", $finalIds)->update([
                 "discount_id" => $discount_id
             ]);
-        }else if(count($product_ids)){
+        } else if (count($product_ids)) {
             Product::whereIn("id", $product_ids)->update([
                 "discount_id" => $discount_id
             ]);
