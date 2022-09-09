@@ -34,7 +34,7 @@
             </template>
 
             <template v-slot:cell(products)="row">
-                <b-badge variant="success" class="mr-1" v-for="product in row.item.products">
+                <b-badge variant="success" class="mr-1" v-for="product in row.item.products" :key="row.item.id">
                     {{ product.name }}
                 </b-badge>
             </template>

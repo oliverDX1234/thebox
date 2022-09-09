@@ -27,7 +27,7 @@ class OrderRepository implements OrderRepositoryInterface
             $orders->where("payment_type", "=", $request->paymentTypes);
         }
 
-        return $orders->get();
+        return $orders->limit(10)->get();
     }
 
     public function deleteOrder($id)

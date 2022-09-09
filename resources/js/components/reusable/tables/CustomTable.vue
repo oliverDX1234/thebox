@@ -306,8 +306,11 @@ export default {
     name: 'custom-table',
     props: {
         items: {
-            required: true,
-            type: Array
+            type: [Array, Function],
+            required: false,
+            default: function() {
+                return []
+            }
         },
         attributes: {
             required: false,

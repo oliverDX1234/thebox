@@ -19,7 +19,7 @@
                         <custom-table @edit-item="editOrder"
                                       @delete-item="deleteOrder"
                                       :search="true"
-                                      :items="orders"
+                                      :items="getOrders"
                                       :filteringOptions="['paymentTypes']"
                                       :busy="busy"
                                       :filters="filters"
@@ -48,7 +48,6 @@ export default {
     data() {
         return {
             title: "Orders",
-            orders: [],
             filters: null,
             busy: false,
             fields: [
@@ -90,8 +89,6 @@ export default {
     },
     created() {
         this.filters = this.$route.query;
-
-        this.getOrders()
     },
     methods: {
         editOrder(id) {
@@ -118,12 +115,17 @@ export default {
 
         },
 
-        async getOrders() {
+        async getOrders(ctx) {
+
+            console.log(ctx);
+
             this.busy = true;
 
-            this.orders = await OrderService.getOrders(this.filters);
+            let response = await OrderService.getOrders(this.filters);
 
             this.busy = false;
+
+            return response;
         },
 
         filtersUpdated(value){
