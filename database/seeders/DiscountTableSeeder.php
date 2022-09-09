@@ -45,7 +45,7 @@ class DiscountTableSeeder extends Seeder
                 'value' => $discount,
                 'name' => "Default Discount $discount%",
                 'start_date' => Carbon::now(),
-                'end_date' => Carbon::now()->addYears(100),
+                'end_date' => null,
                 'type' => 'percent',
                 'active' => true,
                 'is_default' => true

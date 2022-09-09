@@ -93,6 +93,8 @@ export default {
     },
     created() {
         this.filters = this.$route.query;
+        if(JSON.parse(this.filters.showDefaults) === true) //todo review
+            this.fields.splice(2, 0, {key: 'is_default', sortable: true, label: 'Default'})
     },
     methods: {
         async deleteDiscount(id) {

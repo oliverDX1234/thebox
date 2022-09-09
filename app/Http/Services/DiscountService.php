@@ -53,11 +53,6 @@ class DiscountService
     public function saveDiscount($request)
     {
         try {
-
-            if (!$request->end_date) {
-                $request->replace(array_merge($request->all(), ["end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString()]));
-            }
-
             $discount = Discount::create($request->all());
 
             $this->addProductsToDiscount($discount->id, $request->product_ids, $request->category_ids);
@@ -116,9 +111,10 @@ class DiscountService
 
         if ($sellable->price_discount !== $priceDiscount) {
             $discount = Discount::create([
+                "name" => "$sellable->name specific discount",
                 "type" => "fixed",
                 "start_date" => Carbon::now()->toDateTimeLocalString(),
-                "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
+                "end_date" => null,
                 "value" => $originalPrice - $priceDiscount,
                 "active" => true
             ]);

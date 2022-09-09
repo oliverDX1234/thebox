@@ -18,9 +18,8 @@ class DiscountRepository implements DiscountRepositoryInterface
     public function getDiscounts($request)
     {
         $discounts = Discount::with("products")
-            ->whereRaw("end_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))
-//            ->whereHas("products")
-        ;
+            ->where("end_date", ">", Carbon::now()->format('Y-m-d H:i'))
+            ->orWhere("end_date", "=", null);
 
         if ($request->has("statuses")) {
             $discounts->where("active", "=", $request->statuses === "Active" ? 1 : 0);

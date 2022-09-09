@@ -72,7 +72,6 @@ class PackageService
     {
         try {
             $package = Package::make($request->all());
-
             //URL, dimensions
             $package->url = slugify($request->name);
             $package->active = !!$request->active;
@@ -102,7 +101,6 @@ class PackageService
     public function updatePackage(Request $request)
     {
         try {
-
             $package = $this->packageRepository->findById($request->id);
 
             $package->update($request->all());
@@ -126,7 +124,7 @@ class PackageService
             $package->save();
 
         } catch (Exception $e) {
-            throw new ApiException("packages.update_failed", 500, $e);
+            throw new ApiException("packages.update_failed", 500, null, $e);
         }
     }
 

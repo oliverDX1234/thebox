@@ -109,7 +109,7 @@
                 <template v-slot:cell(end_date)="row">
 
                     <div style="min-width: 80px;">
-                        <span>{{ moment(row.value, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") }}</span>
+                        <span>{{ moment(row.value, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") | nullEndDate  }}</span>
                     </div>
                 </template>
 
@@ -280,6 +280,13 @@ export default {
                 return [];
             }
         }
+    },
+    filters: {
+      nullEndDate: function (value) {
+          if (!(value == 'Invalid date'))
+              return value;
+          return 'No end date.'
+      }
     },
     components: {
         filteringOptions

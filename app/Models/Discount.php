@@ -65,10 +65,15 @@ class Discount extends Model
 
     public function getIsValidAttribute(): bool
     {
-        if ($this->start_date < Carbon::now()->toDateTimeString() && $this->end_date > Carbon::now()->toDateTimeString()) {
+        if (
+            $this->start_date < Carbon::now()->toDateTimeString() &&
+            $this->end_date > Carbon::now()->toDateTimeString() &&
+            $this->active
+        ) {
             return true;
         }
 
         return false;
     }
+
 }
