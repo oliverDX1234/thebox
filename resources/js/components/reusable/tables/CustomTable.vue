@@ -23,7 +23,7 @@
                     <label class="d-inline-flex align-items-center">
                         Search:
                         <b-form-input
-                            v-model="filter"
+                            @input="searchFun"
                             type="search"
                             class="form-control form-control-sm ml-2"
                         ></b-form-input>
@@ -47,6 +47,7 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 :filter="filter"
+                show-empty
                 :filter-included-fields="filterOn"
                 @filtered="onFiltered"
             >
@@ -278,6 +279,13 @@
                     </div>
                 </template>
 
+                <template #empty="scope">
+                    <div class="text-center"><p>No records found</p></div>
+                </template>
+                <template #emptyfiltered="scope">
+                    <div class="text-center"><p>No records found</p></div>
+                </template>
+
                 <template #table-busy>
                     <div class="text-center text-primary my-2">
                         <b-spinner class="align-middle"></b-spinner>
@@ -289,10 +297,13 @@
         </div>
         <div class="row">
             <div class="col">
+                <div v-if="this.total ?? this.rows" class="float-left">
+                    {{ numItemsDiv }}
+                </div>
                 <div class="dataTables_paginate paging_simple_numbers float-right">
                     <ul class="pagination pagination-rounded mb-0">
                         <!-- pagination -->
-                        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage"></b-pagination>
+                        <b-pagination v-model="currentPage" :total-rows="total ?? rows" :per-page="perPage"></b-pagination>
                     </ul>
                 </div>
             </div>
@@ -311,6 +322,11 @@ export default {
             default: function() {
                 return []
             }
+        },
+        total: {
+            type: Number,
+            required: false,
+            default: null
         },
         attributes: {
             required: false,
@@ -360,6 +376,14 @@ export default {
          */
         rows() {
             return this.items.length;
+        },
+
+        numItemsDiv(){
+            if((this.total ?? this.rows) < this.perPage){
+                return "Showing " + ((( this.currentPage - 1 ) * this.perPage) + 1) + " - " + ((( this.currentPage - 1 ) * this.perPage) + this.total) + " of " + this.total ?? this.rows
+            }else{
+                return "Showing " + ((( this.currentPage - 1 ) * this.perPage) + 1) + " - " + ((( this.currentPage - 1 ) * this.perPage) + this.perPage) + " of " + this.total ?? this.rows
+            }
         }
     },
     data() {
@@ -379,6 +403,14 @@ export default {
         this.totalRows = this.items.length;
     },
     methods: {
+        searchFun(value){
+            if (this.timeout)
+                clearTimeout(this.timeout);
+
+            this.timeout = setTimeout(() => {
+                this.filter = value;
+            }, 500)
+        },
         onFiltered(filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length;

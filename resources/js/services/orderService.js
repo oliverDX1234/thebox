@@ -13,7 +13,7 @@ const OrderService = {
             params: filters
         });
 
-        return response.data.payload.orders;
+        return response.data.payload;
     },
 
     async storeOrder(payload) {

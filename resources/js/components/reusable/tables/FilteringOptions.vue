@@ -11,6 +11,7 @@
                 <multiselect placeholder="Select discount type" v-if="options.includes('discountTypes')" v-model="discountTypesValue" :options="discountTypes" @input="filtersSelected"/>
                 <multiselect placeholder="Select Premade status" v-if="options.includes('preMadeStatuses')" v-model="preMadeStatusesValue" :options="preMadeStatuses" @input="filtersSelected"/>
                 <multiselect placeholder="Select payment type" v-if="options.includes('paymentTypes')" v-model="paymentTypesValue" :options="paymentTypes" @input="filtersSelected"/>
+                <multiselect placeholder="Select paid status" v-if="options.includes('paidStatuses')" v-model="paidStatusesValue" :options="paidStatuses" @input="filtersSelected"/>
             </div>
         </div>
     </div>
@@ -62,6 +63,10 @@ export default {
                 "Cash",
                 "Card"
             ],
+            paidStatuses:[
+                "Paid",
+                "Not Paid"
+            ],
             categories: [],
             suppliers: [],
             products: [],
@@ -73,7 +78,8 @@ export default {
             discountsValue: null,
             discountTypesValue: null,
             preMadeStatusesValue: null,
-            paymentTypesValue: null,
+            paidStatusesValue: null,
+            paymentTypesValue: null
         }
     },
     mounted(){

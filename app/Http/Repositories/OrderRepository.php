@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Http\Repositories\Interfaces\OrderRepositoryInterface;
+use App\Models\City;
 use App\Models\Order;
 
 class OrderRepository implements OrderRepositoryInterface
@@ -13,21 +14,43 @@ class OrderRepository implements OrderRepositoryInterface
         return Order::where("id", $id)->with("packages.products", "user", "courier")->first();
     }
 
-    public function getOrders($request)
+    public function getOrders($filter = null, $sortBy = "id", $sortDesc = false, $perPage = 10, $currentPage = 1, $paymentTypes = null, $paidStatuses = null)
     {
         $orders = Order::with("packages", "user", "courier");
+        if($paymentTypes){
 
-        if($request->has("paymentTypes")){
+            $orders->where("payment_type", "=", $paymentTypes);
+        }
+        if($paidStatuses){
 
-            $orders->where("payment_type", "=", $request->paymentTypes);
+            $orders->where("paid", "=", $paidStatuses === "Paid" ? 1 : 0);
         }
 
-        if($request->has("users")){
 
-            $orders->where("payment_type", "=", $request->paymentTypes);
+        if($filter && $filter !== ""){
+            $city_id = City::where("city_name_en", "like", "%". $filter . "%")->first();
+            $city_id = $city_id ? $city_id->id : null;
+            $orders->where(function($q) use ($filter, $city_id){
+                $q->where("order_number", "like", "%". $filter. "%")
+                    ->orWhere("total_price", "like", "%". $filter. "%")
+                    ->orWhereHas("user", function($query) use ($filter){
+                        $query->where("first_name", "like", "%". $filter. "%")
+                            ->orWhere("last_name", "like", "%". $filter. "%");
+                    })
+                ->orWhere('user_shipping_details->first_name', "like", "%". $filter . "%")
+                    ->orWhere('user_shipping_details->last_name', "like", "%". $filter . "%")
+                    ->orWhere('user_shipping_details->email', "like", "%". $filter . "%")
+                    ->orWhere('user_shipping_details->phone' , "like", "%". $filter . "%")
+                    ->orWhere('user_shipping_details->address' , "like", "%". $filter . "%")
+                    ->orWhere('user_shipping_details->city' , $city_id ?? "");
+            });
         }
 
-        return $orders->limit(10)->get();
+        $total = $orders->count();
+
+        $orders->orderBy($sortBy != "" ? $sortBy : "id", $sortDesc === false ? "ASC" : "DESC");
+
+        return [$orders->skip((($currentPage) - 1) * $perPage)->take($perPage)->get(), $total];
     }
 
     public function deleteOrder($id)

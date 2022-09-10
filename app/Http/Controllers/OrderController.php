@@ -27,9 +27,9 @@ class OrderController extends Controller
      */
     public function index(Request $request): Response
     {
-        $orders = $this->orderService->getOrders($request);
+        [$orders, $total] = $this->orderService->getOrders($request);
 
-        return response()->api(['orders' => $orders], "orders.retrieved", 200);
+        return response()->api(['orders' => $orders, 'total' => $total], "orders.retrieved", 200);
     }
 
     /**

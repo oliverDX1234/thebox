@@ -20,7 +20,8 @@
                                       @delete-item="deleteOrder"
                                       :search="true"
                                       :items="getOrders"
-                                      :filteringOptions="['paymentTypes']"
+                                      :total="total"
+                                      :filteringOptions="['paymentTypes', 'paidStatuses']"
                                       :busy="busy"
                                       :filters="filters"
                                       :fields="fields"
@@ -49,22 +50,23 @@ export default {
         return {
             title: "Orders",
             filters: null,
+            total: null,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
                 {key: "order_number", sortable: true, label: "Order Number"},
-                {key: "user", sortable: true, label: "User"},
+                {key: "user", sortable: false, label: "User"},
                 {key: "payment_type", sortable: true, label: "Payment Type"},
                 {key: "paid", sortable: true, label: "Paid"},
                 {key: "total_price", sortable: true, label: "Total Price"},
                 {key: "delivery_price", sortable: true, label: "Delivery Price"},
-                {key: "order_shipping_email", sortable: true, label: "User Email"},
-                {key: "order_shipping_first_name", sortable: true, label: "User First Name"},
-                {key: "order_shipping_last_name", sortable: true, label: "User Last Name"},
-                {key: "order_shipping_phone", sortable: true, label: "User Phone"},
-                {key: "order_shipping_address", sortable: true, label: "User Address"},
-                {key: "order_shipping_city", sortable: true, label: "User City"},
-                {key: "comment", sortable: true, label: "Comment"},
+                {key: "order_shipping_email", sortable: false, label: "User Email"},
+                {key: "order_shipping_first_name", sortable: false, label: "User First Name"},
+                {key: "order_shipping_last_name", sortable: false, label: "User Last Name"},
+                {key: "order_shipping_phone", sortable: false, label: "User Phone"},
+                {key: "order_shipping_address", sortable: false, label: "User Address"},
+                {key: "order_shipping_city", sortable: false, label: "User City"},
+                {key: "comment", sortable: false, label: "Comment"},
                 {key: "order_sent_at", sortable: true, label: "Order Sent At"},
                 {key: "order_delivered_at", sortable: true, label: "Order Delivered At"},
                 {key: "tracking_code", sortable: true, label: "Tracking Code"},
@@ -117,15 +119,17 @@ export default {
 
         async getOrders(ctx) {
 
-            console.log(ctx);
-
             this.busy = true;
 
-            let response = await OrderService.getOrders(this.filters);
+            let payload = Object.assign(ctx, this.filters);
+
+            let response = await OrderService.getOrders(payload);
 
             this.busy = false;
 
-            return response;
+            this.total = response.total;
+
+            return response.orders;
         },
 
         filtersUpdated(value){

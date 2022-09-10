@@ -33,8 +33,17 @@ class OrderService
     public function getOrders($request)
     {
         try {
-            return $this->orderRepository->getOrders($request);
+            return $this->orderRepository->getOrders(
+                $request->filter,
+                $request->sortBy,
+                $request->sortDesc,
+                $request->perPage,
+                $request->currentPage,
+                $request->paymentTypes,
+                $request->paidStatuses
+            );
         } catch (Exception $e) {
+
             throw new ApiException("global.error", $e->getCode(), $e);
         }
     }
