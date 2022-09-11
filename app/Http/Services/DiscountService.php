@@ -105,14 +105,19 @@ class DiscountService
         }
     }
 
-    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount): void
+    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount, int|null $discountId): void
     {
-        if ($priceDiscount === null) {
-            $sellable->discount_id = null;
+        //if both, exception
+        if($priceDiscount != null && $discountId != null) {
+            throw new ApiException("package.only_one_type_of_discount", 400);
+        }
+
+        if($discountId) {
+            $sellable->discount_id = $discountId;
             return;
         }
 
-        if ($sellable->price_discount !== $priceDiscount) {
+        if ($priceDiscount && $sellable->price_discount !== $priceDiscount) {
             $discount = Discount::create([
                 "name" => "$sellable->name specific discount",
                 "type" => "fixed",

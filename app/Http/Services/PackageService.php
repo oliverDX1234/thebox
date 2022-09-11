@@ -15,7 +15,7 @@ class PackageService
 
     public function __construct(
         PackageRepositoryInterface $packageRepository,
-        DiscountService $discountService
+        DiscountService            $discountService
     )
     {
         $this->packageRepository = $packageRepository;
@@ -70,27 +70,23 @@ class PackageService
      */
     public function savePackage($request)
     {
-        try {
-            $package = Package::make($request->all());
-            //URL, dimensions
-            $package->url = slugify($request->name);
-            $package->active = !!$request->active;
-            $package->pre_made = true;
-            $this->setDimensions($request, $package);
-            $this->setMedia($request, $package);
-            $this->setDiscount($request, $package);
-            $package->save();
+        $package = Package::make($request->all());
+        //URL, dimensions
+        $package->url = slugify($request->name);
+        $package->active = !!$request->active;
+        $package->pre_made = true;
+        $this->setDimensions($request, $package);
+        $this->setMedia($request, $package);
+        $this->setDiscount($request, $package);
+        $package->save();
 
-            $this->setCategories($request, $package);
-            $this->setProducts($request, $package);
-            $this->setFilters($request, $package);
+        $this->setCategories($request, $package);
+        $this->setProducts($request, $package);
+        $this->setFilters($request, $package);
 
-            $package->save();
+        $package->save();
 
-            return $package;
-        } catch (Exception $e) {
-            throw new ApiException("packages.save_failed", 500, null, $e);
-        }
+        return $package;
     }
 
 
@@ -100,32 +96,27 @@ class PackageService
 
     public function updatePackage(Request $request)
     {
-        try {
-            $package = $this->packageRepository->findById($request->id);
+        $package = $this->packageRepository->findById($request->id);
 
-            $package->update($request->all());
+        $package->update($request->all());
 
-            $package->active = !!$request->active;
-            $package->url = slugify($request->name);
-            $this->setDimensions($request, $package);
-            $this->setMedia($request, $package);
-            $this->setDiscount($request, $package);
-            $package->save();
+        $package->active = !!$request->active;
+        $package->url = slugify($request->name);
+        $this->setDimensions($request, $package);
+        $this->setMedia($request, $package);
+        $this->setDiscount($request, $package);
+        $package->save();
 
-            $package->categories()->detach();
-            $this->setCategories($request, $package);
+        $package->categories()->detach();
+        $this->setCategories($request, $package);
 
-            $package->products()->detach();
-            $this->setProducts($request, $package);
+        $package->products()->detach();
+        $this->setProducts($request, $package);
 
-            $package->attributes()->detach();
-            $this->setFilters($request, $package);
+        $package->attributes()->detach();
+        $this->setFilters($request, $package);
 
-            $package->save();
-
-        } catch (Exception $e) {
-            throw new ApiException("packages.update_failed", 500, null, $e);
-        }
+        $package->save();
     }
 
     /**
@@ -175,7 +166,8 @@ class PackageService
         $this->discountService->createDiscountForSellable(
             $package,
             $request->price,
-            $request->price_discount
+            $request->price_discount,
+            $request->discount_id
         );
     }
 

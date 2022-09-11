@@ -205,6 +205,17 @@
                                                                  :disabled="!addedProducts.length"
                                                                  v-model="package.pricing.price_discount"></b-input>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label>Existing Discount</label>
+                                                        <multiselect
+                                                            :options="discounts"
+                                                            v-model="discount"
+                                                            track-by="id"
+                                                            label="name"
+                                                            placeholder="Select Existing Discount"
+                                                        >
+                                                        </multiselect>
+                                                    </div>
 
                                                     <div class="form-group">
                                                         <label class="control-label">Vat (%)<span
@@ -454,6 +465,7 @@ import {
     helpers,
     decimal
 } from "vuelidate/lib/validators";
+import DiscountService from "../../../services/discountService";
 
 const keywords = helpers.regex('keywords', /,?[a-zA-Z][a-zA-Z0-9]*,?/);
 
@@ -520,17 +532,19 @@ export default {
                 addRemoveLinks: true,
                 autoProcessQueue: false
             },
-            submitted: false
+            submitted: false,
+            discounts: [],
+            discount: {},
         };
     },
-    watch:{
-        addedProducts(){
+    watch: {
+        addedProducts() {
 
-            if(!this.addedProducts.length){
+            if (!this.addedProducts.length) {
                 this.package.pricing.price = null;
-            }else if(this.addedProducts.length === 1){
+            } else if (this.addedProducts.length === 1) {
                 this.package.pricing.price = this.addedProducts[0].price_discount ? this.addedProducts[0].price_discount : this.addedProducts[0].price;
-            }else{
+            } else {
                 this.package.pricing.price = this.addedProducts.reduce((total, current) => {
                     return total + (current.price_discount ? current.price_discount : current.price)
                 }, 0)
@@ -571,6 +585,10 @@ export default {
     methods: {
         async getProducts() {
             this.products = await productService.getProducts();
+        },
+
+        async getDiscounts() {
+            this.discounts = await DiscountService.getDiscounts(this.filters);
         },
 
         addProducts() {
@@ -681,7 +699,7 @@ export default {
 
         async finishSteps() {
 
-            if(this.submitted){
+            if (this.submitted) {
                 return;
             }
 
@@ -701,7 +719,7 @@ export default {
 
             //Price
             formData.append("price", this.package.pricing.price);
-            formData.append("price_discount", this.package.pricing.price_discount);
+            formData.append("price_discount", this.package.pricing.price_discount ?? null);
             formData.append("vat", this.package.pricing.vat);
 
             //Filters and attributes
@@ -710,19 +728,19 @@ export default {
             //Image and gallery
             formData.append("main_image", this.package.basic_information.image);
 
-            if(!this.$route.params.id){
+            if (!this.$route.params.id) {
 
                 this.package.galleryImages.forEach((image) => {
                     formData.append("gallery_images[]", image);
                 });
 
-            }else{
+            } else {
                 let oldAddedImageIds = [];
 
                 this.package.galleryImages.forEach((image) => {
-                    if(!image.manuallyAdded){
+                    if (!image.manuallyAdded) {
                         formData.append("gallery_images[]", image);
-                    }else{
+                    } else {
                         oldAddedImageIds.push(image.id);
                     }
                 });
@@ -738,6 +756,7 @@ export default {
 
             //Products
             formData.append("products", JSON.stringify(this.addedProducts));
+            formData.append("discount_id", this.discount.id ?? null);
 
             this.submitted = true;
 
@@ -807,6 +826,8 @@ export default {
         this.getProducts();
 
         this.getCategories();
+
+        this.getDiscounts();
 
         if (this.$route.params.id) {
             this.$refs.formWizard.activateAll();

@@ -191,7 +191,8 @@ class ProductService
         $this->discountService->createDiscountForSellable(
             $product,
             $request->price,
-            $request->price_discount
+            $request->price_discount,
+            $request->discount_id,
         );
     }
 
