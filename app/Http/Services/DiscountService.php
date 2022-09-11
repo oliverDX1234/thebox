@@ -29,7 +29,11 @@ class DiscountService
     public function getDiscounts($request)
     {
         try {
-            return $this->discountRepository->getDiscounts($request);
+            return $this->discountRepository->getDiscounts(
+                $request->statuses,
+                $request->discountTypes,
+                $request->showDefaults
+            );
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }
@@ -56,7 +60,6 @@ class DiscountService
             $discount = Discount::create($request->all());
 
             $this->addProductsToDiscount($discount->id, $request->product_ids, $request->category_ids);
-
         } catch (Exception $e) {
             throw new ApiException("discounts.save_failed", 500, null, $e);
         }

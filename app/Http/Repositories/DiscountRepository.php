@@ -15,21 +15,21 @@ class DiscountRepository implements DiscountRepositoryInterface
         return Discount::findOrFail($id);
     }
 
-    public function getDiscounts($request)
+    public function getDiscounts($statuses, $discountTypes, bool|null $showDefaults)
     {
         $discounts = Discount::with("products")
             ->where("end_date", ">", Carbon::now()->format('Y-m-d H:i'))
             ->orWhere("end_date", "=", null);
 
-        if ($request->has("statuses")) {
-            $discounts->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+        if ($statuses) {
+            $discounts->where("active", "=", $statuses === "Active" ? 1 : 0);
         }
 
-        if ($request->has("discountTypes")) {
-            $discounts->where("type", "=", $request->discountTypes === "Fixed" ? "fixed" : "percent");
+        if ($discountTypes) {
+            $discounts->where("type", "=", $discountTypes === "Fixed" ? "fixed" : "percent");
         }
 
-        if(!$request->has('showDefaults') || !$request->showDefaults) {
+        if(!$showDefaults) {
             $discounts->where("is_default", false);
         }
 
