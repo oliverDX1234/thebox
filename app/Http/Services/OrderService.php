@@ -100,21 +100,10 @@ class OrderService
             $order->user_shipping_details = json_encode($request->user_shipping_details);
 
             $order->save();
-        } catch (Exception $e) {
-            throw new ApiException("orders.not_found", $e->getCode(), $e);
-        }
-
-        try {
-            $order->update($request->all());
-
-            $order->user_shipping_details = json_encode($request->user_shipping_details);
-
-            $order->save();
 
             return $order;
         } catch (Exception $e) {
-
-            throw new ApiException("orders.update_failed", 500, null, $e);
+            throw new ApiException("orders.update_failed", $e->getCode(), $e);
         }
     }
 
@@ -168,7 +157,7 @@ class OrderService
             foreach ($packages as $package) {
 
                 $priceArr = $this->packageService->getPackagePrice($package["id"]);
-                echo($priceArr["price"]);
+
                 $totalPrice += $priceArr["price"] * $package["quantity"];
 
                 $order->packages()->attach(
