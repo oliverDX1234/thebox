@@ -77,13 +77,13 @@ export default {
                     ...this.$route,
                     query: filter,
                 }).catch(()=>{});
-
-                this.getPackages();
             },
         },
     },
     created() {
         this.filters = this.$route.query;
+
+        this.getPackages();
     },
     methods: {
         editPackage(id) {

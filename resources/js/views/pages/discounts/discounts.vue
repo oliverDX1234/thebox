@@ -73,13 +73,13 @@ export default {
                     ...this.$route,
                     query: filter,
                 }).catch(()=>{});
-
-                this.getDiscounts();
             },
         },
     },
     created() {
         this.filters = this.$route.query;
+
+        this.getDiscounts();
     },
     methods: {
         async deleteDiscount(id) {

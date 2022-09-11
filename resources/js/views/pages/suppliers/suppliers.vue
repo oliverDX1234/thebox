@@ -81,13 +81,13 @@ export default {
                     ...this.$route,
                     query: filter,
                 }).catch(()=>{});
-
-                this.getSuppliers();
             },
         },
     },
     created() {
         this.filters = this.$route.query;
+
+        this.getSuppliers();
     },
     methods: {
         editSupplier(id) {
