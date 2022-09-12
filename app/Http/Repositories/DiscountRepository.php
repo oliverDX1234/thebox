@@ -15,7 +15,7 @@ class DiscountRepository implements DiscountRepositoryInterface
         return Discount::findOrFail($id);
     }
 
-    public function getDiscounts($statuses, $discountTypes, bool|null $showDefaults)
+    public function getDiscounts($statuses, $discountTypes, bool|null $showDefaults, bool|null $showSpecifics)
     {
         $discounts = Discount::with("products")
             ->where("end_date", ">", Carbon::now()->format('Y-m-d H:i'))
@@ -31,6 +31,10 @@ class DiscountRepository implements DiscountRepositoryInterface
 
         if(!$showDefaults) {
             $discounts->where("is_default", false);
+        }
+
+        if(!$showSpecifics) {
+            $discounts->where("specific", false);
         }
 
         return $discounts->get();

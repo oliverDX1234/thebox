@@ -154,16 +154,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Discounted Price</label>
-                                                    <input type="text" v-model="product.pricing.price_discount"
-                                                           class="form-control"
-                                                    >
-                                                </div>
-                                            </div>
+
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Vat (%)<span
@@ -176,6 +168,34 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>You can only pick one</h5>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Discounted Price</label>
+                                                    <input type="text" v-model="product.pricing.price_discount"
+                                                           class="form-control"
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Existing Discount</label>
+                                                    <multiselect
+                                                        :options="discounts"
+                                                        v-model="discount"
+                                                        track-by="id"
+                                                        label="name"
+                                                        placeholder="Select Existing Discount"
+                                                    >
+                                                    </multiselect>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </tab-content>
 
@@ -422,6 +442,7 @@ import {
     helpers,
     decimal
 } from "vuelidate/lib/validators";
+import DiscountService from "../../../services/discountService";
 
 const keywords = helpers.regex('keywords', /,?[a-zA-Z][a-zA-Z0-9]*,?/);
 
@@ -480,7 +501,9 @@ export default {
                 addRemoveLinks: true,
                 autoProcessQueue: false
             },
-            submitted: false
+            submitted: false,
+            discounts: [],
+            discount: null
         };
     },
     validations: {
@@ -514,6 +537,10 @@ export default {
 
         async getCategories() {
             this.categories = await CategoryService.getCategoriesForProduct();
+        },
+
+        async getDiscounts() {
+            this.discounts = await DiscountService.getDiscounts({ showDefaults: true, showSpecifics: false });
         },
 
         async categoriesChanged() {
@@ -626,7 +653,7 @@ export default {
             //Price
             formData.append("price", this.product.pricing.price);
             formData.append("price_supplier", this.product.pricing.price_supplier);
-            formData.append("price_discount", this.product.pricing.price_discount);
+            formData.append("price_discount", this.product.pricing.price_discount ?? null);
             formData.append("vat", this.product.pricing.vat);
 
             //Filters and attributes
@@ -660,6 +687,8 @@ export default {
             formData.append("seo_keywords", this.product.meta.keywords);
             formData.append("seo_description", this.product.meta.description);
 
+            formData.append("discount_id", this.discount ? this.discount.id : null);
+
             this.submitted = true;
 
             if (this.$route.params.id) {
@@ -685,6 +714,11 @@ export default {
         async loadProduct() {
             let product = await productService.getProduct(this.$route.params.id);
 
+            if (product.discount && !product.discount.specific)
+                this.discount = product.discount;
+            else
+                this.product.pricing.price_discount = product.price_discount
+
             this.product.basic_information.name = product.name
             this.product.basic_information.width = product.dimensions.width;
             this.product.basic_information.height = product.dimensions.height;
@@ -699,7 +733,6 @@ export default {
 
             this.product.pricing.price = product.price
             this.product.pricing.price_supplier = product.price_supplier
-            this.product.pricing.price_discount = product.price_discount
             this.product.pricing.vat = product.vat
 
             this.product.meta.title = product.seo_title;
@@ -727,6 +760,7 @@ export default {
     mounted() {
         this.getSupplier();
         this.getCategories();
+        this.getDiscounts();
 
         if (this.$route.params.id) {
             this.$refs.formWizard.activateAll();

@@ -25,6 +25,16 @@
                                     <label>Show default discounts</label>
                                 </b-form-checkbox>
                             </div>
+
+                            <div class="col-md-12">
+                                <b-form-checkbox v-model="showSpecifics"
+                                                 size="lg" switch
+                                                 class="mb-1 mt-2"
+                                                 @change="toggleSpecificsFilter()"
+                                >
+                                    <label>Show specific discounts</label>
+                                </b-form-checkbox>
+                            </div>
                         </div>
                         <custom-table
                             :busy="busy"
@@ -63,6 +73,7 @@ export default {
             discounts: [],
             filters: null,
             showDefaults: this.$route.query.showDefaults,
+            showSpecifics: this.$route.query.showSpecifics,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
@@ -124,7 +135,11 @@ export default {
         },
 
         async toggleDefaultsFilter() {
-            await this.$router.push({path: '/admin/discounts', query: {showDefaults: !!this.showDefaults}})
+            await this.$router.push({path: '/admin/discounts', query: {...this.filters, showDefaults: !!this.showDefaults}})
+        },
+
+        async toggleSpecificsFilter() {
+            await this.$router.push({path: '/admin/discounts', query: {...this.filters, showSpecifics: !!this.showSpecifics}})
         },
 
         async getDiscounts() {

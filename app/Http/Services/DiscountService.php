@@ -32,7 +32,8 @@ class DiscountService
             return $this->discountRepository->getDiscounts(
                 $request->statuses,
                 $request->discountTypes,
-                $request->showDefaults
+                $request->showDefaults,
+                $request->showSpecifics
             );
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
@@ -108,7 +109,12 @@ class DiscountService
     public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount, int|null $discountId): void
     {
         if($priceDiscount != null && $discountId != null) {
-            throw new ApiException("package.only_one_type_of_discount", 400);
+            throw new ApiException("discount.only_one_type_of_discount", 400);
+        }
+
+        if($priceDiscount == null && $discountId == null) {
+            $sellable->discount_id = null;
+            return;
         }
 
         if($discountId) {

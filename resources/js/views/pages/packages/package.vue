@@ -183,24 +183,13 @@
                                                 </basic-table>
                                             </div>
                                         </div>
-
+                                        <hr>
                                         <div class="row">
-                                            <div class="col-12">
-                                                <hr>
-                                                <div class="py-3 float-right">
-
+                                            <div class="col-6">
+                                                <h6>You can only pick one</h6>
+                                                <div class="py-3 float-left">
                                                     <div class="form-group">
-                                                        <label class="control-label">Package Price:<span
-                                                            class="required">*</span></label>
-                                                        <b-input placeholder="Enter Price"
-                                                                 :disabled="!addedProducts.length"
-                                                                 :class="{ 'is-invalid': this.submitted && $v.package.pricing.price.$invalid }"
-                                                                 v-model="package.pricing.price"></b-input>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="control-label">Discount Price:<span
-                                                            class="required">*</span></label>
+                                                        <label class="control-label">Discount Price:</label>
                                                         <b-input placeholder="Enter Discount"
                                                                  :disabled="!addedProducts.length"
                                                                  v-model="package.pricing.price_discount"></b-input>
@@ -216,7 +205,18 @@
                                                         >
                                                         </multiselect>
                                                     </div>
-
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="py-3 float-right">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Package Price:<span
+                                                            class="required">*</span></label>
+                                                        <b-input placeholder="Enter Price"
+                                                                 :disabled="!addedProducts.length"
+                                                                 :class="{ 'is-invalid': this.submitted && $v.package.pricing.price.$invalid }"
+                                                                 v-model="package.pricing.price"></b-input>
+                                                    </div>
                                                     <div class="form-group">
                                                         <label class="control-label">Vat (%)<span
                                                             class="required">*</span></label>
@@ -588,7 +588,7 @@ export default {
         },
 
         async getDiscounts() {
-            this.discounts = await DiscountService.getDiscounts();
+            this.discounts = await DiscountService.getDiscounts({ showDefaults: true, showSpecifics: false });
         },
 
         addProducts() {
