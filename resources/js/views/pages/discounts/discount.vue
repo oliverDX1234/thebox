@@ -16,6 +16,28 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                <label>Name<span
+                                                    class="required">*</span></label>
+                                                <input
+                                                    v-model="discount.name"
+                                                    :class="{ 'is-invalid': submitted && $v.discount.name.$error }"
+                                                    class="form-control"
+                                                    placeholder="Enter Discount Name"
+                                                    type="text"
+                                                />
+                                                <div
+                                                    v-if="submitted && $v.discount.value.$error"
+                                                    class="invalid-feedback"
+                                                >
+                                                    <span
+                                                        v-if="!$v.discount.name.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
                                                 <label for="validationCustom01">Value<span
                                                     class="required">*</span></label>
                                                 <input
@@ -200,6 +222,7 @@ export default {
             categories: [],
             discount: {
                 value: null,
+                name: null,
                 type: null,
                 start_date: null,
                 end_date: null,
@@ -214,6 +237,7 @@ export default {
         discount: {
             value: {required, numeric},
             type: {required},
+            name: {required},
             start_date: {required},
             product_ids: {
                 required: requiredIf(function (items) {
@@ -237,11 +261,12 @@ export default {
             if (!this.$v.$invalid) {
 
                 let product_ids = this.discount.product_ids.map(x => x.id);
-                let category_ids =  this.discount.category_ids.map(x => x.id);
+                let category_ids = this.discount.category_ids.map(x => x.id);
 
                 let payload = {
                     value: this.discount.value,
                     type: this.discount.type,
+                    name: this.discount.name,
                     start_date: this.moment(this.discount.start_date).format("YYYY-MM-DD HH:mm:ss"),
                     end_date: this.discount.end_date ? this.moment(this.discount.end_date).format("YYYY-MM-DD HH:mm:ss") : null,
                     active: this.discount.active,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Requests\StoreDiscountRequest;
 use App\Http\Services\DiscountService;
+use App\Models\Discount;
 use Illuminate\Http\Request;
 
 class DiscountController extends Controller
@@ -39,11 +40,11 @@ class DiscountController extends Controller
     /**
      * @throws ApiException
      */
-    public function destroy($id)
+    public function destroy(Discount $discount)
     {
-        $this->discountService->deleteDiscount($id);
+        $this->discountService->deleteDiscount($discount);
 
-        return response()->api(["discount" => $id] , "discounts.deleted", 200);
+        return response()->api(["discount" => $discount->id] , "discounts.deleted", 200);
     }
 
     /**

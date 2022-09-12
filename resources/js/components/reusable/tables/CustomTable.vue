@@ -102,14 +102,14 @@
                 <template v-slot:cell(start_date)="row">
 
                     <div style="min-width: 80px;">
-                        <span>{{ moment(row.value, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") }}</span>
+                        <span>{{ date(row.value) }}</span>
                     </div>
                 </template>
 
                 <template v-slot:cell(end_date)="row">
 
                     <div style="min-width: 80px;">
-                        <span>{{ moment(row.value, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") }}</span>
+                        <span>{{ endDate(row.value) }}</span>
                     </div>
                 </template>
 
@@ -234,6 +234,7 @@
 </template>
 <script>
 import filteringOptions from "./FilteringOptions";
+import moment from "moment";
 
 export default {
     name: 'custom-table',
@@ -290,6 +291,12 @@ export default {
          */
         rows() {
             return this.items.length;
+        },
+        endDate() {
+            return endDate => endDate ? moment(endDate, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") : 'No End Date'
+        },
+        date() {
+            return date => date ? moment(date, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY HH:mm") : 'Invalid date format'
         }
     },
     data() {

@@ -8,7 +8,7 @@ interface DiscountRepositoryInterface
 {
     public function findById(int $id): Discount;
 
-    public function getDiscounts($request);
+    public function getDiscounts(string $statuses, string $discountTypes, bool|null $showDefaults, bool|null $showSpecifics);
 
     public function deleteDiscount(int $id);
 

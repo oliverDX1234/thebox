@@ -14,7 +14,27 @@
                                 @click="$router.push('/admin/discounts/new')"
                             >
                                 <i class="mdi mdi-plus mr-2"></i> New discount
+
                             </a>
+                            <div class="col-md-12">
+                                <b-form-checkbox v-model="showDefaults"
+                                                 size="lg" switch
+                                                 class="mb-1 mt-2"
+                                                 @change="toggleDefaultsFilter()"
+                                >
+                                    <label>Show default discounts</label>
+                                </b-form-checkbox>
+                            </div>
+
+                            <div class="col-md-12">
+                                <b-form-checkbox v-model="showSpecifics"
+                                                 size="lg" switch
+                                                 class="mb-1 mt-2"
+                                                 @change="toggleSpecificsFilter()"
+                                >
+                                    <label>Show specific discounts</label>
+                                </b-form-checkbox>
+                            </div>
                         </div>
                         <custom-table
                             :busy="busy"
@@ -52,9 +72,12 @@ export default {
             title: "Discounts",
             discounts: [],
             filters: null,
+            showDefaults: this.$route.query.showDefaults,
+            showSpecifics: this.$route.query.showSpecifics,
             busy: false,
             fields: [
                 {key: "id", sortable: true, label: "ID"},
+                {key: "name", sortable: true, label: "Name"},
                 {key: "value", sortable: true, label: "Value"},
                 {key: "type", sortable: true, label: "Type"},
                 {key: "start_date", sortable: true, label: "Start Date"},
@@ -72,14 +95,18 @@ export default {
                 this.$router.replace({
                     ...this.$route,
                     query: filter,
-                }).catch(()=>{});
+                }).catch(() => {
+                });
+
+                this.getDiscounts();
             },
         },
     },
     created() {
         this.filters = this.$route.query;
-
-        this.getDiscounts();
+        let showDefaults = this.filters.showDefaults;
+        if(showDefaults && JSON.parse(showDefaults) === true)
+            this.fields.splice(2, 0, {key: 'is_default', sortable: true, label: 'Default'})
     },
     methods: {
         async deleteDiscount(id) {
@@ -103,8 +130,16 @@ export default {
             });
         },
 
-        async toggleItem(id){
+        async toggleItem(id) {
             await DiscountService.updateStatus(id);
+        },
+
+        async toggleDefaultsFilter() {
+            await this.$router.push({path: '/admin/discounts', query: {...this.filters, showDefaults: !!this.showDefaults}})
+        },
+
+        async toggleSpecificsFilter() {
+            await this.$router.push({path: '/admin/discounts', query: {...this.filters, showSpecifics: !!this.showSpecifics}})
         },
 
         async getDiscounts() {
@@ -115,7 +150,7 @@ export default {
             this.busy = false;
         },
 
-        filtersUpdated(value){
+        filtersUpdated(value) {
             this.filters = value;
         }
     }

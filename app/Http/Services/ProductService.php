@@ -15,7 +15,7 @@ class ProductService
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
-        DiscountService $discountService
+        DiscountService            $discountService
     )
     {
         $this->productRepository = $productRepository;
@@ -64,24 +64,19 @@ class ProductService
      */
     public function saveProduct(Request $request)
     {
-        try {
-            $product = Product::make($request->all());
+        $product = Product::make($request->all());
 
-            //URL, suppliers, dimensions
-            $product->url = slugify($request->name);
-            $product->supplier_id = json_decode($request->supplier)->id;
-            $this->setDimensions($request, $product);
-            $this->setMedia($request, $product);
-            $this->setDiscount($request, $product);
-            $product->save();
+        //URL, suppliers, dimensions
+        $product->url = slugify($request->name);
+        $product->supplier_id = json_decode($request->supplier)->id;
+        $this->setDimensions($request, $product);
+        $this->setMedia($request, $product);
+        $this->setDiscount($request, $product);
+        $product->save();
 
-            $this->setCategories($request, $product);
-            $this->setFilters($request, $product);
-            $product->save();
-        } catch (Exception $e) {
-
-            throw new ApiException("products.save_failed", 500, null, $e);
-        }
+        $this->setCategories($request, $product);
+        $this->setFilters($request, $product);
+        $product->save();
     }
 
 
@@ -91,32 +86,26 @@ class ProductService
 
     public function updateProduct(Request $request)
     {
-        try {
+        $product = $this->productRepository->findById($request->id);
 
-            $product = $this->productRepository->findById($request->id);
+        $product->update($request->all());
 
-            $product->update($request->all());
+        //URL, suppliers, dimensions
+        $product->url = slugify($request->name);
+        $product->supplier_id = json_decode($request->supplier)->id;
 
-            //URL, suppliers, dimensions
-            $product->url = slugify($request->name);
-            $product->supplier_id = json_decode($request->supplier)->id;
+        $this->setDimensions($request, $product);
+        $this->setMedia($request, $product);
+        $this->setDiscount($request, $product);
+        $product->save();
 
-            $this->setDimensions($request, $product);
-            $this->setMedia($request, $product);
-            $this->setDiscount($request, $product);
-            $product->save();
+        $product->categories()->detach();
+        $this->setCategories($request, $product);
 
-            $product->categories()->detach();
-            $this->setCategories($request, $product);
+        $product->attributes()->detach();
+        $this->setFilters($request, $product);
 
-            $product->attributes()->detach();
-            $this->setFilters($request, $product);
-
-            $product->save();
-
-        } catch (Exception $e) {
-            throw new ApiException("products.update_failed", 500, $e);
-        }
+        $product->save();
     }
 
     /**
@@ -191,7 +180,8 @@ class ProductService
         $this->discountService->createDiscountForSellable(
             $product,
             $request->price,
-            $request->price_discount
+            $request->price_discount,
+            $request->discount_id,
         );
     }
 

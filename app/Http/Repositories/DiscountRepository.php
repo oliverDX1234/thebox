@@ -15,19 +15,26 @@ class DiscountRepository implements DiscountRepositoryInterface
         return Discount::findOrFail($id);
     }
 
-    public function getDiscounts($request)
+    public function getDiscounts($statuses, $discountTypes, bool|null $showDefaults, bool|null $showSpecifics)
     {
-        $discounts =  Discount::with("products")
-            ->whereRaw("end_date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')", Carbon::now()->format('Y-m-d H:i'))->whereHas("products");
+        $discounts = Discount::with("products")
+            ->where("end_date", ">", Carbon::now()->format('Y-m-d H:i'))
+            ->orWhere("end_date", "=", null);
 
-        if($request->has("statuses")){
-
-            $discounts->where("active", "=", $request->statuses === "Active" ? 1 : 0);
+        if ($statuses) {
+            $discounts->where("active", "=", $statuses === "Active" ? 1 : 0);
         }
 
-        if($request->has("discountTypes")){
+        if ($discountTypes) {
+            $discounts->where("type", "=", $discountTypes === "Fixed" ? "fixed" : "percent");
+        }
 
-            $discounts->where("type", "=", $request->discountTypes === "Fixed" ? "fixed" : "percent");
+        if(!$showDefaults) {
+            $discounts->where("is_default", false);
+        }
+
+        if(!$showSpecifics) {
+            $discounts->where("specific", false);
         }
 
         return $discounts->get();
@@ -38,15 +45,17 @@ class DiscountRepository implements DiscountRepositoryInterface
         return Discount::findOrFail($id)->delete();
     }
 
-    public function getProductsForDiscount(int $id){
+    public function getProductsForDiscount(int $id)
+    {
         return Product::where("discount_id", "=", $id)->get();
     }
 
-    public function updateStatus(int $id){
+    public function updateStatus(int $id)
+    {
         $discount = Discount::where("id", $id)->firstOrFail();
 
         $discount->update([
-           "active" => !$discount->active
+            "active" => !$discount->active
         ]);;
     }
 }

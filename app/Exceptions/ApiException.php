@@ -15,7 +15,7 @@ class ApiException extends Exception
         parent::__construct($message, 0, $previous);
         $this->statusCode = strlen($statusCode) !== 3 ? 500 : $statusCode;
 
-        if((int)$this->statusCode === 23000){
+        if ((int)$this->statusCode === 23000) {
             $this->statusCode = 405;
             $this->message = "global.dependencies";
         }
@@ -28,9 +28,16 @@ class ApiException extends Exception
         return response()->api($this->data, $this->message, $this->statusCode);
     }
 
-//    public function report()
-//    {
-////        TODO implement proper logging with extra information
-////        Log::error("API Exception thrown:");
-//    }
+    public function report()
+    {
+//        TODO implement proper logging with extra information
+//        $trace = $this->getTrace();
+//
+//        \Log::error("API Exception thrown:", [$this->getMessage()]);
+//        foreach ($trace as $key => $singleTraceItem) {
+//            if($key == 5)
+//                break;
+//            \Log::error("$key : ", $singleTraceItem);
+//        }
+    }
 }

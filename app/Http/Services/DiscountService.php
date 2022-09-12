@@ -29,7 +29,12 @@ class DiscountService
     public function getDiscounts($request)
     {
         try {
-            return $this->discountRepository->getDiscounts($request);
+            return $this->discountRepository->getDiscounts(
+                $request->statuses,
+                $request->discountTypes,
+                $request->showDefaults,
+                $request->showSpecifics
+            );
         } catch (Exception $e) {
             throw new ApiException("global.error", $e->getCode(), $e);
         }
@@ -52,17 +57,10 @@ class DiscountService
      */
     public function saveDiscount($request)
     {
-
         try {
-
-            if(!$request->end_date){
-                $request->replace(array_merge($request->all(), ["end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString()]));
-            }
-
             $discount = Discount::create($request->all());
 
             $this->addProductsToDiscount($discount->id, $request->product_ids, $request->category_ids);
-
         } catch (Exception $e) {
             throw new ApiException("discounts.save_failed", 500, null, $e);
         }
@@ -71,13 +69,16 @@ class DiscountService
     /**
      * @throws ApiException
      */
-    public function deleteDiscount($id)
+    public function deleteDiscount(Discount $discount)
     {
-        try {
-            $this->discountRepository->deleteDiscount($id);
-        } catch (Exception $e) {
+        if($discount->is_default) {
+            throw new ApiException("discounts.default_cant_be_deleted", 400, null);
+        }
 
-            throw new ApiException("discounts.not_found",  $e->getCode(), null, $e);
+        try {
+            $this->discountRepository->deleteDiscount($discount->id);
+        } catch (Exception $e) {
+            throw new ApiException("discounts.not_found", $e->getCode(), null, $e);
         }
     }
 
@@ -89,8 +90,7 @@ class DiscountService
         try {
             return $this->discountRepository->getProductsForDiscount($id);
         } catch (Exception $e) {
-
-            throw new ApiException("discounts.discount_products_error",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.discount_products_error", $e->getCode(), null, $e);
         }
     }
 
@@ -102,25 +102,35 @@ class DiscountService
         try {
             return $this->discountRepository->updateStatus($id);
         } catch (Exception $e) {
-
-            throw new ApiException("discounts.update_failed",  $e->getCode(), null, $e);
+            throw new ApiException("discounts.update_failed", $e->getCode(), null, $e);
         }
     }
 
-    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount)
+    public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount, int|null $discountId): void
     {
-        if ($priceDiscount === null) {
+        if($priceDiscount != null && $discountId != null) {
+            throw new ApiException("discount.only_one_type_of_discount", 400);
+        }
+
+        if($priceDiscount == null && $discountId == null) {
             $sellable->discount_id = null;
             return;
         }
 
-        if ($sellable->price_discount !== $priceDiscount) {
+        if($discountId) {
+            $sellable->discount_id = $discountId;
+            return;
+        }
+
+        if ($priceDiscount && ($sellable->price_discount !== $priceDiscount)) {
             $discount = Discount::create([
+                "name" => "$sellable->name specific discount",
                 "type" => "fixed",
                 "start_date" => Carbon::now()->toDateTimeLocalString(),
-                "end_date" => Carbon::now()->addYears(100)->toDateTimeLocalString(),
+                "end_date" => null,
                 "value" => $originalPrice - $priceDiscount,
-                "active" => true
+                "active" => true,
+                "specific" => true
             ]);
 
             $sellable->discount_id = $discount->id;
@@ -130,15 +140,15 @@ class DiscountService
     private function addProductsToDiscount($discount_id, $product_ids = null, $category_ids = null)
     {
 
-        if(count($category_ids)){
+        if (count($category_ids)) {
 
             $category_products = new Collection();
 
-            foreach($category_ids as $id){
+            foreach ($category_ids as $id) {
                 $category_products = $category_products->merge(Category::where("id", $id)->with("products")->first()->products);
             }
 
-            if(count($product_ids)){
+            if (count($product_ids)) {
                 $category_products = $category_products->merge(Product::whereIn("id", $product_ids)->get());
             }
 
@@ -147,7 +157,7 @@ class DiscountService
             Product::whereIn("id", $finalIds)->update([
                 "discount_id" => $discount_id
             ]);
-        }else if(count($product_ids)){
+        } else if (count($product_ids)) {
             Product::whereIn("id", $product_ids)->update([
                 "discount_id" => $discount_id
             ]);

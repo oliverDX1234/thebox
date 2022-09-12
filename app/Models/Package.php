@@ -88,11 +88,7 @@ class Package extends Model implements HasMedia
             return null;
         }
 
-        if (!$this->discount->active) {
-            return null;
-        }
-
-        if ($this->discount->start_date > Carbon::now()->toDateTimeString() || $this->discount->end_date < Carbon::now()->toDateTimeString()) {
+        if (!$this->discount->isValid) {
             return null;
         }
 
