@@ -4,6 +4,25 @@ import {authMethods} from "../../state/helpers";
 import {mapGetters} from "vuex";
 
 export default {
+    data(){
+      return {
+          search: null,
+          searchResults: null
+      }
+    },
+    watch:{
+      search(newValue, oldValue){
+          if (this.timeout)
+              clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+
+              this.searchFun(newValue);
+
+              this.$refs['modal'].show()
+          }, 1500)
+
+      }
+    },
     computed: {
         ...mapGetters({user: "auth/user"}),
     },
@@ -16,6 +35,18 @@ export default {
         },
         toggleMenu() {
             this.$parent.toggleMenu();
+        },
+        async searchFun(value){
+
+            if(!value || value === ""){
+                return;
+            }
+
+            let response = await this.$http.get("/api/search", {
+                params: { value: value }
+            });
+
+            this.searchResults = response.data
         },
         initFullScreen() {
             document.body.classList.toggle("fullscreen-enable");
@@ -107,6 +138,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
+                            v-model="search"
                             :placeholder="$t('navbar.search.text')"
                         />
                         <span class="ri-search-line"></span>
@@ -400,10 +432,53 @@ export default {
                 </div>
             </div>
         </div>
+
+        <b-modal
+            ref="modal"
+            scrollable
+            :title="'Search results for: ' + search"
+            title-class="font-18"
+            hide-footer
+        >
+            <div v-for="(value, key) in searchResults">
+                <h6 class="text-capitalize">{{ key }}</h6>
+                <hr>
+                <div v-for="item in value">
+                    <b-card v-if="key === 'users'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <h5 class="card-title">{{ item.searchable.first_name }} {{ item.searchable.last_name }}</h5>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.phone }}</b-card-text>
+                        <b-card-text>{{ item.searchable.address }}</b-card-text>
+
+                    </b-card>
+
+                    <b-card v-if="key === 'suppliers'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <h5 class="card-title">{{ item.searchable.name }}</h5>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.phone }}</b-card-text>
+                        <b-card-text>{{ item.searchable.address }}</b-card-text>
+
+                    </b-card>
+                </div>
+            </div>
+        </b-modal>
+
     </header>
 </template>
 
 <style lang="scss" scoped>
+.modal-header{
+    background: #e8ecf4 !important;
+}
+
+.card-text{
+    margin-bottom: 3px;
+}
+
 .notify-item {
     .active {
         color: #16181b;

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Spatie\Searchable\Searchable;
 
 /**
  * App\Models\Supplier
@@ -38,7 +39,7 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|Supplier whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Supplier extends Model
+class Supplier extends Model implements Searchable
 {
 
     use HasFactory;
@@ -55,6 +56,15 @@ class Supplier extends Model
     protected $casts = [
         'active' => 'boolean'
     ];
+
+    public function getSearchResult(): \Spatie\Searchable\SearchResult
+    {
+        return new \Spatie\Searchable\SearchResult(
+            $this,
+            $this->name,
+            "/admin/supplier/".$this->id
+        );
+    }
 
     public function products(): HasMany
     {
