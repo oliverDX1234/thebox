@@ -69,5 +69,13 @@ class ProductRepository implements ProductRepositoryInterface
         ]);
     }
 
+    public function getProductPrice($id)
+    {
+        $product = Product::where("id", "=" ,$id)->first();
 
+        return [
+            "price" => $product->price_discount ?? $product->price,
+            "price_no_vat" => $product->price_no_vat
+        ];
+    }
 }

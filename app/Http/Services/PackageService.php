@@ -142,18 +142,6 @@ class PackageService
         }
     }
 
-    /**
-     * @throws ApiException
-     */
-    public function removePackageDiscount($id)
-    {
-        try {
-            $this->packageRepository->removePackageDiscount($id);
-        } catch (Exception $e) {
-            throw new ApiException("package.discount_remove_failed", 500, $e);
-        }
-    }
-
     private function setDimensions(Request $request, Package $package): void
     {
         $package->dimensions = json_encode([
@@ -196,7 +184,7 @@ class PackageService
         $products = json_decode($request->products);
         if ($products) {
             foreach ($products as $product) {
-                $package->products()->attach($product->id);
+                $package->products()->attach($product->id, ["quantity" => $product->quantity]);
             }
         }
     }
@@ -213,5 +201,24 @@ class PackageService
         }
     }
 
+    /**
+     * @throws ApiException
+     */
+    public function removePackageDiscount($id)
+    {
+        try {
+            $this->packageRepository->removePackageDiscount($id);
+        } catch (Exception $e) {
+            throw new ApiException("package.discount_remove_failed", 500, $e);
+        }
+    }
 
+    public function getPackagePrice($id)
+    {
+        try {
+            return $this->packageRepository->getPackagePrice($id);
+        } catch (Exception $e) {
+            throw new ApiException("package.package_price_fetch_failed", 500, $e);
+        }
+    }
 }

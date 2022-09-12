@@ -180,12 +180,28 @@ export default [
         component: () => import("../views/pages/couriers/courier"),
     },
 
+    //Orders
     {
-        path: "/admin/ecommerce/orders",
-        name: "admin/Orders",
+        path: "/admin/orders",
+        name: "admin-all-orders",
         meta: { admin: true },
-        component: () => import("../views/pages/ecommerce/orders"),
+        component: () => import("../views/pages/orders/orders"),
     },
+    {
+        path: "/admin/orders/new",
+        name: "admin-new-order",
+        meta: { admin: true },
+        component: () => import("../views/pages/orders/order"),
+    },
+    {
+        path: "/admin/order/:id",
+        name: "admin-edit-order",
+        meta: { admin: true },
+        component: () => import("../views/pages/orders/order"),
+    },
+
+
+
     {
         path: "/admin/pages/starter",
         name: "admin/Starter",

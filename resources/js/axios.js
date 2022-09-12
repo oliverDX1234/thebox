@@ -30,16 +30,20 @@ axios.interceptors.response.use(
 
         switch (error.response.status) {
             case 419: // Session expired
-                state.commit('auth/logout');
 
-                vm2.$bvToast.toast("Session expired. Please log in again.", {
-                    title: "Error",
-                    variant: "danger",
-                    toaster: "b-toaster-bottom-right",
-                    solid: true,
-                });
+                if(error.response.message === "Unauthenticated."){
+                    state.commit('auth/logout');
 
-                setTimeout(router.push("/admin/login"), 500);
+                    vm2.$bvToast.toast("Session expired. Please log in again.", {
+                        title: "Error",
+                        variant: "danger",
+                        toaster: "b-toaster-bottom-right",
+                        solid: true,
+                    });
+
+                    setTimeout(router.push("/admin/login"), 500);
+                }
+
                 return Promise.reject(error.response);
             case 404:
                 router.push("/404");

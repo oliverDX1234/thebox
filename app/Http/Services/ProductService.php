@@ -195,4 +195,13 @@ class ProductService
         );
     }
 
+    public function getProductPrice($id)
+    {
+        try {
+            return $this->productRepository->getProductPrice($id);
+        } catch (Exception $e) {
+            throw new ApiException("product.product_price_fetch_failed", 500, $e);
+        }
+    }
+
 }

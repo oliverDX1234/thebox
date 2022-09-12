@@ -503,6 +503,18 @@ export default {
                         <b-card-text>{{ item.searchable.price }} MKD</b-card-text>
 
                     </b-card>
+
+                    <b-card v-if="key === 'orders'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.order_number }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.total_price }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.first_name }} {{ item.searchable.user_shipping_details.last_name }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.address }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.phone }}</b-card-text>
+
+                    </b-card>
                 </div>
             </div>
         </b-modal>

@@ -69,6 +69,29 @@ input:disabled {
     background-color: $gray-100 !important;
 }
 
+.vnis__button{
+    height: 25px !important;
+    font-size: 20px !important;
+    text-align: center !important;
+    width: 25px !important;
+    line-height: 0 !important;
+}
+
+.vnis{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100px;
+    transform: translate(-50%, -50%);
+}
+
+.vnis__input{
+    height: 25px !important;
+    border: 1px solid #999 !important;
+    font-size: 14px !important;
+    width: 50px !important;
+}
+
 @media ( min-width: 768px) {
     .add-product-wrapper {
         display: flex;

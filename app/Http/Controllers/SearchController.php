@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Courier;
+use App\Models\Order;
 use App\Models\Package;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -54,6 +55,14 @@ class SearchController extends Controller
                     ->addSearchableAttribute('email')
                     ->addSearchableAttribute('price')
                     ->select("id", "name", "email", "price");
+            })
+            ->registerModel(Order::class, function(ModelSearchAspect $modelSearchAspect) use ($request) {
+                $modelSearchAspect
+                    ->addSearchableAttribute('order_number')
+                    ->addSearchableAttribute('total_price')
+                    ->addSearchableAttribute('user_shipping_details')
+                    ->addSearchableAttribute('tracking_code')
+                    ->select("id", "order_number", "total_price", "user_shipping_details", "tracking_code");
             })
             ->search($request->value);
 
