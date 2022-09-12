@@ -50,12 +50,14 @@ class Discount extends Model
         "type",
         "start_date",
         "end_date",
-        "active"
+        "active",
+        "specific"
     ];
 
     protected $casts = [
         'active' => 'boolean',
-        'is_default' => 'boolean'
+        'is_default' => 'boolean',
+        'specific' => 'boolean'
     ];
 
     public function products(): HasMany

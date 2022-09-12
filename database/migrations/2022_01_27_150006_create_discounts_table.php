@@ -20,8 +20,9 @@ class CreateDiscountsTable extends Migration
             $table->enum("type", ["fixed", "percent"]);
             $table->dateTime("start_date");
             $table->dateTime("end_date")->nullable()->default(null);
-            $table->boolean('is_default')->default(false);
+            $table->boolean("is_default")->default(false);
             $table->boolean("active");
+            $table->boolean("specific")->default(false);
             $table->timestamps();
         });
     }

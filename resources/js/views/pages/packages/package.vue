@@ -534,7 +534,7 @@ export default {
             },
             submitted: false,
             discounts: [],
-            discount: {},
+            discount: null,
         };
     },
     watch: {
@@ -588,7 +588,7 @@ export default {
         },
 
         async getDiscounts() {
-            this.discounts = await DiscountService.getDiscounts(this.filters);
+            this.discounts = await DiscountService.getDiscounts();
         },
 
         addProducts() {
@@ -756,7 +756,7 @@ export default {
 
             //Products
             formData.append("products", JSON.stringify(this.addedProducts));
-            formData.append("discount_id", this.discount.id ?? null);
+            formData.append("discount_id", this.discount ? this.discount.id : null);
 
             this.submitted = true;
 
@@ -783,6 +783,11 @@ export default {
         async loadPackage() {
             let tempPackage = await packageService.getPackage(this.$route.params.id);
 
+            if (tempPackage.discount && !tempPackage.discount.specific)
+                this.discount = tempPackage.discount;
+            else
+                this.package.pricing.price_discount = tempPackage.price_discount
+
             this.package.basic_information.name = tempPackage.name
             this.package.basic_information.width = tempPackage.dimensions.width;
             this.package.basic_information.height = tempPackage.dimensions.height;
@@ -795,7 +800,6 @@ export default {
             this.package.basic_information.image = tempPackage.main_image.md;
 
             this.package.pricing.price = tempPackage.price
-            this.package.pricing.price_discount = tempPackage.price_discount
             this.package.pricing.vat = tempPackage.vat
 
             this.package.meta.title = tempPackage.seo_title;

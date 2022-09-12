@@ -107,7 +107,6 @@ class DiscountService
 
     public function createDiscountForSellable(Product|Package $sellable, int $originalPrice, int|null $priceDiscount, int|null $discountId): void
     {
-        //if both, exception
         if($priceDiscount != null && $discountId != null) {
             throw new ApiException("package.only_one_type_of_discount", 400);
         }
@@ -117,14 +116,15 @@ class DiscountService
             return;
         }
 
-        if ($priceDiscount && $sellable->price_discount !== $priceDiscount) {
+        if ($priceDiscount && ($sellable->price_discount !== $priceDiscount)) {
             $discount = Discount::create([
                 "name" => "$sellable->name specific discount",
                 "type" => "fixed",
                 "start_date" => Carbon::now()->toDateTimeLocalString(),
                 "end_date" => null,
                 "value" => $originalPrice - $priceDiscount,
-                "active" => true
+                "active" => true,
+                "specific" => true
             ]);
 
             $sellable->discount_id = $discount->id;
