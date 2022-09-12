@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
 /**
  * App\Models\Supplier
@@ -57,9 +58,9 @@ class Supplier extends Model implements Searchable
         'active' => 'boolean'
     ];
 
-    public function getSearchResult(): \Spatie\Searchable\SearchResult
+    public function getSearchResult(): SearchResult
     {
-        return new \Spatie\Searchable\SearchResult(
+        return new SearchResult(
             $this,
             $this->name,
             "/admin/supplier/".$this->id

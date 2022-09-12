@@ -52,6 +52,10 @@ input::placeholder {
     top: 200px;
 }
 
+.modal-dialog{
+    min-height: 300px !important;
+}
+
 .b-basic-table th:first-child,
 .b-basic-table th:last-child {
     width: 120px;

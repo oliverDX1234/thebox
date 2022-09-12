@@ -21,6 +21,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
 /**
  * App\Models\User
@@ -166,9 +167,9 @@ class User extends Authenticatable implements CanResetPassword, HasMedia, Search
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function getSearchResult(): \Spatie\Searchable\SearchResult
+    public function getSearchResult(): SearchResult
     {
-        return new \Spatie\Searchable\SearchResult(
+        return new SearchResult(
             $this,
             $this->email,
             "/admin/user/".$this->id

@@ -7,7 +7,8 @@ export default {
     data(){
       return {
           search: null,
-          searchResults: null
+          searchResults: null,
+          loading: false
       }
     },
     watch:{
@@ -17,9 +18,8 @@ export default {
           this.timeout = setTimeout(() => {
 
               this.searchFun(newValue);
-
-              this.$refs['modal'].show()
           }, 1500)
+
 
       }
     },
@@ -42,9 +42,15 @@ export default {
                 return;
             }
 
+            this.loading = true
+
+            this.$refs['modal'].show()
+
             let response = await this.$http.get("/api/search", {
                 params: { value: value }
             });
+
+            this.loading = false;
 
             this.searchResults = response.data
         },
@@ -438,15 +444,24 @@ export default {
             scrollable
             :title="'Search results for: ' + search"
             title-class="font-18"
+            @close="searchResults = null"
             hide-footer
         >
+            <div v-if="loading">
+                <b-spinner variant="primary" label="Spinning"></b-spinner>
+            </div>
+
+            <div v-if="!loading && (searchResults && !Object.keys(searchResults).length)">
+                <p>No items were found for current search</p>
+            </div>
+
             <div v-for="(value, key) in searchResults">
                 <h6 class="text-capitalize">{{ key }}</h6>
                 <hr>
                 <div v-for="item in value">
                     <b-card v-if="key === 'users'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
                         <b-card-title>
-                            <h5 class="card-title">{{ item.searchable.first_name }} {{ item.searchable.last_name }}</h5>
+                            <p class="card-title font-size-17">{{ item.searchable.first_name }} {{ item.searchable.last_name }}</p>
                         </b-card-title>
                         <b-card-text>{{ item.searchable.email }}</b-card-text>
                         <b-card-text>{{ item.searchable.phone }}</b-card-text>
@@ -456,11 +471,36 @@ export default {
 
                     <b-card v-if="key === 'suppliers'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
                         <b-card-title>
-                            <h5 class="card-title">{{ item.searchable.name }}</h5>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
                         </b-card-title>
                         <b-card-text>{{ item.searchable.email }}</b-card-text>
                         <b-card-text>{{ item.searchable.phone }}</b-card-text>
                         <b-card-text>{{ item.searchable.address }}</b-card-text>
+
+                    </b-card>
+
+                    <b-card v-if="key === 'products'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.unit_code }}</b-card-text>
+                        <b-card-text>{{ item.searchable.price }} MKD</b-card-text>
+                    </b-card>
+
+                    <b-card v-if="key === 'packages'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.unit_code }}</b-card-text>
+                        <b-card-text>{{ item.searchable.price }} MKD</b-card-text>
+                    </b-card>
+
+                    <b-card v-if="key === 'couriers'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.price }} MKD</b-card-text>
 
                     </b-card>
                 </div>
@@ -471,6 +511,11 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+
+.spinner-border{
+    top: 50%;
+}
+
 .modal-header{
     background: #e8ecf4 !important;
 }
