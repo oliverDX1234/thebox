@@ -77,13 +77,13 @@ export default {
                     query: filter,
                 }).catch(()=>{});
 
-                this.getUsers();
-
             },
         },
     },
     created() {
         this.filters = this.$route.query;
+
+        this.getUsers();
     },
     methods: {
         editUser(id) {

@@ -78,13 +78,13 @@ export default {
                     ...this.$route,
                     query: filter,
                 }).catch(()=>{});
-
-                this.getProducts();
             },
         },
     },
     created() {
         this.filters = this.$route.query;
+
+        this.getProducts();
     },
     methods: {
         editProduct(id) {
