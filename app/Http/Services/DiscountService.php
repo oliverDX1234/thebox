@@ -3,7 +3,7 @@
 namespace App\Http\Services;
 
 use App\Exceptions\ApiException;
-use App\Http\Repositories\Interfaces\StatisticsRepositoryInterface;
+use App\Http\Repositories\Interfaces\DiscountRepositoryInterface;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Package;
@@ -17,7 +17,7 @@ class DiscountService
     protected $discountRepository;
 
     public function __construct(
-        StatisticsRepositoryInterface $discountRepository
+        DiscountRepositoryInterface $discountRepository
     )
     {
         $this->discountRepository = $discountRepository;
