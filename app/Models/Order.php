@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Order extends Model
+class Order extends Model implements Searchable
 {
     use HasFactory;
 
@@ -43,6 +45,16 @@ class Order extends Model
                 }
             }
         });
+    }
+
+
+    public function getSearchResult(): SearchResult
+    {
+        return new SearchResult(
+            $this,
+            $this->order_number,
+            "/admin/order/".$this->id
+        );
     }
 
     public function getUserShippingDetailsAttribute($value)

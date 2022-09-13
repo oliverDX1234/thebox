@@ -4,6 +4,25 @@ import {authMethods} from "../../state/helpers";
 import {mapGetters} from "vuex";
 
 export default {
+    data(){
+      return {
+          search: null,
+          searchResults: null,
+          loading: false
+      }
+    },
+    watch:{
+      search(newValue, oldValue){
+          if (this.timeout)
+              clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+
+              this.searchFun(newValue);
+          }, 1500)
+
+
+      }
+    },
     computed: {
         ...mapGetters({user: "auth/user"}),
     },
@@ -16,6 +35,24 @@ export default {
         },
         toggleMenu() {
             this.$parent.toggleMenu();
+        },
+        async searchFun(value){
+
+            if(!value || value === ""){
+                return;
+            }
+
+            this.loading = true
+
+            this.$refs['modal'].show()
+
+            let response = await this.$http.get("/api/search", {
+                params: { value: value }
+            });
+
+            this.loading = false;
+
+            this.searchResults = response.data
         },
         initFullScreen() {
             document.body.classList.toggle("fullscreen-enable");
@@ -107,6 +144,7 @@ export default {
                         <input
                             type="text"
                             class="form-control"
+                            v-model="search"
                             :placeholder="$t('navbar.search.text')"
                         />
                         <span class="ri-search-line"></span>
@@ -400,10 +438,104 @@ export default {
                 </div>
             </div>
         </div>
+
+        <b-modal
+            ref="modal"
+            scrollable
+            :title="'Search results for: ' + search"
+            title-class="font-18"
+            @close="searchResults = null"
+            hide-footer
+        >
+            <div v-if="loading">
+                <b-spinner variant="primary" label="Spinning"></b-spinner>
+            </div>
+
+            <div v-if="!loading && (searchResults && !Object.keys(searchResults).length)">
+                <p>No items were found for current search</p>
+            </div>
+
+            <div v-for="(value, key) in searchResults">
+                <h6 class="text-capitalize">{{ key }}</h6>
+                <hr>
+                <div v-for="item in value">
+                    <b-card v-if="key === 'users'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.first_name }} {{ item.searchable.last_name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.phone }}</b-card-text>
+                        <b-card-text>{{ item.searchable.address }}</b-card-text>
+
+                    </b-card>
+
+                    <b-card v-if="key === 'suppliers'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.phone }}</b-card-text>
+                        <b-card-text>{{ item.searchable.address }}</b-card-text>
+
+                    </b-card>
+
+                    <b-card v-if="key === 'products'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.unit_code }}</b-card-text>
+                        <b-card-text>{{ item.searchable.price }} MKD</b-card-text>
+                    </b-card>
+
+                    <b-card v-if="key === 'packages'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.unit_code }}</b-card-text>
+                        <b-card-text>{{ item.searchable.price }} MKD</b-card-text>
+                    </b-card>
+
+                    <b-card v-if="key === 'couriers'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.name }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.price }} MKD</b-card-text>
+
+                    </b-card>
+
+                    <b-card v-if="key === 'orders'" header-class="bg-transparent border-success" class="border border-success cursor-pointer" @click="$router.push(item.url)">
+                        <b-card-title>
+                            <p class="card-title font-size-17">{{ item.searchable.order_number }}</p>
+                        </b-card-title>
+                        <b-card-text>{{ item.searchable.total_price }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.first_name }} {{ item.searchable.user_shipping_details.last_name }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.email }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.address }}</b-card-text>
+                        <b-card-text>{{ item.searchable.user_shipping_details.phone }}</b-card-text>
+
+                    </b-card>
+                </div>
+            </div>
+        </b-modal>
+
     </header>
 </template>
 
 <style lang="scss" scoped>
+
+.spinner-border{
+    top: 50%;
+}
+
+.modal-header{
+    background: #e8ecf4 !important;
+}
+
+.card-text{
+    margin-bottom: 3px;
+}
+
 .notify-item {
     .active {
         color: #16181b;

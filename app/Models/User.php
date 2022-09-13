@@ -21,6 +21,8 @@ use App\Notifications\ResetPasswordNotification;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
 /**
  * App\Models\User
@@ -74,7 +76,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements CanResetPassword, HasMedia
+class User extends Authenticatable implements CanResetPassword, HasMedia, Searchable
 {
     use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
 
@@ -164,6 +166,15 @@ class User extends Authenticatable implements CanResetPassword, HasMedia
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        return new SearchResult(
+            $this,
+            $this->email,
+            "/admin/user/".$this->id
+        );
     }
 
     public function city(): HasOne

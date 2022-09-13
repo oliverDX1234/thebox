@@ -12,8 +12,10 @@ use Spatie\Image\Exceptions\InvalidManipulation;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Package extends Model implements HasMedia
+class Package extends Model implements HasMedia, Searchable
 {
     use HasFactory, InteractsWithMedia, HasMediaGallery;
 
@@ -94,6 +96,15 @@ class Package extends Model implements HasMedia
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        return new SearchResult(
+            $this,
+            $this->name,
+            "/admin/package/".$this->id
+        );
     }
 
     public function getPriceDiscountAttribute(): ?float
