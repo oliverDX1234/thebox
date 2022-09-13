@@ -89,6 +89,11 @@
         "not_found": "The discount was not found in the database"
     },
 
+    "statistics": {
+        "statistics_fetch_error": "There was an error while fetching the statistics",
+        "user_statistics_retrieved": "User statistics were successfully retrieved"
+    },
+
     "couriers": {
         "saved": "The courier was successfully created",
         "updated": "The courier was successfully updated",
@@ -282,6 +287,12 @@
                 "orders": "Orders",
                 "all-orders": "All Orders",
                 "add-order": "Add Order"
+            }
+        },
+        "statistics": {
+            "text": "Statistics",
+            "list": {
+                "by-user": "By User"
             }
         },
         "email": {

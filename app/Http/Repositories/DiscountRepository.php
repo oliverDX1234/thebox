@@ -2,12 +2,12 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Repositories\Interfaces\DiscountRepositoryInterface;
+use App\Http\Repositories\Interfaces\StatisticsRepositoryInterface;
 use App\Models\Discount;
 use App\Models\Product;
 use Carbon\Carbon;
 
-class DiscountRepository implements DiscountRepositoryInterface
+class DiscountRepository implements StatisticsRepositoryInterface
 {
 
     public function findById($id): Discount

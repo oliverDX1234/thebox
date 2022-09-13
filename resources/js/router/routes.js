@@ -202,6 +202,15 @@ export default [
 
 
 
+    // Statistics
+    {
+        path: "/admin/statistics/user",
+        name: "admin-statistics-user",
+        meta: { admin: true },
+        component: () => import("../views/pages/statistics/userStatistics"),
+    },
+
+
     {
         path: "/admin/pages/starter",
         name: "admin/Starter",

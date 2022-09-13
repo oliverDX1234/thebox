@@ -156,6 +156,18 @@ export const menuItems = [
         ],
     },
     {
+        id: 19,
+        label: "menuitems.statistics.text",
+        icon: "fas fa-chart-line",
+        subItems: [
+            {
+                id: 14,
+                label: "menuitems.statistics.list.by-user",
+                link: "/admin/statistics/user",
+            }
+        ],
+    },
+    {
         id: 18,
         isLayout: true,
     },

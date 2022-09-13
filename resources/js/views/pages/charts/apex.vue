@@ -207,7 +207,7 @@ export default {
             <!-- Pie Chart -->
             <apexchart
               class="apex-charts"
-              height="320"
+              height="200"
               type="pie"
               dir="ltr"
               :series="pieChart.series"
