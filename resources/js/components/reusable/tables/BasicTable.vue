@@ -25,6 +25,33 @@
                 </div>
             </template>
 
+            <template v-slot:cell(unit_code)="row">
+                {{ row.value ? row.value : "/" }}
+            </template>
+
+            <template v-slot:cell(show_quantity)="row">
+                {{ row.item.quantity }}
+            </template>
+
+            <template v-slot:cell(products)="row">
+                <b-badge variant="success" class="mr-1" v-for="product in row.item.products" :key="row.item.id">
+                    {{ product.name }}
+                </b-badge>
+            </template>
+
+            <template v-slot:cell(quantity)="row">
+                <div class="position-relative" style="min-width: 100px;">
+                    <NumberInputSpinner
+                        :min="1"
+                        :max="1000"
+                        :step="1"
+                        :value="row.item.quantity ?? 1"
+                        :integerOnly="true"
+                        @input="quantityUpdated($event, row.item.id)"
+                    />
+                </div>
+            </template>
+
             <template v-slot:cell(action)="row">
                 <div class="d-flex">
 
@@ -99,8 +126,14 @@
 </template>
 
 <script>
+import NumberInputSpinner from "vue-number-input-spinner";
+import _ from "lodash";
+
 export default {
     name: "BasicTable",
+    components:{
+        NumberInputSpinner
+    },
     props: {
         items: {
             required: true,
@@ -116,6 +149,16 @@ export default {
             default: function () {
                 return [];
             }
+        }
+    },
+    methods:{
+        quantityUpdated(value, id){
+            if (this.timeout)
+                clearTimeout(this.timeout);
+
+            this.timeout = setTimeout(() => {
+                this.$emit('quantity-updated', value, id)
+            }, 500)
         }
     }
 }

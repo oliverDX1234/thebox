@@ -72,5 +72,13 @@ class PackageRepository implements PackageRepositoryInterface
         ]);
     }
 
+    public function getPackagePrice($id): array
+    {
+        $package = Package::where("id", "=", $id)->first();
 
+        return [
+            "price" => $package->price_discount ?? $package->price,
+            "price_no_vat" => $package->price_no_vat
+        ];
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Http\Requests\PackageStoreRequest;
+use App\Http\Requests\UpdatePackageQuantityRequest;
 use App\Http\Services\PackageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

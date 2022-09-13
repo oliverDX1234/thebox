@@ -11,4 +11,6 @@ interface PackageRepositoryInterface
     public function deletePackage($id);
 
     public function removePackageDiscount($id);
+
+    public function getPackagePrice($id);
 }

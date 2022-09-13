@@ -11,4 +11,6 @@ interface ProductRepositoryInterface
     public function deleteProduct($id);
 
     public function removeProductDiscount($id);
+
+    public function getProductPrice($id);
 }

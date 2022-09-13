@@ -19,7 +19,7 @@ class Package extends Model implements HasMedia
 
     protected $table = "packages";
 
-    protected $appends = ['main_image', "gallery", "price_discount"];
+    protected $appends = ['main_image', "gallery", "price_discount", "price_no_vat"];
 
     protected $fillable = [
         "name",
@@ -32,12 +32,47 @@ class Package extends Model implements HasMedia
         "seo_title",
         "seo_keywords",
         "seo_description",
+        "pre_made",
         "active"
     ];
 
     protected $casts = [
         'active' => 'boolean'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $query->price = $query->price ?? 0;
+
+            if(!$query->name){
+                $lastItem = Package::where("pre_made", 0)->latest()->first();
+
+                if($lastItem){
+                    $lastId = explode("-", $lastItem->name)[1];
+
+                    $query->name = "Package-".(++$lastId);
+                }else{
+                    $query->name = "Package-"."1";
+                }
+            }
+        });
+    }
+
+    public function getDimensionsAttribute($value)
+    {
+
+        return json_decode($value, true);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection("main_image")->singleFile();
+
+        $this->addMediaCollection("gallery_images");
+    }
 
     /**
      * @throws InvalidManipulation
@@ -55,31 +90,10 @@ class Package extends Model implements HasMedia
             ->height(300);
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection("main_image")->singleFile();
-
-        $this->addMediaCollection("gallery_images");
-    }
 
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
-    }
-
-    public function discount(): HasOne
-    {
-        return $this->hasOne(Discount::class, "id", "discount_id");
-    }
-
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class)->withTimestamps();
-    }
-
-    public function attributes(): BelongsToMany
-    {
-        return $this->belongsToMany(Attribute::class)->withTimestamps();
     }
 
     public function getPriceDiscountAttribute(): ?float
@@ -103,5 +117,35 @@ class Package extends Model implements HasMedia
         }
 
         return round($price);
+    }
+
+    public function getPriceNoVatAttribute()
+    {
+        return round(($this->price_discount ?? $this->price) * (100 - $this->vat)/100);
+    }
+
+    public function discount(): HasOne
+    {
+        return $this->hasOne(Discount::class, "id", "discount_id");
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class)->withTimestamps()->withPivot(["quantity"]);
+    }
+
+    public function attributes(): BelongsToMany
+    {
+        return $this->belongsToMany(Attribute::class)->withTimestamps();
+    }
+
+    public function tempOrders()
+    {
+        return $this->belongsToMany(TempOrder::class, "temp_order_package")->withPivot(["quantity", "package_name", "package_price", "package_price_no_vat"]);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class)->withPivot(["quantity", "package_name", "package_price", "package_price_no_vat"]);
     }
 }

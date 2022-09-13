@@ -10,6 +10,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CourierController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\FilterController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
@@ -55,6 +56,8 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
         Route::get("discounts/update-status/{id}", [DiscountController::class, "updateStatus"]);
 
         Route::apiResource("couriers", CourierController::class);
+
+        Route::apiResource("orders", OrderController::class);
     });
 });
 

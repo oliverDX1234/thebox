@@ -55,6 +55,7 @@
         "update_failed": "There was an error processing the update request",
         "discount_remove_failed": "There was en error while removing the discount",
         "discount_successfully_removed": "The product discount was successfully removed",
+        "product_price_fetch_failed": "The product price could not be fetched",
         "retrieved": "The products were successfully retrieved",
         "deleted": "The product was successfully deleted",
         "not_found": "The product was not found in the database"
@@ -69,6 +70,9 @@
         "update_failed": "There was an error processing the update request",
         "discount_remove_failed": "There was en error while removing the discount",
         "discount_successfully_removed": "The package discount was successfully removed",
+        "updated_package_quantity": "The package quantity was successfully updated",
+        "quantity_update_failed": "There was an error while updating the quantity for the product",
+        "package_price_fetch_failed": "The package price could not be fetched",
         "retrieved": "The packages were successfully retrieved",
         "deleted": "The package was successfully deleted",
         "not_found": "The package was not found in the database"
@@ -92,6 +96,17 @@
         "deleted": "The courier was successfully deleted",
         "update_failed": "There was an error processing the update request",
         "not_found": "The courier was not found in the database"
+    },
+
+    "orders": {
+        "saved": "The order was successfully created",
+        "updated": "The order was successfully updated",
+        "retrieved": "The orders were successfully retrieved",
+        "order_products_error": "There was a problem retrieving order products",
+        "status_updated": "The order status was successfully updated",
+        "deleted": "The order was successfully deleted",
+        "update_failed": "There was an error processing the update request",
+        "not_found": "The order was not found in the database"
     },
 
     "global": {
@@ -249,8 +264,6 @@
             "text": "Ecommerce",
             "list": {
                 "products": "Products",
-                "productdetail": "Product Detail",
-                "orders": "Orders",
                 "customers": "Customers",
                 "cart": "Cart",
                 "checkout": "Checkout",
@@ -265,7 +278,10 @@
                 "add-courier": "Add Courier",
                 "packages": "Packages",
                 "all-packages": "All Packages",
-                "add-package": "Add Package"
+                "add-package": "Add Package",
+                "orders": "Orders",
+                "all-orders": "All Orders",
+                "add-order": "Add Order"
             }
         },
         "email": {

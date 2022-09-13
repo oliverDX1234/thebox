@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePackageProductTable extends Migration
+class CreateTempOrderPackageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreatePackageProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('package_product', function (Blueprint $table) {
+        Schema::create('temp_order_package', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("product_id");
+            $table->foreignId("temp_order_id");
             $table->foreignId("package_id");
             $table->integer("quantity");
+            $table->string("package_name");
+            $table->integer("package_price");
+            $table->integer("package_price_no_vat");
             $table->timestamps();
 
-            $table->primary(["product_id", "package_id"]);
-
-            $table->foreign("product_id")->references("id")->on("products")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("temp_order_id")->references("id")->on("temp_orders")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("package_id")->references("id")->on("packages")->onDelete("cascade")->onUpdate("cascade");
         });
     }
@@ -34,6 +35,6 @@ class CreatePackageProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('packages_products');
+        Schema::dropIfExists('temp_order_package');
     }
 }
