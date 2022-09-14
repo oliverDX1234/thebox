@@ -18,12 +18,13 @@ class StatisticsService
     /**
      * @throws ApiException
      */
-    public function getStatisticsForUsers()
+    public function getStatisticsForUsers(): array
     {
 
         try{
             $genderStatistics =  $this->statisticsRepository->getUserGenderStatistics();
             $ageStatistics = $this->statisticsRepository->getUserAgeStatistics();
+            $cityStatistics = $this->statisticsRepository->getUserCityStatistics();
 
             $statistics = [];
 
@@ -33,6 +34,10 @@ class StatisticsService
 
             foreach($ageStatistics as $key => $statistic){
                 $statistics["age"][$key] =  $statistic;
+            }
+
+            foreach ($cityStatistics as $key => $statistic){
+                $statistics["city"][$statistic->statKey] = $statistic->value;
             }
 
 

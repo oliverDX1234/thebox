@@ -9,4 +9,6 @@ interface StatisticsRepositoryInterface
     public function getUserGenderStatistics();
 
     public function getUserAgeStatistics();
+
+    public function getUserCityStatistics();
 }

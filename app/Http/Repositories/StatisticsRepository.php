@@ -49,4 +49,9 @@ class StatisticsRepository implements StatisticsRepositoryInterface
 
         return $outputArray;
     }
+
+    public function getUserCityStatistics()
+    {
+        return User::join("cities", "city_id", "=", "cities.id")->selectRaw("city_name_en as statKey, COUNT(users.id) as value")->where("active", "=", 1)->groupBy("city_name_en")->get();
+    }
 }
