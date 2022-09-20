@@ -20,8 +20,6 @@ class CreatePackageProductTable extends Migration
             $table->integer("quantity");
             $table->timestamps();
 
-            $table->primary(["product_id", "package_id"]);
-
             $table->foreign("product_id")->references("id")->on("products")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("package_id")->references("id")->on("packages")->onDelete("cascade")->onUpdate("cascade");
         });

@@ -21,6 +21,17 @@ class StatisticsController extends Controller
     {
         $statistics = $this->statisticsService->getStatisticsForUsers();
 
-        return response()->api(['statistics' => $statistics] , "statistics.user_statistics_retrieved", 200);
+        return response()->api(['statistics' => $statistics] , "statistics.statistics_retrieved_successfully", 200);
+    }
+
+    /**
+     * @throws \App\Exceptions\ApiException
+     */
+    public function getStatisticsForProducts()
+    {
+        $statistics = $this->statisticsService->getStatisticsForProducts();
+
+
+        return response()->api(['statistics' => $statistics] , "statistics.statistics_retrieved_successfully", 200);
     }
 }

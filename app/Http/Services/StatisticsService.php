@@ -44,9 +44,40 @@ class StatisticsService
             return $statistics;
 
         }catch(Exception $e){
-            dd($e);
+
             throw new ApiException("statistics.statistics_fetch_error", $e->getCode(), $e);
         }
 
+    }
+
+    /**
+     * @throws ApiException
+     */
+    public function getStatisticsForProducts(): array
+    {
+        try {
+            $supplierStatistics = $this->statisticsRepository->getProductSupplierStatistics();
+            $categoryStatistics = $this->statisticsRepository->getProductCategoryStatistics();
+            $seenTimesStatistics = $this->statisticsRepository->getProductSeenTimesStatistics();
+
+            $statistics = [];
+
+            foreach( $supplierStatistics as $key => $statistic){
+                $statistics["supplier"][$statistic->statKey] = $statistic->value;
+            }
+
+            foreach( $categoryStatistics as $key => $statistic){
+                $statistics["category"][$statistic->statKey] = $statistic->value;
+            }
+
+            foreach($seenTimesStatistics as $statistic){
+                $statistics["seen_times"][$statistic->product_name] = $statistic->value;
+            }
+
+            return $statistics;
+
+        }catch(Exception $e){
+            throw new ApiException("statistics.statistics_fetch_error", $e->getCode(), $e);
+        }
     }
 }

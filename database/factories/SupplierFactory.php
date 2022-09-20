@@ -14,7 +14,7 @@ class SupplierFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->unique()->randomElement(["Shatze", "Swarovski", "Biblioteka", "Literatura", "Tinex", "DukiDaso", "DM"]),
             'email' => $this->faker->unique()->safeEmail(),
             'address' => $this->faker->address,
             'city_id' => $this->faker->numberBetween($min = 1, $max = 36),

@@ -210,6 +210,13 @@ export default [
         component: () => import("../views/pages/statistics/userStatistics"),
     },
 
+    {
+        path: "/admin/statistics/product",
+        name: "admin-statistics-product",
+        meta: { admin: true },
+        component: () => import("../views/pages/statistics/productStatistics"),
+    },
+
 
     {
         path: "/admin/pages/starter",

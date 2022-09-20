@@ -65,6 +65,7 @@ Route::group(["middleware" => 'auth:sanctum'], function () {
 
         Route::group(["prefix" => "statistics"], function () {
             Route::get("user-statistics", [StatisticsController::class, "getStatisticsForUsers"]);
+            Route::get("product-statistics", [StatisticsController::class, "getStatisticsForProducts"]);
         });
     });
 });

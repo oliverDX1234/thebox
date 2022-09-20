@@ -14,7 +14,7 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->name();
+        $name = $this->faker->unique()->randomElement(["Perfumes", "Books", "Cosmetics", "Accessories", "Alcohol", "Food", "Clothes"]);
         $url = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name), '-'));
 
         return [

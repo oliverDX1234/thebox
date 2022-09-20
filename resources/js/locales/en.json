@@ -91,7 +91,7 @@
 
     "statistics": {
         "statistics_fetch_error": "There was an error while fetching the statistics",
-        "user_statistics_retrieved": "User statistics were successfully retrieved"
+        "statistics_retrieved_successfully": "Statistics were successfully retrieved"
     },
 
     "couriers": {
@@ -292,7 +292,8 @@
         "statistics": {
             "text": "Statistics",
             "list": {
-                "by-user": "By User"
+                "by-user": "By User",
+                "by-product": "By Product"
             }
         },
         "email": {

@@ -42,6 +42,9 @@ export default {
                             show: false,
                         }
                     },
+                    legend: {
+                        show: false
+                    },
                     plotOptions: {
                         bar: {
                             horizontal: true,
@@ -49,17 +52,27 @@ export default {
                         }
                     },
                     dataLabels: {
-                        enabled: false
+                        enabled: true
                     },
                     colors: colors,
                     grid: {
                         borderColor: '#f1f1f1',
                     },
+                    yaxis: {
+                      labels: {
+                          style: {
+                              cssClass: 'apexcharts-xaxis-label',
+                          }
+                      }
+                    },
                     xaxis: {
                         labels: {
                             formatter: function(val) {
                                 return Math.floor(val)
-                            }
+                            },
+                            style: {
+                                cssClass: 'apexcharts-xaxis-label',
+                            },
                         },
                         categories: [],
                     }

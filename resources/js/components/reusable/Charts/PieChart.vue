@@ -8,7 +8,7 @@
             <apexchart
                 class="apex-charts"
                 height="300"
-                type="donut"
+                type="pie"
                 dir="ltr"
                 :series="chartOptionsComputed.series"
                 :options="chartOptionsComputed"
@@ -20,7 +20,7 @@
                             <i :style="{color: chartOptionsComputed.colors[index]}"
                                class="mdi mdi-circle font-size-10 mr-1"></i> {{ name }}
                         </h6>
-                        <p class="text-capitalize font-weight-bold">{{ value }}</p>
+                        <h5 class="text-capitalize">{{ value }}</h5>
                     </div>
                 </div>
             </div>

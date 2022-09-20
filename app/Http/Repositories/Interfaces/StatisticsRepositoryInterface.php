@@ -11,4 +11,10 @@ interface StatisticsRepositoryInterface
     public function getUserAgeStatistics();
 
     public function getUserCityStatistics();
+
+    public function getProductSupplierStatistics();
+
+    public function getProductCategoryStatistics();
+
+    public function getProductSeenTimesStatistics();
 }
