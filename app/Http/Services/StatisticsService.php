@@ -80,4 +80,31 @@ class StatisticsService
             throw new ApiException("statistics.statistics_fetch_error", $e->getCode(), $e);
         }
     }
+
+    /**
+     * @throws ApiException
+     */
+    public function getStatisticsForPackages(): array
+    {
+
+        try {
+            $categoryStatistics = $this->statisticsRepository->getPackageCategoryStatistics();
+            $seenTimesStatistics = $this->statisticsRepository->getPackageSeenTimesStatistics();
+
+            $statistics = [];
+
+            foreach( $categoryStatistics as $key => $statistic){
+                $statistics["category"][$statistic->statKey] = $statistic->value;
+            }
+
+            foreach($seenTimesStatistics as $statistic){
+                $statistics["seen_times"][$statistic->product_name] = $statistic->value;
+            }
+
+            return $statistics;
+
+        }catch(Exception $e){
+            throw new ApiException("statistics.statistics_fetch_error", $e->getCode(), $e);
+        }
+    }
 }

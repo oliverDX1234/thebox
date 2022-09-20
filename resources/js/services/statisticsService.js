@@ -1,5 +1,3 @@
-import router from "@/router"
-
 const StatisticsService = {
 
     async getUserStatistics() {
@@ -9,6 +7,11 @@ const StatisticsService = {
 
     async getProductStatistics(){
         let response = await axios.get('/api/statistics/product-statistics');
+        return response.data.payload.statistics;
+    },
+
+    async getPackageStatistics(){
+        let response = await axios.get('/api/statistics/package-statistics');
         return response.data.payload.statistics;
     }
 }

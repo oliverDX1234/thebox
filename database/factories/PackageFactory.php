@@ -27,6 +27,7 @@ class PackageFactory extends Factory
             "unit_code" => $this->faker->randomNumber(),
             "vat" => "18",
             "weight" => $this->faker->numberBetween($min = 1, $max = 7),
+            "seen_times" => $this->faker->numberBetween($min = 0, $max = 150),
             'seo_title' => $this->faker->word(),
             'seo_keywords' => "shopping, perfumes, discount, natural, gifts",
             'seo_description' => $this->faker->sentence(),

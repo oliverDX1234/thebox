@@ -17,4 +17,8 @@ interface StatisticsRepositoryInterface
     public function getProductCategoryStatistics();
 
     public function getProductSeenTimesStatistics();
+
+    public function getPackageCategoryStatistics();
+
+    public function getPackageSeenTimesStatistics();
 }

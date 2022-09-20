@@ -169,6 +169,11 @@ export const menuItems = [
                 id: 15,
                 label: "menuitems.statistics.list.by-product",
                 link: "/admin/statistics/product",
+            },
+            {
+                id: 15,
+                label: "menuitems.statistics.list.by-package",
+                link: "/admin/statistics/package",
             }
         ],
     },

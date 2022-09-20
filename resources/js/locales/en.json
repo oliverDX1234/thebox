@@ -293,7 +293,8 @@
             "text": "Statistics",
             "list": {
                 "by-user": "By User",
-                "by-product": "By Product"
+                "by-product": "By Product",
+                "by-package": "By Package"
             }
         },
         "email": {

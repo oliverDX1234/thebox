@@ -34,4 +34,11 @@ class StatisticsController extends Controller
 
         return response()->api(['statistics' => $statistics] , "statistics.statistics_retrieved_successfully", 200);
     }
+
+    public function getStatisticsForPackages()
+    {
+        $statistics = $this->statisticsService->getStatisticsForPackages();
+
+        return response()->api(['statistics' => $statistics] , "statistics.statistics_retrieved_successfully", 200);
+    }
 }

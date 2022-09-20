@@ -217,6 +217,13 @@ export default [
         component: () => import("../views/pages/statistics/productStatistics"),
     },
 
+    {
+        path: "/admin/statistics/package",
+        name: "admin-statistics-package",
+        meta: { admin: true },
+        component: () => import("../views/pages/statistics/packageStatistics"),
+    },
+
 
     {
         path: "/admin/pages/starter",

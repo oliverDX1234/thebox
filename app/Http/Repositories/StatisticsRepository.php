@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Repositories\Interfaces\StatisticsRepositoryInterface;
 use App\Models\Discount;
+use App\Models\Package;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -67,5 +68,15 @@ class StatisticsRepository implements StatisticsRepositoryInterface
     public function getProductSeenTimesStatistics(): Collection
     {
         return Product::select(["name AS product_name", "seen_times AS value"])->where("products.active", "=", 1)->orderBy("seen_times", "DESC")->limit(7)->get();
+    }
+
+    public function getPackageCategoryStatistics(): Collection
+    {
+        return Package::join("category_product", "packages.id", "=", "category_product.product_id")->join("categories", "category_product.category_id", "=", "categories.id")->where("packages.pre_made", "=", 1)->selectRaw("categories.name as statKey, COUNT(packages.id) as value")->groupBy("categories.name")->whereNull("categories.parent")->where("packages.active", "=", 1)->limit(7)->get();
+    }
+
+    public function getPackageSeenTimesStatistics(): Collection
+    {
+        return Package::select(["name AS product_name", "seen_times AS value"])->where("packages.active", "=", 1)->where("packages.pre_made", "=", 1)->orderBy("seen_times", "DESC")->limit(7)->get();
     }
 }
