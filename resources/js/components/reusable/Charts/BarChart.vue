@@ -52,7 +52,10 @@ export default {
                         }
                     },
                     dataLabels: {
-                        enabled: true
+                        enabled: true,
+                        style: {
+                            fontWeight: 700
+                        }
                     },
                     colors: colors,
                     grid: {
