@@ -17,11 +17,13 @@ use App\Http\Repositories\Interfaces\FilterRepositoryInterface;
 use App\Http\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Http\Repositories\Interfaces\PackageRepositoryInterface;
 use App\Http\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Http\Repositories\Interfaces\StatisticsRepositoryInterface;
 use App\Http\Repositories\Interfaces\SupplierRepositoryInterface;
 use App\Http\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Repositories\OrderRepository;
 use App\Http\Repositories\PackageRepository;
 use App\Http\Repositories\ProductRepository;
+use App\Http\Repositories\StatisticsRepository;
 use App\Http\Repositories\SupplierRepository;
 use App\Http\Repositories\UserRepository;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
@@ -49,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CourierRepositoryInterface::class, CourierRepository::class);
         $this->app->bind(PackageRepositoryInterface::class, PackageRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->bind(StatisticsRepositoryInterface::class, StatisticsRepository::class);
 
         if ($this->app->isLocal()) {
             $this->app->register(IdeHelperServiceProvider::class);

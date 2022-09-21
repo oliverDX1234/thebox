@@ -202,6 +202,29 @@ export default [
 
 
 
+    // Statistics
+    {
+        path: "/admin/statistics/user",
+        name: "admin-statistics-user",
+        meta: { admin: true },
+        component: () => import("../views/pages/statistics/userStatistics"),
+    },
+
+    {
+        path: "/admin/statistics/product",
+        name: "admin-statistics-product",
+        meta: { admin: true },
+        component: () => import("../views/pages/statistics/productStatistics"),
+    },
+
+    {
+        path: "/admin/statistics/package",
+        name: "admin-statistics-package",
+        meta: { admin: true },
+        component: () => import("../views/pages/statistics/packageStatistics"),
+    },
+
+
     {
         path: "/admin/pages/starter",
         name: "admin/Starter",

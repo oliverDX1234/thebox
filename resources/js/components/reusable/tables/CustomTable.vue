@@ -380,9 +380,9 @@ export default {
 
         numItemsDiv(){
             if((this.total ?? this.rows) < this.perPage){
-                return "Showing " + ((( this.currentPage - 1 ) * this.perPage) + 1) + " - " + ((( this.currentPage - 1 ) * this.perPage) + this.total) + " of " + this.total ?? this.rows
+                return "Showing " + ((( this.currentPage - 1 ) * this.perPage) + 1) + " - " + ((( this.currentPage - 1 ) * this.perPage) + this.total) + " of " + (this.total ?? this.rows)
             }else{
-                return "Showing " + ((( this.currentPage - 1 ) * this.perPage) + 1) + " - " + ((( this.currentPage - 1 ) * this.perPage) + this.perPage) + " of " + this.total ?? this.rows
+                return "Showing " + ((( this.currentPage - 1 ) * this.perPage) + 1) + " - " + ((( this.currentPage - 1 ) * this.perPage) + this.perPage) + " of " + (this.total ?? this.rows)
             }
         }
     },
