@@ -15,29 +15,32 @@
                 </div>
                 <div class="p-3">
                     <h6 class="mb-0">Layout</h6>
-                    <hr class="mt-1" />
+                    <hr class="mt-1"/>
                     <b-form-radio-group
                         v-model="layout"
                         stacked
                         @input="changeLayout($event)"
                     >
                         <b-form-radio value="vertical" class="mb-1"
-                            >Vertical</b-form-radio
+                        >Vertical
+                        </b-form-radio
                         >
                         <b-form-radio value="horizontal" class="mb-1"
-                            >Horizontal</b-form-radio
+                        >Horizontal
+                        </b-form-radio
                         >
                     </b-form-radio-group>
                     <!-- Width -->
                     <h6 class="mt-3">Width</h6>
-                    <hr class="mt-1" />
+                    <hr class="mt-1"/>
                     <b-form-radio-group
                         v-model="width"
                         stacked
                         @input="changeWidth($event)"
                     >
                         <b-form-radio value="fluid" class="mb-1"
-                            >Fluid</b-form-radio
+                        >Fluid
+                        </b-form-radio
                         >
                         <b-form-radio value="boxed">Boxed</b-form-radio>
                     </b-form-radio-group>
@@ -45,23 +48,27 @@
                     <!-- Sidebar -->
                     <div v-if="layout === 'vertical'">
                         <h6 class="mt-3">Sidebar</h6>
-                        <hr class="mt-1" />
+                        <hr class="mt-1"/>
                         <b-form-radio-group
                             v-model="sidebarType"
                             stacked
                             @input="changeType($event)"
                         >
                             <b-form-radio value="dark" class="mb-1"
-                                >Dark</b-form-radio
+                            >Dark
+                            </b-form-radio
                             >
                             <b-form-radio value="light" class="mb-1"
-                                >Light</b-form-radio
+                            >Light
+                            </b-form-radio
                             >
                             <b-form-radio value="compact" class="mb-1"
-                                >Compact</b-form-radio
+                            >Compact
+                            </b-form-radio
                             >
                             <b-form-radio value="icon" class="mb-1"
-                                >Icon</b-form-radio
+                            >Icon
+                            </b-form-radio
                             >
                             <b-form-radio value="colored">Colored</b-form-radio>
                         </b-form-radio-group>
@@ -70,37 +77,41 @@
                     <!-- Topbar -->
                     <div v-if="layout === 'horizontal'">
                         <h6 class="mt-3">Topbar</h6>
-                        <hr class="mt-1" />
+                        <hr class="mt-1"/>
                         <b-form-radio-group
                             v-model="topbar"
                             stacked
                             @input="changeTopbartype($event)"
                         >
                             <b-form-radio value="dark" class="mb-1"
-                                >Dark</b-form-radio
+                            >Dark
+                            </b-form-radio
                             >
                             <b-form-radio value="light" class="mb-1"
-                                >Light</b-form-radio
+                            >Light
+                            </b-form-radio
                             >
                         </b-form-radio-group>
                     </div>
 
                     <!-- Preloader -->
                     <h6 class="mt-3">Preloader</h6>
-                    <hr class="mt-1" />
+                    <hr class="mt-1"/>
 
                     <b-form-checkbox
                         v-model="loader"
                         name="check-button"
                         switch
                         @input="changeloader"
-                        >Preloader</b-form-checkbox
+                    >Preloader
+                    </b-form-checkbox
                     >
                 </div>
                 <!-- Settings -->
                 <div class="text-center mt-4">
                     <b-button @click="saveChanges" variant="primary"
-                        >Save changes</b-button
+                    >Save changes
+                    </b-button
                     >
                 </div>
             </div>
@@ -114,10 +125,9 @@
 </template>
 
 
-
-
 <script>
-import { layoutMethods } from "@/state/helpers";
+import {layoutMethods} from "@/state/helpers";
+
 /**
  * Right-sidebar
  */
@@ -191,11 +201,14 @@ export default {
                 loader: this.loader,
             };
 
+            this.$parent.toggleRightSidebar();
+
             let response = await this.$http.post("/api/admin/changeLayout", {
                 layout: layout
-            },{
+            }, {
                 showToast: true
             })
+
         },
     },
 };

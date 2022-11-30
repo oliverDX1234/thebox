@@ -27,6 +27,9 @@ export const mutations = {
 
     loginSuccess(state, user) {
         state.isLoggedIn = true;
+
+        window.Laravel.user = user;
+
         state.user = user;
     },
 
